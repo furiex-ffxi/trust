@@ -1,0 +1,37 @@
+<?xml version="1.1" ?>
+<settings>
+    <global>
+        <battle>
+            <melee_distance>3</melee_distance>
+            <range_distance>21</range_distance>
+            <targets>Locus Armet Beetle,Locus Colibri,Locus Dire Bat,Locus Thousand Eyes,Locus Spartoi Warrior,Locus Spartoi Sorcerer,Locus Hati,Locus Ghost Crab</targets>
+            <trusts>Monberaux,Sylvie (UC),Koru-Moru,Qultada,Brygid</trusts>
+        </battle>
+        <chat>
+            <ipc_enabled>true</ipc_enabled>
+        </chat>
+        <click_cooldown>0</click_cooldown>
+        <follow>
+            <distance>1</distance>
+        </follow>
+        <help>
+            <mode_text_enabled>true</mode_text_enabled>
+            <wiki_base_url>https://github.com/cyritegamestudios/trust/wiki</wiki_base_url>
+        </help>
+        <hud>
+            <position>
+                <x>0</x>
+                <y>0</y>
+            </position>
+        </hud>
+        <logging>
+            <enabled>false</enabled>
+            <logtofile>false</logtofile>
+        </logging>
+        <menu_key>numpad+</menu_key>
+        <remote_commands>
+            <whitelist>Cyrite</whitelist>
+        </remote_commands>
+        <verbose>true</verbose>
+    </global>
+</settings>

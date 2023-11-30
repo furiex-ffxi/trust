@@ -1,0 +1,34 @@
+-- Modes file for NIN
+return {
+    ["Default"]={
+        ["skillchainpartnermode"]="Off", 
+        ["subtrustsettingsmode"]="Default", 
+        ["skillchainprioritymode"]="Prefer", 
+        ["autofacemobmode"]="Auto", 
+        ["autoaftermathmode"]="Off", 
+        ["autoskillchainmode"]="Auto", 
+        ["automagicburstmode"]="Off", 
+        ["autobuffmode"]="Auto", 
+        ["autoengagemode"]="Always", 
+        ["autotargetmode"]="Off", 
+        ["skillchaindelaymode"]="Off", 
+        ["maintrustsettingsmode"]="Default", 
+        ["autopullmode"]="Off", 
+        ["autofollowmode"]="Always", 
+        ["engagemode"]="None", 
+        ["autofoodmode"]="Off", 
+        ["combatmode"]="Off", 
+        ["autotrustsmode"]="Off", 
+        ["autoenmityreductionmode"]="Auto"
+    }, 
+    ["Ep"]={
+        ["partychatmode"]="Private", 
+        ["autoenablemode"]="Auto", 
+        ["ipcmode"]="Off", 
+        ["maintrustsettingsmode"]="Melee", 
+        ["skillchainprioritymode"]="Off", 
+        ["actionbatchingmode"]="Off", 
+        ["flankmode"]="Off", 
+        ["autoskillchainmode"]="Spam"
+    }
+}
