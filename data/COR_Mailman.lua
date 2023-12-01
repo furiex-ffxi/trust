@@ -12,10 +12,14 @@ return {
             },
             defaultws = L{
                 "Leaden Salute",
+                "Wildfire",
+                "Last Stand",
                 "Savage Blade"
             },
             preferws = L{
                 "Leaden Salute",
+                "Wildfire",
+                "Last Stand",
                 "Savage Blade"
             },
             cleavews = L{
@@ -41,10 +45,14 @@ return {
             },
             defaultws = L{
                 "Leaden Salute",
+                "Wildfire",
+                "Last Stand",
                 "Savage Blade"
             },
             preferws = L{
                 "Leaden Salute",
+                "Wildfire",
+                "Last Stand",
                 "Savage Blade"
             },
             cleavews = L{

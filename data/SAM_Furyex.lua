@@ -26,7 +26,7 @@ return {
             }
         },
         JobAbilities = L{
-            JobAbility.new('Hasso', L{}, L{}, nil)
+            JobAbility.new('Hasso', L{InBattleCondition.new()}, L{}, nil)
         }
     }
 }

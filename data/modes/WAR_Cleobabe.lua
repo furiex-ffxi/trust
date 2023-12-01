@@ -20,7 +20,7 @@ return {
         ["autopullmode"]="Off", 
         ["autoaftermathmode"]="Off", 
         ["engagemode"]="None", 
-        ["autoenablemode"]="Auto", 
+        ["autoenablemode"]="Off", 
         ["autobuffmode"]="Auto", 
         ["ipcmode"]="All", 
         ["combatmode"]="Off", 

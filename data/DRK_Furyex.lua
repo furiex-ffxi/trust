@@ -45,8 +45,8 @@ return {
             Spell.new("Dread Spikes", L{}, L{}, nil, L{HasBuffCondition.new("Max HP Boost"), IdleCondition.new()})
         },
         JobAbilities = L{
-            JobAbility.new('Last Resort', L{}, L{InBattleCondition.new()}, nil),
-            JobAbility.new('Scarlet Delirium', L{}, L{InBattleCondition.new()}, nil),
+            JobAbility.new('Last Resort', L{InBattleCondition.new()}),
+            JobAbility.new('Scarlet Delirium', L{InBattleCondition.new()}),
     },
         Debuffs = L {
 
@@ -92,8 +92,8 @@ return {
             Spell.new("Drain III", L{}, L{}, "bt", L{}),
         },
         JobAbilities = L{
-            JobAbility.new('Last Resort', L{}, L{InBattleCondition.new()}, nil),
-            JobAbility.new('Scarlet Delirium', L{}, L{InBattleCondition.new()}, nil),
+            JobAbility.new('Last Resort', L{InBattleCondition.new()}),
+            JobAbility.new('Scarlet Delirium', L{InBattleCondition.new()}),
     },
         Debuffs = L {
 
@@ -138,8 +138,8 @@ return {
         SelfBuffs = L{
         },
         JobAbilities = L{
-            JobAbility.new('Last Resort', L{}, L{InBattleCondition.new()}, nil),
-            JobAbility.new('Scarlet Delirium', L{}, L{InBattleCondition.new()}, nil),
+            JobAbility.new('Last Resort', L{InBattleCondition.new()}),
+            JobAbility.new('Scarlet Delirium', L{InBattleCondition.new()}),
     },
         Debuffs = L {
 

@@ -27,7 +27,7 @@ return {
         ["autoengagemode"]="Always", 
         ["autotargetmode"]="Off", 
         ["partychatmode"]="Private", 
-        ["autoenablemode"]="Auto", 
+        ["autoenablemode"]="Off", 
         ["engagemode"]="None", 
         ["autofacemobmode"]="Auto", 
         ["skillchainpartnermode"]="Off", 

@@ -7,7 +7,6 @@ return {
             Buff.new("Haste", L{}, L{}, nil, L{}),
             Buff.new("Temper", L{}, L{}, nil, L{InBattleCondition.new()}),
             Spell.new("Enblizzard", L{}, L{}, nil, L{InBattleCondition.new()}),
-            Spell.new("Gain-INT", L{}, L{}, nil, L{IdleCondition.new()}),
             Spell.new("Gain-STR", L{}, L{}, nil, L{InBattleCondition.new()}),
             Spell.new("Phalanx", L{}, nil, nil, L{}),
             Buff.new("Protect", L{}, L{}, nil, L{}),
@@ -28,9 +27,8 @@ return {
         },
         PartyBuffs = L{
             Buff.new("Refresh", L{}, L{"DRK", "PUP", "PLD", "BLU", "BLM", "BRD", "GEO", "SMN", "WHM", "RUN"}, nil, L{}),
-            Buff.new("Haste", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "GEO", "SCH", "BLM"}, nil, L{}),
-            Buff.new("Haste", L{}, L{"COR"}, nil, L{InBattleCondition.new()}),
-            Buff.new("Flurry", L{}, L{"RNG", "COR"}, nil, L{IdleCondition.new()}),
+            Buff.new("Haste", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "GEO", "SCH", "BLM", "COR", "RNG"}, nil, L{}),
+            -- Buff.new("Flurry", L{}, L{"RNG", "COR"}, nil, L{IdleCondition.new()}),
             Spell.new("Phalanx II", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "GEO"}, nil, L{InBattleCondition.new()})
         },
         AutoFood = "Grape Daifuku",

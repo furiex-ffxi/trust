@@ -42,7 +42,7 @@ return {
             JobAbility.new('Warcry', L{InBattleCondition.new()}, L{}, nil),
             JobAbility.new('Restraint', L{InBattleCondition.new()}, L{}, nil),
             JobAbility.new('Blood Rage', L{InBattleCondition.new()}, L{}, nil),
-            JobAbility.new('Retaliation', L{}, L{}, nil),
+            JobAbility.new('Retaliation', L{InBattleCondition.new()}, L{}, nil),
         }
     },
     Melee = {
@@ -86,7 +86,7 @@ return {
             JobAbility.new('Warcry', L{InBattleCondition.new()}, L{}, nil),
             JobAbility.new('Restraint', L{InBattleCondition.new()}, L{}, nil),
             JobAbility.new('Blood Rage', L{InBattleCondition.new()}, L{}, nil),
-            JobAbility.new('Retaliation', L{}, L{}, nil),
+            JobAbility.new('Retaliation', L{InBattleCondition.new()}, L{}, nil),
         }
     }    
 }

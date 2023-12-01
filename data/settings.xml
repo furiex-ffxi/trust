@@ -4,7 +4,7 @@
         <battle>
             <melee_distance>3</melee_distance>
             <range_distance>21</range_distance>
-            <targets>Locus Armet Beetle,Locus Colibri,Locus Dire Bat,Locus Thousand Eyes,Locus Spartoi Warrior,Locus Spartoi Sorcerer,Locus Hati,Locus Ghost Crab</targets>
+            <targets>Locus Armet Beetle,Locus Colibri,Locus Dire Bat,Locus Ghost Crab</targets>
             <trusts>Monberaux,Sylvie (UC),Koru-Moru,Qultada,Brygid</trusts>
         </battle>
         <chat>
