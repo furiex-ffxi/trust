@@ -27,8 +27,8 @@ return {
             },
             preferws = L{
                 "Savage Blade",
+                "Rudra's Storm",
                 "Mordant Rime",
-                "Rudra's Storm"
             },
             amws = "Mordant Rime",
             tpws = L{
@@ -54,7 +54,8 @@ return {
             Spell.new("Valor Minuet IV", L{}, L{'WAR','PLD','BRD','SAM','DRG','BLU','PUP','RUN','MNK','THF','BST','NIN','DNC','DRK','COR'}, nil, L{}),
             Spell.new("Valor Minuet V", L{}, L{'WAR','PLD','BRD','SAM','DRG','BLU','PUP','RUN','MNK','THF','BST','NIN','DNC','DRK','COR'}, nil, L{}),
             Spell.new("Valor Minuet III", L{}, L{'WAR','PLD','BRD','SAM','DRG','BLU','PUP','RUN','MNK','THF','BST','NIN','DNC','DRK','COR'}, nil, L{})
-        }
+        },
+        AutoFood = "Grape Daifuku",
     },
     Melee = {
         NumSongs = 4,
@@ -82,8 +83,8 @@ return {
             },
             preferws = L{
                 "Savage Blade",
+                "Rudra's Storm",
                 "Mordant Rime",
-                "Rudra's Storm"
             },
             amws = "Mordant Rime",
             tpws = L{
@@ -109,6 +110,7 @@ return {
             Spell.new("Valor Minuet IV", L{}, L{'WAR','PLD','BRD','SAM','DRG','BLU','PUP','RUN','MNK','THF','BST','NIN','DNC','DRK','COR'}, nil, L{}),
             Spell.new("Valor Minuet V", L{}, L{'WAR','PLD','BRD','SAM','DRG','BLU','PUP','RUN','MNK','THF','BST','NIN','DNC','DRK','COR'}, nil, L{}),
             Spell.new("Valor Minuet III", L{}, L{'WAR','PLD','BRD','SAM','DRG','BLU','PUP','RUN','MNK','THF','BST','NIN','DNC','DRK','COR'}, nil, L{})
-        }
+        },
+        AutoFood = "Grape Daifuku",
     },    
 }

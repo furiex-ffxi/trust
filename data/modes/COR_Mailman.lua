@@ -40,11 +40,13 @@ return {
         ["autoenmityreductionmode"]="Off"
     }, 
     ["OdyC"]={
+        ["autoenablemode"]="Off", 
         ["autotargetmode"]="Auto", 
-        ["engagemode"]="Mirror", 
+        ["autoengagemode"]="Mirror", 
         ["autorollmode"]="Auto", 
         ["maintrustsettingsmode"]="Melee", 
         ["autofoodmode"]="Auto", 
-        ["autoskillchainmode"]="Spam"
+        ["autoskillchainmode"]="Spam",
+        ["combatmode"]="Mirror", 
     }
 }

@@ -13,17 +13,16 @@ return {
             defaultws = L{
                 "Leaden Salute",
                 "Wildfire",
-                "Last Stand",
                 "Savage Blade"
             },
             preferws = L{
                 "Leaden Salute",
                 "Wildfire",
-                "Last Stand",
+                -- "Last Stand",
                 "Savage Blade"
             },
             cleavews = L{
-
+                "Aeolian Edge"
             },
             amws = "Leaden Salute",
             tpws = L{
@@ -32,7 +31,8 @@ return {
             }
         },
         Roll1 = Roll.new("Chaos Roll", true),
-        Roll2 = Roll.new("Samurai Roll", false)
+        Roll2 = Roll.new("Samurai Roll", false),
+        AutoFood = "Grape Daifuku",
     },
     Melee = {
         Skillchains = {
@@ -52,7 +52,7 @@ return {
             preferws = L{
                 "Leaden Salute",
                 "Wildfire",
-                "Last Stand",
+                -- "Last Stand",
                 "Savage Blade"
             },
             cleavews = L{
@@ -65,7 +65,8 @@ return {
             }
         },
         Roll1 = Roll.new("Chaos Roll", true),
-        Roll2 = Roll.new("Samurai Roll", false)
+        Roll2 = Roll.new("Samurai Roll", false),
+        AutoFood = "Grape Daifuku",
     },       
     Pet = {
         Skillchains = {
@@ -93,6 +94,7 @@ return {
             }
         },
         Roll1 = Roll.new("Drachen Roll", true),
-        Roll2 = Roll.new("Companion's Roll", false)
+        Roll2 = Roll.new("Companion's Roll", false),
+        AutoFood = "Grape Daifuku",
     }    
 }

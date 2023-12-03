@@ -34,6 +34,7 @@ return {
         ["maintrustsettingsmode"]="Melee", 
     },
     ["OdyC"]={
+        ["autoenablemode"]="Off", 
         ["maintrustsettingsmode"]="OdyC", 
         ["autotargetmode"]="Auto", 
     }    

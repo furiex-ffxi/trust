@@ -6,6 +6,7 @@ return {
         ["maintrustsettingsmode"]="Melee"
     }, 
     ["Default"]={
+        ["autoenablemode"]="Off", 
         ["skillchainpartnermode"]="Off", 
         ["autofollowmode"]="Always", 
         ["subtrustsettingsmode"]="Default", 
@@ -20,7 +21,6 @@ return {
         ["autopullmode"]="Off", 
         ["autoaftermathmode"]="Off", 
         ["engagemode"]="None", 
-        ["autoenablemode"]="Off", 
         ["autobuffmode"]="Auto", 
         ["ipcmode"]="All", 
         ["combatmode"]="Off", 
@@ -34,6 +34,7 @@ return {
         ["maintrustsettingsmode"]="OdyC", 
         ["autotargetmode"]="Auto", 
         ["autoengagemode"]="Mirror", 
-        ["autoskillchainmode"]="Spam"
+        ["autoskillchainmode"]="Spam",
+        ["combatmode"]="Mirror", 
     }
 }

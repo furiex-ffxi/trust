@@ -2,18 +2,19 @@
 return {
     ["Ep"]={
         ["partychatmode"]="Private", 
-        ["autoskillchainmode"]="Auto", 
+        ["autoskillchainmode"]="Spam", 
         ["autoclarioncallmode"]="Auto", 
         ["ipcmode"]="All", 
         ["autoengagemode"]="Always", 
         ["autodispelmode"]="Off", 
-        ["autoenablemode"]="Auto", 
+        ["autoenablemode"]="Off", 
         ["autosongmode"]="Auto", 
-        ["autoaftermathmode"]="Auto", 
+        ["autoaftermathmode"]="Off", 
         ["autodebuffmode"]="Off", 
         ["autofollowmode"]="Off"
     }, 
     ["Default"]={
+        ["autoenablemode"]="Off", 
         ["autodispelmode"]="Auto", 
         ["autotargetmode"]="Off", 
         ["autosilencemode"]="Off", 
@@ -49,18 +50,17 @@ return {
     }, 
     ["OdyC"]={
         ["partychatmode"]="Private", 
-        ["autoenablemode"]="Auto", 
+        ["autoenablemode"]="Off", 
         ["autosongmode"]="Auto", 
-        ["autonukemode"]="Off", 
         ["ipcmode"]="All", 
         ["autoclarioncallmode"]="Auto", 
         ["autostatusremovalmode"]="Auto", 
         ["maintrustsettingsmode"]="Melee", 
-        ["engagemode"]="Mirror", 
+        ["autoengagemode"]="Mirror", 
         ["autotargetmode"]="Auto", 
         ["autosleepmode"]="Auto", 
         ["autodebuffmode"]="Off", 
-        ["autorestoremanamode"]="Auto", 
-        ["autodispelmode"]="Off"
+        ["autodispelmode"]="Off",
+        ["combatmode"]="Mirror", 
     }
 }

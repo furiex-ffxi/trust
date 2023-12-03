@@ -10,10 +10,11 @@ return {
         ["maintrustsettingsmode"]="Melee", 
         ["actionbatchingmode"]="Off", 
         ["autofollowmode"]="Off", 
-        ["autopullmode"]="Auto", 
-        ["autoenablemode"]="Auto"
+        ["autopullmode"]="Off", 
+        ["autoenablemode"]="Off"
     }, 
     ["Default"]={
+        ["autoenablemode"]="Off", 
         ["autodispelmode"]="Auto", 
         ["autopullmode"]="Off", 
         ["skillchainprioritymode"]="Prefer", 
@@ -47,6 +48,7 @@ return {
         ["autosilencemode"]="Off", 
         ["maintrustsettingsmode"]="Melee", 
         ["autofoodmode"]="Auto", 
-        ["autoskillchainmode"]="Spam"
+        ["autoskillchainmode"]="Spam",
+        ["autodebuffmode"]="Off", 
     }
 }
