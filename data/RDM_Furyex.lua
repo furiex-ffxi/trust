@@ -64,7 +64,12 @@ return {
             }
         },
         Debuffs = L{
-            Debuff.new("Distract", L{})
+            Debuff.new("Distract", L{}),
+            Debuff.new("Slow", L{}),
+            Debuff.new("Paralyze", L{}),
+            Debuff.new("Addle", L{}),
+            Debuff.new("Frazzle", L{}),
+            Debuff.new("Absorb-TP", L{}),
         }
     },
     Melee = {

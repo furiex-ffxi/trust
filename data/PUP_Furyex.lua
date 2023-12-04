@@ -119,11 +119,11 @@ return {
             Tank = L{
                 {
                     Name = "Earth Maneuver",
-                    Amount = 1
+                    Amount = 0
                 },
                 {
                     Name = "Fire Maneuver",
-                    Amount = 0
+                    Amount = 1
                 },
                 {
                     Name = "Light Maneuver",

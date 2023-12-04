@@ -9,8 +9,6 @@ return {
             Buff.new("Boost-STR", L{}, L{}, nil, L{}),
             Buff.new("Auspice", L{}, L{}, nil, L{}),
             Buff.new("Reraise", L{}, L{}, nil, L{}),
-            Buff.new("Baraera", L{}, L{}, nil, L{}),
-            Buff.new("Baramnesra", L{}, L{}, nil, L{}),
         },
         CureSettings = {
             Thresholds = {
@@ -74,8 +72,6 @@ return {
             Buff.new("Boost-STR", L{}, L{}, nil, L{}),
             Buff.new("Auspice", L{}, L{}, nil, L{}),
             Buff.new("Reraise", L{}, L{}, nil, L{}),
-            Buff.new("Barparalyzra", L{}, L{}, nil, L{}),
-            Buff.new("Barblizzara", L{}, L{}, nil, L{}),
         },
         CureSettings = {
             Thresholds = {

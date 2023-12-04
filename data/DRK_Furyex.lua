@@ -25,16 +25,17 @@ return {
                 "Torcleaver"
             },
             preferws = L{
-                "Cross Reaper",
                 "Catastrophe",
-                "Torcleaver"
+                "Torcleaver",
+                "Insurgency",
+                "Entropy",
+                "Quietus",
             },
             cleavews = L{
                 "Fell Cleave"
             },
             amws = "Insurgency",
             tpws = L{
-                "Cross Reaper"
             }
         },
         SelfBuffs = L{
@@ -76,16 +77,17 @@ return {
                 "Torcleaver"
             },
             preferws = L{
-                "Cross Reaper",
                 "Catastrophe",
-                "Torcleaver"
+                "Torcleaver",
+                "Insurgency",
+                "Entropy",
+                "Quietus",
             },
             cleavews = L{
                 "Fell Cleave"
             },
             amws = "Insurgency",
             tpws = L{
-                "Cross Reaper"
             }
         },
         SelfBuffs = L{
@@ -123,16 +125,17 @@ return {
                 "Torcleaver"
             },
             preferws = L{
-                "Cross Reaper",
                 "Catastrophe",
-                "Torcleaver"
+                "Torcleaver",
+                "Insurgency",
+                "Entropy",
+                "Quietus",
             },
             cleavews = L{
                 "Fell Cleave"
             },
             amws = "Insurgency",
             tpws = L{
-                "Cross Reaper"
             }
         },
         SelfBuffs = L{

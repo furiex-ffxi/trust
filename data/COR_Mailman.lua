@@ -18,7 +18,7 @@ return {
             preferws = L{
                 "Leaden Salute",
                 "Wildfire",
-                -- "Last Stand",
+                "Last Stand",
                 "Savage Blade"
             },
             cleavews = L{
@@ -52,7 +52,7 @@ return {
             preferws = L{
                 "Leaden Salute",
                 "Wildfire",
-                -- "Last Stand",
+                "Last Stand",
                 "Savage Blade"
             },
             cleavews = L{

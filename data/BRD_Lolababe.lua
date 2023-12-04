@@ -36,7 +36,7 @@ return {
             }
         },
         PartyBuffs = L{
-            Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH"}, nil, L{}),
+            Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH", "BRD"}, nil, L{}),
             Spell.new("Sage Etude", L{"Pianissimo"}, L{"BLM"}, nil, L{}),
             Spell.new("Knight's Minne V", L{"Pianissimo"}, L{"PLD","RUN"}, nil, L{}),
         },
@@ -92,7 +92,7 @@ return {
             }
         },
         PartyBuffs = L{
-            Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH"}, nil, L{}),
+            Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH", "BRD"}, nil, L{}),
             Spell.new("Sage Etude", L{"Pianissimo"}, L{"BLM"}, nil, L{}),
             Spell.new("Knight's Minne V", L{"Pianissimo"}, L{"PLD","RUN"}, nil, L{}),
         },
