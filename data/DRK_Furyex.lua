@@ -91,7 +91,7 @@ return {
             }
         },
         SelfBuffs = L{
-            Spell.new("Drain III", L{}, L{}, "bt", L{}),
+            -- Spell.new("Drain III", L{}, L{}, "bt", L{}),
         },
         JobAbilities = L{
             JobAbility.new('Last Resort', L{InBattleCondition.new()}),
