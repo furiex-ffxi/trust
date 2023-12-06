@@ -12,12 +12,10 @@ return {
             },
             defaultws = L{
                 "Leaden Salute",
-                "Wildfire",
                 "Savage Blade"
             },
             preferws = L{
                 "Leaden Salute",
-                "Wildfire",
                 "Last Stand",
                 "Savage Blade"
             },
@@ -30,8 +28,8 @@ return {
                 "Savage Blade"
             }
         },
-        Roll1 = Roll.new("Chaos Roll", true),
-        Roll2 = Roll.new("Samurai Roll", false),
+        Roll1 = Roll.new("Wizard's Roll", true),
+        Roll2 = Roll.new("Evoker's Roll", false),
         AutoFood = "Grape Daifuku",
     },
     Melee = {
@@ -45,14 +43,10 @@ return {
             },
             defaultws = L{
                 "Leaden Salute",
-                "Wildfire",
-                "Last Stand",
                 "Savage Blade"
             },
             preferws = L{
                 "Leaden Salute",
-                "Wildfire",
-                "Last Stand",
                 "Savage Blade"
             },
             cleavews = L{

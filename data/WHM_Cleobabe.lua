@@ -3,7 +3,7 @@ return {
     Version = 1,
     Default = {
         SelfBuffs = L{
-            -- Buff.new("Haste", L{}, L{}, nil, L{}),
+            Buff.new("Haste", L{}, L{}, nil, L{}),
             Buff.new("Protectra", L{}, L{}, nil, L{}),
             Buff.new("Shellra", L{}, L{}, nil, L{}),
             Buff.new("Boost-STR", L{}, L{}, nil, L{}),

@@ -117,7 +117,6 @@ return {
                 "Black Halo"
             },
             preferws = L{
-                "Flat Blade",
                 "Death Blossom",
                 "Savage Blade",
                 "Black Halo",

@@ -6,7 +6,7 @@ return {
         SelfBuffs = L{
 
         },
-        SongDuration = 300,
+        SongDuration = 325,
         SongDelay = 6,
         Skillchains = {
             spamws = L{
@@ -19,7 +19,7 @@ return {
             },
             defaultws = L{
                 "Savage Blade",
-                "Mordant Rime",
+                "Rudra's Storm",
                 "Retribution"
             },
             cleavews = L{
@@ -27,18 +27,19 @@ return {
             },
             preferws = L{
                 "Savage Blade",
+                "Evisceration",
                 "Rudra's Storm",
-                "Mordant Rime",
             },
             amws = "Mordant Rime",
             tpws = L{
-                "Mordant Rime"
+                "Rudra's Storm",
             }
         },
         PartyBuffs = L{
-            Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH", "BRD"}, nil, L{}),
+            Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH"}, nil, L{}),
             Spell.new("Sage Etude", L{"Pianissimo"}, L{"BLM"}, nil, L{}),
             Spell.new("Knight's Minne V", L{"Pianissimo"}, L{"PLD","RUN"}, nil, L{}),
+            Spell.new("Dragonfoe Mambo", L{"Pianissimo"}, L{"NIN"}, nil, L{}),
         },
         DummySongs = L{
             Spell.new("Scop's Operetta", L{}, nil, nil, L{}),
@@ -62,11 +63,12 @@ return {
         SelfBuffs = L{
 
         },
-        SongDuration = 300,
+        SongDuration = 325,
         SongDelay = 6,
         Skillchains = {
             spamws = L{
                 "Savage Blade",
+                "Rudra's Storm",
                 "Mordant Rime"
             },
             starterws = L{
@@ -75,7 +77,7 @@ return {
             },
             defaultws = L{
                 "Savage Blade",
-                "Mordant Rime",
+                "Rudra's Storm",
                 "Retribution"
             },
             cleavews = L{
@@ -83,18 +85,19 @@ return {
             },
             preferws = L{
                 "Savage Blade",
+                "Evisceration",
                 "Rudra's Storm",
-                "Mordant Rime",
             },
             amws = "Mordant Rime",
             tpws = L{
-                "Mordant Rime"
+                "Rudra's Storm",
             }
         },
         PartyBuffs = L{
-            Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH", "BRD"}, nil, L{}),
+            Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH"}, nil, L{}),
             Spell.new("Sage Etude", L{"Pianissimo"}, L{"BLM"}, nil, L{}),
             Spell.new("Knight's Minne V", L{"Pianissimo"}, L{"PLD","RUN"}, nil, L{}),
+            Spell.new("Dragonfoe Mambo", L{"Pianissimo"}, L{"NIN"}, nil, L{}),
         },
         DummySongs = L{
             Spell.new("Scop's Operetta", L{}, nil, nil, L{}),

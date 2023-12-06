@@ -68,5 +68,71 @@ return {
                 Spell.new("Klimaform", L{}, nil, nil, L{})
             }
         }
+    },
+    Subjob = {
+        LightArts = {
+            JobAbilities = L{
+                JobAbility.new('Light Arts', L{}, L{}, nil),
+            },
+            PartyBuffs = L{
+                Spell.new("Adloquium", L{}, L{"WAR", "PUP"}, nil, L{})
+            },
+            SelfBuffs = L{
+                Buff.new("Regen", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(2, ">=")}),
+                Spell.new("Phalanx", L{"Accession"}, nil, nil, L{StrategemCountCondition.new(2, ">=")}),
+                Spell.new("Aurorastorm II", L{}, nil, nil, L{})
+            }
+        },
+        StrategemCooldown = 33,
+        CureSettings = {
+            Thresholds = {
+                ["Cure IV"] = 1200,
+                Emergency = 25,
+                Default = 78,
+                ["Cure II"] = 0,
+                ["Cure III"] = 500
+            },
+            Delay = 2,
+            StatusRemovals = {
+                Delay = 3,
+                Blacklist = L{
+
+                }
+            }
+        },
+        Skillchains = {
+            spamws = L{
+                "Black Halo"
+            },
+            starterws = L{
+                "Black Halo"
+            },
+            defaultws = L{
+                "Retribution",
+                "Black Halo"
+            },
+            preferws = L{
+                "Retribution",
+                "Black Halo"
+            },
+            cleavews = L{
+
+            },
+            amws = "Omniscience",
+            tpws = L{
+
+            }
+        },
+        DarkArts = {
+            JobAbilities = L{
+                JobAbility.new('Dark Arts', L{}, L{}, nil),
+            },
+            PartyBuffs = L{
+
+            },
+            SelfBuffs = L{
+                Spell.new("Klimaform", L{}, nil, nil, L{})
+            }
+        }
     }
 }

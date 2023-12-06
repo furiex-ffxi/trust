@@ -15,7 +15,7 @@ return {
         ["autofacemobmode"]="Off", 
         ["skillchainprioritymode"]="Off", 
         ["autoskillchainmode"]="Off", 
-        ["subtrustsettingsmode"]="Default", 
+        ["subtrustsettingsmode"]="Subjob", 
         ["actionbatchingmode"]="Off", 
         ["autoengagemode"]="Off", 
         ["autopullmode"]="Off", 
@@ -33,7 +33,7 @@ return {
         ["autoenmityreductionmode"]="Auto", 
         ["autodebuffmode"]="Off", 
         ["flankmode"]="Off", 
-        ["autoartsmode"]="Off", 
+        ["autoartsmode"]="LightArts", 
         ["autonukemode"]="Off", 
         ["autohealmode"]="Auto"
     },
@@ -46,7 +46,7 @@ return {
         ["autofacemobmode"]="Off", 
         ["skillchainprioritymode"]="Off", 
         ["autoskillchainmode"]="Off", 
-        ["subtrustsettingsmode"]="Default", 
+        ["subtrustsettingsmode"]="Subjob", 
         ["actionbatchingmode"]="Off", 
         ["autoengagemode"]="Off", 
         ["autopullmode"]="Off", 
@@ -64,7 +64,7 @@ return {
         ["autoenmityreductionmode"]="Auto", 
         ["autodebuffmode"]="Off", 
         ["flankmode"]="Off", 
-        ["autoartsmode"]="Off", 
+        ["autoartsmode"]="LightArts", 
         ["autonukemode"]="Off", 
         ["autohealmode"]="Auto"
     }    
