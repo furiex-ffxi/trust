@@ -166,6 +166,18 @@ function player_util.get_player_main_job_name_short()
 	return nil
 end
 
+function player_util.get_player_sub_job_name_short()
+	local sub_job_id = tonumber(windower.ffxi.get_player().sub_job_id)
+
+	if sub_job_id and res.jobs[sub_job_id] then
+        player.sub_job_id = sub_job_id
+        if res.jobs[sub_job_id] then
+            return res.jobs[sub_job_id]['ens']
+        end
+    end
+	return nil
+end
+
 function player_util.is_engaged()
 	local player = windower.ffxi.get_player()
 	if player ~= nil then return player.status == 1 end

@@ -56,6 +56,27 @@ end
 -- @tparam number hp_missing Amount of hp missing
 -- @treturn Spell Aoe cure spell
 function WhiteMage:get_aoe_cure_spell(hp_missing)
+    if player_util.get_player_sub_job_name_short() == 'SCH' then
+        local stragem_count = player_util.get_current_strategem_count()
+        if stragem_count > 0 and self:is_afflatus_solace_active() and self:is_overcure_enabled() then
+            hp_missing = hp_missing * 1.5
+
+            if hp_missing > self.cure_settings.Thresholds['Cure IV'] then
+                if not spell_util.is_spell_on_cooldown(res.spells:with('name', 'Cure V').id) then
+                    return Spell.new('Cure V', L { "Accession" }, L {})
+                else
+                    return Spell.new('Cure IV', L { "Accession" }, L {})
+                end
+            elseif hp_missing > self.cure_settings.Thresholds['Cure III'] then
+                if not spell_util.is_spell_on_cooldown(res.spells:with('name', 'Cure IV').id) then
+                    return Spell.new('Cure IV', L { "Accession" }, L {})
+                else
+                    return Spell.new('Cure III', L { "Accession" }, L {})
+                end
+            end
+        end
+    end
+
     if hp_missing > self.cure_settings.Thresholds['Curaga III'] then
         if not spell_util.is_spell_on_cooldown(res.spells:with('name', 'Curaga III').id) then
             return Spell.new('Curaga III', L{}, L{})
