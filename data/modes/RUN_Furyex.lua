@@ -1,0 +1,31 @@
+-- Modes file for RUN
+return {
+    ["Default"]={
+        ["autodispelmode"]="Off", 
+        ["autotrustsmode"]="Off", 
+        ["subtrustsettingsmode"]="Default", 
+        ["skillchainprioritymode"]="Prefer", 
+        ["autoaftermathmode"]="Auto", 
+        ["autofollowmode"]="Off", 
+        ["autobuffmode"]="Auto", 
+        ["autoskillchainmode"]="Off", 
+        ["flankmode"]="Off", 
+        ["actionbatchingmode"]="Off", 
+        ["maintrustsettingsmode"]="Default", 
+        ["autofacemobmode"]="Off", 
+        ["autoengagemode"]="Off", 
+        ["autotargetmode"]="Off", 
+        ["partychatmode"]="Private", 
+        ["autoenablemode"]="Auto", 
+        ["engagemode"]="None", 
+        ["autopullmode"]="Off", 
+        ["skillchainpartnermode"]="Off", 
+        ["autotankmode"]="Auto", 
+        ["combatmode"]="Off", 
+        ["ipcmode"]="All", 
+        ["autofoodmode"]="Off", 
+        ["skillchaindelaymode"]="Off", 
+        ["autorunemode"]="Off", 
+        ["autoenmityreductionmode"]="Off"
+    }
+}
