@@ -84,4 +84,16 @@ return {
         ["autobuffmode"]="Off", 
         ["autoenmityreductionmode"]="Off"
     },    
+    ["Sortie"]={
+        ["autotargetmode"]="Off", 
+        ["autosilencemode"]="Off", 
+        ["maintrustsettingsmode"]="Melee", 
+        ["autofoodmode"]="Off", 
+        ["autoskillchainmode"]="Off",
+        ["autodebuffmode"]="Off", 
+        ["autobuffmode"]="Auto", 
+        ["autoengagemode"]="Mirror", 
+        ["combatmode"]="Mirror", 
+        ["autoshootmode"]="Off", 
+    }
 }

@@ -49,7 +49,7 @@ return {
         ["autoenmityreductionmode"]="Off"
     }, 
     ["OdyC"]={
-        ["partychatmode"]="Private", 
+        ["partychatmode"]="Party", 
         ["autoenablemode"]="Off", 
         ["autosongmode"]="Auto", 
         ["ipcmode"]="All", 
@@ -62,5 +62,6 @@ return {
         ["autodebuffmode"]="Off", 
         ["autodispelmode"]="Off",
         ["combatmode"]="Mirror", 
+        ["autoskillchainmode"]="Spam",
     }
 }

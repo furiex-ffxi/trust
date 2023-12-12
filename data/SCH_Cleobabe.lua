@@ -80,7 +80,7 @@ return {
             SelfBuffs = L{
                 Buff.new("Regen", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(2, ">=")}),
                 Spell.new("Phalanx", L{"Accession"}, nil, nil, L{StrategemCountCondition.new(2, ">=")}),
-                Spell.new("Aurorastorm II", L{}, nil, nil, L{})
+                Spell.new("Voidstorm", L{}, nil, nil, L{})
             }
         },
         StrategemCooldown = 33,

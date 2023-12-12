@@ -373,7 +373,7 @@ function handle_status_change(new_status_id, old_status_id)
 	player.status = res.statuses[new_status_id].english
 
 	if player.status == 'Dead' then
-		handle_unload()
+		handle_stop()
 	end
 end
 

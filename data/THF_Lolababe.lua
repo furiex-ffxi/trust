@@ -11,7 +11,8 @@ return {
                 "Evisceration"
             },
             defaultws = L{
-                "Evisceration"
+                "Evisceration",
+                "Rudra's Storm",
             },
             cleavews = L{
 

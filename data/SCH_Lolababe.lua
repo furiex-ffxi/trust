@@ -7,13 +7,14 @@ return {
                 JobAbility.new('Light Arts', L{}, L{}, nil),
             },
             PartyBuffs = L{
-                Spell.new("Adloquium", L{}, L{"WAR", "PUP"}, nil, L{})
+                -- Spell.new("Adloquium", L{}, L{"WAR", "PUP", "DRK"}, nil, L{})
             },
             SelfBuffs = L{
                 Buff.new("Protect", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(1, ">=")}),
                 Buff.new("Shell", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(1, ">=")}),
                 Buff.new("Regen", L{"Accession", "Perpetuance"}, L{}, nil, L{StrategemCountCondition.new(2, ">=")}),
                 Spell.new("Phalanx", L{"Accession", "Perpetuance"}, nil, nil, L{StrategemCountCondition.new(2, ">=")}),
+                Spell.new("Adloquium", L{"Accession", "Perpetuance"}, nil, nil, L{StrategemCountCondition.new(2, ">=")}),
                 Spell.new("Aurorastorm II", L{}, nil, nil, L{})
             }
         },

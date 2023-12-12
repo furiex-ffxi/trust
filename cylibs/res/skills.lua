@@ -98,7 +98,7 @@ skills.weapon_skills = {
     [105] = {en='Catastrophe',skillchain={'Darkness','Gravitation'}},
     [106] = {en='Insurgency',skillchain={'Fusion','Compression'}},
     [107] = {en='Infernal Scythe',skillchain={'Compression','Reverberation'}},
-    --[108] = {en='Quietus',skillchain={'Darkness','Distortion'}},
+    [108] = {en='Quietus',skillchain={'Darkness','Distortion'}},
     [109] = {en='Entropy',skillchain={'Gravitation','Reverberation'},aeonic='Darkness',weapon='Anguta'},
     [112] = {en='Double Thrust',skillchain={'Transfixion'}},
     [113] = {en='Thunder Thrust',skillchain={'Transfixion','Impaction'}},

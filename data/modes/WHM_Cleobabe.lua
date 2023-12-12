@@ -67,5 +67,37 @@ return {
         ["autoartsmode"]="LightArts", 
         ["autonukemode"]="Off", 
         ["autohealmode"]="Auto"
-    }    
+    },
+    ["OdyC"]={
+        ["autoenablemode"]="Off", 
+        ["autobuffmode"]="Auto", 
+        ["autotargetmode"]="Off", 
+        ["maintrustsettingsmode"]="Default", 
+        ["automagicburstmode"]="Off", 
+        ["autodetectauramode"]="Auto", 
+        ["autofacemobmode"]="Off", 
+        ["skillchainprioritymode"]="Off", 
+        ["autoskillchainmode"]="Off", 
+        ["subtrustsettingsmode"]="Subjob", 
+        ["actionbatchingmode"]="Off", 
+        ["autoengagemode"]="Off", 
+        ["autopullmode"]="Off", 
+        ["autodispelmode"]="Off", 
+        ["ipcmode"]="Off", 
+        ["partychatmode"]="Party", 
+        ["skillchaindelaymode"]="Off", 
+        ["combatmode"]="Off", 
+        ["autorestoremanamode"]="Auto", 
+        ["engagemode"]="None", 
+        ["skillchainpartnermode"]="Off", 
+        ["autoaftermathmode"]="Off", 
+        ["autoraisemode"]="Off", 
+        ["autostatusremovalmode"]="Auto", 
+        ["autoenmityreductionmode"]="Auto", 
+        ["autodebuffmode"]="Off", 
+        ["flankmode"]="Off", 
+        ["autoartsmode"]="LightArts", 
+        ["autonukemode"]="Off", 
+        ["autohealmode"]="Auto"
+    }     
 }

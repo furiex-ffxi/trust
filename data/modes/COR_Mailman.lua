@@ -1,9 +1,18 @@
 -- Modes file for COR
 return {
-    ["Ep"]={
+    ["Sortie"]={
+        ["autoengagemode"]="Mirror", 
+        ["autosilencemode"]="Off", 
+        ["combatmode"]="Mirror", 
+        ["maintrustsettingsmode"]="Melee", 
+        ["autobuffmode"]="Auto", 
+        ["autodebuffmode"]="Off"
+    }, 
+    ["Lilith"]={
         ["autodispelmode"]="Off", 
-        ["autorollmode"]="Auto", 
         ["autoskillchainmode"]="Spam", 
+        ["autorollmode"]="Auto", 
+        ["autofacemobmode"]="Off", 
         ["autofollowmode"]="Off", 
         ["maintrustsettingsmode"]="Melee"
     }, 
@@ -11,42 +20,49 @@ return {
         ["autorollmode"]="Auto", 
         ["maintrustsettingsmode"]="Pet"
     }, 
+    ["Ep"]={
+        ["autodispelmode"]="Off", 
+        ["autorollmode"]="Auto", 
+        ["autoskillchainmode"]="Spam", 
+        ["autofollowmode"]="Off", 
+        ["maintrustsettingsmode"]="Ep"
+    }, 
     ["Default"]={
         ["autodispelmode"]="Auto", 
         ["autorollmode"]="Manual", 
-        ["autoskillchainmode"]="Off", 
-        ["skillchainprioritymode"]="Off", 
-        ["actionbatchingmode"]="Off", 
-        ["autobuffmode"]="Off", 
-        ["autofollowmode"]="Always", 
         ["maintrustsettingsmode"]="Default", 
-        ["flankmode"]="Off", 
-        ["subtrustsettingsmode"]="Default", 
-        ["autoshootmode"]="Off", 
         ["autopullmode"]="Off", 
-        ["autoengagemode"]="Always", 
-        ["autotargetmode"]="Off", 
-        ["partychatmode"]="Private", 
-        ["autoenablemode"]="Off", 
-        ["engagemode"]="None", 
+        ["subtrustsettingsmode"]="Default", 
         ["autofacemobmode"]="Auto", 
+        ["autotargetmode"]="Off", 
+        ["autoenablemode"]="Off", 
+        ["flankmode"]="Off", 
+        ["actionbatchingmode"]="Off", 
+        ["autoshootmode"]="Off", 
+        ["skillchainprioritymode"]="Off", 
+        ["autoengagemode"]="Always", 
+        ["autoaftermathmode"]="Off", 
+        ["partychatmode"]="Party", 
+        ["autoskillchainmode"]="Off", 
+        ["engagemode"]="None", 
+        ["autobuffmode"]="Off", 
         ["skillchainpartnermode"]="Off", 
         ["skillchaindelaymode"]="Off", 
         ["combatmode"]="Off", 
         ["ipcmode"]="All", 
         ["autofoodmode"]="Off", 
         ["autotrustsmode"]="Off", 
-        ["autoaftermathmode"]="Off", 
-        ["autoenmityreductionmode"]="Off"
+        ["autofollowmode"]="Always", 
+        ["autoenmityreductionmode"]="Off",
+        ["autohealmode"]="Emergency"
     }, 
     ["OdyC"]={
-        ["autoenablemode"]="Off", 
-        ["autotargetmode"]="Auto", 
         ["autoengagemode"]="Mirror", 
-        ["autorollmode"]="Auto", 
         ["maintrustsettingsmode"]="Melee", 
-        ["autofoodmode"]="Auto", 
-        ["autoskillchainmode"]="Spam",
         ["combatmode"]="Mirror", 
+        ["autoskillchainmode"]="Spam", 
+        ["autotargetmode"]="Auto", 
+        ["autofoodmode"]="Auto", 
+        ["autorollmode"]="Auto"
     }
 }
