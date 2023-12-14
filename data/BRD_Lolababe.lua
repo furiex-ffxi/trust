@@ -27,7 +27,6 @@ return {
             },
             preferws = L{
                 "Savage Blade",
-                "Evisceration",
                 "Rudra's Storm",
             },
             amws = "Mordant Rime",
@@ -85,7 +84,6 @@ return {
             },
             preferws = L{
                 "Savage Blade",
-                "Evisceration",
                 "Rudra's Storm",
             },
             amws = "Mordant Rime",

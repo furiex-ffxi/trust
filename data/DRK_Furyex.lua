@@ -67,42 +67,7 @@ return {
         AutoFood = "Grape Daifuku",
     },
     OdyC = {
-        Skillchains = {
-            spamws = L{
-                "Catastrophe",
-                "Torcleaver",
-                "Cross Reaper",
-                "Entropy",
-                "Judgment",
-                "Savage Blade"
-            },
-            starterws = L{
-                "Torcleaver",
-                "Catastrophe",
-                "Cross Reaper",
-                "Entropy"
-            },
-            defaultws = L{
-                "Cross Reaper",
-                "Catastrophe",
-                "Insurgency",
-                "Entropy",
-                "Torcleaver"
-            },
-            preferws = L{
-                "Catastrophe",
-                "Torcleaver",
-                "Insurgency",
-                "Entropy",
-                "Quietus",
-            },
-            cleavews = L{
-                "Fell Cleave"
-            },
-            amws = "Insurgency",
-            tpws = L{
-            }
-        },
+        Skillchains = doubleDarkSC,
         SelfBuffs = L{
         },
         JobAbilities = L{

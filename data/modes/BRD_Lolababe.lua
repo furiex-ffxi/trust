@@ -57,11 +57,10 @@ return {
         ["autostatusremovalmode"]="Auto", 
         ["maintrustsettingsmode"]="Melee", 
         ["autoengagemode"]="Mirror", 
-        ["autotargetmode"]="Auto", 
+        ["combatmode"]="Mirror", 
         ["autosleepmode"]="Auto", 
         ["autodebuffmode"]="Off", 
         ["autodispelmode"]="Off",
-        ["combatmode"]="Mirror", 
         ["autoskillchainmode"]="Spam",
     }
 }

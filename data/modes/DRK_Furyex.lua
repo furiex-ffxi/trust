@@ -1,20 +1,26 @@
 -- Modes file for DRK
 return {
+    ["Ep"]={
+        ["maintrustsettingsmode"]="Melee", 
+        ["autoaftermathmode"]="Auto", 
+        ["autotrustsmode"]="Auto", 
+        ["skillchainprioritymode"]="Strict"
+    }, 
     ["Default"]={
         ["autodispelmode"]="Auto", 
-        ["autopullmode"]="Off", 
-        ["autorestoremanamode"]="Auto", 
-        ["autosilencemode"]="Off", 
-        ["actionbatchingmode"]="Off", 
-        ["autodebuffmode"]="Off", 
+        ["autoskillchainmode"]="Auto", 
         ["autofacemobmode"]="Auto", 
+        ["autosilencemode"]="Off", 
+        ["subtrustsettingsmode"]="Default", 
+        ["autodebuffmode"]="Off", 
+        ["autorestoremanamode"]="Auto", 
         ["maintrustsettingsmode"]="Default", 
         ["flankmode"]="Off", 
-        ["subtrustsettingsmode"]="Default", 
-        ["autoskillchainmode"]="Auto", 
+        ["actionbatchingmode"]="Off", 
+        ["autopullmode"]="Off", 
         ["skillchainprioritymode"]="Prefer", 
         ["autoengagemode"]="Always", 
-        ["autotargetmode"]="Off", 
+        ["autoaftermathmode"]="Off", 
         ["partychatmode"]="Private", 
         ["autoenablemode"]="Auto", 
         ["engagemode"]="None", 
@@ -25,17 +31,13 @@ return {
         ["autotrustsmode"]="Off", 
         ["autofollowmode"]="Always", 
         ["autofoodmode"]="Off", 
-        ["autoaftermathmode"]="Off", 
+        ["autotargetmode"]="Off", 
         ["ipcmode"]="All", 
         ["autoenmityreductionmode"]="Off"
     }, 
-    ["Ep"]={
-        ["autoaftermathmode"]="Auto", 
-        ["maintrustsettingsmode"]="Melee", 
-    },
     ["OdyC"]={
         ["autoenablemode"]="Off", 
-        ["maintrustsettingsmode"]="OdyC", 
         ["autotargetmode"]="Auto", 
-    }    
+        ["maintrustsettingsmode"]="OdyC"
+    }
 }

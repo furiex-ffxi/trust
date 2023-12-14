@@ -61,7 +61,6 @@ return {
         ["maintrustsettingsmode"]="Melee", 
         ["combatmode"]="Mirror", 
         ["autoskillchainmode"]="Spam", 
-        ["autotargetmode"]="Auto", 
         ["autofoodmode"]="Auto", 
         ["autorollmode"]="Auto"
     }

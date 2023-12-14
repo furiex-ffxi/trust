@@ -41,7 +41,6 @@ local defaultSc = {
     },
     preferws = L {
         "Leaden Salute",
-        "Last Stand",
         "Savage Blade"
     },
     cleavews = L {
