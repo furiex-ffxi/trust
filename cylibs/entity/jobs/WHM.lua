@@ -10,7 +10,6 @@ WhiteMage.__index = WhiteMage
 local buff_util = require('cylibs/util/buff_util')
 local cure_util = require('cylibs/util/cure_util')
 local spell_util = require('cylibs/util/spell_util')
-local logger = require('cylibs/logger/logger')
 
 -------
 -- Default initializer for a new White Mage.
@@ -32,35 +31,23 @@ function WhiteMage:get_cure_spell(hp_missing)
     end
 
     if hp_missing > self.cure_settings.Thresholds['Cure IV'] then
-        logger.notice("Cure IV recast timer: ", spell_util.get_spell_recast(res.spells:with('name', 'Cure IV').id))
-        logger.notice("Cure V recast timer: ", spell_util.get_spell_recast(res.spells:with('name', 'Cure V').id))
-
-        local cure_spell = Spell.new('Cure V', L{}, L{})
         if not spell_util.is_spell_on_cooldown(res.spells:with('name', 'Cure IV').id) then
-            cure_spell = Spell.new('Cure IV', L{}, L{})
+            return Spell.new('Cure IV', L{}, L{})
+        else
+            return Spell.new('Cure V', L{}, L{})
         end
-        logger.notice("Choosing to cast: ", cure_spell.spell_name)
-        return cure_spell
     elseif hp_missing > self.cure_settings.Thresholds['Cure III'] then
-        logger.notice("Cure III recast timer: ", spell_util.get_spell_recast(res.spells:with('name', 'Cure III').id))
-        logger.notice("Cure IV recast timer: ", spell_util.get_spell_recast(res.spells:with('name', 'Cure IV').id))
-
-        local cure_spell = Spell.new('Cure IV', L{}, L{})
         if not spell_util.is_spell_on_cooldown(res.spells:with('name', 'Cure III').id) then
-            cure_spell = Spell.new('Cure III', L{}, L{})
+            return Spell.new('Cure III', L{}, L{})
+        else
+            return Spell.new('Cure IV', L{}, L{})
         end
-        logger.notice("Choosing to cast: ", cure_spell.spell_name)
-        return cure_spell
     else
-        logger.notice("Cure II recast timer: ", spell_util.get_spell_recast(res.spells:with('name', 'Cure II').id))
-        logger.notice("Cure III recast timer: ", spell_util.get_spell_recast(res.spells:with('name', 'Cure III').id))
-
-        local cure_spell = Spell.new('Cure III', L{}, L{})
         if not spell_util.is_spell_on_cooldown(res.spells:with('name', 'Cure II').id) then
-            cure_spell = Spell.new('Cure II', L{}, L{})
+            return Spell.new('Cure II', L{}, L{})
+        else
+            return Spell.new('Cure III', L{}, L{})
         end
-        logger.notice("Choosing to cast: ", cure_spell.spell_name)
-        return cure_spell
     end
 end
 
@@ -75,59 +62,39 @@ function WhiteMage:get_aoe_cure_spell(hp_missing)
             hp_missing = hp_missing * 1.5
 
             if hp_missing > self.cure_settings.Thresholds['Cure IV'] then
-                logger.notice("Cure IV recast timer: ", spell_util.get_spell_recast(res.spells:with('name', 'Cure IV').id))
-                logger.notice("Cure V recast timer: ", spell_util.get_spell_recast(res.spells:with('name', 'Cure V').id))
-        
-                local cure_spell = Spell.new('Cure IV', L { "Accession" }, L {})
                 if not spell_util.is_spell_on_cooldown(res.spells:with('name', 'Cure V').id) then
                     return Spell.new('Cure V', L { "Accession" }, L {})
+                else
+                    return Spell.new('Cure IV', L { "Accession" }, L {})
                 end
-                logger.notice("Choosing to cast: ", cure_spell.spell_name)
-                return cure_spell
             elseif hp_missing > self.cure_settings.Thresholds['Cure III'] then
-                logger.notice("Cure III recast timer: ", spell_util.get_spell_recast(res.spells:with('name', 'Cure III').id))
-                logger.notice("Cure IV recast timer: ", spell_util.get_spell_recast(res.spells:with('name', 'Cure IV').id))
-        
-                local cure_spell = Spell.new('Cure III', L { "Accession" }, L {})
                 if not spell_util.is_spell_on_cooldown(res.spells:with('name', 'Cure IV').id) then
-                    cure_spell = Spell.new('Cure IV', L { "Accession" }, L {})
+                    return Spell.new('Cure IV', L { "Accession" }, L {})
+                else
+                    return Spell.new('Cure III', L { "Accession" }, L {})
                 end
-                logger.notice("Choosing to cast: ", cure_spell.spell_name)
-                return cure_spell
             end
         end
     end
 
     if hp_missing > self.cure_settings.Thresholds['Curaga III'] then
-        logger.notice("Curaga III recast timer: ", spell_util.get_spell_recast(res.spells:with('name', 'Curaga III').id))
-        logger.notice("Curaga IV recast timer: ", spell_util.get_spell_recast(res.spells:with('name', 'Curaga IV').id))
-
-        local cure_spell = Spell.new('Curaga IV', L{}, L{})
         if not spell_util.is_spell_on_cooldown(res.spells:with('name', 'Curaga III').id) then
-            cure_spell = Spell.new('Curaga III', L{}, L{})
+            return Spell.new('Curaga III', L{}, L{})
+        else
+            return Spell.new('Curaga IV', L{}, L{})
         end
-        logger.notice("Choosing to cast: ", cure_spell.spell_name)
-        return cure_spell
     elseif hp_missing > self.cure_settings.Thresholds['Curaga II'] then
-        logger.notice("Curaga II recast timer: ", spell_util.get_spell_recast(res.spells:with('name', 'Curaga II').id))
-        logger.notice("Curaga III recast timer: ", spell_util.get_spell_recast(res.spells:with('name', 'Curaga III').id))
-
-        local cure_spell = Spell.new('Curaga III', L{}, L{})
         if not spell_util.is_spell_on_cooldown(res.spells:with('name', 'Curaga II').id) then
-            cure_spell = Spell.new('Curaga II', L{}, L{})
+            return Spell.new('Curaga II', L{}, L{})
+        else
+            return Spell.new('Curaga III', L{}, L{})
         end
-        logger.notice("Choosing to cast: ", cure_spell.spell_name)
-        return cure_spell
     else
-        logger.notice("Curaga I recast timer: ", spell_util.get_spell_recast(res.spells:with('name', 'Curaga I').id))
-        logger.notice("Curaga II recast timer: ", spell_util.get_spell_recast(res.spells:with('name', 'Curaga II').id))
-
-        local cure_spell = Spell.new('Curaga II', L{}, L{})
-        if not spell_util.is_spell_on_cooldown(res.spells:with('name', 'Curaga').id) then    
-            cure_spell = Spell.new('Curaga', L{}, L{})
+        if not spell_util.is_spell_on_cooldown(res.spells:with('name', 'Curaga').id) then
+            return Spell.new('Curaga', L{}, L{})
+        else
+            return Spell.new('Curaga II', L{}, L{})
         end
-        logger.notice("Choosing to cast: ", cure_spell.spell_name)
-        return cure_spell
     end
 end
 
