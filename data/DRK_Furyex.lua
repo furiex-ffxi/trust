@@ -46,7 +46,7 @@ return {
         JobAbilities = L{
             JobAbility.new('Last Resort', L{InBattleCondition.new()}),
             JobAbility.new('Scarlet Delirium', L{InBattleCondition.new()}),
-    },
+        },
         Debuffs = L {
 
         },
@@ -60,7 +60,7 @@ return {
         JobAbilities = L{
             JobAbility.new('Last Resort', L{InBattleCondition.new()}),
             JobAbility.new('Scarlet Delirium', L{InBattleCondition.new()}),
-    },
+        },
         Debuffs = L {
 
         },

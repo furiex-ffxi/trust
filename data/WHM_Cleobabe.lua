@@ -28,7 +28,7 @@ return {
 
                 }
             },
-            Overcure = true
+            Overcure = false
         },
         JobAbilities = L{
             JobAbility.new('Afflatus Solace', L{}, L{IdleCondition.new()}, nil),

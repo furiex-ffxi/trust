@@ -28,8 +28,8 @@
 
 local defaultSc = {
     spamws = L {
-        "Leaden Salute",
         "Savage Blade",
+        "Leaden Salute",
         "Evisceration"
     },
     starterws = L {
