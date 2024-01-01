@@ -23,7 +23,6 @@ TrustReactions = require('TrustReactions')
 TrustScenarios = require('scenarios/TrustScenarios')
 Reaction = require('data/reactions/Reaction')
 TrustSettingsEditor = require('ui/settings/TrustSettingsEditor')
-TrustMessageView = require('ui/TrustMessageView')
 
 require('Trust-Cylibs-Include')
 

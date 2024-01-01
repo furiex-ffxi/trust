@@ -1,20 +1,7 @@
 _addon.author = 'Cyrite'
 _addon.commands = {'Trust','trust'}
 _addon.name = 'Trust'
-_addon.version = '8.3.0'
-_addon.release_notes = [[
-	• Enhancements to magic bursting for BLM, GEO, RDM, SCH and WHM
-	    • Customize spells used in Trust UI
-	    • Blacklist elements in Trust UI
-	    • Enable AOE spells setting `MagicBurstTargetMode` to `All`
-
-	• Enhancements to free nuking for BLM, GEO, RDM, SCH and WHM
-	    • Customize spells used in Trust UI
-	    • Cleave groups of monsters setting `AutoNukeMode` to `Cleave`
-
-	• Press escape or enter to exit.
-	]]
-_addon.release_url = "https://github.com/cyritegamestudios/trust/releases"
+_addon.version = '8.2.1'
 
 require('Trust-Include')
 
@@ -22,7 +9,6 @@ default = {
 	verbose=true
 }
 
-default.version = '1.0.0'
 default.menu_key = '%^numpad+'
 default.hud = {}
 default.hud.position = {}
@@ -173,7 +159,7 @@ function load_user_files(main_job_id, sub_job_id)
 
 	load_trust_modes(player.main_job_name_short)
 	load_trust_reactions(player.main_job_name_short)
-	load_trust_commands(player.main_job_name_short, player.trust.main_job, action_queue, player.party)
+	load_trust_commands(player.main_job_name_short, player.trust.main_job, action_queue)
 	load_ui()
 
 	main_trust_settings:copySettings()
@@ -184,8 +170,6 @@ function load_user_files(main_job_id, sub_job_id)
 	else
 		handle_stop()
 	end
-
-	check_version()
 end
 
 function load_trust_modes(job_name_short)
@@ -223,7 +207,7 @@ function load_trust_reactions(job_name_short)
 	--trust_reactions:loadReactions()
 end
 
-function load_trust_commands(job_name_short, trust, action_queue, party)
+function load_trust_commands(job_name_short, trust, action_queue)
 	local common_commands = L{
 		AssistCommands.new(trust, action_queue),
 		AttackCommands.new(trust, action_queue),
@@ -231,7 +215,7 @@ function load_trust_commands(job_name_short, trust, action_queue, party)
 		LoggingCommands.new(trust, action_queue),
 		PathCommands.new(trust, action_queue),
 		PullCommands.new(trust, action_queue),
-		ScenarioCommands.new(trust, action_queue, party),
+		ScenarioCommands.new(trust, action_queue),
 		SendAllCommands.new(trust, action_queue),
 		SendCommands.new(trust, action_queue),
 		SkillchainCommands.new(trust, action_queue),
@@ -265,7 +249,7 @@ function load_ui()
 	local Mouse = require('cylibs/ui/input/mouse')
 	Mouse.input():setMouseEventCooldown(settings.click_cooldown or 0.0)
 
-	hud = TrustHud.new(player, action_queue, addon_enabled, 500, 500)
+	hud = TrustHud.new(player, action_queue, addon_enabled, 500, 500, settings)
 
 	local info = windower.get_windower_settings()
 
@@ -367,28 +351,6 @@ function trust_for_job_short(job_name_short, settings, trust_settings, action_qu
 	trust:set_party(party)
 
 	return trust
-end
-
-function check_version()
-	local version = settings.version
-	if version ~= _addon.version then
-		settings.version = _addon.version
-		config.save(settings)
-
-		local Frame = require('cylibs/ui/views/frame')
-
-		local updateView = TrustMessageView.new("Version ".._addon.version, "What's new", _addon.release_notes, "Click here for full release notes.", Frame.new(0, 0, 500, 500))
-
-		updateView:getDelegate():didSelectItemAtIndexPath():addAction(function(indexPath)
-			updateView:getDelegate():deselectItemAtIndexPath(indexPath)
-			windower.open_url(_addon.release_url)
-		end)
-		updateView:setDismissCallback(function()
-			hud:getViewStack():dismiss()
-		end)
-
-		hud:getViewStack():present(updateView)
-	end
 end
 
 -- Helpers

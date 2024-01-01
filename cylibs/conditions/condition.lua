@@ -6,7 +6,6 @@ local serializer_util = require('cylibs/util/serializer_util')
 
 local Condition = {}
 Condition.__index = Condition
-Condition.__class = "Condition"
 
 Condition.Operator = {}
 Condition.Operator.Equals = "=="
@@ -69,7 +68,7 @@ end
 function Condition.check_conditions(conditions, target_index)
     for condition in conditions:it() do
         if not condition:is_satisfied(condition:get_target_index() or target_index) then
-            logger.error(Condition.__class, "Failed", condition:tostring())
+            logger.error("Failed", condition:tostring())
             return false
         end
     end

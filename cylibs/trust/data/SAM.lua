@@ -9,8 +9,7 @@ local SamuraiTrust = setmetatable({}, {__index = Trust })
 SamuraiTrust.__index = SamuraiTrust
 
 local Buffer = require('cylibs/trust/roles/buffer')
-local JobAbilityAction = require('cylibs/actions/job_ability')
-local JobAbility = require('cylibs/battle/abilities/job_ability')
+local JobAbility = require('cylibs/actions/job_ability')
 local job_util = require('cylibs/util/job_util')
 
 function SamuraiTrust.new(settings, action_queue, battle_settings, trust_settings)
@@ -39,13 +38,6 @@ function SamuraiTrust:on_init()
 	end)
 end
 
-function SamuraiTrust:on_role_added(role)
-	Trust.on_role_added(self, role)
-	if role:get_type() == "skillchainer" then
-		role:set_job_abilities(L{ JobAbility.new('Sengikori') })
-	end
-end
-
 function SamuraiTrust:job_target_change(target_index)
 	Trust.job_target_change(self, target_index)
 
@@ -63,12 +55,12 @@ function SamuraiTrust:check_tp()
 	if tp < 1000 then
 		if state.AutoBuffMode.value ~= 'Off' then
 			if job_util.can_use_job_ability('Meditate') then
-				self.action_queue:push_action(JobAbilityAction.new(0, 0, 0, 'Meditate'))
+				self.action_queue:push_action(JobAbility.new(0, 0, 0, 'Meditate'))
 			end
 		end
 	elseif tp > 1500 then
 		if job_util.can_use_job_ability('Sekkanoki') then
-			self.action_queue:push_action(JobAbilityAction.new(0, 0, 0, 'Sekkanoki'))
+			self.action_queue:push_action(JobAbility.new(0, 0, 0, 'Sekkanoki'))
 		end
 	end
 end
