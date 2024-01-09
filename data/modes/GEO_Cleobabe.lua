@@ -21,7 +21,7 @@ return {
         ["autoconvertmode"]="Off",
         ["skillchainprioritymode"]="Prefer",
         ["skillchainpartnermode"]="Off",
-        ["autogeomode"]="Off",
+        ["autogeomode"]="Auto",
         ["combatmode"]="Off",
         ["autofoodmode"]="Off",
         ["engagemode"]="None",

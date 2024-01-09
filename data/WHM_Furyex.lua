@@ -1,7 +1,8 @@
 -- Settings file for WHM
 return {
-    Version = 1,
+    Version = 2,
     Default = {
+        AutoFood = "Tropical Crepe",
         SelfBuffs = L{
             Buff.new("Haste", L{}, L{}, nil, L{}),
             Buff.new("Protectra", L{}, L{}, nil, L{}),
@@ -27,7 +28,8 @@ return {
                 Blacklist = L{
 
                 }
-            }
+            },
+            Overcure = false
         },
         JobAbilities = L{
             JobAbility.new('Afflatus Solace', L{}, L{}, nil),
@@ -36,6 +38,19 @@ return {
             Buff.new("Haste", L{}, L{"WAR", "MNK", "THF", "PLD", "DRK", "SAM", "DRG", "NIN", "PUP", "COR", "DNC", "BLU", "RUN", "BLM", "BRD", "BST"}, nil, L{}),
             Buff.new("Protect", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
             Buff.new("Shell", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        },
+        NukeSettings = {
+            Delay = 10,
+            MinManaPointsPercent = 60,
+            MinNumMobsToCleave = 2,
+            Spells = L{
+                Spell.new('Holy II'),
+                Spell.new('Holy'),
+                Spell.new('Banish III'),
+            },
+            Blacklist = L{
+
+            },
         },
         Skillchains = {
             spamws = L{

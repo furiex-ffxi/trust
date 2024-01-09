@@ -87,6 +87,7 @@ function Pather:perform_next_action()
     if action then
         local dist = math.floor(player_util.distance(player_util.get_player_position(), action:get_position()))
         if dist < 10 then
+        if dist < 20 then
             logger.notice(self.__class, 'perform_next_action', 'current_index', self.current_index, action:tostring())
 
             self.pather_delta:apply()
@@ -95,8 +96,11 @@ function Pather:perform_next_action()
             logger.notice(self.__class, 'perform_next_action', 'current_index', self.current_index, 'too far', action:tostring())
 
             self:get_party():add_to_chat(self:get_party():get_player(), "I can't do that, I'm "..dist.." yalms away from the closest point!")
+            self:set_path(self.path)
+            self:start()
         end
     else
+        logger.notice(self.__class, 'perform_next_action', 'current_index', self.current_index, 'no action found')
         self.pather_delta:remove()
     end
 end

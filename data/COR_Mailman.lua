@@ -48,8 +48,6 @@ local defaultSc = {
     },
     amws = "Leaden Salute",
     tpws = L {
-        "Leaden Salute",
-        "Savage Blade"
     }
 }
   
@@ -91,10 +89,45 @@ return {
         Roll2 = Roll.new("Wizard's Roll", false),
         AutoFood = "Grape Daifuku",
     },
+    Ranged = {
+        Skillchains = {
+            spamws = L {
+                "Last Stand",
+                "Savage Blade",
+                "Evisceration"
+            },
+            starterws = L {
+                "Last Stand",
+            },
+            defaultws = L {
+                "Last Stand",
+                "Savage Blade"
+            },
+            preferws = L {
+                "Last Stand",
+                "Savage Blade"
+            },
+            cleavews = L {
+                "Aeolian Edge"
+            },
+            amws = "Leaden Salute",
+            tpws = L {
+            }
+        },
+        Roll1 = Roll.new("Chaos Roll", true),
+        Roll2 = Roll.new("Samurai Roll", false),
+        AutoFood = "Grape Daifuku",
+    },
     Subtle = {
         Skillchains = defaultSc,
         Roll1 = Roll.new("Monk's Roll", true),
         Roll2 = Roll.new("Samurai Roll", false),
         AutoFood = "Grape Daifuku",
     },
+    Proc = {
+        Skillchains = defaultSc,
+        Roll1 = Roll.new("Samurai Roll", true),
+        Roll2 = Roll.new("Tactician's Roll", false),
+        AutoFood = "Grape Daifuku", 
+    }
 }

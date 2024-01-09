@@ -19,7 +19,7 @@ return {
         ["autofoodmode"]="Off", 
         ["combatmode"]="Off", 
         ["autoenmityreductionmode"]="Off",
-        ["autohealmode"]="Emergency"
+        ["autohealmode"]="Emergency",
     }, 
     ["Lilith"]={
         ["partychatmode"]="Private", 

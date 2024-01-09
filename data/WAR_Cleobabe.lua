@@ -7,10 +7,10 @@ local skillchain = {
         "Judgment"
     },
     starterws = L{
-        "Armor Break"
+        "Full Break"
     },
     defaultws = L{
-        "Armor Break",
+        "Full Break",
         "King's Justice",
         "Upheaval",
         "Ukko's Fury",
@@ -44,7 +44,8 @@ return {
             JobAbility.new('Restraint', L{InBattleCondition.new()}, L{}, nil),
             JobAbility.new('Blood Rage', L{InBattleCondition.new()}, L{}, nil),
             JobAbility.new('Retaliation', L{InBattleCondition.new()}, L{}, nil),
-        }
+        },
+        AutoFood = "Grape Daifuku",
     },
     Melee = {
         Skillchains = skillchain,
@@ -55,6 +56,7 @@ return {
             JobAbility.new('Restraint', L{InBattleCondition.new()}, L{}, nil),
             JobAbility.new('Blood Rage', L{InBattleCondition.new()}, L{}, nil),
             JobAbility.new('Retaliation', L{InBattleCondition.new()}, L{}, nil),
-        }
+        },
+        AutoFood = "Grape Daifuku",
     }    
 }

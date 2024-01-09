@@ -1,9 +1,17 @@
 -- Modes file for WAR
 return {
     ["Ep"]={
+        ["autoskillchainmode"]="Auto", 
+        ["autofollowmode"]="Off", 
+        ["maintrustsettingsmode"]="Melee",
+        ["skillchainprioritymode"]="Strict", 
+    }, 
+    ["Sortie"]={
         ["autoskillchainmode"]="Spam", 
         ["autofollowmode"]="Off", 
-        ["maintrustsettingsmode"]="Melee"
+        ["maintrustsettingsmode"]="Melee",
+        ["autoengagemode"]="Mirror",
+        ["combatmode"]="Mirror",
     }, 
     ["Default"]={
         ["skillchainpartnermode"]="Off", 
@@ -24,11 +32,11 @@ return {
         ["autobuffmode"]="Auto", 
         ["autotrustsmode"]="Auto", 
         ["combatmode"]="Off", 
-        ["ipcmode"]="All", 
         ["autofoodmode"]="Off", 
         ["skillchaindelaymode"]="Off", 
         ["partychatmode"]="Private", 
-        ["autoenmityreductionmode"]="Auto"
+        ["autoenmityreductionmode"]="Auto",
+        ["ipcmode"]="All",
     }, 
     ["Lilith"]={
         ["maintrustsettingsmode"]="Melee", 
@@ -37,7 +45,6 @@ return {
         ["skillchainprioritymode"]="Strict"
     }, 
     ["OdyC"]={
-        ["autotargetmode"]="Auto", 
         ["combatmode"]="Mirror", 
         ["autoengagemode"]="Mirror", 
         ["maintrustsettingsmode"]="OdyC", 

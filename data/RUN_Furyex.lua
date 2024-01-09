@@ -16,6 +16,7 @@ return {
         Skillchains = {
             spamws = L{
                 "Dimidiation",
+                "Resolution",
                 "Savage Blade"
             },
             starterws = L{

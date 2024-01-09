@@ -4,8 +4,8 @@
         <battle>
             <melee_distance>3</melee_distance>
             <range_distance>21</range_distance>
-            <targets>Locus Armet Beetle,Locus Colibri,Locus Dire Bat,Locus Ghost Crab,Locus Camelopard</targets>
-            <trusts>Sylvie (UC),Koru-Moru,Cherukiki,Qultada,Brygid</trusts>
+            <targets>Warder of Prudence,Eschan Hpemde,Warder of Hope,Eschan Phuabo,Warder of Love,Eschan Yovra,Warder of Justice,Eschan Xzomit,Warder of Faith,Eschan Euvhi,Armet Beetle,Locus Colibri,Locus Dire Bat,Locus Ghost Crab,Locus Camelopard,Apex Dragonfly,Locus Dragonfly,Apex Blazer Elytra</targets>
+            <trusts>Sylvie (UC),Cherukiki,Koru-Moru,Qultada,Brygid</trusts>
         </battle>
         <chat>
             <ipc_enabled>true</ipc_enabled>
@@ -30,8 +30,21 @@
         </logging>
         <menu_key>numpad+</menu_key>
         <remote_commands>
-            <whitelist>Cyrite,Wapiti</whitelist>
+            <whitelist>Furyex,Lolababe,Cyrite,Wapiti,Cleobabe,Mailman</whitelist>
         </remote_commands>
         <verbose>true</verbose>
+        <version>1.0.0</version>
     </global>
+    <cleobabe>
+        <version>8.3.0</version>
+    </cleobabe>
+    <furyex>
+        <version>8.3.0</version>
+    </furyex>
+    <lolababe>
+        <version>8.3.0</version>
+    </lolababe>
+    <mailman>
+        <version>8.3.0</version>
+    </mailman>
 </settings>
