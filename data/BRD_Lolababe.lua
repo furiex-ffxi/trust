@@ -1,4 +1,6 @@
 -- Settings file for BRD
+local song_duration = 320
+
 local skillchains = {
     spamws = L {
         "Savage Blade",
@@ -33,6 +35,7 @@ local party_buffs = L {
     Spell.new("Mage's Ballad III", L { "Pianissimo" }, L { "BLM", "WHM", "GEO", "SCH" }, nil, L {}),
     Spell.new("Sage Etude", L { "Pianissimo" }, L { "BLM" }, nil, L {}),
     Spell.new("Knight's Minne V", L { "Pianissimo" }, L { "PLD", "RUN" }, nil, L {}),
+    Spell.new("Sentinel's Scherzo", L { "Pianissimo" }, L { "PLD", "RUN" }, nil, L {}),
     Spell.new("Dragonfoe Mambo", L { "Pianissimo" }, L { "NIN" }, nil, L {}),
 }
 
@@ -44,9 +47,9 @@ local dummy_songs = L {
 
 local songs_kalunga = L {
     Spell.new("Fire Carol II", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
-    Spell.new("Sentinel's Scherzo", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
     Spell.new("Honor March", L { "Marcato" }, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG', 'WHM' }, nil, L {}),
     Spell.new("Blade Madrigal", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
+    Spell.new("Valor Minuet IV", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
     Spell.new("Valor Minuet V", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
 }
 
@@ -65,7 +68,7 @@ return {
         SelfBuffs = L {
 
         },
-        SongDuration = 325,
+        SongDuration = song_duration,
         SongDelay = 6,
         Skillchains = skillchains,
         PartyBuffs = party_buffs,
@@ -88,7 +91,7 @@ return {
         SelfBuffs = L {
 
         },
-        SongDuration = 325,
+        SongDuration = song_duration,
         SongDelay = 6,
         Skillchains = skillchains,
         PartyBuffs = party_buffs,
@@ -110,7 +113,7 @@ return {
         SelfBuffs = L {
 
         },
-        SongDuration = 325,
+        SongDuration = song_duration,
         SongDelay = 6,
         Skillchains = skillchains,
         PartyBuffs = party_buffs,
@@ -132,7 +135,7 @@ return {
         SelfBuffs = L {
 
         },
-        SongDuration = 325,
+        SongDuration = song_duration,
         SongDelay = 6,
         Skillchains = skillchains,
         PartyBuffs = party_buffs,
@@ -154,7 +157,7 @@ return {
         SelfBuffs = L {
 
         },
-        SongDuration = 325,
+        SongDuration = song_duration,
         SongDelay = 6,
         Skillchains = skillchains,
         PartyBuffs = party_buffs,
@@ -170,7 +173,7 @@ return {
         SelfBuffs = L {
 
         },
-        SongDuration = 325,
+        SongDuration = song_duration,
         SongDelay = 6,
         Skillchains = skillchains,
         PartyBuffs = party_buffs,
@@ -186,7 +189,7 @@ return {
         SelfBuffs = L {
 
         },
-        SongDuration = 325,
+        SongDuration = song_duration,
         SongDelay = 6,
         Skillchains = skillchains,
         PartyBuffs = party_buffs,

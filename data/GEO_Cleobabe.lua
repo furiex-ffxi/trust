@@ -10,7 +10,7 @@ return {
 
         },
         PartyBuffs = L{
-            Spell.new("Indi-STR", L{"Entrust"}, L{"DRK", "SAM", "WAR", "MNK","RDM", "COR"}, nil, L{}),
+            Spell.new("Indi-VIT", L{"Entrust"}, L{"DRK", "SAM", "WAR", "MNK","RDM", "COR"}, nil, L{}),
         },
         NukeSettings = {
             Delay = 4,
@@ -62,8 +62,8 @@ return {
             }
         },
         Geomancy = {
-            Indi = Spell.new("Indi-Acumen", L{}, L{}, nil, L{}),
-            Geo = Spell.new("Geo-Torpor", L{}, L{}, "bt", L{})
+            Indi = Spell.new("Indi-Fury", L{}, L{}, nil, L{}),
+            Geo = Spell.new("Geo-Frailty", L{}, L{}, "bt", L{})
         }
     }
 }

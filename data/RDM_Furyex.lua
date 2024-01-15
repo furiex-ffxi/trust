@@ -1,6 +1,13 @@
 -- Settings file for RDM
 return {
     Subjob = {
+        SelfBuffs = L{
+            Buff.new("Refresh", L{}, L{}, nil, L{SpellRecastReadyCondition.new(894)}),
+            Buff.new("Haste", L{}, L{}, nil, L{SpellRecastReadyCondition.new(511)}),
+            Spell.new("Phalanx", L{}, nil, nil, L{SpellRecastReadyCondition.new(106)}),
+            Buff.new("Protect", L{}, L{}, nil, L{SpellRecastReadyCondition.new(47)}),
+            Buff.new("Shell", L{}, L{}, nil, L{SpellRecastReadyCondition.new(52)})
+        },
         Debuffs = L{
             Debuff.new("Dia", L{}),
             Debuff.new("Distract", L{}),
@@ -8,13 +15,6 @@ return {
             Debuff.new("Paralyze", L{}),
             Debuff.new("Addle", L{}),
             Debuff.new("Frazzle", L{})
-        },
-        SelfBuffs = L{
-            Buff.new("Refresh", L{}, L{}, nil, L{SpellRecastReadyCondition.new(894)}),
-            Buff.new("Haste", L{}, L{}, nil, L{SpellRecastReadyCondition.new(511)}),
-            Spell.new("Phalanx", L{}, nil, nil, L{SpellRecastReadyCondition.new(106)}),
-            Buff.new("Protect", L{}, L{}, nil, L{SpellRecastReadyCondition.new(47)}),
-            Buff.new("Shell", L{}, L{}, nil, L{SpellRecastReadyCondition.new(52)})
         },
         CureSettings = {
             Thresholds = {
@@ -29,7 +29,11 @@ return {
         JobAbilities = L{
             JobAbility.new("Composure", L{JobAbilityRecastReadyCondition.new("Composure")}, L{})
         },
-        AutoFood = "Grape Daifuku",
+        PartyBuffs = L{
+            Buff.new("Refresh", L{}, L{"DRK", "PUP", "PLD", "BLU", "BLM", "BRD", "GEO", "SMN", "WHM", "RUN"}, nil, L{SpellRecastReadyCondition.new(894)}),
+            Buff.new("Haste", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "GEO", "SCH", "BLM", "COR", "RNG"}, nil, L{SpellRecastReadyCondition.new(511)}),
+            Spell.new("Phalanx II", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "GEO"}, nil, L{InBattleCondition.new(), SpellRecastReadyCondition.new(107)})
+        },
         NukeSettings = {
             MinNumMobsToCleave = 2,
             MinManaPointsPercent = 40,
@@ -89,18 +93,10 @@ return {
                 "Realmrazer"
             }
         },
-        PartyBuffs = L{
-            Buff.new("Refresh", L{}, L{"DRK", "PUP", "PLD", "BLU", "BLM", "BRD", "GEO", "SMN", "WHM", "RUN"}, nil, L{SpellRecastReadyCondition.new(894)}),
-            Buff.new("Haste", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "GEO", "SCH", "BLM", "COR", "RNG"}, nil, L{SpellRecastReadyCondition.new(511)}),
-            Spell.new("Phalanx II", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "GEO"}, nil, L{InBattleCondition.new(), SpellRecastReadyCondition.new(107)})
-        }
+        AutoFood = "Grape Daifuku"
     },
     Version = 2,
     Melee = {
-        Debuffs = L{
-            Debuff.new("Dia", L{}),
-            Debuff.new("Distract", L{})
-        },
         SelfBuffs = L{
             Buff.new("Enblizzard", L{}, L{}, nil, L{SpellRecastReadyCondition.new(101)}),
             Spell.new("Enblizzard", L{}, L{}, nil, L{InBattleCondition.new(), SpellRecastReadyCondition.new(101)}),
@@ -117,6 +113,10 @@ return {
             Buff.new("Temper", L{}, L{}, nil, L{InBattleCondition.new(), SpellRecastReadyCondition.new(895)}),
             Buff.new("Temper", L{}, L{}, nil, L{SpellRecastReadyCondition.new(895)})
         },
+        Debuffs = L{
+            Debuff.new("Dia", L{}),
+            Debuff.new("Distract", L{})
+        },
         CureSettings = {
             Thresholds = {
                 ["Cure IV"] = 1000,
@@ -130,7 +130,13 @@ return {
         JobAbilities = L{
             JobAbility.new("Composure", L{JobAbilityRecastReadyCondition.new("Composure")}, L{})
         },
-        AutoFood = "Grape Daifuku",
+        PartyBuffs = L{
+            Buff.new("Haste", L{}, L{"COR", "RNG", "WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "GEO", "SCH", "BLM", "RNG"}, nil, L{SpellRecastReadyCondition.new(511)}),
+            Spell.new("Phalanx II", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "GEO"}, nil, L{InBattleCondition.new(), SpellRecastReadyCondition.new(107)}),
+            Buff.new("Protect", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{SpellRecastReadyCondition.new(47)}),
+            Buff.new("Refresh", L{}, L{"DRK", "PUP", "PLD", "BLU", "BLM", "BRD", "GEO", "SMN", "WHM", "RUN"}, nil, L{SpellRecastReadyCondition.new(894)}),
+            Buff.new("Shell", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{SpellRecastReadyCondition.new(52)})
+        },
         NukeSettings = {
             MinNumMobsToCleave = 2,
             MinManaPointsPercent = 40,
@@ -185,16 +191,11 @@ return {
             amws = "Death Blossom",
             preferws = L{
                 "Death Blossom",
-                "Savage Blade",
                 "Black Halo",
                 "Realmrazer"
             }
         },
-        PartyBuffs = L{
-            Buff.new("Refresh", L{}, L{"DRK", "PUP", "PLD", "BLU", "BLM", "BRD", "GEO", "SMN", "WHM", "RUN"}, nil, L{SpellRecastReadyCondition.new(894)}),
-            Buff.new("Haste", L{}, L{"COR", "RNG", "WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "GEO", "SCH", "BLM", "RNG"}, nil, L{SpellRecastReadyCondition.new(511)}),
-            Spell.new("Phalanx II", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "GEO"}, nil, L{InBattleCondition.new(), SpellRecastReadyCondition.new(107)})
-        }
+        AutoFood = "Grape Daifuku"
     },
     Sanguine = {
         SelfBuffs = L{
@@ -219,7 +220,16 @@ return {
             Debuff.new("Dia", L{}),
             Debuff.new("Frazzle", L{})
         },
-        AutoFood = "Grape Daifuku",
+        PartyBuffs = L{
+            Buff.new("Haste", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{SpellRecastReadyCondition.new(511)}),
+            Buff.new("Haste", L{}, L{"COR", "RNG", "WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "GEO", "SCH", "BLM", "RNG"}, nil, L{SpellRecastReadyCondition.new(511)}),
+            Buff.new("Phalanx", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{SpellRecastReadyCondition.new(106)}),
+            Spell.new("Phalanx II", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "GEO"}, nil, L{InBattleCondition.new(), SpellRecastReadyCondition.new(107)}),
+            Buff.new("Protect", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{SpellRecastReadyCondition.new(47)}),
+            Buff.new("Refresh", L{}, L{"DRK", "PUP", "PLD", "BLU", "BLM", "BRD", "GEO", "SMN", "WHM", "RUN"}, nil, L{SpellRecastReadyCondition.new(894)}),
+            Buff.new("Refresh", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{SpellRecastReadyCondition.new(894)}),
+            Buff.new("Shell", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{SpellRecastReadyCondition.new(52)})
+        },
         NukeSettings = {
             MinNumMobsToCleave = 2,
             MinManaPointsPercent = 40,
@@ -269,25 +279,9 @@ return {
                 "Sanguine Blade"
             }
         },
-        PartyBuffs = L{
-            Buff.new("Haste", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{SpellRecastReadyCondition.new(511)}),
-            Buff.new("Haste", L{}, L{"COR", "RNG", "WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "GEO", "SCH", "BLM", "RNG"}, nil, L{SpellRecastReadyCondition.new(511)}),
-            Buff.new("Phalanx", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{SpellRecastReadyCondition.new(106)}),
-            Spell.new("Phalanx II", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "GEO"}, nil, L{InBattleCondition.new(), SpellRecastReadyCondition.new(107)}),
-            Buff.new("Protect", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{SpellRecastReadyCondition.new(47)}),
-            Buff.new("Refresh", L{}, L{"DRK", "PUP", "PLD", "BLU", "BLM", "BRD", "GEO", "SMN", "WHM", "RUN"}, nil, L{SpellRecastReadyCondition.new(894)}),
-            Buff.new("Refresh", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{SpellRecastReadyCondition.new(894)}),
-            Buff.new("Shell", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{SpellRecastReadyCondition.new(52)})
-        }
+        AutoFood = "Grape Daifuku"
     },
     Default = {
-        Debuffs = L{
-            Debuff.new("Distract", L{}),
-            Debuff.new("Slow", L{}),
-            Debuff.new("Paralyze", L{}),
-            Debuff.new("Addle", L{}),
-            Debuff.new("Frazzle", L{})
-        },
         SelfBuffs = L{
             Buff.new("Refresh", L{}, L{}, nil, L{SpellRecastReadyCondition.new(894)}),
             Buff.new("Haste", L{}, L{}, nil, L{SpellRecastReadyCondition.new(511)}),
@@ -297,6 +291,13 @@ return {
             Spell.new("Phalanx", L{}, nil, nil, L{SpellRecastReadyCondition.new(106)}),
             Buff.new("Protect", L{}, L{}, nil, L{SpellRecastReadyCondition.new(47)}),
             Buff.new("Shell", L{}, L{}, nil, L{SpellRecastReadyCondition.new(52)})
+        },
+        Debuffs = L{
+            Debuff.new("Distract", L{}),
+            Debuff.new("Slow", L{}),
+            Debuff.new("Paralyze", L{}),
+            Debuff.new("Addle", L{}),
+            Debuff.new("Frazzle", L{})
         },
         CureSettings = {
             Thresholds = {
@@ -311,7 +312,12 @@ return {
         JobAbilities = L{
             JobAbility.new("Composure", L{JobAbilityRecastReadyCondition.new("Composure")}, L{})
         },
-        AutoFood = "Grape Daifuku",
+        PartyBuffs = L{
+            Buff.new("Haste", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{SpellRecastReadyCondition.new(511)}),
+            Buff.new("Phalanx", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{SpellRecastReadyCondition.new(106)}),
+            Buff.new("Protect", L{}, L{}, nil, L{SpellRecastReadyCondition.new(47)}),
+            Buff.new("Shell", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{SpellRecastReadyCondition.new(52)})
+        },
         NukeSettings = {
             MinNumMobsToCleave = 2,
             MinManaPointsPercent = 40,
@@ -365,17 +371,9 @@ return {
             },
             amws = "Death Blossom",
             preferws = L{
-                "Death Blossom",
-                "Savage Blade",
-                "Black Halo",
-                "Realmrazer"
+                "Chant du Cygne"
             }
         },
-        PartyBuffs = L{
-            Buff.new("Haste", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{SpellRecastReadyCondition.new(511)}),
-            Buff.new("Phalanx", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{SpellRecastReadyCondition.new(106)}),
-            Buff.new("Protect", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{SpellRecastReadyCondition.new(47)}),
-            Buff.new("Shell", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{SpellRecastReadyCondition.new(52)})
-        }
+        AutoFood = "Grape Daifuku"
     }
 }

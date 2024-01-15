@@ -2,17 +2,13 @@
 return {
     Version = 2,
     Default = {
-        AutoFood = "Grape Daifuku",
-        SelfBuffs = L{
-            Buff.new("Refresh", L{}, L{}, nil, L{}),
-            Buff.new("Haste", L{}, L{}, nil, L{}),
-            Buff.new("Temper", L{}, L{}, nil, L{InBattleCondition.new()}),
-            Spell.new("Enblizzard", L{}, L{}, nil, L{InBattleCondition.new()}),
-            Spell.new("Gain-INT", L{}, L{}, nil, L{IdleCondition.new()}),
-            Spell.new("Gain-STR", L{}, L{}, nil, L{InBattleCondition.new()}),
-            Spell.new("Phalanx", L{}, nil, nil, L{}),
-            Buff.new("Protect", L{}, L{}, nil, L{}),
-            Buff.new("Shell", L{}, L{}, nil, L{})
+        PartyBuffs = L{
+            Buff.new("Haste", L{}, L{"COR"}, nil, L{InBattleCondition.new(), SpellRecastReadyCondition.new(57)}),
+            Buff.new("Haste", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "GEO", "SCH", "BLM"}, nil, L{SpellRecastReadyCondition.new(57)}),
+            Spell.new("Phalanx II", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "GEO"}, nil, L{InBattleCondition.new(), SpellRecastReadyCondition.new(107)})
+        },
+        Debuffs = L{
+            Debuff.new("Dia", L{})
         },
         CureSettings = {
             Thresholds = {
@@ -25,42 +21,36 @@ return {
             Delay = 2
         },
         JobAbilities = L{
-            JobAbility.new('Composure', L{}, L{}, nil),
+            JobAbility.new("Composure", L{JobAbilityRecastReadyCondition.new("Composure")}, L{})
         },
-        PartyBuffs = L{
-            Buff.new("Refresh", L{}, L{"DRK", "PUP", "PLD", "BLU", "BLM", "BRD", "GEO", "SMN", "WHM", "RUN"}, nil, L{}),
-            Buff.new("Haste", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "GEO", "SCH", "BLM"}, nil, L{}),
-            Buff.new("Haste", L{}, L{"COR"}, nil, L{InBattleCondition.new()}),
-            Buff.new("Flurry", L{}, L{"RNG", "COR"}, nil, L{IdleCondition.new()}),
-            Spell.new("Phalanx II", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "GEO"}, nil, L{InBattleCondition.new()})
-        },
+        AutoFood = "Grape Daifuku",
         NukeSettings = {
-            Delay = 4,
-            MinManaPointsPercent = 40,
             MinNumMobsToCleave = 2,
+            MinManaPointsPercent = 40,
             Spells = L{
-                Spell.new('Thunder V'),
-                Spell.new('Thunder IV'),
-                Spell.new('Thunder III'),
-                Spell.new('Blizzard V'),
-                Spell.new('Blizzard IV'),
-                Spell.new('Blizzard III'),
-                Spell.new('Fire V'),
-                Spell.new('Fire IV'),
-                Spell.new('Fire III'),
-                Spell.new('Aero V'),
-                Spell.new('Aero IV'),
-                Spell.new('Aero III'),
-                Spell.new('Water V'),
-                Spell.new('Water IV'),
-                Spell.new('Water III'),
-                Spell.new('Stone V'),
-                Spell.new('Stone IV'),
-                Spell.new('Stone III'),
+                Spell.new("Thunder V", L{}, nil, nil, L{SpellRecastReadyCondition.new(168)}),
+                Spell.new("Thunder IV", L{}, nil, nil, L{SpellRecastReadyCondition.new(167)}),
+                Spell.new("Thunder III", L{}, nil, nil, L{SpellRecastReadyCondition.new(166)}),
+                Spell.new("Blizzard V", L{}, nil, nil, L{SpellRecastReadyCondition.new(153)}),
+                Spell.new("Blizzard IV", L{}, nil, nil, L{SpellRecastReadyCondition.new(152)}),
+                Spell.new("Blizzard III", L{}, nil, nil, L{SpellRecastReadyCondition.new(151)}),
+                Spell.new("Fire V", L{}, nil, nil, L{SpellRecastReadyCondition.new(148)}),
+                Spell.new("Fire IV", L{}, nil, nil, L{SpellRecastReadyCondition.new(147)}),
+                Spell.new("Fire III", L{}, nil, nil, L{SpellRecastReadyCondition.new(146)}),
+                Spell.new("Aero V", L{}, nil, nil, L{SpellRecastReadyCondition.new(158)}),
+                Spell.new("Aero IV", L{}, nil, nil, L{SpellRecastReadyCondition.new(157)}),
+                Spell.new("Aero III", L{}, nil, nil, L{SpellRecastReadyCondition.new(156)}),
+                Spell.new("Water V", L{}, nil, nil, L{SpellRecastReadyCondition.new(173)}),
+                Spell.new("Water IV", L{}, nil, nil, L{SpellRecastReadyCondition.new(172)}),
+                Spell.new("Water III", L{}, nil, nil, L{SpellRecastReadyCondition.new(171)}),
+                Spell.new("Stone V", L{}, nil, nil, L{SpellRecastReadyCondition.new(163)}),
+                Spell.new("Stone IV", L{}, nil, nil, L{SpellRecastReadyCondition.new(162)}),
+                Spell.new("Stone III", L{}, nil, nil, L{SpellRecastReadyCondition.new(161)})
             },
+            Delay = 4,
             Blacklist = L{
 
-            },
+            }
         },
         Skillchains = {
             spamws = L{
@@ -92,8 +82,15 @@ return {
                 "Savage Blade"
             }
         },
-        Debuffs = L{
-            Debuff.new("Distract", L{})
+        SelfBuffs = L{
+            Spell.new("Enblizzard", L{}, L{}, nil, L{InBattleCondition.new(), SpellRecastReadyCondition.new(101)}),
+            Spell.new("Gain-INT", L{}, L{}, nil, L{IdleCondition.new(), SpellRecastReadyCondition.new(490)}),
+            Spell.new("Gain-STR", L{}, L{}, nil, L{InBattleCondition.new(), SpellRecastReadyCondition.new(486)}),
+            Buff.new("Haste", L{}, L{}, nil, L{SpellRecastReadyCondition.new(57)}),
+            Spell.new("Phalanx", L{}, nil, nil, L{SpellRecastReadyCondition.new(106)}),
+            Buff.new("Protect", L{}, L{}, nil, L{SpellRecastReadyCondition.new(45)}),
+            Buff.new("Shell", L{}, L{}, nil, L{SpellRecastReadyCondition.new(49)}),
+            Buff.new("Stoneskin", L{}, L{}, nil, L{SpellRecastReadyCondition.new(54)})
         }
     }
 }

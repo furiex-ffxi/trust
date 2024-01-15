@@ -36,15 +36,15 @@
         <version>1.0.0</version>
     </global>
     <cleobabe>
-        <version>8.3.0</version>
+        <version>8.3.2</version>
     </cleobabe>
     <furyex>
-        <version>8.3.0</version>
+        <version>8.3.2</version>
     </furyex>
     <lolababe>
-        <version>8.3.0</version>
+        <version>8.3.2</version>
     </lolababe>
     <mailman>
-        <version>8.3.0</version>
+        <version>8.3.2</version>
     </mailman>
 </settings>

@@ -1,5 +1,54 @@
 -- Settings file for DRK
 return {
+    Melee = {
+        SelfBuffs = L{
+            Spell.new("Absorb-VIT", L{"Dark Seal", "Nether Void"}, L{}, "bt", L{}),
+        },
+        JobAbilities = L{
+            JobAbility.new("Last Resort", L{InBattleCondition.new(), JobAbilityRecastReadyCondition.new("Last Resort")}),
+            JobAbility.new("Scarlet Delirium", L{InBattleCondition.new(), JobAbilityRecastReadyCondition.new("Scarlet Delirium")})
+        },
+        Skillchains = {
+            spamws = L{
+                "Cross Reaper",
+                "Catastrophe",
+                "Torcleaver",
+                "Entropy",
+                "Judgment",
+                "Savage Blade"
+            },
+            starterws = L{
+                "Torcleaver",
+                "Catastrophe",
+                "Cross Reaper",
+                "Entropy"
+            },
+            defaultws = L{
+                "Cross Reaper",
+                "Torcleaver"
+            },
+            preferws = L{
+                "Catastrophe",
+                "Torcleaver",
+                "Insurgency",
+                "Entropy",
+                "Cross Reaper",
+                "Quietus"
+            },
+            cleavews = L{
+                "Fell Cleave"
+            },
+            amws = "Insurgency",
+            tpws = L{
+
+            }
+        },
+        Debuffs = L{
+
+        },
+        AutoFood = "Grape Daifuku"
+    },
+    Version = 1,
     Default = {
         SelfBuffs = L{
             Spell.new("Drain III", L{}, L{}, "bt", L{SpellRecastReadyCondition.new(880)}),
@@ -27,15 +76,9 @@ return {
                 "Entropy"
             },
             defaultws = L{
-                "Cross Reaper"
+                "Cross Reaper",
+                "Torcleaver"
             },
-            tpws = L{
-
-            },
-            cleavews = L{
-                "Fell Cleave"
-            },
-            amws = "Insurgency",
             preferws = L{
                 "Catastrophe",
                 "Torcleaver",
@@ -43,61 +86,20 @@ return {
                 "Entropy",
                 "Cross Reaper",
                 "Quietus"
-            }
-        },
-        AutoFood = "Grape Daifuku",
-        Debuffs = L{
-
-        }
-    },
-    Melee = {
-        SelfBuffs = L{
-
-        },
-        JobAbilities = L{
-            JobAbility.new("Last Resort", L{InBattleCondition.new(), JobAbilityRecastReadyCondition.new("Last Resort")}),
-            JobAbility.new("Scarlet Delirium", L{InBattleCondition.new(), JobAbilityRecastReadyCondition.new("Scarlet Delirium")})
-        },
-        Skillchains = {
-            spamws = L{
-                "Cross Reaper",
-                "Catastrophe",
-                "Torcleaver",
-                "Entropy",
-                "Judgment",
-                "Savage Blade"
-            },
-            starterws = L{
-                "Torcleaver",
-                "Catastrophe",
-                "Cross Reaper",
-                "Entropy"
-            },
-            defaultws = L{
-                "Cross Reaper"
-            },
-            tpws = L{
-
             },
             cleavews = L{
                 "Fell Cleave"
             },
             amws = "Insurgency",
-            preferws = L{
-                "Catastrophe",
-                "Torcleaver",
-                "Insurgency",
-                "Entropy",
-                "Cross Reaper",
-                "Quietus"
+            tpws = L{
+
             }
         },
-        AutoFood = "Grape Daifuku",
         Debuffs = L{
 
-        }
+        },
+        AutoFood = "Grape Daifuku"
     },
-    Version = 1,
     OdyC = {
         SelfBuffs = L{
 
@@ -122,15 +124,9 @@ return {
                 "Entropy"
             },
             defaultws = L{
-                "Cross Reaper"
+                "Cross Reaper",
+                "Torcleaver"
             },
-            tpws = L{
-
-            },
-            cleavews = L{
-                "Fell Cleave"
-            },
-            amws = "Insurgency",
             preferws = L{
                 "Catastrophe",
                 "Torcleaver",
@@ -138,11 +134,18 @@ return {
                 "Entropy",
                 "Cross Reaper",
                 "Quietus"
+            },
+            cleavews = L{
+                "Fell Cleave"
+            },
+            amws = "Insurgency",
+            tpws = L{
+
             }
         },
-        AutoFood = "Grape Daifuku",
         Debuffs = L{
 
-        }
+        },
+        AutoFood = "Grape Daifuku"
     }
 }

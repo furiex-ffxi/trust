@@ -95,5 +95,13 @@ return {
         ["autoengagemode"]="Mirror", 
         ["combatmode"]="Mirror", 
         ["autoshootmode"]="Off", 
-    }
+    },
+    ["Ep"]={
+        ["autodispelmode"]="Off", 
+        ["autorollmode"]="Auto", 
+        ["autofollowmode"]="Off", 
+        ["maintrustsettingsmode"]="Ep",
+        ["autoskillchainmode"]="Spam", 
+        ["skillchainprioritymode"]="Off", 
+    }, 
 }

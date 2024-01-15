@@ -6,6 +6,7 @@ return {
         ["autoraisemode"]="Off",
         ["autobuffmode"]="Off",
         ["autodebuffmode"]="Off",
+        ["autofacemobmode"]="Off",
         ["autosilencemode"]="Off",
         ["autopullmode"]="Off",
         ["autohealmode"]="Emergency",
@@ -14,5 +15,6 @@ return {
         ["autofoodmode"]="Off",
         ["autobarspellmode"]="Off",
         ["autotrustsmode"]="Off",
+        ["autostepmode"]="Off",
     },
 }

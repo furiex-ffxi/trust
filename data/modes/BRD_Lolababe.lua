@@ -2,7 +2,6 @@
 return {
     ["Ep"]={
         ["partychatmode"]="Private", 
-        ["autofoodmode"]="Auto", 
         ["autoclarioncallmode"]="Auto", 
         ["ipcmode"]="All", 
         ["autoengagemode"]="Always", 
