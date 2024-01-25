@@ -11,6 +11,9 @@
             <ipc_enabled>true</ipc_enabled>
         </chat>
         <click_cooldown>0</click_cooldown>
+        <donate>
+            <url>https://www.buymeacoffee.com/cyrite</url>
+        </donate>
         <follow>
             <distance>1</distance>
         </follow>
@@ -36,15 +39,15 @@
         <version>1.0.0</version>
     </global>
     <cleobabe>
-        <version>8.3.2</version>
+        <version>8.4.1</version>
     </cleobabe>
     <furyex>
-        <version>8.3.2</version>
+        <version>8.4.1</version>
     </furyex>
     <lolababe>
-        <version>8.3.2</version>
+        <version>8.4.1</version>
     </lolababe>
     <mailman>
-        <version>8.3.2</version>
+        <version>8.4.1</version>
     </mailman>
 </settings>
