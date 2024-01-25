@@ -36,7 +36,7 @@ return {
             }
         },
         SelfBuffs = L{
-            Spell.new("Utsusemi: Ni", L{}, L{}, nil, L{})
+            -- Spell.new("Utsusemi: Ni", L{}, L{}, nil, L{})
         },
         JobAbilities = L{
             JobAbility.new('Yonin', L{}, L{InBattleCondition.new()}, nil),

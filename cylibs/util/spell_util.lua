@@ -18,7 +18,8 @@ _libs.spell_util = spell_util
 
 -- Spells that come from things like items
 local spells_whitelist = L{
-    'Honor March'
+    'Honor March',
+    'Aria of Passion'
 }
 
 local aoe_spells = L{

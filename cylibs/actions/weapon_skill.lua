@@ -160,6 +160,9 @@ function WeaponSkillAction:is_equal(action)
 end
 
 function WeaponSkillAction:tostring()
+	if self:get_target() == nil then
+		return self:get_weapon_skill_name()
+	end
 	return self:get_weapon_skill_name()..' → '..self:get_target().name
 end
 

@@ -1,52 +1,54 @@
 -- Settings file for DRK
+local default_sc = {
+    spamws = L{
+        "Cross Reaper",
+        "Catastrophe",
+        "Torcleaver",
+        "Entropy",
+        "Judgment",
+        "Savage Blade"
+    },
+    starterws = L{
+        "Torcleaver",
+        "Catastrophe",
+        "Cross Reaper",
+        "Entropy"
+    },
+    defaultws = L{
+        "Cross Reaper",
+        "Torcleaver"
+    },
+    tpws = L{
+
+    },
+    cleavews = L{
+        "Fell Cleave"
+    },
+    amws = "Insurgency",
+    preferws = L{
+        "Catastrophe",
+        "Torcleaver",
+        "Insurgency",
+        "Entropy",
+        "Cross Reaper",
+        "Quietus"
+    }
+}
+
 return {
     Melee = {
         SelfBuffs = L{
-            Spell.new("Absorb-VIT", L{"Dark Seal", "Nether Void"}, L{}, "bt", L{}),
+            Spell.new("Absorb-VIT", L{"Dark Seal", "Nether Void"}, L{}, "bt", L{SpellRecastReadyCondition.new(268)})
         },
         JobAbilities = L{
             JobAbility.new("Last Resort", L{InBattleCondition.new(), JobAbilityRecastReadyCondition.new("Last Resort")}),
             JobAbility.new("Scarlet Delirium", L{InBattleCondition.new(), JobAbilityRecastReadyCondition.new("Scarlet Delirium")})
         },
-        Skillchains = {
-            spamws = L{
-                "Cross Reaper",
-                "Catastrophe",
-                "Torcleaver",
-                "Entropy",
-                "Judgment",
-                "Savage Blade"
-            },
-            starterws = L{
-                "Torcleaver",
-                "Catastrophe",
-                "Cross Reaper",
-                "Entropy"
-            },
-            defaultws = L{
-                "Cross Reaper",
-                "Torcleaver"
-            },
-            preferws = L{
-                "Catastrophe",
-                "Torcleaver",
-                "Insurgency",
-                "Entropy",
-                "Cross Reaper",
-                "Quietus"
-            },
-            cleavews = L{
-                "Fell Cleave"
-            },
-            amws = "Insurgency",
-            tpws = L{
-
-            }
-        },
+        Skillchains = default_sc,
+        AutoFood = "Grape Daifuku",
         Debuffs = L{
 
-        },
-        AutoFood = "Grape Daifuku"
+        }
     },
     Version = 1,
     Default = {
@@ -60,45 +62,11 @@ return {
             JobAbility.new("Last Resort", L{InBattleCondition.new(), JobAbilityRecastReadyCondition.new("Last Resort")}),
             JobAbility.new("Scarlet Delirium", L{InBattleCondition.new(), JobAbilityRecastReadyCondition.new("Scarlet Delirium")})
         },
-        Skillchains = {
-            spamws = L{
-                "Cross Reaper",
-                "Catastrophe",
-                "Torcleaver",
-                "Entropy",
-                "Judgment",
-                "Savage Blade"
-            },
-            starterws = L{
-                "Torcleaver",
-                "Catastrophe",
-                "Cross Reaper",
-                "Entropy"
-            },
-            defaultws = L{
-                "Cross Reaper",
-                "Torcleaver"
-            },
-            preferws = L{
-                "Catastrophe",
-                "Torcleaver",
-                "Insurgency",
-                "Entropy",
-                "Cross Reaper",
-                "Quietus"
-            },
-            cleavews = L{
-                "Fell Cleave"
-            },
-            amws = "Insurgency",
-            tpws = L{
-
-            }
-        },
+        Skillchains = default_sc,
+        AutoFood = "Grape Daifuku",
         Debuffs = L{
 
-        },
-        AutoFood = "Grape Daifuku"
+        }
     },
     OdyC = {
         SelfBuffs = L{
@@ -108,44 +76,44 @@ return {
             JobAbility.new("Last Resort", L{InBattleCondition.new(), JobAbilityRecastReadyCondition.new("Last Resort")}),
             JobAbility.new("Scarlet Delirium", L{InBattleCondition.new(), JobAbilityRecastReadyCondition.new("Scarlet Delirium")})
         },
+        Skillchains = default_sc,
+        AutoFood = "Grape Daifuku",
+        Debuffs = L{
+
+        }
+    },
+    Light = {
+        SelfBuffs = L{
+
+        },
+        JobAbilities = L{
+            JobAbility.new("Last Resort", L{InBattleCondition.new(), JobAbilityRecastReadyCondition.new("Last Resort")}),
+            JobAbility.new("Scarlet Delirium", L{InBattleCondition.new(), JobAbilityRecastReadyCondition.new("Scarlet Delirium")})
+        },
         Skillchains = {
             spamws = L{
-                "Cross Reaper",
-                "Catastrophe",
-                "Torcleaver",
-                "Entropy",
-                "Judgment",
-                "Savage Blade"
+                "Insurgency",
             },
             starterws = L{
-                "Torcleaver",
-                "Catastrophe",
-                "Cross Reaper",
-                "Entropy"
+                "Insurgency",
             },
             defaultws = L{
-                "Cross Reaper",
-                "Torcleaver"
-            },
-            preferws = L{
-                "Catastrophe",
-                "Torcleaver",
                 "Insurgency",
-                "Entropy",
-                "Cross Reaper",
-                "Quietus"
+            },
+            tpws = L{
+        
             },
             cleavews = L{
                 "Fell Cleave"
             },
             amws = "Insurgency",
-            tpws = L{
-
+            preferws = L{
+                "Insurgency",
             }
         },
+        AutoFood = "Grape Daifuku",
         Debuffs = L{
 
-        },
-        AutoFood = "Grape Daifuku"
-    }
+        }
+    },
 }

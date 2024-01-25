@@ -1,5 +1,5 @@
 -- Settings file for BRD
-local song_duration = 320
+local song_duration = 325
 
 local skillchains = {
     spamws = L {
@@ -78,11 +78,11 @@ return {
             Spell.new("Pining Nocturne", L {}, nil, nil, L {})
         },
         Songs = L {
-            Spell.new("Honor March", L { "Marcato" }, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG', 'WHM' }, nil, L {}),
-            Spell.new("Blade Madrigal", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
-            Spell.new("Valor Minuet IV", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
-            Spell.new("Victory March", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
-            Spell.new("Valor Minuet III", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {})
+            Spell.new("Valor Minuet IV", L { "Marcato" }, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG', 'WHM' }, nil, L {}),
+            Spell.new("Valor Minuet V", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
+            Spell.new("Wind Carol II", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
+            Spell.new("Honor March", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
+            Spell.new("Sentinel's Scherzo", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {})
         },
         AutoFood = "Grape Daifuku",
     },
@@ -102,9 +102,9 @@ return {
         Songs = L {
             Spell.new("Honor March", L { "Marcato" }, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG', 'WHM' }, nil, L {}),
             Spell.new("Blade Madrigal", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
-            Spell.new("Valor Minuet IV", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
             Spell.new("Valor Minuet V", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
-            Spell.new("Valor Minuet III", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {})
+            Spell.new("Valor Minuet IV", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
+            Spell.new("Valor Minuet III", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
         },
         AutoFood = "Grape Daifuku",
     },
@@ -203,6 +203,29 @@ return {
             Spell.new("Blade Madrigal", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG', }, nil, L {}),
             Spell.new("Sword Madrigal", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
             Spell.new("Knight's Minne V", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {})
+        },
+        AutoFood = "Grape Daifuku",
+    },
+    Aria = {
+        NumSongs = 4,
+        SelfBuffs = L {
+
+        },
+        SongDuration = song_duration,
+        SongDelay = 6,
+        Skillchains = skillchains,
+        PartyBuffs = party_buffs,
+        DummySongs = dummy_songs,
+        Debuffs = L {
+            Spell.new("Carnage Elegy", L {}, nil, nil, L {}),
+            Spell.new("Pining Nocturne", L {}, nil, nil, L {})
+        },
+        Songs = L {
+            Spell.new("Valor Minuet IV", L { "Marcato" }, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG', 'WHM' }, nil, L {}),
+            Spell.new("Blade Madrigal", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
+            Spell.new("Valor Minuet V", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
+            Spell.new("Honor March", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
+            Spell.new("Aria of Passion", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {})
         },
         AutoFood = "Grape Daifuku",
     },

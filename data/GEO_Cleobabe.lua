@@ -10,32 +10,17 @@ return {
 
         },
         PartyBuffs = L{
-            Spell.new("Indi-VIT", L{"Entrust"}, L{"DRK", "SAM", "WAR", "MNK","RDM", "COR"}, nil, L{}),
+            Spell.new("Indi-Haste", L{"Entrust"}, L{"DRK", "SAM", "WAR", "MNK", "RDM", "COR"}, nil, L{}),
         },
         NukeSettings = {
             Delay = 4,
             MinManaPointsPercent = 40,
             MinNumMobsToCleave = 2,
             Spells = L{
-                Spell.new('Aspir III'),
-                Spell.new('Thunder V'),
-                Spell.new('Thunder IV'),
-                Spell.new('Thundara III'),
-                Spell.new('Blizzard V'),
-                Spell.new('Blizzard IV'),
-                Spell.new('Blizzara III'),
-                Spell.new('Fire V'),
-                Spell.new('Fire IV'),
-                Spell.new('Fira III'),
-                Spell.new('Aero V'),
-                Spell.new('Aero IV'),
-                Spell.new('Aera III'),
-                Spell.new('Water V'),
-                Spell.new('Water IV'),
-                Spell.new('Watera III'),
-                Spell.new('Stone V'),
-                Spell.new('Stone IV'),
-                Spell.new('Stonera III'),
+                Spell.new("Aspir III", L{}, L{}, nil, L{SpellRecastReadyCondition.new(881)}),
+                Spell.new("Aero V", L{}, L{}, nil, L{SpellRecastReadyCondition.new(158)}),
+                Spell.new("Aero IV", L{}, L{}, nil, L{SpellRecastReadyCondition.new(157)}),
+                Spell.new("Aera III", L{}, L{}, nil, L{SpellRecastReadyCondition.new(867)})
             },
             Blacklist = L{
 

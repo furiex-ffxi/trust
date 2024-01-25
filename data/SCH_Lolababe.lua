@@ -3,18 +3,18 @@ return {
     Version = 2,
     Default = {
         LightArts = {
-            JobAbilities = L{
-                JobAbility.new('Light Arts', L{}, L{}, nil),
-            },
             PartyBuffs = L{
-                Spell.new("Adloquium", L{}, L{"WAR", "PUP"}, nil, L{})
+                Spell.new("Adloquium", L{}, L{"WAR", "PUP"}, nil, L{SpellRecastReadyCondition.new(495)})
             },
             SelfBuffs = L{
-                Buff.new("Protect", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(1, ">=")}),
-                Buff.new("Shell", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(1, ">=")}),
-                Buff.new("Regen", L{"Accession", "Perpetuance"}, L{}, nil, L{StrategemCountCondition.new(2, ">=")}),
-                Spell.new("Phalanx", L{"Accession", "Perpetuance"}, nil, nil, L{StrategemCountCondition.new(2, ">=")}),
-                Spell.new("Aurorastorm II", L{}, nil, nil, L{})
+                Buff.new("Protect", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(1, ">="), SpellRecastReadyCondition.new(47)}),
+                Buff.new("Shell", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(1, ">="), SpellRecastReadyCondition.new(52)}),
+                Buff.new("Regen", L{"Accession", "Perpetuance"}, L{}, nil, L{StrategemCountCondition.new(2, ">="), SpellRecastReadyCondition.new(504)}),
+                Spell.new("Phalanx", L{"Accession", "Perpetuance"}, nil, nil, L{StrategemCountCondition.new(2, ">="), SpellRecastReadyCondition.new(106)}),
+                Spell.new("Aurorastorm II", L{}, nil, nil, L{SpellRecastReadyCondition.new(864)})
+            },
+            JobAbilities = L{
+                JobAbility.new("Light Arts", L{JobAbilityRecastReadyCondition.new("Light Arts")}, L{})
             }
         },
         StrategemCooldown = 33,
@@ -34,31 +34,10 @@ return {
                 }
             }
         },
-        NukeSettings = {
-            Delay = 2,
-            MinManaPointsPercent = 20,
-            MinNumMobsToCleave = 2,
-            Spells = L{
-                Spell.new('Thunder V'),
-                Spell.new('Thunder IV'),
-                Spell.new('Blizzard V'),
-                Spell.new('Blizzard IV'),
-                Spell.new('Fire V'),
-                Spell.new('Fire IV'),
-                Spell.new('Aero V'),
-                Spell.new('Aero IV'),
-                Spell.new('Water V'),
-                Spell.new('Water IV'),
-                Spell.new('Stone V'),
-                Spell.new('Stone IV'),
-            },
-            Blacklist = L{
-
-            },
-        },
         Skillchains = {
             spamws = L{
-                "Black Halo"
+                "Black Halo",
+                "Spirit Taker"
             },
             starterws = L{
                 "Black Halo"
@@ -67,28 +46,50 @@ return {
                 "Retribution",
                 "Black Halo"
             },
-            preferws = L{
-                "Retribution",
-                "Black Halo"
+            tpws = L{
+
             },
             cleavews = L{
                 "Cataclysm"
             },
             amws = "Omniscience",
-            tpws = L{
-
+            preferws = L{
+                "Retribution",
+                "Black Halo"
             }
         },
-        DarkArts = {
-            JobAbilities = L{
-                JobAbility.new('Dark Arts', L{}, L{}, nil),
+        NukeSettings = {
+            MinNumMobsToCleave = 2,
+            Blacklist = L{
+
             },
+            Spells = L{
+                Spell.new("Thunder V", L{}, nil, nil, L{SpellRecastReadyCondition.new(168)}),
+                Spell.new("Thunder IV", L{}, nil, nil, L{SpellRecastReadyCondition.new(167)}),
+                Spell.new("Blizzard V", L{}, nil, nil, L{SpellRecastReadyCondition.new(153)}),
+                Spell.new("Blizzard IV", L{}, nil, nil, L{SpellRecastReadyCondition.new(152)}),
+                Spell.new("Fire V", L{}, nil, nil, L{SpellRecastReadyCondition.new(148)}),
+                Spell.new("Fire IV", L{}, nil, nil, L{SpellRecastReadyCondition.new(147)}),
+                Spell.new("Aero V", L{}, nil, nil, L{SpellRecastReadyCondition.new(158)}),
+                Spell.new("Aero IV", L{}, nil, nil, L{SpellRecastReadyCondition.new(157)}),
+                Spell.new("Water V", L{}, nil, nil, L{SpellRecastReadyCondition.new(173)}),
+                Spell.new("Water IV", L{}, nil, nil, L{SpellRecastReadyCondition.new(172)}),
+                Spell.new("Stone V", L{}, nil, nil, L{SpellRecastReadyCondition.new(163)}),
+                Spell.new("Stone IV", L{}, nil, nil, L{SpellRecastReadyCondition.new(162)})
+            },
+            Delay = 2,
+            MinManaPointsPercent = 20
+        },
+        DarkArts = {
             PartyBuffs = L{
 
             },
             SelfBuffs = L{
-                Spell.new("Klimaform", L{}, nil, nil, L{})
+                Spell.new("Klimaform", L{}, nil, nil, L{SpellRecastReadyCondition.new(287)})
             },
+            JobAbilities = L{
+                JobAbility.new("Dark Arts", L{JobAbilityRecastReadyCondition.new("Dark Arts")}, L{})
+            }
         }
     }
 }

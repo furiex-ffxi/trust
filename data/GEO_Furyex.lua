@@ -2,44 +2,30 @@
 return {
     Version = 2,
     Default = {
-        AutoFood="Tropical Crepe",
         SelfBuffs = L{
 
+        },
+        Geomancy = {
+            Indi = Spell.new("Indi-Fury", L{}, L{}, nil, L{SpellRecastReadyCondition.new(779)}),
+            Geo = Spell.new("Geo-Frailty", L{}, L{}, "bt", L{SpellRecastReadyCondition.new(818)})
         },
         JobAbilities = L{
 
         },
-        PartyBuffs = L{
-            Spell.new("Indi-Fury", L{"Entrust"}, L{"DRK", "SAM", "WAR", "MNK"}, nil, L{}),
-        },
+        AutoFood = "Tropical Crepe",
         NukeSettings = {
-            Delay = 4,
-            MinManaPointsPercent = 40,
             MinNumMobsToCleave = 2,
-            Spells = L{
-                Spell.new('Aspir III'),
-                Spell.new('Thunder V'),
-                Spell.new('Thunder IV'),
-                Spell.new('Thundara III'),
-                Spell.new('Blizzard V'),
-                Spell.new('Blizzard IV'),
-                Spell.new('Blizzara III'),
-                Spell.new('Fire V'),
-                Spell.new('Fire IV'),
-                Spell.new('Fira III'),
-                Spell.new('Aero V'),
-                Spell.new('Aero IV'),
-                Spell.new('Aera III'),
-                Spell.new('Water V'),
-                Spell.new('Water IV'),
-                Spell.new('Watera III'),
-                Spell.new('Stone V'),
-                Spell.new('Stone IV'),
-                Spell.new('Stonera III'),
-            },
             Blacklist = L{
 
             },
+            Spells = L{
+                Spell.new("Aspir III", L{}, L{}, nil, L{SpellRecastReadyCondition.new(881)}),
+                Spell.new("Aero V", L{}, L{}, nil, L{SpellRecastReadyCondition.new(158)}),
+                Spell.new("Aero IV", L{}, L{}, nil, L{SpellRecastReadyCondition.new(157)}),
+                Spell.new("Aera III", L{}, L{}, nil, L{SpellRecastReadyCondition.new(867)})
+            },
+            Delay = 4,
+            MinManaPointsPercent = 40
         },
         Skillchains = {
             spamws = L{
@@ -51,19 +37,19 @@ return {
             defaultws = L{
                 "Black Halo"
             },
-            preferws = L{
-                "Black Halo"
+            tpws = L{
+
             },
             cleavews = L{
                 "Aeolian Edge"
             },
             amws = "Exudation",
-            tpws = L{
+            preferws = L{
+                "Black Halo"
             }
         },
-        Geomancy = {
-            Indi = Spell.new("Indi-Haste", L{}, L{}, nil, L{}),
-            Geo = Spell.new("Geo-Frailty", L{}, L{}, "bt", L{})
+        PartyBuffs = L{
+            Spell.new("Indi-Haste", L{"Entrust"}, L{"DRK", "SAM", "WAR", "MNK"}, nil, L{SpellRecastReadyCondition.new(771)})
         }
     }
 }
