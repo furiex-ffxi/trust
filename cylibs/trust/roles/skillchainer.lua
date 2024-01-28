@@ -12,6 +12,7 @@ local SkillchainTracker = require('cylibs/battle/skillchains/skillchain_tracker'
 local skillchain_util = require('cylibs/util/skillchain_util')
 
 state.AutoSkillchainMode = M{['description'] = 'Auto Skillchain Mode', 'Off', 'Auto', 'Cleave', 'Spam'}
+state.AutoSkillchainMode:set_description('Off', "Okay, I'll won't use weapon skills or make skillchains.")
 state.AutoSkillchainMode:set_description('Auto', "Okay, I'll try to make skillchains.")
 state.AutoSkillchainMode:set_description('Cleave', "Okay, I'll try to cleave monsters.")
 state.AutoSkillchainMode:set_description('Spam', "Okay, I'll use the same weapon skill as soon as I get TP.")
@@ -22,6 +23,7 @@ state.SkillchainPropertyMode:set_description('Light', "Okay, I'll only make Ligh
 state.SkillchainPropertyMode:set_description('Darkness', "Okay, I'll only make Darkness skillchains unless I have instructions to use certain weapon skills.")
 
 state.SkillchainDelayMode = M{['description'] = 'Skillchain Delay Mode', 'Off', 'Maximum'}
+state.SkillchainDelayMode:set_description('Off', "Okay, I'll use the next weapon skill as soon as the skillchain window opens.")
 state.SkillchainDelayMode:set_description('Maximum', "Okay, I'll wait until the end of the skillchain window to use my next weapon skill.")
 
 
@@ -128,10 +130,10 @@ function Skillchainer:on_add()
     end)
     self.dispose_bag:addAny(L{ self.skillchain_tracker })
 
-    self.dispose_bag:add(self:get_party():get_player():on_equipment_change():addAction(function(_)
+    self.dispose_bag:add(self:get_party():get_player():on_combat_skills_change():addAction(function(_)
         self:update_abilities()
         self:on_skillchain_mode_changed(state.AutoSkillchainMode.value, state.AutoSkillchainMode.value)
-    end), self:get_party():get_player():on_equipment_change())
+    end), self:get_party():get_player():on_combat_skills_change())
 
     self.dispose_bag:add(state.AutoSkillchainMode:on_state_change():addAction(function(old_value, new_value)
         self:on_skillchain_mode_changed(old_value, new_value)
@@ -365,7 +367,17 @@ function Skillchainer:set_current_settings(current_settings)
 end
 
 function Skillchainer:set_enabled(enabled)
+    if self.enabled == enabled then
+        return
+    end
     self.enabled = enabled
+    if self.enabled then
+        local target = self:get_target()
+        if target then
+            self.skillchain_tracker:reset(target:get_id())
+            logger.notice(self.__class, 'set_enabled', enabled, 'resetting skillchain tracker')
+        end
+    end
 end
 
 return Skillchainer
