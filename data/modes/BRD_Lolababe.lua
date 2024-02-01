@@ -48,7 +48,8 @@ return {
         ["flankmode"]="Off", 
         ["actionbatchingmode"]="Off", 
         ["autoclarioncallmode"]="Off", 
-        ["autoaftermathmode"]="Off"
+        ["autoaftermathmode"]="Off",
+        ["weaponskillsettingsmode"] = "Default",
     }, 
     ["OdyC"]={
         ["maintrustsettingsmode"]="Melee", 

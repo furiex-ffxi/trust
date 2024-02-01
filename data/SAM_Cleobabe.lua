@@ -1,32 +1,17 @@
 -- Settings file for SAM
 return {
-    Version = 1,
+    Version = 2,
     Default = {
-        Skillchains = {
-            spamws = L{
-                "Tachi: Fudo"
-            },
-            starterws = L{
-                "Tachi: Ageha"
-            },
-            defaultws = L{
-                "Tachi: Fudo"
-            },
-            preferws = L{
-                "Tachi: Kasha",
-                "Tachi: Shoha",
-                "Tachi: Fudo"
-            },
-            cleavews = L{
+        AutoFood = "Grape Daifuku",
+        SelfBuffs = L{
 
-            },
-            amws = "Tachi: Rana",
-            tpws = L{
-                "Tachi: Fudo"
-            }
+        },
+        PartyBuffs = L{
+
         },
         JobAbilities = L{
-            JobAbility.new('Hasso', L{InBattleCondition.new()}, L{}, nil)
+            JobAbility.new('Hasso', L{}, L{}, nil),
+            JobAbility.new('SpSekkanoki', L{ MinTacticalPointsCondition.new(1500), InBattleCondition.new() })
         }
     }
 }

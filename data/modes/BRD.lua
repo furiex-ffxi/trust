@@ -34,5 +34,6 @@ return {
         ["autoclarioncallmode"]="Auto",
         ["autopianissimomode"]="Merged",
         ["ipcmode"]="All",
+        ["weaponskillsettingsmode"] = "Default",
     }
 }

@@ -6,7 +6,7 @@ return {
         ["autobuffmode"]="Auto",
         ["autofollowmode"]="Always",
         ["autopullmode"]="Off",
-        ["maneuvermode"]="Tank",
+        ["maneuvermode"]="HybridRanged",
         ["subtrustsettingsmode"]="Default",
         ["automagicburstmode"]="Off",
         ["skillchainpartnermode"]="Off",
@@ -25,6 +25,7 @@ return {
         ["combatmode"]="Off",
         ["autofoodmode"]="Off",
         ["automaneuvermode"]="Auto",
-        ["autoenmityreductionmode"]="Auto"
+        ["autoenmityreductionmode"]="Auto",
+        ["ipcmode"]="All",
     },
 }

@@ -5,27 +5,28 @@ return {
         SelfBuffs = L{
 
         },
-        Geomancy = {
-            Indi = Spell.new("Indi-Fury", L{}, L{}, nil, L{SpellRecastReadyCondition.new(779)}),
-            Geo = Spell.new("Geo-Frailty", L{}, L{}, "bt", L{SpellRecastReadyCondition.new(818)})
+        PartyBuffs = L{
+            Spell.new("Indi-Haste", L{"Entrust"}, L{"COR", "DRK", "SAM", "WAR", "MNK"}, nil, L{})
         },
         JobAbilities = L{
 
         },
-        AutoFood = "Tropical Crepe",
+        Geomancy = {
+            Indi = Spell.new("Indi-Frailty", L{}, L{}, nil, L{}),
+            Geo = Spell.new("Geo-Fury", L{}, L{}, "p0", L{})
+        },
         NukeSettings = {
             MinNumMobsToCleave = 2,
-            Blacklist = L{
-
-            },
+            MinManaPointsPercent = 40,
             Spells = L{
-                Spell.new("Aspir III", L{}, L{}, nil, L{SpellRecastReadyCondition.new(881)}),
-                Spell.new("Aero V", L{}, L{}, nil, L{SpellRecastReadyCondition.new(158)}),
-                Spell.new("Aero IV", L{}, L{}, nil, L{SpellRecastReadyCondition.new(157)}),
-                Spell.new("Aera III", L{}, L{}, nil, L{SpellRecastReadyCondition.new(867)})
+                Spell.new("Fire V", L{}, L{}, nil, L{}),
+                Spell.new("Fire IV", L{}, L{}, nil, L{}),
+                Spell.new("Fire III", L{}, L{}, nil, L{})
             },
             Delay = 4,
-            MinManaPointsPercent = 40
+            Blacklist = L{
+
+            }
         },
         Skillchains = {
             spamws = L{
@@ -37,19 +38,17 @@ return {
             defaultws = L{
                 "Black Halo"
             },
-            tpws = L{
-
+            preferws = L{
+                "Black Halo"
             },
             cleavews = L{
                 "Aeolian Edge"
             },
             amws = "Exudation",
-            preferws = L{
-                "Black Halo"
+            tpws = L{
+
             }
         },
-        PartyBuffs = L{
-            Spell.new("Indi-Haste", L{"Entrust"}, L{"DRK", "SAM", "WAR", "MNK"}, nil, L{SpellRecastReadyCondition.new(771)})
-        }
+        AutoFood = "Tropical Crepe"
     }
 }

@@ -1,42 +1,22 @@
 -- Modes file for COR
 return {
-    ["Default"]={
-        ["autodispelmode"]="Auto", 
-        ["autorollmode"]="Auto", 
-        ["maintrustsettingsmode"]="Default", 
-        ["autopullmode"]="Off", 
-        ["subtrustsettingsmode"]="Default", 
-        ["autofacemobmode"]="Auto", 
-        ["autotargetmode"]="Off", 
-        ["autoenablemode"]="Off", 
-        ["flankmode"]="Off", 
-        ["actionbatchingmode"]="Off", 
-        ["autoshootmode"]="Off", 
-        ["skillchainprioritymode"]="Off", 
-        ["autoengagemode"]="Always", 
-        ["autoaftermathmode"]="Off", 
-        ["partychatmode"]="Private", 
-        ["autoskillchainmode"]="Off", 
-        ["engagemode"]="None", 
-        ["autobuffmode"]="Off", 
-        ["skillchainpartnermode"]="Off", 
-        ["skillchaindelaymode"]="Off", 
-        ["combatmode"]="Off", 
-        ["ipcmode"]="All", 
-        ["autofoodmode"]="Off", 
-        ["autotrustsmode"]="Off", 
-        ["autofollowmode"]="Always", 
-        ["autoenmityreductionmode"]="Off",
-        ["autohealmode"]="Emergency"
-    }, 
-    ["Sortie"]={
+    ["MagicRng"]={
         ["autoengagemode"]="Mirror", 
-        ["autosilencemode"]="Off", 
+        ["autoskillchainmode"]="Auto", 
+        ["autoshootmode"]="Auto", 
         ["combatmode"]="Mirror", 
-        ["maintrustsettingsmode"]="Melee", 
-        ["autobuffmode"]="Auto", 
-        ["autodebuffmode"]="Off",
+        ["skillchainprioritymode"]="Strict", 
+        ["maintrustsettingsmode"]="MagicRng", 
         ["autorollmode"]="Auto", 
+        ["autofoodmode"]="Auto"
+    }, 
+    ["OdyC"]={
+        ["autoengagemode"]="Mirror", 
+        ["maintrustsettingsmode"]="Melee", 
+        ["combatmode"]="Mirror", 
+        ["autoskillchainmode"]="Spam", 
+        ["autofoodmode"]="Auto", 
+        ["autorollmode"]="Auto"
     }, 
     ["Lilith"]={
         ["autodispelmode"]="Off", 
@@ -46,44 +26,66 @@ return {
         ["autofollowmode"]="Off", 
         ["maintrustsettingsmode"]="Melee"
     }, 
-    ["Pet"]={
+    ["Magic"]={
+        ["autoengagemode"]="Mirror", 
+        ["autoskillchainmode"]="Auto", 
+        ["autoshootmode"]="Auto", 
+        ["combatmode"]="Mirror", 
+        ["skillchainprioritymode"]="Strict", 
+        ["maintrustsettingsmode"]="Magic", 
         ["autorollmode"]="Auto", 
-        ["maintrustsettingsmode"]="Pet"
+        ["autofoodmode"]="Auto"
     }, 
     ["Ep"]={
         ["autodispelmode"]="Off", 
         ["autorollmode"]="Auto", 
+        ["autoskillchainmode"]="Spam", 
         ["autofollowmode"]="Off", 
-        ["maintrustsettingsmode"]="Ep",
-        ["autoskillchainmode"]="Spam", 
-        ["skillchainprioritymode"]="Off", 
+        ["maintrustsettingsmode"]="Ep"
     }, 
-    ["OdyC"]={
+    ["Sortie"]={
         ["autoengagemode"]="Mirror", 
+        ["autosilencemode"]="Off", 
+        ["combatmode"]="Mirror", 
         ["maintrustsettingsmode"]="Melee", 
-        ["combatmode"]="Mirror", 
-        ["autoskillchainmode"]="Spam", 
-        ["autofoodmode"]="Auto", 
+        ["autobuffmode"]="Auto", 
+        ["autodebuffmode"]="Off", 
         ["autorollmode"]="Auto"
-    },
-    ["MagicRng"]={
-        ["autoengagemode"]="Mirror", 
-        ["maintrustsettingsmode"]="MagicRng", 
-        ["combatmode"]="Mirror", 
-        ["autoskillchainmode"]="Auto", 
-        ["skillchainprioritymode"]="Strict", 
-        ["autofoodmode"]="Auto", 
-        ["autorollmode"]="Auto",
-        ["autoshootmode"]="Auto", 
-    },
-    ["Magic"]={
-        ["autoengagemode"]="Mirror", 
-        ["maintrustsettingsmode"]="Magic", 
-        ["combatmode"]="Mirror", 
-        ["autoskillchainmode"]="Auto", 
-        ["skillchainprioritymode"]="Strict", 
-        ["autofoodmode"]="Auto", 
-        ["autorollmode"]="Auto",
-        ["autoshootmode"]="Auto", 
-    },
+    }, 
+    ["Default"]={
+        ["autodispelmode"]="Auto", 
+        ["autodisablemode"]="Auto", 
+        ["autorollmode"]="Manual", 
+        ["autoshootmode"]="Off", 
+        ["autotargetmode"]="Off", 
+        ["subtrustsettingsmode"]="Default", 
+        ["skillchaindelaymode"]="Off", 
+        ["autotrustsmode"]="Off", 
+        ["actionbatchingmode"]="Off", 
+        ["flankmode"]="Off", 
+        ["approachpullmode"]="Off", 
+        ["autostepmode"]="Off", 
+        ["autohealmode"]="Emergency", 
+        ["autoskillchainmode"]="Off", 
+        ["autoengagemode"]="Always", 
+        ["partychatmode"]="Private", 
+        ["autoaftermathmode"]="Off", 
+        ["combatmode"]="Off", 
+        ["skillchainpropertymode"]="Off", 
+        ["engagemode"]="None", 
+        ["autofacemobmode"]="Auto", 
+        ["autoenablemode"]="Off", 
+        ["autopullmode"]="Off", 
+        ["autobuffmode"]="Off", 
+        ["autofollowmode"]="Always", 
+        ["ipcmode"]="All", 
+        ["maintrustsettingsmode"]="Default", 
+        ["autofoodmode"]="Off", 
+        ["weaponskillsettingsmode"]="Default", 
+        ["autoenmityreductionmode"]="Off"
+    }, 
+    ["Pet"]={
+        ["autorollmode"]="Auto", 
+        ["maintrustsettingsmode"]="Pet"
+    }
 }

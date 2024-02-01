@@ -24,5 +24,6 @@ return {
         ["autotrustsmode"]="Off",
         ["autoenmityreductionmode"]="Off",
         ["ipcmode"]="All",
+        ["weaponskillsettingsmode"] = "Default",
     }
 }

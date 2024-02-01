@@ -2,29 +2,32 @@
 return {
     Version = 2,
     Default = {
-        AutoFood="Tropical Crepe",
         SelfBuffs = L{
 
+        },
+        Geomancy = {
+            Indi = Spell.new("Indi-Fury", L{}, L{}, nil, L{}),
+            Geo = Spell.new("Geo-Frailty", L{}, L{}, "bt", L{})
         },
         JobAbilities = L{
 
         },
-        PartyBuffs = L{
-            Spell.new("Indi-Haste", L{"Entrust"}, L{"DRK", "SAM", "WAR", "MNK", "RDM", "COR"}, nil, L{}),
-        },
+        AutoFood = "Tropical Crepe",
         NukeSettings = {
-            Delay = 4,
-            MinManaPointsPercent = 40,
             MinNumMobsToCleave = 2,
-            Spells = L{
-                Spell.new("Aspir III", L{}, L{}, nil, L{SpellRecastReadyCondition.new(881)}),
-                Spell.new("Aero V", L{}, L{}, nil, L{SpellRecastReadyCondition.new(158)}),
-                Spell.new("Aero IV", L{}, L{}, nil, L{SpellRecastReadyCondition.new(157)}),
-                Spell.new("Aera III", L{}, L{}, nil, L{SpellRecastReadyCondition.new(867)})
-            },
             Blacklist = L{
 
             },
+            Spells = L{
+                Spell.new("Blizzard V", L{}, L{}, nil, L{}),
+                Spell.new("Blizzard IV", L{}, L{}, nil, L{}),
+                Spell.new("Blizzard III", L{}, L{}, nil, L{}),
+                Spell.new("Aero V", L{}, L{}, nil, L{}),
+                Spell.new("Aero IV", L{}, L{}, nil, L{}),
+                Spell.new("Aera III", L{}, L{}, nil, L{})
+            },
+            Delay = 4,
+            MinManaPointsPercent = 40
         },
         Skillchains = {
             spamws = L{
@@ -36,19 +39,19 @@ return {
             defaultws = L{
                 "Black Halo"
             },
-            preferws = L{
-                "Black Halo"
+            tpws = L{
+
             },
             cleavews = L{
                 "Aeolian Edge"
             },
             amws = "Exudation",
-            tpws = L{
+            preferws = L{
+                "Black Halo"
             }
         },
-        Geomancy = {
-            Indi = Spell.new("Indi-Fury", L{}, L{}, nil, L{}),
-            Geo = Spell.new("Geo-Frailty", L{}, L{}, "bt", L{})
+        PartyBuffs = L{
+            Spell.new("Indi-STR", L{"Entrust"}, L{"RUN", "RDM"}, nil, L{})
         }
     }
 }
