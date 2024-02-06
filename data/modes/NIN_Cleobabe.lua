@@ -19,7 +19,8 @@ return {
         ["autofoodmode"]="Off", 
         ["combatmode"]="Off", 
         ["autotrustsmode"]="Off", 
-        ["autoenmityreductionmode"]="Auto"
+        ["autoenmityreductionmode"]="Auto",
+        ["autounloadondeathmode"]="Off",
     }, 
     ["Ep"]={
         ["partychatmode"]="Private", 

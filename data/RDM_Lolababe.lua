@@ -13,11 +13,11 @@ return {
         },
         CureSettings = {
             Thresholds = {
-                ["Cure IV"] = 1500,
+                ["Cure IV"] = 800,
                 Emergency = 35,
                 Default = 78,
                 ["Cure II"] = 0,
-                ["Cure III"] = 600
+                ["Cure III"] = 400
             },
             Delay = 2
         },

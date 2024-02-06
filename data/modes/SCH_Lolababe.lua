@@ -31,5 +31,6 @@ return {
         ["autoenmityreductionmode"]="Auto",
         ["ipcmode"]="All",
         ["magicbursttargetmode"]="Single",
+        ["autounloadondeathmode"]="Off",
     }
 }

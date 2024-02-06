@@ -82,7 +82,8 @@ return {
         ["maintrustsettingsmode"]="Default", 
         ["autofoodmode"]="Off", 
         ["weaponskillsettingsmode"]="Default", 
-        ["autoenmityreductionmode"]="Off"
+        ["autoenmityreductionmode"]="Off",
+        ["autounloadondeathmode"]="Off",
     }, 
     ["Pet"]={
         ["autorollmode"]="Auto", 

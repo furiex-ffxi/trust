@@ -39,7 +39,8 @@ return {
         ["autonukemode"]="Off", 
         ["flankmode"]="Off", 
         ["actionbatchingmode"]="Off", 
-        ["autoartsmode"]="LightArts"
+        ["autoartsmode"]="LightArts",
+        ["autounloadondeathmode"]="Off",
     }, 
     ["Melee"]={}, 
     ["OdyC"]={

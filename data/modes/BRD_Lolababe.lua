@@ -50,6 +50,7 @@ return {
         ["autoclarioncallmode"]="Off", 
         ["autoaftermathmode"]="Off",
         ["weaponskillsettingsmode"] = "Default",
+        ["autounloadondeathmode"]="Off",
     }, 
     ["OdyC"]={
         ["maintrustsettingsmode"]="Melee", 

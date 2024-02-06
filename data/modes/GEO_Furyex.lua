@@ -31,6 +31,7 @@ return {
         ["autofollowmode"]="Always", 
         ["autoenmityreductionmode"]="Off",
         ["autoenablemode"]="Off", 
+        ["autounloadondeathmode"]="Off",
     }, 
     ["Ep"]={
         ["autogeomode"]="Auto", 

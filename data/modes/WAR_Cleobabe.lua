@@ -37,6 +37,7 @@ return {
         ["partychatmode"]="Private", 
         ["autoenmityreductionmode"]="Auto",
         ["ipcmode"]="All",
+        ["autounloadondeathmode"]="Off",
     }, 
     ["Lilith"]={
         ["maintrustsettingsmode"]="Melee", 

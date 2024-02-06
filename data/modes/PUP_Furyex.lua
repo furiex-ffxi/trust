@@ -27,5 +27,6 @@ return {
         ["automaneuvermode"]="Auto",
         ["autoenmityreductionmode"]="Auto",
         ["ipcmode"]="All",
+        ["autounloadondeathmode"]="Off",
     },
 }

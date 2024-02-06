@@ -8,7 +8,7 @@ return {
             CombatSkillSettings.new("Great Sword", L{"Frostbite", "Freezebite", "Hard Slash", "Ground Strike", "Spinning Slash", "Herculean Slash", "Crescent Moon", "Resolution", "Shockwave", "Sickle Moon", "Power Slash"}, "Torcleaver"),
             CombatSkillSettings.new("Axe", L{}, ""),
             CombatSkillSettings.new("Great Axe", L{}, ""),
-            CombatSkillSettings.new("Scythe", L{"Spinning Scythe", "Cross Reaper", "Dark Harvest", "Guillotine", "Quietus", "Entropy", "Slice", "Shadow of Death", "Infernal Scythe", "Vorpal Scythe", "Nightmare Scythe"}, "Insurgency"),
+            CombatSkillSettings.new("Scythe", L{"Dark Harvest", "Vorpal Scythe", "Spinning Scythe", "Slice", "Nightmare Scythe", "Quietus", "Guillotine", "Infernal Scythe", "Entropy", "Shadow of Death"}, ""),
             CombatSkillSettings.new("Club", L{}, ""),
             CombatSkillSettings.new("Marksmanship", L{}, "")
         },
@@ -16,7 +16,7 @@ return {
 
         },
         Skillchain = L{
-            SkillchainAbility.auto(),
+            WeaponSkill.new("Cross Reaper"),
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),

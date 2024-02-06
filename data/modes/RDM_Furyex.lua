@@ -46,7 +46,8 @@ return {
         ["autobarspellmode"]="Off", 
         ["autotrustsmode"]="Off", 
         ["automagicburstmode"]="Off", 
-        ["autoenmityreductionmode"]="Off"
+        ["autoenmityreductionmode"]="Off",
+        ["autounloadondeathmode"]="Off",
     }, 
     ["OdyC"]={
         ["autotargetmode"]="Auto", 

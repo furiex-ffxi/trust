@@ -31,5 +31,6 @@ return {
         ["engagemode"]="None",
         ["autoenmityreductionmode"]="Off",
         ["ipcmode"]="All",
+        ["autounloadondeathmode"]="Off",
     }
 }

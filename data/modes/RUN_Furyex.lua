@@ -26,6 +26,7 @@ return {
         ["autofoodmode"]="Off", 
         ["skillchaindelaymode"]="Off", 
         ["autorunemode"]="Off", 
-        ["autoenmityreductionmode"]="Off"
+        ["autoenmityreductionmode"]="Off",
+        ["autounloadondeathmode"]="Off",
     }
 }

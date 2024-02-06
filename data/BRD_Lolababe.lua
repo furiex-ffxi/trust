@@ -1,41 +1,10 @@
 -- Settings file for BRD
 local song_duration = 325
 
-local skillchains = {
-    spamws = L {
-        "Savage Blade",
-        "Rudra's Storm",
-        "Mordant Rime"
-    },
-    starterws = L {
-        "Savage Blade",
-        "Evisceration",
-        "Mordant Rime"
-    },
-    defaultws = L {
-        "Savage Blade",
-        "Evisceration",
-        "Rudra's Storm",
-        "Retribution"
-    },
-    cleavews = L {
-        "Aeolian Edge"
-    },
-    preferws = L {
-        "Savage Blade",
-        "Rudra's Storm",
-    },
-    amws = "Mordant Rime",
-    tpws = L {
-        "Rudra's Storm",
-    }
-}
-
 local party_buffs = L {
     Spell.new("Mage's Ballad III", L { "Pianissimo" }, L { "BLM", "WHM", "GEO", "SCH", "RUN", "PUP" }, nil, L {}),
-    Spell.new("Mage's Ballad II", L { "Pianissimo" }, L { "BLM", "WHM", "GEO", "SCH", "RUN", "PUP" }, nil, L {}),
     Spell.new("Sage Etude", L { "Pianissimo" }, L { "BLM" }, nil, L {}),
-    Spell.new("Knight's Minne V", L { "Pianissimo" }, L { "PLD", "RUN" }, nil, L {}),
+    Spell.new("Knight's Minne V", L { "Pianissimo" }, L { "PLD", "RUN", "NIN" }, nil, L {}),
     Spell.new("Sentinel's Scherzo", L { "Pianissimo" }, L { "PLD", "RUN" }, nil, L {}),
     Spell.new("Dragonfoe Mambo", L { "Pianissimo" }, L { "NIN" }, nil, L {}),
 }
@@ -71,7 +40,6 @@ return {
         },
         SongDuration = song_duration,
         SongDelay = 6,
-        Skillchains = skillchains,
         PartyBuffs = party_buffs,
         DummySongs = dummy_songs,
         Debuffs = L {
@@ -79,11 +47,11 @@ return {
             Spell.new("Pining Nocturne", L {}, nil, nil, L {})
         },
         Songs = L {
-            Spell.new("Valor Minuet IV", L { "Marcato" }, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG', 'WHM' }, nil, L {}),
-            Spell.new("Valor Minuet V", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
+            Spell.new("Blade Madrigal", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
+            Spell.new("Valor Minuet IV", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG', 'WHM' }, nil, L {}),
             Spell.new("Light Carol II", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
-            Spell.new("Honor March", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
-            Spell.new("Blade Madrigal", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {})
+            Spell.new("Honor March", L {"Marcato"}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
+            Spell.new("Valor Minuet V", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
         },
         AutoFood = "Grape Daifuku",
     },
@@ -94,7 +62,6 @@ return {
         },
         SongDuration = song_duration,
         SongDelay = 6,
-        Skillchains = skillchains,
         PartyBuffs = party_buffs,
         DummySongs = dummy_songs,
         Debuffs = L {
@@ -104,8 +71,8 @@ return {
             Spell.new("Honor March", L { "Marcato" }, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG', 'WHM' }, nil, L {}),
             Spell.new("Blade Madrigal", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
             Spell.new("Valor Minuet V", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
-            Spell.new("Victory March", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
             Spell.new("Valor Minuet IV", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
+            Spell.new("Valor Minuet III", L {}, L { 'WAR', 'PLD', 'BRD', 'SAM', 'DRG', 'BLU', 'PUP', 'RUN', 'MNK', 'THF', 'BST', 'NIN', 'DNC', 'DRK', 'COR', 'RNG' }, nil, L {}),
         },
         AutoFood = "Grape Daifuku",
     },
@@ -116,7 +83,6 @@ return {
         },
         SongDuration = song_duration,
         SongDelay = 6,
-        Skillchains = skillchains,
         PartyBuffs = party_buffs,
         DummySongs = dummy_songs,
         Debuffs = L {
@@ -138,7 +104,6 @@ return {
         },
         SongDuration = song_duration,
         SongDelay = 6,
-        Skillchains = skillchains,
         PartyBuffs = party_buffs,
         DummySongs = dummy_songs,
         Debuffs = L {
@@ -160,7 +125,6 @@ return {
         },
         SongDuration = song_duration,
         SongDelay = 6,
-        Skillchains = skillchains,
         PartyBuffs = party_buffs,
         DummySongs = dummy_songs,
         Debuffs = L {
@@ -176,7 +140,6 @@ return {
         },
         SongDuration = song_duration,
         SongDelay = 6,
-        Skillchains = skillchains,
         PartyBuffs = party_buffs,
         DummySongs = dummy_songs,
         Debuffs = L {
@@ -192,7 +155,6 @@ return {
         },
         SongDuration = song_duration,
         SongDelay = 6,
-        Skillchains = skillchains,
         PartyBuffs = party_buffs,
         DummySongs = dummy_songs,
         Debuffs = L {
@@ -214,7 +176,6 @@ return {
         },
         SongDuration = song_duration,
         SongDelay = 6,
-        Skillchains = skillchains,
         PartyBuffs = party_buffs,
         DummySongs = dummy_songs,
         Debuffs = L {

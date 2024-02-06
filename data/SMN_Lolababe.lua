@@ -2,6 +2,13 @@
 return {
     Version = 1,
     Default = {
+        AutoFood = "Grape Daifuku",
+        JobAbilities = L{
+
+        },
+        SelfBuffs = L{
+
+        },
         PartyBuffs = L{
             {
                 BloodPact = "Hastega II",
@@ -22,30 +29,6 @@ return {
                 BloodPact = "Crimson Howl",
                 Buff = "Warcry",
                 Avatar = "Ifrit"
-            }
-        },
-        Skillchains = {
-            spamws = L{
-                "Garland of Bliss"
-            },
-            starterws = L{
-                "Garland of Bliss"
-            },
-            defaultws = L{
-                "Garland of Bliss"
-            },
-            petws = L{
-                "Flaming Crush"
-            },
-            preferws = L{
-                "Garland of Bliss"
-            },
-            cleavews = L{
-
-            },
-            amws = "Garland of Bliss",
-            tpws = L{
-
             }
         },
         NukeSettings = {

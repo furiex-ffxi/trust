@@ -28,6 +28,7 @@ return {
         ["autobuffmode"]="Auto", 
         ["ipcmode"]="All", 
         ["autoaftermathmode"]="Off", 
-        ["autoenmityreductionmode"]="Off"
+        ["autoenmityreductionmode"]="Off",
+        ["autounloadondeathmode"]="Off",
     }
 }
