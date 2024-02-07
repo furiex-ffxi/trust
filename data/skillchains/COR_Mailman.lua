@@ -7,16 +7,16 @@ return {
             CombatSkillSettings.new("Marksmanship", L{"Detonator", "Split Shot", "Last Stand", "Wildfire", "Numbing Shot", "Slug Shot", "Hot Shot", "Sniper Shot"}, ""),
             CombatSkillSettings.new("Dagger", L{"Cyclone", "Wasp Sting", "Shadowstitch", "Gust Slash", "Viper Bite"}, "")
         },
+        Blacklist = L{
+
+        },
         Skillchain = L{
             SkillchainAbility.skip(),
-            SkillchainAbility.skip(),
+            SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto()
-        },
-        Blacklist = L{
-
         }
     }
 }
