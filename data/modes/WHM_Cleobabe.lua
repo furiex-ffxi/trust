@@ -41,6 +41,7 @@ return {
         ["actionbatchingmode"]="Off", 
         ["autoartsmode"]="LightArts",
         ["autounloadondeathmode"]="Off",
+        ["skillchainassistantmode"]="Off",
     }, 
     ["Melee"]={}, 
     ["OdyC"]={

@@ -6,12 +6,12 @@ return {
 
         },
         SelfBuffs = L{
-            Spell.new("Temper", L{}, nil, nil, L{}),
-            Spell.new("Crusade", L{}, nil, nil, L{}),
-            Spell.new("Refresh", L{}, nil, nil, L{}),
-            Spell.new("Regen IV", L{}, nil, nil, L{}),
-            Spell.new("Shell V", L{}, nil, nil, L{}),
-            Spell.new("Phalanx", L{}, nil, nil, L{})
+            Spell.new("Temper", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Spell.new("Crusade", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Spell.new("Refresh", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Spell.new("Regen IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Spell.new("Shell V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Spell.new("Phalanx", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
         },
         Skillchains = {
             spamws = L{
@@ -26,20 +26,25 @@ return {
                 "Dimidiation",
                 "Steel Cyclone"
             },
-            preferws = L{
-                "Dimidiation",
-                "Savage Blade"
+            tpws = L{
+
             },
             cleavews = L{
 
             },
             amws = "Dimidiation",
-            tpws = L{
-
+            preferws = L{
+                "Dimidiation",
+                "Savage Blade"
             }
         },
         JobAbilities = L{
-            JobAbility.new('Swordplay', L{InBattleCondition.new()}),
+            JobAbility.new("Swordplay", L{InBattleCondition.new()}),
+            JobAbility.new("Liement", L{}, L{}),
+            JobAbility.new("Valiance", L{}, L{}),
+            JobAbility.new("Pflug", L{}, L{}),
+            JobAbility.new("Vallation", L{}, L{}),
+            JobAbility.new("Battuta", L{}, L{})
         }
     }
 }

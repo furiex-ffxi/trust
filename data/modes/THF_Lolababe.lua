@@ -30,5 +30,6 @@ return {
         ["autoaftermathmode"]="Off", 
         ["autoenmityreductionmode"]="Off",
         ["autounloadondeathmode"]="Off",
+        ["skillchainassistantmode"]="Off",
     }
 }

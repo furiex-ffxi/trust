@@ -15,6 +15,7 @@
             <url>https://www.buymeacoffee.com/cyrite</url>
         </donate>
         <flags>
+            <check_files>true</check_files>
             <show_death_warning>true</show_death_warning>
         </flags>
         <follow>
@@ -37,7 +38,7 @@
         </logging>
         <menu_key>numpad+</menu_key>
         <remote_commands>
-            <whitelist>Furyex,Lolababe,Cyrite,Mailman,Cleobabe,Wapiti</whitelist>
+            <whitelist>Furyex,Lolababe,Cyrite,Wapiti,Cleobabe,Mailman</whitelist>
         </remote_commands>
         <verbose>true</verbose>
         <version>1.0.0</version>
@@ -46,24 +47,27 @@
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>8.5.5</version>
+        <version>8.6.4</version>
     </cleobabe>
     <furyex>
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>8.5.5</version>
+        <version>8.6.4</version>
     </furyex>
     <lolababe>
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>8.5.5</version>
+        <version>8.6.4</version>
     </lolababe>
     <mailman>
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>8.5.5</version>
+        <version>8.6.4</version>
     </mailman>
+    <suckme>
+        <version>8.6.4</version>
+    </suckme>
 </settings>

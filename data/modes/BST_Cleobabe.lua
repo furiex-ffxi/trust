@@ -23,5 +23,6 @@ return {
         ["autotrustsmode"]="Off",
         ["autoenmityreductionmode"]="Off",
         ["ipcmode"]="All",
+        ["skillchainassistantmode"]="Off",
     }
 }

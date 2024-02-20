@@ -3,7 +3,7 @@ return {
     Version = 1,
     Default = {
         Skills = L{
-            CombatSkillSettings.new("Great Axe", L{"Shield Break", "Iron Tempest", "Weapon Break", "Keen Edge", "Sturmwind", "Raging Rush"}, ""),
+            CombatSkillSettings.new("Great Axe", L{"Shield Break", "Iron Tempest", "Weapon Break", "Keen Edge", "Sturmwind", "Raging Rush"}, "Upheaval"),
             CombatSkillSettings.new("Axe", L{}, ""),
             CombatSkillSettings.new("Great Sword", L{}, ""),
             CombatSkillSettings.new("Scythe", L{}, ""),

@@ -13,7 +13,7 @@ return {
         ["autodebuffmode"]="Off", 
         ["autofollowmode"]="Off",
         ["autoaftermathmode"]="Off",
-        ["maintrustsettingsmode"]="Melee", 
+        ["maintrustsettingsmode"]="Ep", 
     }, 
     ["Default"]={
         ["autofacemobmode"]="Auto", 
@@ -51,16 +51,13 @@ return {
         ["autoaftermathmode"]="Off",
         ["weaponskillsettingsmode"] = "Default",
         ["autounloadondeathmode"]="Off",
+        ["skillchainassistantmode"]="Off",
     }, 
     ["OdyC"]={
         ["maintrustsettingsmode"]="Melee", 
-        ["autoengagemode"]="Mirror", 
         ["autoclarioncallmode"]="Auto", 
         ["ipcmode"]="All", 
-        ["autostatusremovalmode"]="Auto", 
-        ["autosleepmode"]="Auto", 
         ["autosongmode"]="Auto", 
-        ["combatmode"]="Mirror", 
         ["autodebuffmode"]="Off", 
         ["autoskillchainmode"]="Spam", 
         ["autodispelmode"]="Off"
@@ -68,13 +65,10 @@ return {
     ["MagicRng"]={
         ["partychatmode"]="Private", 
         ["maintrustsettingsmode"]="MagicRng", 
-        ["autoengagemode"]="Mirror", 
         ["autoclarioncallmode"]="Off", 
         ["ipcmode"]="All", 
         ["autostatusremovalmode"]="Auto", 
-        ["autosleepmode"]="Auto", 
         ["autosongmode"]="Auto", 
-        ["combatmode"]="Mirror", 
         ["autodebuffmode"]="Auto", 
         ["autodispelmode"]="Auto"
     },
@@ -85,9 +79,7 @@ return {
         ["autoclarioncallmode"]="Off", 
         ["ipcmode"]="All", 
         ["autostatusremovalmode"]="Auto", 
-        ["autosleepmode"]="Auto", 
         ["autosongmode"]="Auto", 
-        ["combatmode"]="Mirror", 
         ["autodebuffmode"]="Auto", 
         ["autodispelmode"]="Auto"
     },
@@ -109,8 +101,6 @@ return {
         ["autoskillchainmode"]="Spam", 
         ["autofollowmode"]="Off", 
         ["maintrustsettingsmode"]="Melee",
-        ["autoengagemode"]="Mirror",
-        ["combatmode"]="Mirror",
         ["autosongmode"]="Auto", 
     }, 
 }

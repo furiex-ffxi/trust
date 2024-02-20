@@ -36,6 +36,7 @@ return {
         ["skillchainpropertymode"] = "Darkness",
         ["subtrustsettingsmode"] = "Default",
         ["weaponskillsettingsmode"] = "Default",
+        ["skillchainassistantmode"]="Off",
     },
     ["OdyC"]={
         ["autoenablemode"]="Off", 

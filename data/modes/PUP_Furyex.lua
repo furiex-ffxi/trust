@@ -28,5 +28,6 @@ return {
         ["autoenmityreductionmode"]="Auto",
         ["ipcmode"]="All",
         ["autounloadondeathmode"]="Off",
+        ["skillchainassistantmode"]="Off",
     },
 }

@@ -26,7 +26,8 @@ return {
         ["autofoodmode"]="Off", 
         ["autofollowmode"]="Always", 
         ["autobuffmode"]="Off", 
-        ["autoenmityreductionmode"]="Off"
+        ["autoenmityreductionmode"]="Off",
+        ["skillchainassistantmode"]="Off",
     },
     ["OdyC"]={
         ["autodispelmode"]="Auto", 

@@ -26,5 +26,6 @@ return {
         ["autoenmityreductionmode"]="Off",
         ["autotankmode"]="Auto",
         ["ipcmode"]="All",
+        ["skillchainassistantmode"]="Off",
     }
 }

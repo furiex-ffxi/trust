@@ -27,5 +27,6 @@ return {
         ["autosleepmode"]="Off",
         ["ipcmode"]="All",
         ["magicbursttargetmode"]="Single",
+        ["skillchainassistantmode"]="Off",
     }
 }

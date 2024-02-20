@@ -5,28 +5,25 @@ return {
         SelfBuffs = L{
 
         },
-        PartyBuffs = L{
-            Spell.new("Indi-Haste", L{"Entrust"}, L{"DRK", "SAM", "WAR", "MNK"}, nil, L{})
-        },
+        AutoFood = "Tropical Crepe",
         JobAbilities = L{
 
         },
-        Geomancy = {
-            Indi = Spell.new("Indi-Frailty", L{}, L{}, nil, L{}),
-            Geo = Spell.new("Geo-Fury", L{}, L{}, "p0", L{})
+        PartyBuffs = L{
+            Spell.new("Indi-Fend", L{"Entrust"}, L{"RUN"}, nil, L{})
         },
         NukeSettings = {
             MinNumMobsToCleave = 2,
-            MinManaPointsPercent = 40,
+            Blacklist = L{
+
+            },
             Spells = L{
                 Spell.new("Fire V", L{}, L{}, nil, L{}),
                 Spell.new("Fire IV", L{}, L{}, nil, L{}),
                 Spell.new("Fire III", L{}, L{}, nil, L{})
             },
             Delay = 4,
-            Blacklist = L{
-
-            }
+            MinManaPointsPercent = 40
         },
         Skillchains = {
             spamws = L{
@@ -38,17 +35,20 @@ return {
             defaultws = L{
                 "Black Halo"
             },
-            preferws = L{
-                "Black Halo"
+            tpws = L{
+
             },
             cleavews = L{
                 "Aeolian Edge"
             },
             amws = "Exudation",
-            tpws = L{
-
+            preferws = L{
+                "Black Halo"
             }
         },
-        AutoFood = "Tropical Crepe"
+        Geomancy = {
+            Indi = Spell.new("Indi-AGI", L{}, L{}, "me", L{}),
+            Geo = Spell.new("Geo-Fury", L{}, L{}, "p0", L{})
+        }
     }
 }

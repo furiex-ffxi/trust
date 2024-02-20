@@ -1,35 +1,6 @@
 -- Settings file for WAR
 return {
     Melee = {
-        Skillchains = {
-            spamws = L{
-                "Impulse Drive",
-                "Upheaval",
-                "Savage Blade",
-                "Judgment"
-            },
-            starterws = L{
-                "Full Break"
-            },
-            defaultws = L{
-                "Upheaval",
-                "Ukko's Fury",
-                "Savage Blade",
-                "Impulse Drive"
-            },
-            tpws = L{
-
-            },
-            cleavews = L{
-                "Fell Cleave"
-            },
-            amws = "King's Justice",
-            preferws = L{
-                "Upheaval",
-                "Savage Blade",
-                "Impulse Drive"
-            }
-        },
         AutoFood = "Grape Daifuku",
         JobAbilities = L{
             JobAbility.new("Berserk", L{InBattleCondition.new(), JobAbilityRecastReadyCondition.new("Berserk")}, L{}),
@@ -42,35 +13,6 @@ return {
     },
     Version = 1,
     Default = {
-        Skillchains = {
-            spamws = L{
-                "Impulse Drive",
-                "Upheaval",
-                "Savage Blade",
-                "Judgment"
-            },
-            starterws = L{
-                "Full Break"
-            },
-            defaultws = L{
-                "Upheaval",
-                "Ukko's Fury",
-                "Savage Blade",
-                "Impulse Drive"
-            },
-            tpws = L{
-
-            },
-            cleavews = L{
-                "Fell Cleave"
-            },
-            amws = "King's Justice",
-            preferws = L{
-                "Upheaval",
-                "Savage Blade",
-                "Impulse Drive"
-            }
-        },
         AutoFood = "Grape Daifuku",
         JobAbilities = L{
             JobAbility.new("Berserk", L{InBattleCondition.new(), JobAbilityRecastReadyCondition.new("Berserk")}, L{}),

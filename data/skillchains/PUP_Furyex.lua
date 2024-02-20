@@ -2,20 +2,21 @@
 return {
     Version = 1,
     Default = {
+        Skills = L{
+            CombatSkillSettings.new("Hand-to-Hand", L{"Combo", "Shoulder Tackle"}, "Tornado Kick"),
+            CombatSkillSettings.new("Dagger", L{}, ""),
+            CombatSkillSettings.new("Club", L{}, "")
+        },
         Skillchain = L{
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
+            SkillchainAbility.auto()
         },
         Blacklist = L{
-        },
-        Skills = L{
-            CombatSkillSettings.new('Hand-to-Hand', L{ 'Combo', 'Shoulder Tackle' }),
-            CombatSkillSettings.new('Dagger', L{}),
-            CombatSkillSettings.new('Club', L{}),
-        },
+
+        }
     }
 }

@@ -28,5 +28,6 @@ return {
         ["autorunemode"]="Off", 
         ["autoenmityreductionmode"]="Off",
         ["autounloadondeathmode"]="Off",
+        ["skillchainassistantmode"]="Off",
     }
 }

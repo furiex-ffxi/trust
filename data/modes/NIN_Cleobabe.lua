@@ -21,6 +21,7 @@ return {
         ["autotrustsmode"]="Off", 
         ["autoenmityreductionmode"]="Auto",
         ["autounloadondeathmode"]="Off",
+        ["skillchainassistantmode"]="Off",
     }, 
     ["Ep"]={
         ["partychatmode"]="Private", 

@@ -21,5 +21,6 @@ return {
         ["combatmode"]="Off",
         ["autoenmityreductionmode"]="Off",
         ["ipcmode"]="All",
+        ["skillchainassistantmode"]="Off",
     }
 }

@@ -32,5 +32,6 @@ return {
         ["ipcmode"]="All",
         ["magicbursttargetmode"]="Single",
         ["autounloadondeathmode"]="Off",
+        ["skillchainassistantmode"]="Off",
     }
 }

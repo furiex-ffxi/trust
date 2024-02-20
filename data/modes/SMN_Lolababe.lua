@@ -39,6 +39,7 @@ return {
         ["actionbatchingmode"]="Off", 
         ["autonukemode"]="Off", 
         ["autoraisemode"]="Off", 
-        ["autobuffmode"]="Auto"
+        ["autobuffmode"]="Auto",
+        ["skillchainassistantmode"]="Off",
     }
 }

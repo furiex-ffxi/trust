@@ -11,9 +11,7 @@ return {
         ["autofoodmode"]="Auto"
     }, 
     ["OdyC"]={
-        ["autoengagemode"]="Mirror", 
         ["maintrustsettingsmode"]="Melee", 
-        ["combatmode"]="Mirror", 
         ["autoskillchainmode"]="Spam", 
         ["autofoodmode"]="Auto", 
         ["autorollmode"]="Auto"
@@ -84,6 +82,7 @@ return {
         ["weaponskillsettingsmode"]="Default", 
         ["autoenmityreductionmode"]="Off",
         ["autounloadondeathmode"]="Off",
+        ["skillchainassistantmode"]="Off",
     }, 
     ["Pet"]={
         ["autorollmode"]="Auto", 

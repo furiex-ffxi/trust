@@ -48,6 +48,7 @@ return {
         ["automagicburstmode"]="Off", 
         ["autoenmityreductionmode"]="Off",
         ["autounloadondeathmode"]="Off",
+        ["skillchainassistantmode"]="Off",
     }, 
     ["OdyC"]={
         ["autotargetmode"]="Auto", 
