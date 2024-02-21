@@ -67,7 +67,7 @@ function CollectionView.new(dataSource, layout, delegate, cursorImageItem)
     self.delegate:didMoveCursorToItemAtIndexPath():addAction(function(cursorIndexPath)
         local cell = self:getDataSource():cellForItemAtIndexPath(cursorIndexPath)
         if cell then
-            self.selectionBackground:setPosition(cell:getPosition().x - self.cursorImageItem:getSize().width - 15, cell:getPosition().y)
+            self.selectionBackground:setPosition(cell:getPosition().x - self.cursorImageItem:getSize().width - 7, cell:getPosition().y + (cell:getSize().height - self.cursorImageItem:getSize().height) / 2)
             self.selectionBackground:setSize(self.cursorImageItem:getSize().width, self.cursorImageItem:getSize().height)
             self.selectionBackground:setVisible(self:hasFocus())
             self.selectionBackground:setNeedsLayout()
@@ -134,6 +134,24 @@ function CollectionView:setAllowsCursorSelection(allowsCursorSelection)
 end
 
 ---
+-- Sets whether scrolling should wrap around once it reaches the end.
+--
+-- @tparam boolean allowsScrollWrap The new value for `allowsScrollWrap`.
+--
+function CollectionView:setAllowsScrollWrap(allowsScrollWrap)
+    self.allowsScrollWrap = allowsScrollWrap
+end
+
+---
+-- Set a new scroll delta value.
+--
+-- @tparam number delta The new scroll delta value.
+--
+function CollectionView:setScrollDelta(delta)
+    ScrollView.setScrollDelta(self, delta + self.layout:getItemSpacing())
+end
+
+---
 -- Set a new scroll delta value.
 --
 -- @tparam number delta The new scroll delta value.
@@ -171,7 +189,7 @@ function CollectionView:onKeyboardEvent(key, pressed, flags, blocked)
         local currentIndexPath = self:getDelegate():getCursorIndexPath()
         if currentIndexPath then
             if key == 208 then
-                local nextIndexPath = self:getDataSource():getNextIndexPath(currentIndexPath)
+                local nextIndexPath = self:getDataSource():getNextIndexPath(currentIndexPath, self.allowsScrollWrap)
                 local cell = self:getDataSource():cellForItemAtIndexPath(nextIndexPath)
                 if not cell:isVisible() then
                     self:scrollDown()
@@ -179,7 +197,7 @@ function CollectionView:onKeyboardEvent(key, pressed, flags, blocked)
                 self:getDelegate():setCursorIndexPath(nextIndexPath)
                 return true
             elseif key == 200 then
-                local nextIndexPath = self:getDataSource():getPreviousIndexPath(currentIndexPath)
+                local nextIndexPath = self:getDataSource():getPreviousIndexPath(currentIndexPath, self.allowsScrollWrap)
                 local cell = self:getDataSource():cellForItemAtIndexPath(nextIndexPath)
                 if not cell:isVisible() then
                     self:scrollUp()

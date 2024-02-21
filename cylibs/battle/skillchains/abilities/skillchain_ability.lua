@@ -87,7 +87,7 @@ function SkillchainAbility:get_conditions()
     if self.party_member then
         local buffs = self:get_buffs()
         if buffs:length() > 0 then
-            conditions:append(HasBuffsCondition.from_party_member(buffs:map(function(buff_id) return buff_util.buff_name(buff_id) end), false, self.party_member))
+            conditions:append(HasBuffsCondition.from_party_member(buffs:map(function(buff_id) return buff_util.buff_name(buff_id) end), 1, self.party_member))
         end
     end
     return conditions
@@ -128,7 +128,7 @@ end
 -- @tparam number target_index Index of target of the ability
 -- @tparam Player player Player
 -- @treturn Action The action
-function SkillchainAbility:to_action(target_index, player)
+function SkillchainAbility:to_action(target_index, player, job_abilities)
     local actions = L{}
 
     for buff_id in self:get_buffs():it() do
@@ -140,12 +140,23 @@ function SkillchainAbility:to_action(target_index, player)
         end
     end
 
+    for job_ability in (job_abilities or L{}):it() do
+        if job_util.can_use_job_ability(job_ability:get_name()) then
+            local job_ability_action = job_ability:to_action()
+            if job_ability_action:can_perform() then
+                actions:append(job_ability:to_action())
+            else
+                job_ability_action:destroy()
+            end
+        end
+    end
+
     if self.resource == 'weapon_skills' then
         actions:append(WeaponSkillAction.new(self:get_name(), target_index))
     elseif self.resource == 'job_abilities' then
         actions:append(JobAbilityAction.new(0, 0, 0, self:get_name(), target_index))
     elseif self.resource == 'spells' then
-        actions:append(SpellAction.new(0, 0, 0, self:get_id(), target_index, player))
+        actions:append(SpellAction.new(0, 0, 0, self:get_ability_id(), target_index, player))
     end
 
     actions:append(WaitAction.new(0, 0, 0, 2))

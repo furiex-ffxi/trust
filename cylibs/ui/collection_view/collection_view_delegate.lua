@@ -142,8 +142,8 @@ function CollectionViewDelegate:selectItemAtIndexPath(indexPath)
         end
         return
     end
-
     if not self.collectionView:getAllowsMultipleSelection() then
+        self:deHighlightAllItems()
         self:deselectAllItems()
     end
 
@@ -275,7 +275,7 @@ function CollectionViewDelegate:setCursorIndexPath(indexPath)
     if cell then
         self.cursorIndexPath = indexPath
 
-        if not self.collectionView:getAllowsMultipleSelection() then
+        if not self.collectionView:getAllowsMultipleSelection() and self.collectionView:getAllowsCursorSelection() then
             for selectedIndexPath in self:getSelectedIndexPaths():it() do
                 if selectedIndexPath ~= indexPath then
                     self:deselectItemAtIndexPath(selectedIndexPath)
@@ -283,8 +283,12 @@ function CollectionViewDelegate:setCursorIndexPath(indexPath)
             end
         end
 
+        self:deHighlightAllItems()
+
         if self.collectionView:getAllowsCursorSelection() then
             self:selectItemAtIndexPath(indexPath)
+        else
+            self:highlightItemAtIndexPath(indexPath)
         end
 
         self:didMoveCursorToItemAtIndexPath():trigger(self.cursorIndexPath)

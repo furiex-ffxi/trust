@@ -25,13 +25,13 @@ local SongSettingsEditor = setmetatable({}, {__index = CollectionView })
 SongSettingsEditor.__index = SongSettingsEditor
 
 
-function SongSettingsEditor.new(trustSettings, settingsMode, width)
+function SongSettingsEditor.new(trustSettings, settingsMode, helpUrl)
     local dataSource = CollectionViewDataSource.new(function(item, indexPath)
         local cell = TextCollectionViewCell.new(item)
         cell:setClipsToBounds(true)
         cell:setItemSize(20)
         if indexPath.row ~= 1 then
-            cell:setUserInteractionEnabled(true)
+            cell:setUserInteractionEnabled(false)
         else
             cell:setIsSelectable(false)
         end
@@ -42,9 +42,10 @@ function SongSettingsEditor.new(trustSettings, settingsMode, width)
 
     local self = setmetatable(CollectionView.new(dataSource, VerticalFlowLayout.new(2, Padding.new(15, 10, 0, 0)), nil, cursorImageItem), SongSettingsEditor)
 
-    self:setAllowsCursorSelection(true)
+    self:setAllowsCursorSelection(false)
     self:setScrollDelta(20)
 
+    self.helpUrl = helpUrl
     self.trustSettings = trustSettings
     self.settingsMode = settingsMode
     self.menuArgs = {}
@@ -109,7 +110,7 @@ function SongSettingsEditor:onSelectMenuItemAtIndexPath(textItem, indexPath)
             end
         end
     elseif textItem:getText() == 'Help' then
-        windower.open_url(settings.help.wiki_base_url..'/Singer')
+        windower.open_url(self.helpUrl)
     end
 end
 
