@@ -37,9 +37,24 @@
             <logtofile>false</logtofile>
         </logging>
         <menu_key>numpad+</menu_key>
+        <party_widget>
+            <visible>true</visible>
+            <x>3000</x>
+            <y>3000</y>
+        </party_widget>
         <remote_commands>
             <whitelist>Furyex,Lolababe,Cyrite,Wapiti,Cleobabe,Mailman</whitelist>
         </remote_commands>
+        <target_widget>
+            <visible>true</visible>
+            <x>1795</x>
+            <y>46</y>
+        </target_widget>
+        <trust_widget>
+            <visible>true</visible>
+            <x>1670</x>
+            <y>46</y>
+        </trust_widget>
         <verbose>true</verbose>
         <version>1.0.0</version>
     </global>
@@ -47,27 +62,30 @@
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>8.6.4</version>
+        <version>8.8.3</version>
     </cleobabe>
     <furyex>
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>8.6.4</version>
+        <version>8.8.3</version>
     </furyex>
     <lolababe>
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>8.6.4</version>
+        <version>8.8.3</version>
     </lolababe>
     <mailman>
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>8.6.4</version>
+        <version>8.8.3</version>
     </mailman>
     <suckme>
+        <flags>
+            <show_death_warning>false</show_death_warning>
+        </flags>
         <version>8.6.4</version>
     </suckme>
 </settings>

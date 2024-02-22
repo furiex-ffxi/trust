@@ -5,7 +5,7 @@ return {
         Skills = L{
             CombatSkillSettings.new("Dagger", L{"Shadowstitch", "Cyclone", "Aeolian Edge", "Gust Slash", "Viper Bite", "Wasp Sting"}, ""),
             CombatSkillSettings.new("Sword", L{"Flat Blade", "Burning Blade", "Vorpal Blade", "Shining Blade", "Seraph Blade", "Sanguine Blade", "Circle Blade", "Fast Blade", "Chant du Cygne", "Red Lotus Blade"}, "Savage Blade"),
-            CombatSkillSettings.new("Club", L{"Shining Strike", "Brainshaker", "Skullbreaker", "True Strike"}, ""),
+            CombatSkillSettings.new("Club", L{"Shining Strike", "Brainshaker", "Skullbreaker", "True Strike"}, "Black Halo"),
             CombatSkillSettings.new("Archery", L{}, "")
         },
         Skillchain = L{

@@ -6,8 +6,10 @@ return {
 
         },
         Geomancy = {
-            Indi = Spell.new("Indi-Fury", L{}, L{}, nil, L{}),
-            Geo = Spell.new("Geo-Frailty", L{}, L{}, "bt", L{})
+            Indi = Spell.new("Indi-Attunement", L{}, L{}, nil, L{}),
+            Geo = Spell.new("Geo-Frailty", L{}, L{}, "bt", L{}),
+            -- Indi = Spell.new("Indi-Acumen", L{}, L{}, nil, L{}),
+            -- Geo = Spell.new("Geo-Malaise", L{}, L{}, "bt", L{})
         },
         JobAbilities = L{
 
@@ -51,7 +53,7 @@ return {
             }
         },
         PartyBuffs = L{
-            Spell.new("Indi-Haste", L{"Entrust"}, L{"RUN", "RDM"}, nil, L{})
+            Spell.new("Indi-Fury", L{"Entrust"}, L{"RUN", "PUP"}, nil, L{})
         }
     }
 }
