@@ -4,7 +4,7 @@ return {
     Default = {
         Skills = L{
             CombatSkillSettings.new("Dagger", L{"Cyclone", "Wasp Sting", "Shadowstitch", "Gust Slash", "Viper Bite"}, ""),
-            CombatSkillSettings.new("Marksmanship", L{"Hot Shot", "Slug Shot", "Numbing Shot", "Split Shot", "Last Stand", "Detonator", "Wildfire", "Sniper Shot"}, "Wildfire"),
+            CombatSkillSettings.new("Marksmanship", L{"Hot Shot", "Slug Shot", "Numbing Shot", "Split Shot", "Last Stand", "Detonator", "Wildfire", "Sniper Shot"}, "Leaden Salute"),
             CombatSkillSettings.new("Sword", L{"Flat Blade", "Requiescat", "Fast Blade", "Circle Blade", "Shining Blade", "Burning Blade"}, "Savage Blade")
         },
         Skillchain = L{

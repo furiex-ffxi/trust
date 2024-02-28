@@ -1,0 +1,33 @@
+-- Modes file for MNK
+return {
+    ["Default"]={
+        ["autodisablemode"]="Auto", 
+        ["autobuffmode"]="Auto", 
+        ["actionbatchingmode"]="Off", 
+        ["skillchainassistantmode"]="Off", 
+        ["autoaftermathmode"]="Off", 
+        ["autotrustsmode"]="Off", 
+        ["autotargetmode"]="Off", 
+        ["approachpullmode"]="Off", 
+        ["autofacemobmode"]="Auto", 
+        ["flankmode"]="Off", 
+        ["subtrustsettingsmode"]="Default", 
+        ["engagemode"]="None", 
+        ["autoskillchainmode"]="Auto", 
+        ["autoengagemode"]="Always", 
+        ["autotankmode"]="Off", 
+        ["autofoodmode"]="Off", 
+        ["autounloadondeathmode"]="Auto", 
+        ["combatmode"]="Off", 
+        ["autoenablemode"]="Auto", 
+        ["autopullmode"]="Off", 
+        ["partychatmode"]="Private", 
+        ["skillchainpropertymode"]="Off", 
+        ["weaponskillsettingsmode"]="Default", 
+        ["autofollowmode"]="Always", 
+        ["maintrustsettingsmode"]="Default", 
+        ["ipcmode"]="All", 
+        ["skillchaindelaymode"]="Off", 
+        ["autoenmityreductionmode"]="Auto"
+    }
+}

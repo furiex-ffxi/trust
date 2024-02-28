@@ -10,7 +10,7 @@ return {
 
         },
         PartyBuffs = L{
-            Spell.new("Indi-Fend", L{"Entrust"}, L{"RUN"}, nil, L{})
+            Spell.new("Indi-Fury", L{"Entrust"}, L{"WAR"}, nil, L{})
         },
         NukeSettings = {
             MinNumMobsToCleave = 2,
@@ -47,8 +47,8 @@ return {
             }
         },
         Geomancy = {
-            Indi = Spell.new("Indi-AGI", L{}, L{}, "me", L{}),
-            Geo = Spell.new("Geo-Fury", L{}, L{}, "p0", L{})
+            Indi = Spell.new("Indi-Attunement", L{}, L{}, "me", L{}),
+            Geo = Spell.new("Geo-Frailty", L{}, L{}, "p0", L{})
         }
     }
 }

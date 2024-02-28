@@ -1,20 +1,18 @@
 -- Settings file for SCH
 return {
-    Version = 2,
     Default = {
         LightArts = {
-            JobAbilities = L{
-                JobAbility.new('Light Arts', L{}, L{}, nil),
-            },
             PartyBuffs = L{
-                Spell.new("Adloquium", L{}, L{"WAR", "PUP"}, nil, L{})
+                Spell.new("Adloquium", L{}, L{"WAR", "PUP"}, nil, L{}),
+                Spell.new("Windstorm", L{}, L{"SAM"}, nil, L{})
             },
             SelfBuffs = L{
-                Buff.new("Protect", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(1, ">=")}),
-                Buff.new("Shell", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(1, ">=")}),
-                Buff.new("Regen", L{"Accession", "Perpetuance"}, L{}, nil, L{StrategemCountCondition.new(2, ">=")}),
-                Spell.new("Phalanx", L{"Accession", "Perpetuance"}, nil, nil, L{StrategemCountCondition.new(2, ">=")}),
-                Spell.new("Aurorastorm II", L{}, nil, nil, L{})
+                Buff.new("Regen", L{"Accession"}, L{}, nil, L{}),
+                Spell.new("Phalanx", L{"Accession"}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Windstorm", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+            },
+            JobAbilities = L{
+                JobAbility.new("Light Arts", L{}, L{})
             }
         },
         StrategemCooldown = 33,
@@ -34,28 +32,6 @@ return {
                 }
             }
         },
-        NukeSettings = {
-            Delay = 2,
-            MinManaPointsPercent = 20,
-            MinNumMobsToCleave = 2,
-            Spells = L{
-                Spell.new('Thunder V'),
-                Spell.new('Thunder IV'),
-                Spell.new('Blizzard V'),
-                Spell.new('Blizzard IV'),
-                Spell.new('Fire V'),
-                Spell.new('Fire IV'),
-                Spell.new('Aero V'),
-                Spell.new('Aero IV'),
-                Spell.new('Water V'),
-                Spell.new('Water IV'),
-                Spell.new('Stone V'),
-                Spell.new('Stone IV'),
-            },
-            Blacklist = L{
-
-            },
-        },
         Skillchains = {
             spamws = L{
                 "Black Halo"
@@ -67,94 +43,29 @@ return {
                 "Retribution",
                 "Black Halo"
             },
-            preferws = L{
-                "Retribution",
-                "Black Halo"
+            tpws = L{
+
             },
             cleavews = L{
 
             },
             amws = "Omniscience",
-            tpws = L{
-
+            preferws = L{
+                "Retribution",
+                "Black Halo"
             }
         },
         DarkArts = {
-            JobAbilities = L{
-                JobAbility.new('Dark Arts', L{}, L{}, nil),
-            },
             PartyBuffs = L{
 
             },
             SelfBuffs = L{
-                Spell.new("Klimaform", L{}, nil, nil, L{})
+                Spell.new("Klimaform", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+            },
+            JobAbilities = L{
+                JobAbility.new("Dark Arts", L{}, L{})
             }
         }
     },
-    Subjob = {
-        LightArts = {
-            JobAbilities = L{
-                JobAbility.new('Light Arts', L{}, L{}, nil),
-            },
-            PartyBuffs = L{
-                Spell.new("Adloquium", L{}, L{"WAR", "PUP"}, nil, L{})
-            },
-            SelfBuffs = L{
-                Buff.new("Regen", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(2, ">=")}),
-                Spell.new("Phalanx", L{"Accession"}, nil, nil, L{StrategemCountCondition.new(2, ">=")}),
-                Spell.new("Voidstorm", L{}, nil, nil, L{})
-            }
-        },
-        StrategemCooldown = 33,
-        CureSettings = {
-            Thresholds = {
-                ["Cure IV"] = 1200,
-                Emergency = 25,
-                Default = 78,
-                ["Cure II"] = 0,
-                ["Cure III"] = 500
-            },
-            Delay = 2,
-            StatusRemovals = {
-                Delay = 3,
-                Blacklist = L{
-
-                }
-            }
-        },
-        Skillchains = {
-            spamws = L{
-                "Black Halo"
-            },
-            starterws = L{
-                "Black Halo"
-            },
-            defaultws = L{
-                "Retribution",
-                "Black Halo"
-            },
-            preferws = L{
-                "Retribution",
-                "Black Halo"
-            },
-            cleavews = L{
-
-            },
-            amws = "Omniscience",
-            tpws = L{
-
-            }
-        },
-        DarkArts = {
-            JobAbilities = L{
-                JobAbility.new('Dark Arts', L{}, L{}, nil),
-            },
-            PartyBuffs = L{
-
-            },
-            SelfBuffs = L{
-                Spell.new("Klimaform", L{}, nil, nil, L{})
-            }
-        }
-    }
+    Version = 2,
 }

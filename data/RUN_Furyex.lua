@@ -40,11 +40,8 @@ return {
         },
         JobAbilities = L{
             JobAbility.new("Swordplay", L{InBattleCondition.new()}),
-            JobAbility.new("Liement", L{}, L{}),
-            JobAbility.new("Valiance", L{}, L{}),
-            JobAbility.new("Pflug", L{}, L{}),
-            JobAbility.new("Vallation", L{}, L{}),
-            JobAbility.new("Battuta", L{}, L{})
+            JobAbility.new("Valiance", L{InBattleCondition.new()}),
+            JobAbility.new("Vallation", L{InBattleCondition.new()}),
         }
     }
 }

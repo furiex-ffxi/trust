@@ -6,7 +6,7 @@ return {
         },
         SongDuration = 325,
         PartyBuffs = L{
-            Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH", "SMN", "PLD"}, nil, L{}),
+            Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH", "SMN", "PLD", "RUN"}, nil, L{}),
             Spell.new("Sage Etude", L{"Pianissimo"}, L{"BLM"}, nil, L{}),
             Spell.new("Knight's Minne V", L{"Pianissimo"}, L{"PLD", "RUN", "NIN"}, nil, L{}),
             Spell.new("Dragonfoe Mambo", L{"Pianissimo"}, L{"NIN"}, nil, L{})
@@ -98,7 +98,7 @@ return {
         SongDuration = 325,
         PartyBuffs = L{
             Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH", "SMN", "PLD"}, nil, L{}),
-            Spell.new("Sage Etude", L{"Pianissimo"}, L{"BLM"}, nil, L{}),
+            Spell.new("Sage Etude", L{"Pianissimo"}, L{"BLM"}, nil, L{})
         },
         SongDelay = 5,
         NumSongs = 4,
@@ -118,7 +118,7 @@ return {
             Spell.new("Valor Minuet IV", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "COR", "RNG"}, nil, L{}),
             Spell.new("Valor Minuet III", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "COR", "RNG"}, nil, L{})
         }
-    },    
+    },
     Magic = {
         SelfBuffs = L{
 
@@ -250,7 +250,7 @@ return {
             Spell.new("Sage Etude", L{"Pianissimo"}, L{"BLM"}, nil, L{}),
             Spell.new("Dragonfoe Mambo", L{"Pianissimo"}, L{"NIN"}, nil, L{}),
             Spell.new("Ice Carol", L{"Pianissimo"}, L{"RUN"}, nil, L{}),
-            Spell.new("Ice Carol II", L{"Pianissimo"}, L{"RUN"}, nil, L{}),
+            Spell.new("Ice Carol II", L{"Pianissimo"}, L{"RUN"}, nil, L{})
         },
         SongDelay = 5,
         NumSongs = 4,
@@ -265,11 +265,11 @@ return {
             Spell.new("Pining Nocturne", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
         },
         Songs = L{
-            Spell.new("Honor March", L{"Marcato"}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "COR", "RNG", "WHM"}, nil, L{}),
-            Spell.new("Swift Etude", L{}, L{"RNG", "COR", "BRD"}, nil, L{}),
-            Spell.new("Valor Minuet V", L{}, L{"RNG", "COR", "BRD"}, nil, L{}),
-            Spell.new("Valor Minuet IV", L{}, L{"RNG", "COR", "BRD"}, nil, L{}),
-            Spell.new("Adventurer's Dirge", L{}, L{"RNG", "COR", "BRD"}, nil, L{}),
+            Spell.new("Victory March", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Spell.new("Valor Minuet IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Spell.new("Blade Madrigal", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Spell.new("Valor Minuet V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Spell.new("Honor March", L{"Marcato"}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
         }
     }
 }
