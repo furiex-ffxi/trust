@@ -152,7 +152,27 @@ function PartyStatusWidget:removePartyMember(party_member)
         self:getDataSource():removeItem(indexPath)
         self:setSize(self:getSize().width, self:getContentSize().height)
         self:layoutIfNeeded()
+
+        self:setAssistTarget(self.party:get_assist_target())
     end
+end
+
+function PartyStatusWidget:setExpanded(expanded)
+    if not Widget.setExpanded(self, expanded) then
+        return false
+    end
+
+    if expanded then
+        self.assistTargetIcon:setVisible(true)
+        self:getContentView():addSubview(self.assistTargetIcon)
+        self:setPartyMembers(self.party:get_party_members(true))
+    else
+        self.assistTargetIcon:removeFromSuperview()
+        self.assistTargetIcon:setVisible(false)
+        self:getDataSource():removeAllItems()
+        self:layoutIfNeeded()
+    end
+    self.assistTargetIcon:layoutIfNeeded()
 end
 
 return PartyStatusWidget

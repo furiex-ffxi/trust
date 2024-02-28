@@ -3,7 +3,8 @@ local ImageItem = require('cylibs/ui/collection_view/items/image_item')
 local IndexPath = require('cylibs/ui/collection_view/index_path')
 local PickerView = require('cylibs/ui/picker/picker_view')
 
-local TargetsPickerView = setmetatable({}, {__index = PickerView })
+local FFXIPickerView = require('ui/themes/ffxi/FFXIPickerView')
+local TargetsPickerView = setmetatable({}, {__index = FFXIPickerView })
 TargetsPickerView.__index = TargetsPickerView
 
 function TargetsPickerView.new(addonSettings, puller)
@@ -15,9 +16,7 @@ function TargetsPickerView.new(addonSettings, puller)
         end
     end
 
-    local cursorImageItem = ImageItem.new(windower.addon_path..'assets/backgrounds/menu_selection_bg.png', 37, 24)
-
-    local self = setmetatable(PickerView.withItems(allMobs, L{}, true, cursorImageItem), TargetsPickerView)
+    local self = setmetatable(FFXIPickerView.withItems(allMobs, L{}, true), TargetsPickerView)
 
     self.addonSettings = addonSettings
     self.puller = puller

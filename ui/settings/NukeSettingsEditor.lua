@@ -10,7 +10,8 @@ local TextItem = require('cylibs/ui/collection_view/items/text_item')
 local TextStyle = require('cylibs/ui/style/text_style')
 local VerticalFlowLayout = require('cylibs/ui/collection_view/layouts/vertical_flow_layout')
 
-local NukeSettingsEditor = setmetatable({}, {__index = CollectionView })
+local FFXIWindow = require('ui/themes/ffxi/FFXIWindow')
+local NukeSettingsEditor = setmetatable({}, {__index = FFXIWindow })
 NukeSettingsEditor.__index = NukeSettingsEditor
 
 
@@ -23,9 +24,7 @@ function NukeSettingsEditor.new(trustSettings, settingsMode, helpUrl)
         return cell
     end)
 
-    local cursorImageItem = ImageItem.new(windower.addon_path..'assets/backgrounds/menu_selection_bg.png', 37, 24)
-
-    local self = setmetatable(CollectionView.new(dataSource, VerticalFlowLayout.new(2, Padding.new(15, 10, 0, 0)), nil, cursorImageItem), NukeSettingsEditor)
+    local self = setmetatable(FFXIWindow.new(dataSource, VerticalFlowLayout.new(2, Padding.new(15, 10, 0, 0))), NukeSettingsEditor)
 
     self:setAllowsCursorSelection(true)
     self:setScrollDelta(20)

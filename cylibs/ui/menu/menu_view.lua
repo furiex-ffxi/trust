@@ -33,9 +33,7 @@ function MenuView.new(menuItem, viewStack)
         return cell
     end)
 
-    local cursorImageItem = ImageItem.new(windower.addon_path..'assets/backgrounds/menu_selection_bg.png', 37, 24)
-
-    local self = setmetatable(CollectionView.new(dataSource, VerticalFlowLayout.new(0, Padding.new(6, 6, 0, 0)), nil, cursorImageItem), MenuView)
+    local self = setmetatable(CollectionView.new(dataSource, VerticalFlowLayout.new(0, Padding.new(6, 6, 0, 0))), MenuView)
 
     self:setScrollDelta(buttonHeight)
     self:setAllowsMultipleSelection(false)
@@ -98,16 +96,12 @@ function MenuView:setItem(menuItem)
         local menuHeight = buttonHeight * (buttonItems:length()) + 10
         local menuWidth = 112
 
-        if self.backgroundImageView then
-            self.backgroundImageView:destroy()
+        if not self:getBackgroundImageView() then
+            local backgroundView = FFXIBackgroundView.new(Frame.new(0, 0, menuWidth, menuHeight))
+            self:setBackgroundImageView(backgroundView)
         end
 
-        self:setBackgroundImageView(nil)
-
-        local backgroundView = FFXIBackgroundView.new(Frame.new(0, 0, menuWidth, menuHeight))
-        backgroundView:setTitle(menuItem:getTitleText() or "")
-
-        self:setBackgroundImageView(backgroundView)
+        self:getBackgroundImageView():setTitle(menuItem:getTitleText() or "")
 
         self:getBackgroundImageView():setNeedsLayout()
         self:getBackgroundImageView():layoutIfNeeded()

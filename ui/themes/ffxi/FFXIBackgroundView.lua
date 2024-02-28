@@ -1,6 +1,7 @@
 local BorderView = require('cylibs/ui/views/border/border_view')
 local CollectionView = require('cylibs/ui/collection_view/collection_view')
 local CollectionViewDataSource = require('cylibs/ui/collection_view/collection_view_data_source')
+local Event = require('cylibs/events/Luvent')
 local Frame = require('cylibs/ui/views/frame')
 local ImageCollectionViewCell = require('cylibs/ui/collection_view/cells/image_collection_view_cell')
 local ImageItem = require('cylibs/ui/collection_view/items/image_item')
@@ -35,6 +36,10 @@ FFXIBackgroundView.Border.RightImageItem = ImageItem.new(
         3
 )
 
+function FFXIBackgroundView:onSelectTitle()
+    return self.selectTitle
+end
+
 ---
 -- Creates a background view with top, middle, and bottom images.
 --
@@ -44,12 +49,17 @@ FFXIBackgroundView.Border.RightImageItem = ImageItem.new(
 -- @param bottomImagePath The file path of the bottom image.
 -- @treturn BackgroundView The created background view.
 --
-function FFXIBackgroundView.new(frame, hideTitle)
-    local self = setmetatable(CollectionView.new(CollectionViewDataSource.new(), VerticalFlowLayout.new(0)), FFXIBackgroundView)
+function FFXIBackgroundView.new(frame, hideTitle, style)
+    style = style or CollectionView.defaultStyle()
+
+    local self = setmetatable(CollectionView.new(CollectionViewDataSource.new(), VerticalFlowLayout.new(0), nil, style), FFXIBackgroundView)
+
+    self.selectTitle = Event.newEvent()
 
     self:getDataSource().cellForItem = function(item, _)
         local cell = ImageCollectionViewCell.new(item)
         cell:setItemSize(self:getSize().height)
+        cell:setUserInteractionEnabled(true)
         return cell
     end
 
@@ -68,9 +78,9 @@ function FFXIBackgroundView.new(frame, hideTitle)
 
     local borderImageItem = ResizableImageItem.new()
 
-    borderImageItem:setImageItem(FFXIBackgroundView.Border.LeftImageItem, ResizableImageItem.Left)
-    borderImageItem:setImageItem(FFXIBackgroundView.Border.CenterImageItem, ResizableImageItem.Center)
-    borderImageItem:setImageItem(FFXIBackgroundView.Border.RightImageItem, ResizableImageItem.Right)
+    borderImageItem:setImageItem(style:getBorderLeftItem(), ResizableImageItem.Left)
+    borderImageItem:setImageItem(style:getBorderCenterItem(), ResizableImageItem.Center)
+    borderImageItem:setImageItem(style:getBorderRightItem(), ResizableImageItem.Right)
 
     if not hideTitle then
         self.topBorderView = TitleBorderView.new(Frame.new(0, 0, frame.width, 3), borderImageItem)
@@ -86,7 +96,18 @@ function FFXIBackgroundView.new(frame, hideTitle)
 
     self:addSubview(self.bottomBorderView)
 
+    self:getDisposeBag():add(self.topBorderView:getDelegate():didSelectItemAtIndexPath():addAction(function(indexPath)
+        self.topBorderView:getDelegate():deselectAllItems()
+        self:onSelectTitle():trigger(self)
+    end), self.topBorderView:getDelegate():didSelectItemAtIndexPath())
+
     return self
+end
+
+function FFXIBackgroundView:destroy()
+    CollectionView.destroy(self)
+
+    self.selectTitle:removeAllActions()
 end
 
 function FFXIBackgroundView:setTitle(title, size)
@@ -106,9 +127,9 @@ end
 
 function FFXIBackgroundView:getImageItem(frame)
     local imageItem = ImageItem.new(
-            FFXIBackgroundView.CenterImageItem:getImagePath(),
-            FFXIBackgroundView.CenterImageItem:getSize().width,
-            FFXIBackgroundView.CenterImageItem:getSize().height
+            self.style:getBackgroundItem():getImagePath(),
+            self.style:getBackgroundItem():getSize().width,
+            self.style:getBackgroundItem():getSize().height
     )
     imageItem:setRepeat(frame.width / imageItem:getSize().width, frame.height / imageItem:getSize().height)
     imageItem:setAlpha(225)
@@ -120,8 +141,7 @@ function FFXIBackgroundView:setEditing(editing)
     CollectionView.setEditing(self, editing)
 
     for border in L{ self.topBorderView, self.bottomBorderView }:it() do
-        border:setVisible(not self:isEditing())
-        border:layoutIfNeeded()
+        border:setEditing(editing)
     end
 end
 
