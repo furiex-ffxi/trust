@@ -5,7 +5,7 @@ return {
         Skills = L{
             CombatSkillSettings.new("Club", L{}, ""),
             CombatSkillSettings.new("Staff", L{}, "Spirit Taker"),
-            CombatSkillSettings.new("Dagger", L{}, "")
+            CombatSkillSettings.new("Dagger", L{}, "Aeolian Edge")
         },
         Skillchain = L{
             SkillchainAbility.auto(),

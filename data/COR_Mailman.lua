@@ -26,29 +26,29 @@ return {
         Roll2 = Roll.new("Wizard's Roll", false)
     },
     Version = 1,
-    Subtle = {
+    Subjob = {
         AutoFood = "Grape Daifuku",
-        Roll1 = Roll.new("Monk's Roll", true),
-        Roll2 = Roll.new("Samurai Roll", false)
+        Roll1 = Roll.new("Corsair's Roll", true),
+        Roll2 = Roll.new("Corsair's Roll", false)
     },
-    Pet = {
+    Default = {
         AutoFood = "Grape Daifuku",
-        Roll1 = Roll.new("Puppet Roll", true),
-        Roll2 = Roll.new("Companion's Roll", false)
+        Roll1 = Roll.new("Tactician's Roll", true),
+        Roll2 = Roll.new("Wizard's Roll", false)
     },
     Proc = {
         AutoFood = "Grape Daifuku",
         Roll1 = Roll.new("Samurai Roll", true),
         Roll2 = Roll.new("Tactician's Roll", false)
     },
-    Default = {
+    Pet = {
         AutoFood = "Grape Daifuku",
-        Roll1 = Roll.new("Wizard's Roll", true),
-        Roll2 = Roll.new("Samurai Roll", false)
+        Roll1 = Roll.new("Puppet Roll", true),
+        Roll2 = Roll.new("Companion's Roll", false)
     },
-    Subjob = {
+    Subtle = {
         AutoFood = "Grape Daifuku",
-        Roll1 = Roll.new("Corsair's Roll", true),
-        Roll2 = Roll.new("Corsair's Roll", false)
+        Roll1 = Roll.new("Monk's Roll", true),
+        Roll2 = Roll.new("Samurai Roll", false)
     }
 }
