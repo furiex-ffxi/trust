@@ -175,7 +175,6 @@ function SkillchainTrustCommands:handle_set_step(_, step_num, ...)
 
     local ability_name = table.concat({...}, " ")
     ability_name = windower.convert_auto_trans(ability_name)
-
     local current_settings = self.weapon_skill_settings:getSettings()[state.WeaponSkillSettingsMode.value]
     if current_settings then
         for combat_skill in current_settings.Skills:it() do
