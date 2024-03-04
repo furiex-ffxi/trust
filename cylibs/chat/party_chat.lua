@@ -21,7 +21,7 @@ function PartyChat.new(ipcEnabled)
             local ipcMessage = IpcMessage.new(message)
             if ipcMessage:get_args():length() > 0 and ipcMessage:get_args()[1] == 'party_chat' then
                 local partyChatMessage = PartyChatMessage.new(message)
-                addon_message(260, "(%s) %s":format(partyChatMessage:get_sender_name(), partyChatMessage:get_chat_message()))
+                addon_message(257, "(%s) %s":format(partyChatMessage:get_sender_name(), partyChatMessage:get_chat_message()))
             end
         end)
     end
@@ -53,7 +53,7 @@ function PartyChat:add_to_chat(sender_name, message, throttle_key, throttle_dura
     end
 
     if state.PartyChatMode.value == 'Private' or is_local_only then
-        addon_message(260, "(%s) %s":format(sender_name, message))
+        addon_message(257, "(%s) %s":format(sender_name, message))
 
         if self.ipcEnabled and not is_local_only then
             windower.send_ipc_message("party_chat %s %s":format(sender_name, message))

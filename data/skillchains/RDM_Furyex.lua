@@ -8,9 +8,6 @@ return {
             CombatSkillSettings.new("Club", L{"Shining Strike", "Brainshaker", "Skullbreaker", "True Strike"}, "Black Halo"),
             CombatSkillSettings.new("Archery", L{}, "")
         },
-        Blacklist = L{
-
-        },
         Skillchain = L{
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
@@ -18,6 +15,9 @@ return {
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto()
+        },
+        Blacklist = L{
+
         }
     }
 }

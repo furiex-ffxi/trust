@@ -53,7 +53,7 @@ return {
             }
         },
         PartyBuffs = L{
-            Spell.new("Indi-Haste", L{"Entrust"}, L{"RUN", "WAR", "BLM"}, nil, L{})
+            Spell.new("Indi-INT", L{"Entrust"}, L{"RUN", "WAR", "RDM"}, nil, L{})
         }
     }
 }

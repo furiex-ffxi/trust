@@ -62,25 +62,25 @@
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>8.8.5</version>
+        <version>8.8.6</version>
     </cleobabe>
     <furyex>
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>8.8.5</version>
+        <version>8.8.6</version>
     </furyex>
     <lolababe>
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>8.8.5</version>
+        <version>8.8.6</version>
     </lolababe>
     <mailman>
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>8.8.5</version>
+        <version>8.8.6</version>
     </mailman>
     <suckme>
         <flags>
