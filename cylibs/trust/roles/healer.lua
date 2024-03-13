@@ -48,7 +48,7 @@ function Healer:on_add()
                 if hpp < 25 then
                     if p:get_mob().distance:sqrt() < 21 then
                         logger.notice(self.__class, 'on_hp_change', p:get_name(), hpp)
-                        self:check_party_hp(25)
+                        self:check_party_hp(self:get_job():get_cure_threshold(true))
                     end
                 else
                     logger.notice(self.__class, 'on_hp_change', 'check_party_hp', hpp)
@@ -74,7 +74,7 @@ function Healer:target_change(target_index)
     Role.target_change(self, target_index)
 
     self.damage_memory:reset()
-    self.damage_memory:target_change(target_index)
+    self.damage_memory:target_change(self:get_target())
 end
 
 function Healer:tic(old_time, new_time)
@@ -95,28 +95,50 @@ function Healer:check_party_hp(cure_threshold)
 
     logger.notice(self.__class, 'check_party_hp', cure_threshold)
 
-    local party_members = self:get_party():get_party_members(true, 21):filter(function(party_member)
-        return party_member:get_mob() and party_member:get_mob().distance:sqrt() < 21
-                and party_member:get_hpp() <= cure_threshold and party_member:is_alive()
+    local party_members = self:get_valid_cure_targets(function(p)
+        return p:get_hpp() <= cure_threshold -- for Afflatus Misery I think this should be 1 under cure threshold and others under 1.2x
     end):sort(function(p1, p2)
         return p1:get_hpp() < p2:get_hpp()
     end)
+    party_members = self:get_cure_cluster(party_members)
 
-    if #party_members > 2 then
-        local spell_target = party_members[1]
-        party_members = party_members:filter(function(party_member)
-            local distance = geometry_util.distance(spell_target:get_mob(), party_member:get_mob())
-            return distance < 10
-        end)
-    end
-
-    if #party_members > 2 then
+    if #party_members >= self:get_job():get_aoe_threshold() then
         self:cure_party_members(party_members)
     else
         for party_member in party_members:it() do
             self:cure_party_member(party_member)
         end
     end
+end
+
+-------
+-- Returns a cluster of party members within 10' of the first party member in the list.
+-- @tparam list List of party members
+-- @treturn list List of party members
+function Healer:get_cure_cluster(party_members)
+    if #party_members >= self:get_job():get_aoe_threshold() then
+        if self:get_job().get_cure_cluster then
+            return self:get_job():get_cure_cluster(party_members)
+        else
+            local spell_target = party_members[1]
+            party_members = party_members:filter(function(party_member)
+                local distance = geometry_util.distance(spell_target:get_mob(), party_member:get_mob())
+                return distance < 10
+            end)
+        end
+    end
+    return party_members
+end
+
+-------
+-- Returns all party members that are alive and in range.
+-- @tparam function Filter to use on party members (optional)
+-- @treturn list List of party members
+function Healer:get_valid_cure_targets(filter)
+    local party_members = self:get_party():get_party_members(true, 21):filter(function(party_member)
+        return party_member:is_valid() and filter(party_member)
+    end)
+    return party_members
 end
 
 -------
@@ -141,6 +163,7 @@ function Healer:cure_party_member(party_member)
         self.last_cure_time = os.time()
 
         local cure_action = self:get_cure_action(cure_spell_or_job_ability, party_member)
+        cure_action.identifier = self.__class..'cure_party_member'
         cure_action.priority = cure_util.get_cure_priority(party_member:get_hpp(), party_member:is_trust(), false)
 
         self.action_queue:push_action(cure_action, true)
@@ -186,6 +209,7 @@ function Healer:cure_party_members(party_members)
         self.last_cure_time = os.time()
 
         local cure_action = self:get_cure_action(cure_spell_or_job_ability, spell_target)
+        cure_action.identifier = self.__class..'cure_party_members'
         cure_action.priority = cure_util.get_cure_priority(spell_target:get_hpp(), is_trust_only, true)
 
         self.action_queue:push_action(cure_action, true)

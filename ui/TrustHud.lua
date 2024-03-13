@@ -30,6 +30,7 @@ local NukeSettingsEditor = require('ui/settings/NukeSettingsEditor')
 local PartyMemberView = require('cylibs/entity/party/ui/party_member_view')
 local PartyStatusWidget = require('ui/widgets/PartyStatusWidget')
 local PartyTargetsMenuItem = require('ui/settings/menus/PartyTargetsMenuItem')
+local SettingsWidget = require('ui/widgets/SettingsWidget')
 local SingerView = require('ui/views/SingerView')
 local SongSettingsMenuItem = require('ui/settings/menus/songs/SongSettingsMenuItem')
 local SpellPickerView = require('ui/settings/pickers/SpellPickerView')
@@ -162,7 +163,7 @@ function TrustHud:getViewStack()
 end
 
 function TrustHud:createWidgets(addon_settings, addon_enabled, action_queue, party, trust)
-    local trustStatusWidget = TrustStatusWidget.new(Frame.new(0, 0, 125, 55), addon_settings, addon_enabled, action_queue, player.main_job_name, player.sub_job_name)
+    local trustStatusWidget = TrustStatusWidget.new(Frame.new(0, 0, 125, 69), addon_settings, addon_enabled, action_queue, player.main_job_name, player.sub_job_name)
     self.widgetManager:addWidget(trustStatusWidget, "trust")
 
     local targetWidget = TargetWidget.new(Frame.new(0, 0, 125, 40), addon_settings, party, trust)
@@ -170,6 +171,9 @@ function TrustHud:createWidgets(addon_settings, addon_enabled, action_queue, par
 
     local partyStatusWidget = PartyStatusWidget.new(Frame.new(0, 0, 125, 55), addon_settings, party)
     self.widgetManager:addWidget(partyStatusWidget, "party")
+
+    --local settingsWidget = SettingsWidget.new(Frame.new(0, 0, 125, 40), addon_settings, state.TrustMode, state.MainTrustSettingsMode)
+    --self.widgetManager:addWidget(settingsWidget, "settings")
 end
 
 function TrustHud:toggleMenu()
@@ -316,13 +320,45 @@ function TrustHud:getSettingsMenuItem(trust, trustSettings, trustSettingsMode, w
         return modesView
     end, "Modes", "Change buffing behavior.")
 
+    local chooseJobAbilitiesItem = MenuItem.new(L{
+        ButtonItem.default('Confirm', 18),
+        ButtonItem.default('Clear', 18),
+    }, {},
+            function()
+                local jobId = res.jobs:with('ens', jobNameShort).id
+                local allJobAbilities = player_util.get_job_abilities():map(function(jobAbilityId) return res.job_abilities[jobAbilityId] end):filter(function(jobAbility)
+                    return jobAbility.status ~= nil and S{'Self'}:intersection(S(jobAbility.targets)):length() > 0
+                end):map(function(jobAbility) return jobAbility.en end)
+
+                local chooseJobAbilitiesView = setupView(JobAbilityPickerView.new(trustSettings, T(trustSettings:getSettings())[trustSettingsMode.value].JobAbilities, allJobAbilities), viewSize)
+                chooseJobAbilitiesView:setTitle("Choose job abilities to add.")
+                return chooseJobAbilitiesView
+            end)
+
+    local jobAbilitiesSettingsItem = MenuItem.new(L{
+        ButtonItem.default('Add', 18),
+        ButtonItem.default('Remove', 18),
+    }, {
+        Add = chooseJobAbilitiesItem,
+    },
+            function()
+                local backgroundImageView = createBackgroundView(viewSize.width, viewSize.height)
+                local jobAbilitiesSettingsView = JobAbilitiesSettingsEditor.new(trustSettings, trustSettingsMode, viewSize.width)
+                jobAbilitiesSettingsView:setBackgroundImageView(backgroundImageView)
+                jobAbilitiesSettingsView:setNavigationBar(createTitleView(viewSize))
+                jobAbilitiesSettingsView:setSize(viewSize.width, viewSize.height)
+                return jobAbilitiesSettingsView
+            end, "Job Abilities", "Choose job abilities to use.")
+
     local buffSettingsItem = MenuItem.new(L{
         ButtonItem.default('Self', 18),
         ButtonItem.default('Party', 18),
+        ButtonItem.default('Abilities', 18),
         ButtonItem.default('Modes', 18),
     }, {
         Self = selfBuffSettingsItem,
         Party = partyBuffSettingsItem,
+        Abilities = jobAbilitiesSettingsItem,
         Modes = buffModesMenuItem,
     }, nil, "Buffs", "Choose buffs to use.")
 
@@ -366,36 +402,6 @@ function TrustHud:getSettingsMenuItem(trust, trustSettings, trustSettingsMode, w
         return debuffSettingsView
     end, "Debuffs", "Choose debuffs to use on enemies.")
 
-    local chooseJobAbilitiesItem = MenuItem.new(L{
-        ButtonItem.default('Confirm', 18),
-        ButtonItem.default('Clear', 18),
-    }, {},
-            function()
-                local jobId = res.jobs:with('ens', jobNameShort).id
-                local allJobAbilities = player_util.get_job_abilities():map(function(jobAbilityId) return res.job_abilities[jobAbilityId] end):filter(function(jobAbility)
-                    return jobAbility.status ~= nil and S{'Self'}:intersection(S(jobAbility.targets)):length() > 0
-                end):map(function(jobAbility) return jobAbility.en end)
-
-                local chooseJobAbilitiesView = setupView(JobAbilityPickerView.new(trustSettings, T(trustSettings:getSettings())[trustSettingsMode.value].JobAbilities, allJobAbilities), viewSize)
-                chooseJobAbilitiesView:setTitle("Choose job abilities to add.")
-                return chooseJobAbilitiesView
-            end)
-
-    local jobAbilitiesSettingsItem = MenuItem.new(L{
-        ButtonItem.default('Add', 18),
-        ButtonItem.default('Remove', 18),
-    }, {
-        Add = chooseJobAbilitiesItem,
-    },
-    function()
-        local backgroundImageView = createBackgroundView(viewSize.width, viewSize.height)
-        local jobAbilitiesSettingsView = JobAbilitiesSettingsEditor.new(trustSettings, trustSettingsMode, viewSize.width)
-        jobAbilitiesSettingsView:setBackgroundImageView(backgroundImageView)
-        jobAbilitiesSettingsView:setNavigationBar(createTitleView(viewSize))
-        jobAbilitiesSettingsView:setSize(viewSize.width, viewSize.height)
-        return jobAbilitiesSettingsView
-    end, "Job Abilities", "Choose job abilities to use.")
-
     -- Status Removal
     local statusRemovalMenuItem = MenuItem.new(L{
         ButtonItem.default('Confirm', 18),
@@ -426,7 +432,7 @@ function TrustHud:getSettingsMenuItem(trust, trustSettings, trustSettingsMode, w
     }, {
         ['Blacklist'] = statusRemovalMenuItem,
         Modes = healerModesMenuItem,
-    })
+    }, nil, "Healing", "Change healing behavior")
 
     -- Nukes
     local chooseNukesItem = MenuItem.new(L{
@@ -498,7 +504,6 @@ function TrustHud:getSettingsMenuItem(trust, trustSettings, trustSettingsMode, w
     }
     local childMenuItems = {
         Modes = modesMenuItem,
-        Abilities = jobAbilitiesSettingsItem,
         Buffs = buffSettingsItem,
         Debuffs = debuffSettingsItem,
         Healing = healerMenuItem,
@@ -507,7 +512,6 @@ function TrustHud:getSettingsMenuItem(trust, trustSettings, trustSettingsMode, w
 
     local buffer = trust:role_with_type("buffer")
     if buffer then
-        menuItems:append(ButtonItem.default('Abilities', 18))
         menuItems:append(ButtonItem.default('Buffs', 18))
     end
 
@@ -619,12 +623,8 @@ function TrustHud:getMenuItems(trust, trustSettings, trustSettingsMode, weaponSk
 
     local partyMenuItem = MenuItem.new(L{}, {},
     function()
-        local backgroundImageView = createBackgroundView(viewSize.width, viewSize.height)
         local truster =  trust:role_with_type("truster")
-        local partyMemberView = PartyMemberView.new(self.party, self.player.player, self.actionQueue, truster and truster.trusts or L{})
-        partyMemberView:setBackgroundImageView(backgroundImageView)
-        partyMemberView:setNavigationBar(createTitleView(viewSize))
-        partyMemberView:setSize(viewSize.width, viewSize.height)
+        local partyMemberView = setupView(PartyMemberView.new(self.party, self.player.player, self.actionQueue, truster and truster.trusts or L{}), viewSize)
         partyMemberView:setShouldRequestFocus(false)
         return partyMemberView
     end, "Party", "View party status.")
