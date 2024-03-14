@@ -1,7 +1,3 @@
-require('tables')
-require('lists')
-require('logger')
-
 BlueMage = require('cylibs/entity/jobs/BLU')
 
 local Trust = require('cylibs/trust/trust')
