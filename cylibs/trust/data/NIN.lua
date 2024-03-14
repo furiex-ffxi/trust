@@ -9,10 +9,12 @@ local NinjaTrust = setmetatable({}, {__index = Trust })
 NinjaTrust.__index = NinjaTrust
 
 local Buffer = require('cylibs/trust/roles/buffer')
+local Tank = require('cylibs/trust/roles/tank')
 
 function NinjaTrust.new(settings, action_queue, battle_settings, trust_settings)
 	local roles = S{
 		Buffer.new(action_queue, trust_settings.JobAbilities, trust_settings.SelfBuffs),
+		Tank.new(action_queue, L{}, L{  Spell.new('Sheep Song'), Spell.new('Geist Wall') })
 	}
 	local self = setmetatable(Trust.new(action_queue, roles, trust_settings, Ninja.new()), NinjaTrust)
 

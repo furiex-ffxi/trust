@@ -70,10 +70,9 @@ function BardTrustCommands:handle_sing(_, use_nitro)
     local merged_songs = L{
         songs[1],
         songs[2],
-        dummy_songs[1],
-        dummy_songs[2],
         songs[3],
-        songs[4]
+        songs[4],
+        songs[5]
     }
 
     local actions = L{}

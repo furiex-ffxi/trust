@@ -2,7 +2,6 @@
 return {
     ["Ep"]={
         ["maintrustsettingsmode"]="Melee", 
-        ["autoaftermathmode"]="Auto", 
         ["autotrustsmode"]="Auto", 
         ["skillchainprioritymode"]="Strict"
     }, 
@@ -19,7 +18,6 @@ return {
         ["autoenmityreductionmode"] = "Off",
         ["autofacemobmode"] = "Auto",
         ["autofollowmode"] = "Always",
-        ["autofoodmode"] = "Auto",
         ["autopullmode"]="Off",
         ["autorestoremanamode"] = "Auto",
         ["autosilencemode"] = "Off",

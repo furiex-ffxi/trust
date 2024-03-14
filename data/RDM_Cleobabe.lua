@@ -3,12 +3,11 @@ return {
     Version = 2,
     Default = {
         PartyBuffs = L{
-            Buff.new("Haste", L{}, L{"COR"}, nil, L{InBattleCondition.new(), SpellRecastReadyCondition.new(57)}),
-            Buff.new("Haste", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "GEO", "SCH", "BLM"}, nil, L{SpellRecastReadyCondition.new(57)}),
-            Spell.new("Phalanx II", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "GEO"}, nil, L{InBattleCondition.new(), SpellRecastReadyCondition.new(107)})
+            Spell.new("Phalanx II", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "GEO"}, nil, L{InBattleCondition.new()}),
+            Buff.new("Refresh", L{}, L{"DRK"}, nil, L{})
         },
         Debuffs = L{
-            Debuff.new("Dia", L{})
+            Debuff.new("Dia", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"})
         },
         CureSettings = {
             Thresholds = {
@@ -21,31 +20,31 @@ return {
             Delay = 2
         },
         JobAbilities = L{
-            JobAbility.new("Composure", L{JobAbilityRecastReadyCondition.new("Composure")}, L{})
+            JobAbility.new("Composure", L{}, L{})
         },
         AutoFood = "Grape Daifuku",
         NukeSettings = {
             MinNumMobsToCleave = 2,
             MinManaPointsPercent = 40,
             Spells = L{
-                Spell.new("Thunder V", L{}, nil, nil, L{SpellRecastReadyCondition.new(168)}),
-                Spell.new("Thunder IV", L{}, nil, nil, L{SpellRecastReadyCondition.new(167)}),
-                Spell.new("Thunder III", L{}, nil, nil, L{SpellRecastReadyCondition.new(166)}),
-                Spell.new("Blizzard V", L{}, nil, nil, L{SpellRecastReadyCondition.new(153)}),
-                Spell.new("Blizzard IV", L{}, nil, nil, L{SpellRecastReadyCondition.new(152)}),
-                Spell.new("Blizzard III", L{}, nil, nil, L{SpellRecastReadyCondition.new(151)}),
-                Spell.new("Fire V", L{}, nil, nil, L{SpellRecastReadyCondition.new(148)}),
-                Spell.new("Fire IV", L{}, nil, nil, L{SpellRecastReadyCondition.new(147)}),
-                Spell.new("Fire III", L{}, nil, nil, L{SpellRecastReadyCondition.new(146)}),
-                Spell.new("Aero V", L{}, nil, nil, L{SpellRecastReadyCondition.new(158)}),
-                Spell.new("Aero IV", L{}, nil, nil, L{SpellRecastReadyCondition.new(157)}),
-                Spell.new("Aero III", L{}, nil, nil, L{SpellRecastReadyCondition.new(156)}),
-                Spell.new("Water V", L{}, nil, nil, L{SpellRecastReadyCondition.new(173)}),
-                Spell.new("Water IV", L{}, nil, nil, L{SpellRecastReadyCondition.new(172)}),
-                Spell.new("Water III", L{}, nil, nil, L{SpellRecastReadyCondition.new(171)}),
-                Spell.new("Stone V", L{}, nil, nil, L{SpellRecastReadyCondition.new(163)}),
-                Spell.new("Stone IV", L{}, nil, nil, L{SpellRecastReadyCondition.new(162)}),
-                Spell.new("Stone III", L{}, nil, nil, L{SpellRecastReadyCondition.new(161)})
+                Spell.new("Thunder V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Thunder IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Thunder III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Blizzard V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Blizzard IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Blizzard III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Fire V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Fire IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Fire III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Aero V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Aero IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Aero III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Water V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Water IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Water III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Stone V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Stone IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Stone III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
             },
             Delay = 4,
             Blacklist = L{
@@ -83,14 +82,7 @@ return {
             }
         },
         SelfBuffs = L{
-            Spell.new("Enblizzard", L{}, L{}, nil, L{InBattleCondition.new(), SpellRecastReadyCondition.new(101)}),
-            Spell.new("Gain-INT", L{}, L{}, nil, L{IdleCondition.new(), SpellRecastReadyCondition.new(490)}),
-            Spell.new("Gain-STR", L{}, L{}, nil, L{InBattleCondition.new(), SpellRecastReadyCondition.new(486)}),
-            Buff.new("Haste", L{}, L{}, nil, L{SpellRecastReadyCondition.new(57)}),
-            Spell.new("Phalanx", L{}, nil, nil, L{SpellRecastReadyCondition.new(106)}),
-            Buff.new("Protect", L{}, L{}, nil, L{SpellRecastReadyCondition.new(45)}),
-            Buff.new("Shell", L{}, L{}, nil, L{SpellRecastReadyCondition.new(49)}),
-            Buff.new("Stoneskin", L{}, L{}, nil, L{SpellRecastReadyCondition.new(54)})
+            Buff.new("Haste", L{}, L{}, nil, L{})
         }
     }
 }

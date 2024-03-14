@@ -1,12 +1,9 @@
--- Weapon skill settings file for RUN
+-- Weapon skill settings file for BLU
 return {
     Version = 1,
     Default = {
         Skills = L{
-            CombatSkillSettings.new("Great Sword", L{}, "Dimidiation"),
-            CombatSkillSettings.new("Sword", L{}, ""),
-            CombatSkillSettings.new("Great Axe", L{}, "Full Break"),
-            CombatSkillSettings.new("Axe", L{}, ""),
+            CombatSkillSettings.new("Sword", L{}, "Savage Blade"),
             CombatSkillSettings.new("Club", L{}, "")
         },
         Blacklist = L{

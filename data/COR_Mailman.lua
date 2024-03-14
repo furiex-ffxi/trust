@@ -37,8 +37,8 @@ return {
     },
     MagicRng = {
         AutoFood = "Grape Daifuku",
-        Roll1 = Roll.new("Samurai Roll", true),
-        Roll2 = Roll.new("Wizard's Roll", false),
+        Roll1 = Roll.new("Wizard's Roll", true),
+        Roll2 = Roll.new("Samurai Roll", false),
         Shooter = {
             Delay = shooter_delay
         },
@@ -53,8 +53,8 @@ return {
     },
     Default = {
         AutoFood = "Grape Daifuku",
-        Roll1 = Roll.new("Tactician's Roll", true),
-        Roll2 = Roll.new("Wizard's Roll", false),
+        Roll1 = Roll.new("Chaos Roll", true),
+        Roll2 = Roll.new("Samurai Roll", false),
         Shooter = {
             Delay = shooter_delay
         },
@@ -82,5 +82,21 @@ return {
         Shooter = {
             Delay = shooter_delay
         },
-    }
+    },
+    Mboze = {
+        AutoFood = "Grape Daifuku",
+        Roll1 = Roll.new("Magus's Roll", true),
+        Roll2 = Roll.new("Samurai Roll", false),
+        Shooter = {
+            Delay = shooter_delay
+        },
+    },
+    Ambu = {
+        AutoFood = "Grape Daifuku",
+        Roll1 = Roll.new("Samurai Roll", true),
+        Roll2 = Roll.new("Gallant's Roll", false),
+        Shooter = {
+            Delay = shooter_delay
+        },
+    },
 }

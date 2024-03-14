@@ -29,6 +29,7 @@ return {
         ["autotrustsmode"]="Off",
         ["autobuffmode"]="Auto",
         ["autoenmityreductionmode"]="Off",
+        ["autoenablemode"]="Off", 
         ["ipcmode"]="All",
         ["autounloadondeathmode"]="Off",
         ["skillchainassistantmode"]="Off",

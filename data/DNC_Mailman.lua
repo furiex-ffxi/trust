@@ -2,16 +2,18 @@
 return {
     Version = 1,
     Default = {
-        AutoFood="Grape Daifuku",
+        SelfBuffs = L{
+
+        },
         CureSettings = {
             Thresholds = {
+                ["Curing Waltz IV"] = 1500,
                 Emergency = 40,
                 Default = 78,
-                ["Curing Waltz II"] = 0,
                 ["Curing Waltz III"] = 600,
-                ["Curing Waltz IV"] = 1500,
                 ["Divine Waltz"] = 0,
-                ["Divine Waltz II"] = 600,
+                ["Curing Waltz II"] = 0,
+                ["Divine Waltz II"] = 600
             },
             Delay = 2,
             StatusRemovals = {
@@ -21,14 +23,12 @@ return {
                 }
             }
         },
-        SelfBuffs = L{
-
+        JobAbilities = L{
+            JobAbility.new("Haste Samba", L{}, L{})
         },
+        AutoFood = "Grape Daifuku",
         PartyBuffs = L{
 
-        },
-        JobAbilities = L{
-            JobAbility.new('Haste Samba', L{InBattleCondition.new()}),
         }
     }
 }
