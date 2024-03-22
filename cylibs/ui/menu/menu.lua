@@ -127,24 +127,20 @@ function Menu:showMenu(menuItem)
     self:requestFocus()
 end
 
-function Menu:updateInfoView(menuItem, parentMenuItem)
-    local parentTitleText = parentMenuItem:getTitleText() or ""
-    local parentDescriptionText = parentMenuItem:getDescriptionText() or ""
+function Menu:updateInfoView(menuItem)
     if menuItem and type(menuItem) ~= 'function' then
-        local titleText = menuItem:getTitleText() or parentTitleText
-        local descriptionText = menuItem:getDescriptionText() or parentDescriptionText
-        self.infoView:setTitle(titleText)
-        self.infoView:setDescription(descriptionText)
+        self.infoView:setTitle(menuItem:getTitleText())
+        self.infoView:setDescription(menuItem:getDescriptionText())
     else
-        self.infoView:setTitle(parentTitleText)
-        self.infoView:setDescription(parentDescriptionText)
+        self.infoView:setTitle("")
+        self.infoView:setDescription("")
     end
 end
 
 function Menu:onMoveCursorToIndexPath(cursorIndexPath)
     local textItem = self.menuView:getDataSource():itemAtIndexPath(cursorIndexPath):getTextItem()
     local childMenuItem = self.menuView:getItem():getChildMenuItem(textItem:getText())
-    self:updateInfoView(childMenuItem, self.menuView:getItem())
+    self:updateInfoView(childMenuItem)
 end
 
 function Menu:onKeyboardEvent(key, pressed, flags, blocked)

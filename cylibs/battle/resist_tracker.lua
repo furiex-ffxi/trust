@@ -3,15 +3,15 @@ local DisposeBag = require('cylibs/events/dispose_bag')
 local ResistTracker = {}
 ResistTracker.__index = ResistTracker
 
-function ResistTracker.new(mob_id, on_spell_resisted)
+function ResistTracker.new(monster)
     local self = setmetatable({}, ResistTracker)
 
-    self.mob_id = mob_id
+    self.monster = monster
     self.spellResists = {}
     self.blacklist = S{} -- monster is immune to these spells
     self.disposeBag = DisposeBag.new()
 
-    self.disposeBag:add(on_spell_resisted:addAction(
+    self.disposeBag:add(monster:on_spell_resisted():addAction(
             function(_, spell_name, is_complete_resist)
                 local spell = res.spells:with('en', spell_name)
                 if spell then
@@ -23,7 +23,7 @@ function ResistTracker.new(mob_id, on_spell_resisted)
                     end
                 end
             end),
-    on_spell_resisted)
+    monster:on_spell_resisted())
 
     return self
 end

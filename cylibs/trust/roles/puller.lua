@@ -2,7 +2,7 @@ local Approach = require('cylibs/battle/approach')
 local ClaimedCondition = require('cylibs/conditions/claimed')
 local DisposeBag = require('cylibs/events/dispose_bag')
 local ffxi_util = require('cylibs/util/ffxi_util')
-local SwitchTargetAction = require('cylibs/actions/switch_target')
+local TargetAction = require('cylibs/actions/target')
 
 local Puller = setmetatable({}, {__index = Role })
 Puller.__index = Puller
@@ -29,7 +29,10 @@ function Puller.new(action_queue, target_names, pull_abilities)
         Abilities = pull_abilities
     }
     self.last_pull_time = os.time() - 6
+    self.target_dispose_bag = DisposeBag.new()
     self.dispose_bag = DisposeBag.new()
+
+    self.dispose_bag:addAny(L{ self.target_dispose_bag })
 
     return self
 end
@@ -52,12 +55,6 @@ function Puller:on_add()
             end
         end
     end), state.AutoPullMode:on_state_change())
-
-    self.dispose_bag:add(WindowerEvents.MobKO:addAction(function(mob_id, mob_name)
-        if self:get_pull_target() and self:get_pull_target():get_id() == mob_id then
-            self:set_pull_target(nil)
-        end
-    end), WindowerEvents.MobKO)
 end
 
 function Puller:target_change(target_index)
@@ -67,8 +64,14 @@ function Puller:target_change(target_index)
         return
     end
 
+    self.target_dispose_bag:dispose()
+
     local target = self:get_target()
     if target then
+        self.target_dispose_bag:add(target:on_ko():addAction(function(_)
+            self:set_pull_target(nil)
+        end), target:on_ko())
+
         if target == self:get_pull_target() then
             self:check_pull()
         end
@@ -101,12 +104,10 @@ function Puller:check_target()
         end
     end
 
-    if next_target:is_claimed() and self:get_target() ~= next_target then
+    if self:get_target() ~= next_target then
         logger.notice(self.__class, 'check_target', 'targeting', next_target:get_name(), next_target:get_mob().index)
 
-        local target_action = SequenceAction.new(L{
-            SwitchTargetAction.new(next_target:get_mob().index, 3),
-        }, self.__class..'_set_target')
+        local target_action = TargetAction.new(next_target:get_id(), self:get_player())
         target_action.priority = ActionPriority.highest
 
         self.action_queue:push_action(target_action, true)
@@ -137,11 +138,8 @@ function Puller:get_next_target()
             return t1:get_distance() < t2:get_distance()
         end)
         if party_targets:length() > 0 then
-            local party_target_indices = self:get_party():get_party_members(false):map(function(p)
-                return p:get_target_index()
-            end):compact_map()
             local next_target = party_targets:firstWhere(function(target)
-                return target and not party_target_indices:contains(target:get_mob().index)
+                return target and not party_util.party_targeted(target:get_id())
             end) or party_targets[1]
             local monster = Monster.new(next_target:get_id())
             return monster
@@ -150,7 +148,7 @@ function Puller:get_next_target()
         local exclude_targets = self:get_party():get_targets(function(target)
             return target:is_claimed() and target ~= self:get_target()
         end):map(function(target) return target:get_mob().index  end)
-        local target = ffxi_util.find_closest_mob(self:get_target_names(), L{}:extend(party_util.party_targets())--[[exclude_targets]], self.blacklist)
+        local target = ffxi_util.find_closest_mob(self:get_target_names(), exclude_targets, self.blacklist)
         if target and target.distance:sqrt() < 25 then
             local monster = Monster.new(target.id)
             return monster
@@ -201,6 +199,9 @@ function Puller:set_pull_target(target)
         self.target:destroy()
     end
     self.target = target
+    if self.target then
+        self.target:monitor()
+    end
 end
 
 function Puller:get_pull_settings()

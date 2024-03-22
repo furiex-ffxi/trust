@@ -3,34 +3,31 @@ _addon.commands = {'Trust','trust'}
 _addon.name = 'Trust'
 _addon.version = '9.0.0'
 _addon.release_notes = [[
-This update features improvements to pulling and targeting as well as
-changes to White Mage when fighting on the front lines!
+This update brings Scholar to the forefront with skillchaining
+using Immanence, as well as changes to Dancer and Rune Fencer!
 
-	• Targeting
-	    • Improved speed of targeting with `AutoTargetMode`
-	    • Added `Party` mode which only targets monsters attacking or being
-	      attacked by party members
+	• Scholar
+	    • Added ability to use Immanence spells to skillchain
+	    • Added ability to use Immanence spells to spam
+	    • Added ability to set a default Immanence spell
 
-	• Pulling
-	    • Improved speed of pulling with `AutoPullMode`
-	    • Added `Party` mode which only pulls monsters attacking or being
-	      attacked by party members
-	    • Fixed issues where puller would sometimes lose its target and
-	      not engage
-	    • Added ability to customize pull actions in the UI with spells,
-	      job abilities, ranged attack and approach
+	• Dancer
+	    • Automatically use No Foot Rise, Building Flourish and
+	      Climactic Flourish
 
-	• Blue Mage
-	    • Automatically heal party members when `AutoHealMode` is set to `Auto`
-	    • Restore mana with spells when `AutoRestoreManaMode` is set to `Auto`
+	• Rune Fencer
+	    • Automatically use Vallation and Valiance
+
+	• Corsair / Ranger
+	    • Faster ranged attacks when `AutoShootMode` is set to Auto
 
 	• UI
-	    • Debuffs on the current target are now shown in the target widget
-	    • Added ability to change `TrustMode` from the trust widget
+	    • Updated menu graphics and user experience
+	    • Added movable Trust, Party and Target widgets
 
 	• Bug Fixes
-	    • Fixed various issues with UI would not render properly
-	    • Fixed issue where target would persist after zoning
+	    • Fixed an issue where skillchain would not restart when
+	      the wrong weapon skill was used
 
 	• Press escape or enter to exit.
 	]]
@@ -118,9 +115,7 @@ function load_user_files(main_job_id, sub_job_id)
 		local oldValue = state.MainTrustSettingsMode.value
 		player.trust.main_job_settings = newSettings
 		local mode_names = list.subtract(L(T(newSettings):keyset()), L{'Version'})
-		if not mode_names:equals(state.MainTrustSettingsMode:options()) then
-			state.MainTrustSettingsMode:options(T(mode_names):unpack())
-		end
+		state.MainTrustSettingsMode:options(T(mode_names):unpack())
 		if mode_names:contains(oldValue) then
 			state.MainTrustSettingsMode:set(oldValue)
 		else
@@ -135,9 +130,7 @@ function load_user_files(main_job_id, sub_job_id)
 		local oldValue = state.SubTrustSettingsMode.value
 		player.trust.sub_job_settings = newSettings
 		local mode_names = list.subtract(L(T(newSettings):keyset()), L{'Version'})
-		if not mode_names:equals(state.SubTrustSettingsMode:options()) then
-			state.SubTrustSettingsMode:options(T(mode_names):unpack())
-		end
+		state.SubTrustSettingsMode:options(T(mode_names):unpack())
 		if mode_names:contains(oldValue) then
 			state.SubTrustSettingsMode:set(oldValue)
 		else
@@ -541,7 +534,6 @@ end
 
 function handle_debug()
 	print(num_created)
-	print('images', num_images_created)
 
 	print(L(windower.ffxi.get_player().buffs):map(function(buff_id)
 		return res.buffs:with('id', buff_id).en

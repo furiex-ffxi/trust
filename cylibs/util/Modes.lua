@@ -193,12 +193,7 @@ _meta.M.__methods['options'] = function(m, ...)
     local options = {...}
     -- Always include a default option if nothing else is given.
     if #options == 0 then
-        --options = {'Normal'}
-        local result = L{}
-        for key = 1, m._track._count do
-            result:append(m[key])
-        end
-        return result
+        options = {'Normal'}
     end
 
     -- Zero-out existing values and clear the tracked inverted list

@@ -1,3 +1,4 @@
+local DamageMemory = require('cylibs/battle/damage_memory')
 local spell_util = require('cylibs/util/spell_util')
 
 local Barspeller = setmetatable({}, {__index = Role })
@@ -21,6 +22,8 @@ function Barspeller.new(action_queue, main_job)
     self.last_barspell_id = nil
     self.last_barstatus_id = nil
     self.barspell_delay = 10
+    self.damage_memory = DamageMemory.new(0)
+    self.damage_memory:monitor()
 
     return self
 end
@@ -36,6 +39,8 @@ function Barspeller:destroy()
     if self.spell_finish_id then
         self.player:on_spell_finish():removeAction(self.spell_finish_id)
     end
+
+    self.damage_memory:destroy()
 end
 
 function Barspeller:on_add()
@@ -53,6 +58,9 @@ end
 
 function Barspeller:target_change(target_index)
     Role.target_change(self, target_index)
+
+    self.damage_memory:reset()
+    self.damage_memory:target_change(self:get_target())
 end
 
 function Barspeller:tic(old_time, new_time)

@@ -20,13 +20,12 @@ local WindowerEvents = {}
 WindowerEvents.DisposeBag = DisposeBag.new()
 
 -- Global list of handlers for all Windower events. Listen to events here.
-WindowerEvents.Action = Event.newEvent("Action")
-WindowerEvents.ActionMessage = Event.newEvent("ActionMessage")
+WindowerEvents.Action = Event.newEvent()
+WindowerEvents.ActionMessage = Event.newEvent()
 WindowerEvents.CharacterUpdate = Event.newEvent()
 WindowerEvents.MobUpdate = Event.newEvent()
-WindowerEvents.MobKO = Event.newEvent()
 WindowerEvents.PositionChanged = Event.newEvent()
-WindowerEvents.TargetIndexChanged = Event.newEvent("TargetIndexChanged")
+WindowerEvents.TargetIndexChanged = Event.newEvent()
 WindowerEvents.ZoneUpdate = Event.newEvent()
 WindowerEvents.ZoneRequest = Event.newEvent()
 WindowerEvents.BuffsChanged = Event.newEvent()
@@ -96,8 +95,7 @@ local incoming_event_dispatcher = {
         if action_message_util.is_lose_debuff_message(message_id) and param_1 then
             if buff_util.is_debuff(param_1) then
                 WindowerEvents.LoseDebuff:trigger(target_id, param_1)
-                -- NOTE: this causes a memory leak
-                --IpcRelay.shared():send_message(LoseDebuffMessage.new(target_id, param_1))
+                IpcRelay.shared():send_message(LoseDebuffMessage.new(target_id, param_1))
             end
         end
     end,
@@ -193,7 +191,7 @@ local incoming_event_dispatcher = {
         end
 
         if L{ 2, 3 }:contains(status) then
-            WindowerEvents.MobKO:trigger(mob_id, name)
+            WindowerEvents.MobUpdate:trigger(mob_id, name, 0)
         end
     end,
 
@@ -412,12 +410,6 @@ end)
 WindowerEvents.DisposeBag:add(IpcRelay.shared():on_message_received():addAction(function(ipc_message)
     if ipc_message.__class == MobUpdateMessage.__class then
         local mob = windower.ffxi.get_mob_by_name(ipc_message:get_mob_name())
-        --[[if mob == nil then
-            local follower = player.trust.main_job:role_with_type("follower")
-            if follower and follower:get_follow_target() and follower:get_follow_target():get_name() == ipc_message:get_mob_name() then
-                mob = follower:get_follow_target()
-            end
-        end]]
         if mob then
             WindowerEvents.PositionChanged:trigger(mob.id, ipc_message:get_position()[1], ipc_message:get_position()[2], ipc_message:get_position()[3])
         end
