@@ -2,9 +2,8 @@
 return {
     Version = 2,
     Default = {
-        PartyBuffs = L{
-            Spell.new("Phalanx II", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "GEO"}, nil, L{InBattleCondition.new()}),
-            Buff.new("Refresh", L{}, L{"DRK"}, nil, L{})
+        SelfBuffs = L{
+            Buff.new("Haste", L{}, L{}, nil, L{})
         },
         Debuffs = L{
             Debuff.new("Dia", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"})
@@ -22,10 +21,16 @@ return {
         JobAbilities = L{
             JobAbility.new("Composure", L{}, L{})
         },
-        AutoFood = "Grape Daifuku",
+        PartyBuffs = L{
+            Buff.new("Haste", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Spell.new("Phalanx II", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "GEO"}, nil, L{InBattleCondition.new()}),
+            Buff.new("Refresh", L{}, L{"DRK"}, nil, L{})
+        },
         NukeSettings = {
             MinNumMobsToCleave = 2,
-            MinManaPointsPercent = 40,
+            Blacklist = L{
+
+            },
             Spells = L{
                 Spell.new("Thunder V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
                 Spell.new("Thunder IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
@@ -47,9 +52,7 @@ return {
                 Spell.new("Stone III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
             },
             Delay = 4,
-            Blacklist = L{
-
-            }
+            MinManaPointsPercent = 40
         },
         Skillchains = {
             spamws = L{
@@ -66,23 +69,21 @@ return {
                 "Death Blossom",
                 "Black Halo"
             },
+            tpws = L{
+                "Savage Blade"
+            },
+            cleavews = L{
+                "Aeolian Edge"
+            },
+            amws = "Death Blossom",
             preferws = L{
                 "Flat Blade",
                 "Death Blossom",
                 "Savage Blade",
                 "Black Halo",
                 "Realmrazer"
-            },
-            cleavews = L{
-                "Aeolian Edge"
-            },
-            amws = "Death Blossom",
-            tpws = L{
-                "Savage Blade"
             }
         },
-        SelfBuffs = L{
-            Buff.new("Haste", L{}, L{}, nil, L{})
-        }
+        AutoFood = "Grape Daifuku"
     }
 }

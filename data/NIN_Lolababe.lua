@@ -10,7 +10,6 @@ return {
 
         },
         JobAbilities = L{
-            JobAbility.new('Yonin', L{InBattleCondition.new()}),
         }
     }
 }

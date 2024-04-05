@@ -53,7 +53,7 @@ return {
     ["Default"]={
         ["autodispelmode"]="Auto", 
         ["autodisablemode"]="Auto", 
-        ["autorollmode"]="Manual", 
+        ["autorollmode"]="Auto", 
         ["autoshootmode"]="Off", 
         ["autotargetmode"]="Off", 
         ["subtrustsettingsmode"]="Default", 

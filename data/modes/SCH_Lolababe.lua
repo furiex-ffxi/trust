@@ -11,7 +11,7 @@ return {
         ["maintrustsettingsmode"]="Default",
         ["automagicburstmode"]="Off",
         ["autobuffmode"]="Auto",
-        ["autoartsmode"]="LightArts",
+        ["autoartsmode"]="Off",
         ["autodetectauramode"]="Auto",
         ["autopullmode"]="Off",
         ["autoengagemode"]="Off",

@@ -1,39 +1,41 @@
 -- Settings file for BLU
 return {
-    Version = 1,
+    Version = 2,
     Default = {
-        Skillchains = {
-            spamws = L{
-                "Savage Blade",
-                "Black Halo"
-            },
-            starterws = L{
-                "Savage Blade"
-            },
-            defaultws = L{
-                "Expiacion",
-                "Savage Blade"
-            },
-            preferws = L{
-                "Expiacion",
-                "Savage Blade"
-            },
-            cleavews = L{
+        AutoFood="Grape Daifuku",
+        JobAbilities = L{
 
-            },
-            amws = "Expiacion",
-            tpws = L{
-                "Expiacion",
-                "Savage Blade"
-            }
         },
         SelfBuffs = L{
-            Spell.new("Erratic Flutter", L{}, nil, nil, L{}),
-            Spell.new("Cocoon", L{}, nil, nil, L{}),
-            Spell.new("Barrier Tusk", L{}, nil, nil, L{}),
-            Spell.new("Nat. Meditation", L{}, nil, nil, L{}),
-            Spell.new("Occultation", L{}, nil, nil, L{}),
-            Spell.new("Mighty Guard", L{"Unbridled Learning"}, nil, nil, L{})
-        }
+            Spell.new("Erratic Flutter", L{}, L{}, nil, L{SpellRecastReadyCondition.new(710)}),
+            Spell.new("Cocoon", L{}, L{}, nil, L{SpellRecastReadyCondition.new(547)}),
+            Spell.new("Barrier Tusk", L{}, L{}, nil, L{SpellRecastReadyCondition.new(685)}),
+            Spell.new("Nat. Meditation", L{}, L{}, nil, L{SpellRecastReadyCondition.new(700)}),
+            Spell.new("Occultation", L{}, L{}, nil, L{SpellRecastReadyCondition.new(679)}),
+            Spell.new("Mighty Guard", L{"Unbridled Learning"}, L{}, nil, L{SpellRecastReadyCondition.new(750)}),
+        },
+        PartyBuffs = L{
+
+        },
+        CureSettings = {
+            Thresholds = {
+                ["Cure IV"] = 600,
+                Emergency = 40,
+                Default = 65,
+                ["Cure III"] = 400,
+                ["Curaga III"] = 800,
+                ["Cure II"] = 0,
+                ["Curaga II"] = 400,
+                Curaga = 0
+            },
+            MinNumAOETargets = 3,
+            Delay = 2,
+            StatusRemovals = {
+                Delay = 3,
+                Blacklist = L{
+
+                }
+            }
+        },
     }
 }

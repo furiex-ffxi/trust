@@ -70,7 +70,7 @@
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>8.8.6</version>
+        <version>9.0.1</version>
     </cleobabe>
     <furyex>
         <battle>
@@ -79,7 +79,7 @@
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>8.8.6</version>
+        <version>9.0.1</version>
     </furyex>
     <lolababe>
         <battle>
@@ -88,7 +88,7 @@
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>8.8.6</version>
+        <version>9.0.1</version>
     </lolababe>
     <mailman>
         <battle>
@@ -97,7 +97,7 @@
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>8.8.6</version>
+        <version>9.0.1</version>
     </mailman>
     <suckme>
         <battle>

@@ -85,17 +85,7 @@ function spell_util.knows_spell(spell_id)
     -- If both are true, check if player can cast
     if spell and spell_known then
         if spell.type == 'BlueMagic' then
-            if spell.blu_points ~= nil then
-                local equipped_spells = windower.ffxi.get_mjob_data().spells
-                for _, equipped_spell_id in pairs(equipped_spells or {}) do
-                    if equipped_spell_id == spell_id then
-                        return true
-                    end
-                end
-            else
-                -- Unbridled Learning/Wisdom
-                return true
-            end
+            return true
         else
             local player = windower.ffxi.get_player()
             -- Main job can cast spell

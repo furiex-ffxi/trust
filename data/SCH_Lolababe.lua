@@ -4,7 +4,7 @@ return {
     Default = {
         LightArts = {
             PartyBuffs = L{
-                Spell.new("Adloquium", L{}, L{"WAR", "PUP"}, nil, L{SpellRecastReadyCondition.new(495)})
+                Spell.new("Adloquium", L{}, L{"WAR", "PUP", "COR"}, nil, L{SpellRecastReadyCondition.new(495)})
             },
             SelfBuffs = L{
                 Buff.new("Protect", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(1, ">="), SpellRecastReadyCondition.new(47)}),

@@ -1,30 +1,16 @@
 -- Settings file for COR
 return {
-    Version = 1,
+    Version = 2,
     Default = {
-        Skillchains = {
-            spamws = L{
-                "Savage Blade"
-            },
-            starterws = L{
-                "Leaden Salute"
-            },
-            defaultws = L{
-                "Leaden Salute",
-                "Savage Blade"
-            },
-            preferws = L{
-                "Leaden Salute",
-                "Savage Blade"
-            },
-            cleavews = L{
+        AutoFood="Grape Daifuku",
+        Shooter = {
+            Delay = 1.5
+        },
+        SelfBuffs = L{
 
-            },
-            amws = "Leaden Salute",
-            tpws = L{
-                "Leaden Salute",
-                "Savage Blade"
-            }
+        },
+        PartyBuffs = L{
+
         },
         Roll1 = Roll.new("Chaos Roll", true),
         Roll2 = Roll.new("Samurai Roll", false)

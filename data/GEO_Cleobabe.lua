@@ -5,16 +5,14 @@ return {
         SelfBuffs = L{
 
         },
-        PartyBuffs = L{
-            Spell.new("Indi-Haste", L{"Entrust"}, L{"RUN", "WAR", "RDM"}, nil, L{})
+        Geomancy = {
+            Indi = Spell.new("Indi-Barrier", L{}, L{}, "me", L{}),
+            Geo = Spell.new("Geo-Frailty", L{}, L{}, "bt", L{})
         },
         JobAbilities = L{
 
         },
-        Geomancy = {
-            Indi = Spell.new("Indi-Fury", L{}, L{}, "me", L{}),
-            Geo = Spell.new("Geo-Frailty", L{}, L{}, "bt", L{})
-        },
+        AutoFood = "Tropical Crepe",
         NukeSettings = {
             MinNumMobsToCleave = 2,
             MinManaPointsPercent = 40,
@@ -52,6 +50,8 @@ return {
 
             }
         },
-        AutoFood = "Tropical Crepe"
+        PartyBuffs = L{
+            Spell.new("Indi-Fury", L{"Entrust"}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        }
     }
 }

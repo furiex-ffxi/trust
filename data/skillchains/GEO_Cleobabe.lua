@@ -4,8 +4,8 @@ return {
     Default = {
         Skills = L{
             CombatSkillSettings.new("Club", L{}, "Judgment"),
-            CombatSkillSettings.new("Staff", L{}, "Spirit Taker"),
-            CombatSkillSettings.new("Dagger", L{}, "Aeolian Edge")
+            CombatSkillSettings.new("Staff", L{}, "Cataclysm"),
+            CombatSkillSettings.new("Dagger", L{}, "Wasp Sting")
         },
         Blacklist = L{
 
