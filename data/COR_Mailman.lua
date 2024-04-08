@@ -83,8 +83,8 @@ return {
     },
     Default = {
         AutoFood = "Grape Daifuku",
-        Roll1 = Roll.new("Tactician's Roll", true),
-        Roll2 = Roll.new("Gallant's Roll", false),
+        Roll1 = Roll.new("Chaos Roll", true),
+        Roll2 = Roll.new("Samurai Roll", false),
         Shooter = {
             Delay = 1.5
         }
