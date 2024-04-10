@@ -12,9 +12,6 @@ return {
             CombatSkillSettings.new("Club", L{}, ""),
             CombatSkillSettings.new("Marksmanship", L{}, "")
         },
-        Blacklist = L{
-
-        },
         Skillchain = L{
             WeaponSkill.new("Cross Reaper"),
             WeaponSkill.new("Insurgency"),
@@ -22,6 +19,9 @@ return {
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto()
+        },
+        Blacklist = L{
+
         }
     }
 }

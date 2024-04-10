@@ -5,17 +5,21 @@ return {
         SelfBuffs = L{
 
         },
-        Geomancy = {
-            Indi = Spell.new("Indi-Barrier", L{}, L{}, "me", L{}),
-            Geo = Spell.new("Geo-Frailty", L{}, L{}, "bt", L{})
+        PartyBuffs = L{
+            Spell.new("Indi-AGI", L{"Entrust"}, L{"RNG", "COR"}, nil, L{})
         },
         JobAbilities = L{
 
         },
-        AutoFood = "Tropical Crepe",
+        Geomancy = {
+            Indi = Spell.new("Indi-Fury", L{}, L{}, "me", L{}),
+            Geo = Spell.new("Geo-Frailty", L{}, L{}, "bt", L{})
+        },
         NukeSettings = {
             MinNumMobsToCleave = 2,
-            MinManaPointsPercent = 40,
+            Blacklist = L{
+
+            },
             Spells = L{
                 Spell.new("Blizzard V", L{}, L{}, nil, L{}),
                 Spell.new("Blizzard IV", L{}, L{}, nil, L{}),
@@ -25,9 +29,7 @@ return {
                 Spell.new("Aera III", L{}, L{}, nil, L{})
             },
             Delay = 4,
-            Blacklist = L{
-
-            }
+            MinManaPointsPercent = 40
         },
         Skillchains = {
             spamws = L{
@@ -39,19 +41,17 @@ return {
             defaultws = L{
                 "Black Halo"
             },
-            preferws = L{
-                "Black Halo"
+            tpws = L{
+
             },
             cleavews = L{
                 "Aeolian Edge"
             },
             amws = "Exudation",
-            tpws = L{
-
+            preferws = L{
+                "Black Halo"
             }
         },
-        PartyBuffs = L{
-            Spell.new("Indi-Fury", L{"Entrust"}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
-        }
+        AutoFood = "Tropical Crepe"
     }
 }
