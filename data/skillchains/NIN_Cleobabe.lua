@@ -12,9 +12,6 @@ return {
             CombatSkillSettings.new("Archery", L{}, ""),
             CombatSkillSettings.new("Marksmanship", L{}, "")
         },
-        Blacklist = L{
-
-        },
         Skillchain = L{
             SkillchainAbility.skip(),
             SkillchainAbility.auto(),
@@ -22,6 +19,9 @@ return {
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto()
+        },
+        Blacklist = L{
+
         }
     }
 }

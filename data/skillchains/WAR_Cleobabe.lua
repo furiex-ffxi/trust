@@ -17,7 +17,7 @@ return {
             CombatSkillSettings.new("Marksmanship", L{}, "")
         },
         Skillchain = L{
-            SkillchainAbility.auto(),
+            WeaponSkill.new("Full Break"),
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
