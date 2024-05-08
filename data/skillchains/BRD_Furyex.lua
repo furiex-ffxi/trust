@@ -1,11 +1,12 @@
--- Weapon skill settings file for GEO
+-- Weapon skill settings file for BRD
 return {
     Version = 1,
     Default = {
         Skills = L{
-            CombatSkillSettings.new("Club", L{}, "Judgment"),
-            CombatSkillSettings.new("Staff", L{}, "Spirit Taker"),
-            CombatSkillSettings.new("Dagger", L{}, "Wasp Sting")
+            CombatSkillSettings.new("Dagger", L{}, "Mordant Rime"),
+            CombatSkillSettings.new("Sword", L{}, "Savage Blade"),
+            CombatSkillSettings.new("Club", L{}, ""),
+            CombatSkillSettings.new("Staff", L{}, "")
         },
         Skillchain = L{
             SkillchainAbility.auto(),

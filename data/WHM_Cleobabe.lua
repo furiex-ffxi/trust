@@ -11,19 +11,19 @@ return {
                 Emergency = 40,
                 Default = 78,
                 ["Cure III"] = 700,
-                ["Curaga II"] = 600,
-                ["Cure II"] = 0,
                 ["Curaga III"] = 1000,
+                ["Cure II"] = 0,
+                ["Curaga II"] = 600,
                 Curaga = 0
             },
+            Overcure = false,
+            Delay = 2,
             StatusRemovals = {
                 Delay = 3,
                 Blacklist = L{
 
                 }
-            },
-            Delay = 2,
-            Overcure = false
+            }
         },
         JobAbilities = L{
             JobAbility.new("Afflatus Solace", L{}, L{IdleCondition.new()})
@@ -35,16 +35,19 @@ return {
         },
         NukeSettings = {
             MinNumMobsToCleave = 2,
-            Blacklist = L{
-
-            },
+            MinManaPointsPercent = 60,
             Spells = L{
                 Spell.new("Holy II", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
                 Spell.new("Holy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
                 Spell.new("Banish III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
             },
             Delay = 10,
-            MinManaPointsPercent = 60
+            Blacklist = L{
+
+            }
+        },
+        Debuffs = L{
+
         },
         Skillchains = {
             spamws = L{
@@ -56,23 +59,22 @@ return {
             defaultws = L{
                 "Black Halo"
             },
-            preferws = L{
-                "Black Halo"
+            tpws = L{
+
             },
             cleavews = L{
 
             },
             amws = "Mystic Boon",
-            tpws = L{
-
+            preferws = L{
+                "Black Halo"
             }
-        },
-        Debuffs = L{
-
         }
     },
+    Version = 2,
     Default = {
         SelfBuffs = L{
+            Buff.new("Auspice", L{}, L{}, nil, L{}),
             Buff.new("Boost-STR", L{}, L{}, nil, L{}),
             Buff.new("Haste", L{}, L{}, nil, L{}),
             Buff.new("Protectra", L{}, L{}, nil, L{}),
@@ -86,19 +88,19 @@ return {
                 Emergency = 40,
                 Default = 78,
                 ["Cure III"] = 700,
-                ["Curaga II"] = 600,
-                ["Cure II"] = 0,
                 ["Curaga III"] = 1000,
+                ["Cure II"] = 0,
+                ["Curaga II"] = 600,
                 Curaga = 0
             },
+            Overcure = false,
+            Delay = 2,
             StatusRemovals = {
                 Delay = 3,
                 Blacklist = L{
 
                 }
-            },
-            Delay = 2,
-            Overcure = false
+            }
         },
         JobAbilities = L{
             JobAbility.new("Afflatus Solace", L{}, L{IdleCondition.new()})
@@ -110,16 +112,19 @@ return {
         },
         NukeSettings = {
             MinNumMobsToCleave = 2,
-            Blacklist = L{
-
-            },
+            MinManaPointsPercent = 60,
             Spells = L{
                 Spell.new("Holy II", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
                 Spell.new("Holy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
                 Spell.new("Banish III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
             },
             Delay = 10,
-            MinManaPointsPercent = 60
+            Blacklist = L{
+
+            }
+        },
+        Debuffs = L{
+            Spell.new("Dia II", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
         },
         Skillchains = {
             spamws = L{
@@ -131,22 +136,18 @@ return {
             defaultws = L{
                 "Black Halo"
             },
-            preferws = L{
-                "Black Halo"
+            tpws = L{
+
             },
             cleavews = L{
 
             },
             amws = "Mystic Boon",
-            tpws = L{
-
+            preferws = L{
+                "Black Halo"
             }
-        },
-        Debuffs = L{
-            Spell.new("Dia II", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
         }
     },
-    Version = 2,
     OdyC = {
         SelfBuffs = L{
             Buff.new("Haste", L{}, L{}, nil, L{}),
@@ -162,19 +163,19 @@ return {
                 Emergency = 40,
                 Default = 78,
                 ["Cure III"] = 700,
-                ["Curaga II"] = 600,
-                ["Cure II"] = 0,
                 ["Curaga III"] = 1000,
+                ["Cure II"] = 0,
+                ["Curaga II"] = 600,
                 Curaga = 0
             },
+            Overcure = false,
+            Delay = 2,
             StatusRemovals = {
                 Delay = 3,
                 Blacklist = L{
 
                 }
-            },
-            Delay = 2,
-            Overcure = false
+            }
         },
         JobAbilities = L{
             JobAbility.new("Afflatus Solace", L{}, L{IdleCondition.new()})
@@ -186,16 +187,19 @@ return {
         },
         NukeSettings = {
             MinNumMobsToCleave = 2,
-            Blacklist = L{
-
-            },
+            MinManaPointsPercent = 60,
             Spells = L{
                 Spell.new("Holy II", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
                 Spell.new("Holy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
                 Spell.new("Banish III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
             },
             Delay = 10,
-            MinManaPointsPercent = 60
+            Blacklist = L{
+
+            }
+        },
+        Debuffs = L{
+            Spell.new("Dia II", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
         },
         Skillchains = {
             spamws = L{
@@ -207,19 +211,64 @@ return {
             defaultws = L{
                 "Black Halo"
             },
-            preferws = L{
-                "Black Halo"
+            tpws = L{
+
             },
             cleavews = L{
 
             },
             amws = "Mystic Boon",
-            tpws = L{
+            preferws = L{
+                "Black Halo"
+            }
+        }
+    },
+    Subjob = {
+        SelfBuffs = L{
+            Buff.new("Auspice", L{}, L{}, nil, L{}),
+            Buff.new("Haste", L{}, L{}, nil, L{}),
+            Buff.new("Reraise", L{}, L{}, nil, L{}),
+        },
+        CureSettings = {
+            Thresholds = {
+                ["Cure IV"] = 800,
+                Emergency = 40,
+                Default = 78,
+                ["Cure III"] = 400,
+                ["Curaga III"] = 600,
+                ["Cure II"] = 0,
+                ["Curaga II"] = 400,
+                Curaga = 0
+            },
+            Overcure = false,
+            Delay = 2,
+            StatusRemovals = {
+                Delay = 3,
+                Blacklist = L{
+
+                }
+            }
+        },
+        PartyBuffs = L{
+            Buff.new("Haste", L{}, L{"SAM", "DRG", "DRK", "COR", "WHM", "BLM", "RUN", "PUP", "RNG", "GEO", "BST", "SCH", "NIN", "DNC", "THF", "SMN", "BLU", "PLD", "MNK", "RDM", "WAR", "BRD"}, nil, L{}),
+            Buff.new("Protect", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Buff.new("Shell", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        },
+        NukeSettings = {
+            MinNumMobsToCleave = 2,
+            MinManaPointsPercent = 60,
+            Spells = L{
+                Spell.new("Holy II", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Holy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Banish III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+            },
+            Delay = 10,
+            Blacklist = L{
 
             }
         },
         Debuffs = L{
             Spell.new("Dia II", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
-        }
-    }
+        },
+    },
 }

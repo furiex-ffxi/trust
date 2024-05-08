@@ -2,17 +2,17 @@
 return {
     Version = 2,
     Default = {
-        AutoFood="Grape Daifuku",
-        Shooter = {
-            Delay = 1.5
-        },
         SelfBuffs = L{
 
         },
+        Roll1 = Roll.new("Samurai Roll", true),
+        AutoFood = "Grape Daifuku",
+        Roll2 = Roll.new("Chaos Roll", false),
         PartyBuffs = L{
 
         },
-        Roll1 = Roll.new("Chaos Roll", true),
-        Roll2 = Roll.new("Samurai Roll", false)
+        Shooter = {
+            Delay = 1.5
+        }
     }
 }

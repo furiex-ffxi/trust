@@ -32,31 +32,31 @@ return {
             Delay = 1.5
         }
     },
-    Ambu = {
-        AutoFood = "Grape Daifuku",
-        Roll1 = Roll.new("Samurai Roll", true),
-        Roll2 = Roll.new("Gallant's Roll", false),
-        Shooter = {
-            Delay = 1.5
-        }
-    },
     MagicRng = {
         AutoFood = "Grape Daifuku",
-        Roll1 = Roll.new("Wizard's Roll", true),
+        Roll1 = Roll.new("Gallant's Roll", true),
         Roll2 = Roll.new("Samurai Roll", false),
         Shooter = {
             Delay = 1.5
         }
     },
-    Mboze = {
+    Subjob = {
         AutoFood = "Grape Daifuku",
-        Roll1 = Roll.new("Magus's Roll", true),
-        Roll2 = Roll.new("Samurai Roll", false),
+        Roll1 = Roll.new("Corsair's Roll", true),
+        Roll2 = Roll.new("Corsair's Roll", false),
         Shooter = {
             Delay = 1.5
         }
     },
     Version = 2,
+    Default = {
+        AutoFood = "Grape Daifuku",
+        Roll1 = Roll.new("Chaos Roll", true),
+        Roll2 = Roll.new("Samurai Roll", false),
+        Shooter = {
+            Delay = 1.5
+        }
+    },
     Subtle = {
         AutoFood = "Grape Daifuku",
         Roll1 = Roll.new("Monk's Roll", true),
@@ -81,20 +81,36 @@ return {
             Delay = 1.5
         }
     },
-    Default = {
+    Mboze = {
         AutoFood = "Grape Daifuku",
-        Roll1 = Roll.new("Chaos Roll", true),
+        Roll1 = Roll.new("Magus's Roll", true),
         Roll2 = Roll.new("Samurai Roll", false),
         Shooter = {
             Delay = 1.5
         }
     },
-    Subjob = {
+    Ambu = {
         AutoFood = "Grape Daifuku",
-        Roll1 = Roll.new("Corsair's Roll", true),
-        Roll2 = Roll.new("Corsair's Roll", false),
+        Roll1 = Roll.new("Samurai Roll", true),
+        Roll2 = Roll.new("Gallant's Roll", false),
         Shooter = {
             Delay = 1.5
         }
-    }
+    },
+    Dyna = {
+        AutoFood = "Grape Daifuku",
+        Roll1 = Roll.new("Wizard's Roll", true),
+        Roll2 = Roll.new("Tactician's Roll", false),
+        Shooter = {
+            Delay = 1.5
+        }
+    },
+    Odin = {
+        AutoFood = "Grape Daifuku",
+        Roll1 = Roll.new("Wizard's Roll", true),
+        Roll2 = Roll.new("Gallant's Roll", false),
+        Shooter = {
+            Delay = 1.5
+        }
+    },
 }

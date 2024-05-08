@@ -17,7 +17,7 @@ return {
         ["autobuffmode"]="Auto", 
         ["autoassistantmode"]="Off", 
         ["autoconvertmode"]="Off", 
-        ["subtrustsettingsmode"]="Default", 
+        ["subtrustsettingsmode"]="Subjob", 
         ["autoskillchainmode"]="Auto", 
         ["approachpullmode"]="Off", 
         ["autoengagemode"]="Off", 
