@@ -10,6 +10,11 @@ return {
 
         },
         JobAbilities = L{
-        }
+        },
+        PullSettings = {
+            Abilities = L{
+                Spell.new("Jubaku: Ni", L{}, L{})
+            }
+        },
     }
 }
