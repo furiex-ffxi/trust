@@ -12,7 +12,7 @@ return {
                 Emergency = 25,
                 Default = 78,
                 ["Cure II"] = 0,
-                ["Cure III"] = 400
+                ["Cure III"] = 300
             },
             Delay = 2,
             StatusRemovals = {

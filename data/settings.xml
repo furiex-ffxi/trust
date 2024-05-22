@@ -43,7 +43,7 @@
             <y>3000</y>
         </party_widget>
         <remote_commands>
-            <whitelist>Furyex,Lolababe,Cyrite,Wapiti,Cleobabe,Mailman</whitelist>
+            <whitelist>Mikazaru,Lilsouja,Furyex,Lolababe,Cyrite,Wapiti,Cleobabe,Mailman</whitelist>
         </remote_commands>
         <settings_widget>
             <visible>true</visible>

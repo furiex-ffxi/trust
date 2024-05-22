@@ -12,6 +12,9 @@ return {
             CombatSkillSettings.new("Club", L{}, ""),
             CombatSkillSettings.new("Marksmanship", L{}, "")
         },
+        Blacklist = L{
+
+        },
         Skillchain = L{
             SkillchainAbility.skip(),
             SkillchainAbility.skip(),
@@ -19,9 +22,6 @@ return {
             SkillchainAbility.skip(),
             SkillchainAbility.skip(),
             SkillchainAbility.skip()
-        },
-        Blacklist = L{
-
         }
     },
     Default = {
@@ -31,20 +31,20 @@ return {
             CombatSkillSettings.new("Great Sword", L{"Frostbite", "Freezebite", "Hard Slash", "Ground Strike", "Spinning Slash", "Herculean Slash", "Crescent Moon", "Resolution", "Shockwave", "Sickle Moon", "Power Slash"}, "Torcleaver"),
             CombatSkillSettings.new("Axe", L{}, ""),
             CombatSkillSettings.new("Great Axe", L{}, "Fell Cleave"),
-            CombatSkillSettings.new("Scythe", L{"Vorpal Scythe", "Dark Harvest", "Slice", "Infernal Scythe", "Spinning Scythe", "Shadow of Death", "Nightmare Scythe"}, "Insurgency"),
+            CombatSkillSettings.new("Scythe", L{"Vorpal Scythe", "Nightmare Scythe", "Dark Harvest", "Guillotine", "Spinning Scythe", "Slice", "Infernal Scythe", "Shadow of Death"}, "Insurgency"),
             CombatSkillSettings.new("Club", L{}, ""),
             CombatSkillSettings.new("Marksmanship", L{}, "")
         },
+        Blacklist = L{
+
+        },
         Skillchain = L{
-            WeaponSkill.new("Cross Reaper"),
-            WeaponSkill.new("Insurgency"),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto()
-        },
-        Blacklist = L{
-
         }
     }
 }

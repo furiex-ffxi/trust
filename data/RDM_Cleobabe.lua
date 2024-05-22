@@ -2,11 +2,10 @@
 return {
     Version = 2,
     Default = {
+        AutoFood = "Grape Daifuku",
         SelfBuffs = L{
-            Buff.new("Haste", L{}, L{}, nil, L{})
-        },
-        Debuffs = L{
-            Debuff.new("Dia", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"})
+            Buff.new("Haste", L{}, L{}, nil, L{}),
+            Buff.new("Stoneskin", L{}, L{}, nil, L{})
         },
         CureSettings = {
             Thresholds = {
@@ -28,9 +27,7 @@ return {
         },
         NukeSettings = {
             MinNumMobsToCleave = 2,
-            Blacklist = L{
-
-            },
+            MinManaPointsPercent = 40,
             Spells = L{
                 Spell.new("Thunder V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
                 Spell.new("Thunder IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
@@ -52,7 +49,9 @@ return {
                 Spell.new("Stone III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
             },
             Delay = 4,
-            MinManaPointsPercent = 40
+            Blacklist = L{
+
+            }
         },
         Skillchains = {
             spamws = L{
@@ -69,21 +68,23 @@ return {
                 "Death Blossom",
                 "Black Halo"
             },
-            tpws = L{
-                "Savage Blade"
-            },
-            cleavews = L{
-                "Aeolian Edge"
-            },
-            amws = "Death Blossom",
             preferws = L{
                 "Flat Blade",
                 "Death Blossom",
                 "Savage Blade",
                 "Black Halo",
                 "Realmrazer"
+            },
+            cleavews = L{
+                "Aeolian Edge"
+            },
+            amws = "Death Blossom",
+            tpws = L{
+                "Savage Blade"
             }
         },
-        AutoFood = "Grape Daifuku"
+        Debuffs = L{
+            Debuff.new("Dia", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"})
+        }
     }
 }

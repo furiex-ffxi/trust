@@ -5,7 +5,7 @@ return {
         ["autotargetmode"]="Off", 
         ["autofoodmode"]="Off", 
         ["automagicburstmode"]="Off", 
-        ["skillchainassistantmode"]="Auto", 
+        ["skillchainassistantmode"]="Off", 
         ["autofollowmode"]="Always", 
         ["maintrustsettingsmode"]="Default", 
         ["autotrustsmode"]="Off", 
