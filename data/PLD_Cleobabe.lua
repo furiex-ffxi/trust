@@ -3,8 +3,8 @@ return {
     Version = 1,
     Default = {
         SelfBuffs = L{
-            Spell.new("Phalanx", L{}, nil, nil, L{}),
-            Spell.new("Protect V", L{}, nil, nil, L{})
+            Spell.new("Phalanx", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Spell.new("Protect V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
         },
         CureSettings = {
             Thresholds = {
@@ -12,7 +12,7 @@ return {
                 Emergency = 25,
                 Default = 78,
                 ["Cure II"] = 0,
-                ["Cure III"] = 300
+                ["Cure III"] = 600
             },
             Delay = 2,
             StatusRemovals = {
@@ -22,7 +22,7 @@ return {
             }
         },
         JobAbilities = L{
-            JobAbility.new('Majesty', L{InBattleCondition.new()}),
+            JobAbility.new("Majesty", L{InBattleCondition.new()})
         },
         PartyBuffs = L{
 
@@ -49,6 +49,11 @@ return {
             amws = "Torcleaver",
             tpws = L{
 
+            }
+        },
+        PullSettings = {
+            Abilities = L{
+                Spell.new("Flash", L{}, L{}, nil, L{})
             }
         }
     }

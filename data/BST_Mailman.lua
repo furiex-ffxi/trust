@@ -1,8 +1,6 @@
 -- Settings file for BST
 return {
-    Version = 1,
     Default = {
-        AutoFood="Grape Daifuku",
         SelfBuffs = L{
             {
                 Familiar = "VivaciousVickie",
@@ -10,16 +8,22 @@ return {
                 Buff = "Counter Boost"
             }
         },
+        JobAbilities = L{
+            JobAbility.new("Killer Instinct", L{InBattleCondition.new()}),
+            JobAbility.new("Spur", L{InBattleCondition.new()})
+        },
         PartyBuffs = L{
 
         },
-        JobAbilities = L{
-            JobAbility.new('Killer Instinct', L{InBattleCondition.new()}),
-            JobAbility.new('Spur', L{InBattleCondition.new()}),
+        AutoFood = "Grape Daifuku",
+        PullSettings = {
+            Abilities = L{
+
+            }
         }
     },
+    Version = 1,
     Ep = {
-        AutoFood="Grape Daifuku",
         SelfBuffs = L{
             {
                 Familiar = "VivaciousVickie",
@@ -27,12 +31,18 @@ return {
                 Buff = "Counter Boost"
             }
         },
+        JobAbilities = L{
+            JobAbility.new("Killer Instinct", L{InBattleCondition.new()}),
+            JobAbility.new("Spur", L{InBattleCondition.new()})
+        },
         PartyBuffs = L{
 
         },
-        JobAbilities = L{
-            JobAbility.new('Killer Instinct', L{InBattleCondition.new()}),
-            JobAbility.new('Spur', L{InBattleCondition.new()}),
+        AutoFood = "Grape Daifuku",
+        PullSettings = {
+            Abilities = L{
+
+            }
         }
     }
 }

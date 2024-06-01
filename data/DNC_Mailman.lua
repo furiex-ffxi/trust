@@ -29,6 +29,11 @@ return {
         AutoFood = "Grape Daifuku",
         PartyBuffs = L{
 
+        },
+        PullSettings = {
+            Abilities = L{
+                JobAbility.new("Animated Flourish", L{}, L{})
+            }
         }
     }
 }

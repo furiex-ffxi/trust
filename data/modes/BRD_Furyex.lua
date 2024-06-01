@@ -32,7 +32,7 @@ return {
         ["autotrustsmode"]="Off",
         ["autohealmode"]="Emergency",
         ["autoenmityreductionmode"]="Off",
-        ["autoclarioncallmode"]="Auto",
+        ["autoclarioncallmode"]="Off",
         ["autopianissimomode"]="Merged",
         ["ipcmode"]="All",
         ["weaponskillsettingsmode"] = "Default",

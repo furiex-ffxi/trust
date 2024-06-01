@@ -4,17 +4,17 @@ return {
     Default = {
         LightArts = {
             PartyBuffs = L{
-                Spell.new("Adloquium", L{}, L{"WAR", "PUP", "COR"}, nil, L{SpellRecastReadyCondition.new(495)})
+                Spell.new("Adloquium", L{}, L{"WAR", "PUP", "COR"}, nil, L{})
             },
             SelfBuffs = L{
-                Buff.new("Protect", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(1, ">="), SpellRecastReadyCondition.new(47)}),
-                Buff.new("Shell", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(1, ">="), SpellRecastReadyCondition.new(52)}),
-                Buff.new("Regen", L{"Accession", "Perpetuance"}, L{}, nil, L{StrategemCountCondition.new(2, ">="), SpellRecastReadyCondition.new(504)}),
-                Spell.new("Phalanx", L{"Accession", "Perpetuance"}, nil, nil, L{StrategemCountCondition.new(2, ">="), SpellRecastReadyCondition.new(106)}),
-                Spell.new("Aurorastorm II", L{}, nil, nil, L{SpellRecastReadyCondition.new(864)})
+                Buff.new("Protect", L{"Accession"}, L{}, nil, L{}),
+                Buff.new("Shell", L{"Accession"}, L{}, nil, L{}),
+                Buff.new("Regen", L{"Accession", "Perpetuance"}, L{}, nil, L{}),
+                Spell.new("Phalanx", L{"Accession", "Perpetuance"}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Aurorastorm II", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
             },
             JobAbilities = L{
-                JobAbility.new("Light Arts", L{JobAbilityRecastReadyCondition.new("Light Arts")}, L{})
+                JobAbility.new("Light Arts", L{}, L{})
             }
         },
         StrategemCooldown = 33,
@@ -46,49 +46,54 @@ return {
                 "Retribution",
                 "Black Halo"
             },
-            tpws = L{
-
+            preferws = L{
+                "Retribution",
+                "Black Halo"
             },
             cleavews = L{
                 "Cataclysm"
             },
             amws = "Omniscience",
-            preferws = L{
-                "Retribution",
-                "Black Halo"
+            tpws = L{
+
             }
         },
         NukeSettings = {
             MinNumMobsToCleave = 2,
-            Blacklist = L{
-
-            },
+            MinManaPointsPercent = 20,
             Spells = L{
-                Spell.new("Thunder V", L{}, nil, nil, L{SpellRecastReadyCondition.new(168)}),
-                Spell.new("Thunder IV", L{}, nil, nil, L{SpellRecastReadyCondition.new(167)}),
-                Spell.new("Blizzard V", L{}, nil, nil, L{SpellRecastReadyCondition.new(153)}),
-                Spell.new("Blizzard IV", L{}, nil, nil, L{SpellRecastReadyCondition.new(152)}),
-                Spell.new("Fire V", L{}, nil, nil, L{SpellRecastReadyCondition.new(148)}),
-                Spell.new("Fire IV", L{}, nil, nil, L{SpellRecastReadyCondition.new(147)}),
-                Spell.new("Aero V", L{}, nil, nil, L{SpellRecastReadyCondition.new(158)}),
-                Spell.new("Aero IV", L{}, nil, nil, L{SpellRecastReadyCondition.new(157)}),
-                Spell.new("Water V", L{}, nil, nil, L{SpellRecastReadyCondition.new(173)}),
-                Spell.new("Water IV", L{}, nil, nil, L{SpellRecastReadyCondition.new(172)}),
-                Spell.new("Stone V", L{}, nil, nil, L{SpellRecastReadyCondition.new(163)}),
-                Spell.new("Stone IV", L{}, nil, nil, L{SpellRecastReadyCondition.new(162)})
+                Spell.new("Thunder V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Thunder IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Blizzard V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Blizzard IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Fire V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Fire IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Aero V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Aero IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Water V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Water IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Stone V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Stone IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
             },
             Delay = 2,
-            MinManaPointsPercent = 20
+            Blacklist = L{
+
+            }
+        },
+        PullSettings = {
+            Abilities = L{
+                Spell.new("Stone", L{}, L{}, nil, L{})
+            }
         },
         DarkArts = {
             PartyBuffs = L{
 
             },
             SelfBuffs = L{
-                Spell.new("Klimaform", L{}, nil, nil, L{SpellRecastReadyCondition.new(287)})
+                Spell.new("Klimaform", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
             },
             JobAbilities = L{
-                JobAbility.new("Dark Arts", L{JobAbilityRecastReadyCondition.new("Dark Arts")}, L{})
+                JobAbility.new("Dark Arts", L{}, L{})
             }
         }
     }

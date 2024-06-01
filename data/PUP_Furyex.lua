@@ -2,30 +2,6 @@
 return {
     Version = 1,
     Default = {
-        JobAbilities = L{},
-        Skillchains = {
-            spamws = L{
-                "Howling Fist"
-            },
-            starterws = L{
-                "Stringing Pummel"
-            },
-            defaultws = L{
-                "Shijin Spiral"
-            },
-            preferws = L{
-                "Victory Smite",
-                "Shijin Spiral",
-                "Stringing Pummel"
-            },
-            cleavews = L{
-                "Spinning Attack"
-            },
-            amws = "Stringing Pummel",
-            tpws = L{
-                "Shijin Spiral"
-            }
-        },
         AutomatonName = "Pamama",
         DefaultManeuvers = {
             Ranged = L{
@@ -197,6 +173,32 @@ return {
                 }
             }
         },
+        JobAbilities = L{
+
+        },
+        Skillchains = {
+            spamws = L{
+                "Howling Fist"
+            },
+            starterws = L{
+                "Stringing Pummel"
+            },
+            defaultws = L{
+                "Shijin Spiral"
+            },
+            tpws = L{
+                "Shijin Spiral"
+            },
+            cleavews = L{
+                "Spinning Attack"
+            },
+            amws = "Stringing Pummel",
+            preferws = L{
+                "Victory Smite",
+                "Shijin Spiral",
+                "Stringing Pummel"
+            }
+        },
         OverdriveManeuvers = {
             HybridRanged = L{
                 {
@@ -251,6 +253,11 @@ return {
                     Name = "Water Maneuver",
                     Amount = 1
                 }
+            }
+        },
+        PullSettings = {
+            Abilities = L{
+
             }
         }
     }

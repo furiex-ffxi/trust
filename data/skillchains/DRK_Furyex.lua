@@ -1,6 +1,5 @@
 -- Weapon skill settings file for DRK
 return {
-    Version = 1,
     SortieLight = {
         Skills = L{
             CombatSkillSettings.new("Dagger", L{}, ""),
@@ -46,5 +45,6 @@ return {
             SkillchainAbility.auto(),
             SkillchainAbility.auto()
         }
-    }
+    },
+    Version = 1
 }

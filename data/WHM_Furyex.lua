@@ -2,14 +2,18 @@
 return {
     Version = 2,
     Default = {
-        AutoFood = "Tropical Crepe",
         SelfBuffs = L{
             Buff.new("Haste", L{}, L{}, nil, L{}),
             Buff.new("Protectra", L{}, L{}, nil, L{}),
-            Buff.new("Shellra", L{}, L{}, nil, L{}),
-            Buff.new("Boost-STR", L{}, L{}, nil, L{}),
-            Buff.new("Auspice", L{}, L{}, nil, L{}),
             Buff.new("Reraise", L{}, L{}, nil, L{})
+        },
+        JobAbilities = L{
+            JobAbility.new("Afflatus Solace", L{}, L{})
+        },
+        PartyBuffs = L{
+            Buff.new("Haste", L{}, L{"WAR", "MNK", "THF", "PLD", "DRK", "SAM", "DRG", "NIN", "PUP", "COR", "DNC", "BLU", "RUN", "BLM", "BRD", "BST"}, nil, L{}),
+            Buff.new("Protect", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Buff.new("Shell", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
         },
         CureSettings = {
             Thresholds = {
@@ -17,41 +21,21 @@ return {
                 Emergency = 40,
                 Default = 78,
                 ["Cure III"] = 400,
-                ["Curaga II"] = 300,
-                ["Cure II"] = 0,
                 ["Curaga III"] = 500,
+                ["Cure II"] = 0,
+                ["Curaga II"] = 300,
                 Curaga = 0
             },
+            Overcure = false,
             Delay = 2,
             StatusRemovals = {
                 Delay = 3,
                 Blacklist = L{
 
                 }
-            },
-            Overcure = false
+            }
         },
-        JobAbilities = L{
-            JobAbility.new('Afflatus Solace', L{}, L{}, nil),
-        },
-        PartyBuffs = L{
-            Buff.new("Haste", L{}, L{"WAR", "MNK", "THF", "PLD", "DRK", "SAM", "DRG", "NIN", "PUP", "COR", "DNC", "BLU", "RUN", "BLM", "BRD", "BST"}, nil, L{}),
-            Buff.new("Protect", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-            Buff.new("Shell", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
-        },
-        NukeSettings = {
-            Delay = 10,
-            MinManaPointsPercent = 60,
-            MinNumMobsToCleave = 2,
-            Spells = L{
-                Spell.new('Holy II'),
-                Spell.new('Holy'),
-                Spell.new('Banish III'),
-            },
-            Blacklist = L{
-
-            },
-        },
+        AutoFood = "Tropical Crepe",
         Skillchains = {
             spamws = L{
                 "Black Halo"
@@ -62,19 +46,37 @@ return {
             defaultws = L{
                 "Black Halo"
             },
-            preferws = L{
-                "Black Halo"
+            tpws = L{
+
             },
             cleavews = L{
 
             },
             amws = "Mystic Boon",
-            tpws = L{
-
+            preferws = L{
+                "Black Halo"
             }
         },
+        NukeSettings = {
+            MinNumMobsToCleave = 2,
+            Blacklist = L{
+
+            },
+            Spells = L{
+                Spell.new("Holy II", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Holy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Banish III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+            },
+            Delay = 10,
+            MinManaPointsPercent = 60
+        },
         Debuffs = L{
-            Spell.new("Dia II", L{}, nil, nil, L{})
+            Spell.new("Dia II", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        },
+        PullSettings = {
+            Abilities = L{
+                Debuff.new("Dia", L{}, L{})
+            }
         }
     }
 }

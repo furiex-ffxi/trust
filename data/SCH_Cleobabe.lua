@@ -43,16 +43,21 @@ return {
                 "Retribution",
                 "Black Halo"
             },
-            tpws = L{
-
+            preferws = L{
+                "Retribution",
+                "Black Halo"
             },
             cleavews = L{
 
             },
             amws = "Omniscience",
-            preferws = L{
-                "Retribution",
-                "Black Halo"
+            tpws = L{
+
+            }
+        },
+        PullSettings = {
+            Abilities = L{
+                Spell.new("Stone", L{}, L{}, nil, L{})
             }
         },
         DarkArts = {
@@ -67,5 +72,5 @@ return {
             }
         }
     },
-    Version = 2,
+    Version = 2
 }

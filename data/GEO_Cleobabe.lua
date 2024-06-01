@@ -2,21 +2,23 @@
 return {
     Version = 2,
     Default = {
-        SelfBuffs = L{
-
-        },
-        AutoFood = "Tropical Crepe",
-        JobAbilities = L{
-
-        },
         PartyBuffs = L{
 
         },
+        SelfBuffs = L{
+
+        },
+        Geomancy = {
+            Indi = Spell.new("Indi-Fury", L{}, L{}, "me", L{}),
+            Geo = Spell.new("Geo-Frailty", L{}, L{}, "bt", L{})
+        },
+        JobAbilities = L{
+
+        },
+        AutoFood = "Tropical Crepe",
         NukeSettings = {
             MinNumMobsToCleave = 2,
-            Blacklist = L{
-
-            },
+            MinManaPointsPercent = 40,
             Spells = L{
                 Spell.new("Blizzard V", L{"Theurgic Focus"}, L{}, nil, L{}),
                 Spell.new("Blizzard IV", L{}, L{}, nil, L{}),
@@ -26,7 +28,9 @@ return {
                 Spell.new("Aera III", L{}, L{}, nil, L{})
             },
             Delay = 4,
-            MinManaPointsPercent = 40
+            Blacklist = L{
+
+            }
         },
         Skillchains = {
             spamws = L{
@@ -38,20 +42,21 @@ return {
             defaultws = L{
                 "Black Halo"
             },
-            tpws = L{
-
+            preferws = L{
+                "Black Halo"
             },
             cleavews = L{
                 "Aeolian Edge"
             },
             amws = "Exudation",
-            preferws = L{
-                "Black Halo"
+            tpws = L{
+
             }
         },
-        Geomancy = {
-            Indi = Spell.new("Indi-Fury", L{}, L{}, "me", L{}),
-            Geo = Spell.new("Geo-Frailty", L{}, L{}, "bt", L{})
+        PullSettings = {
+            Abilities = L{
+                Spell.new("Stone", L{}, L{}, nil, L{})
+            }
         }
     }
 }

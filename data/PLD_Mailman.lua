@@ -2,10 +2,9 @@
 return {
     Version = 1,
     Default = {
-        AutoFood="Miso Ramen",
         SelfBuffs = L{
-            Spell.new("Phalanx", L{}, nil, nil, L{}),
-            Spell.new("Protect V", L{}, nil, nil, L{})
+            Spell.new("Phalanx", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Spell.new("Protect V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
         },
         CureSettings = {
             Thresholds = {
@@ -23,8 +22,9 @@ return {
             }
         },
         JobAbilities = L{
-            JobAbility.new('Majesty', L{InBattleCondition.new()}),
+            JobAbility.new("Majesty", L{InBattleCondition.new()})
         },
+        AutoFood = "Miso Ramen",
         PartyBuffs = L{
 
         },
@@ -40,16 +40,21 @@ return {
                 "Savage Blade",
                 "Torcleaver"
             },
-            preferws = L{
-                "Red Lotus Blade",
-                "Torcleaver"
+            tpws = L{
+
             },
             cleavews = L{
                 "Circle Blade"
             },
             amws = "Torcleaver",
-            tpws = L{
-
+            preferws = L{
+                "Red Lotus Blade",
+                "Torcleaver"
+            }
+        },
+        PullSettings = {
+            Abilities = L{
+                Spell.new("Flash", L{}, L{}, nil, L{})
             }
         }
     }

@@ -24,11 +24,16 @@ return {
             }
         },
         JobAbilities = L{
-            JobAbility.new("Haste Samba", L{}, L{}),
+            JobAbility.new("Haste Samba", L{}, L{})
         },
         AutoFood = "Grape Daifuku",
         PartyBuffs = L{
 
+        },
+        PullSettings = {
+            Abilities = L{
+                JobAbility.new("Animated Flourish", L{}, L{})
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ local Puller = require('cylibs/trust/roles/puller')
 local Buffer = require('cylibs/trust/roles/buffer')
 local Raiser = require('cylibs/trust/roles/raiser')
 local Tank = require('cylibs/trust/roles/tank')
+local ManaRestorer = require('cylibs/trust/roles/mana_restorer')
 
 function PaladinTrust.new(settings, action_queue, battle_settings, trust_settings)
 	local job = Paladin.new(trust_settings.CureSettings)
@@ -17,7 +18,8 @@ function PaladinTrust.new(settings, action_queue, battle_settings, trust_setting
 		Healer.new(action_queue, job),
 		Raiser.new(action_queue, job),
 		Puller.new(action_queue, battle_settings.targets, L{ Spell.new('Flash'), Spell.new('Banish') }:compact_map()),
-		Tank.new(action_queue, L{ 'Sentinel' }, L{ Spell.new('Flash') })
+		Tank.new(action_queue, L{ 'Sentinel' }, L{ Spell.new('Flash') }),
+		ManaRestorer.new(action_queue, L{'Spirit Taker'}, L{}, 40),
 	}
 	local self = setmetatable(Trust.new(action_queue, roles, trust_settings, job), PaladinTrust)
 

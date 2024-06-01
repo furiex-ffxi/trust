@@ -20,7 +20,7 @@ return {
         ["automagicburstmode"]="Off", 
         ["approachpullmode"]="Off", 
         ["autoengagemode"]="Always", 
-        ["autoenablemode"]="Auto", 
+        ["autoenablemode"]="Off", 
         ["autodispelmode"]="Auto", 
         ["skillchainpropertymode"]="Off", 
         ["ipcmode"]="All", 

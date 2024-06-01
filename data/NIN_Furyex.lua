@@ -2,14 +2,20 @@
 return {
     Version = 1,
     Default = {
-        PartyBuffs = L{
-
-        },
         SelfBuffs = L{
 
         },
         JobAbilities = L{
+
         },
-        AutoFoodMode = "Grape Daifuku"
+        PartyBuffs = L{
+
+        },
+        AutoFoodMode = "Grape Daifuku",
+        PullSettings = {
+            Abilities = L{
+                Spell.new("Jubaku: Ni", L{}, L{}, nil, L{})
+            }
+        }
     }
 }

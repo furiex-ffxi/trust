@@ -2,9 +2,6 @@
 return {
     Version = 1,
     Default = {
-        PartyBuffs = L{
-
-        },
         SelfBuffs = L{
             Spell.new("Crusade", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
             Spell.new("Phalanx", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
@@ -13,6 +10,12 @@ return {
             Spell.new("Regen IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
             Spell.new("Shell V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
             Spell.new("Temper", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        },
+        JobAbilities = L{
+            JobAbility.new("Swordplay", L{InBattleCondition.new()}),
+            JobAbility.new("Valiance", L{InBattleCondition.new()}),
+            JobAbility.new("Vallation", L{InBattleCondition.new()}),
+            JobAbility.new("Vivacious Pulse", L{InBattleCondition.new()})
         },
         Skillchains = {
             spamws = L{
@@ -27,23 +30,25 @@ return {
                 "Dimidiation",
                 "Steel Cyclone"
             },
-            tpws = L{
-
+            preferws = L{
+                "Dimidiation",
+                "Savage Blade"
             },
             cleavews = L{
 
             },
             amws = "Dimidiation",
-            preferws = L{
-                "Dimidiation",
-                "Savage Blade"
+            tpws = L{
+
             }
         },
-        JobAbilities = L{
-            JobAbility.new("Swordplay", L{InBattleCondition.new()}),
-            JobAbility.new("Valiance", L{InBattleCondition.new()}),
-            JobAbility.new("Vallation", L{InBattleCondition.new()}),
-            JobAbility.new("Vivacious Pulse", L{InBattleCondition.new()})
+        PartyBuffs = L{
+
+        },
+        PullSettings = {
+            Abilities = L{
+                Spell.new("Flash", L{}, L{}, nil, L{})
+            }
         }
     }
 }

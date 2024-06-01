@@ -12,7 +12,7 @@ return {
             },
             defaultws = L{
                 "Evisceration",
-                "Rudra's Storm",
+                "Rudra's Storm"
             },
             cleavews = L{
 
@@ -25,11 +25,25 @@ return {
 
             }
         },
+        SelfBuffs = L{
+
+        },
         JobAbilities = L{
 
         },
-        SelfBuffs = L{
-
+        PullSettings = {
+            Abilities = L{
+                {
+                    conditions = L{
+                        MaxDistanceCondition.new(20)
+                    }
+                },
+                {
+                    conditions = L{
+                        MaxDistanceCondition.new(20)
+                    }
+                }
+            }
         }
     }
 }
