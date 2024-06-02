@@ -1,1 +1,6 @@
-scenarios/einherjar/*
+# Project Files
+.idea
+trust.iml
+
+# Other
+scenarios
