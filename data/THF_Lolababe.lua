@@ -33,17 +33,8 @@ return {
         },
         PullSettings = {
             Abilities = L{
-                {
-                    conditions = L{
-                        MaxDistanceCondition.new(20)
-                    }
-                },
-                {
-                    conditions = L{
-                        MaxDistanceCondition.new(20)
-                    }
-                }
+                Approach.new()
             }
-        }
+        },
     }
 }
