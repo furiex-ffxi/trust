@@ -43,7 +43,7 @@
             <y>3000</y>
         </party_widget>
         <remote_commands>
-            <whitelist>Furyex,Cyrite,Lolababe,Wapiti,Mikazaru,Lilsouja,Cleobabe,Mailman</whitelist>
+            <whitelist>Furyex,Mailman,Lolababe,Cyrite,Mikazaru,Lilsouja,Cleobabe,Wapiti</whitelist>
         </remote_commands>
         <settings_widget>
             <visible>true</visible>
@@ -83,7 +83,7 @@
     </furyex>
     <lolababe>
         <battle>
-            <targets>Warder of Prudence,Locus Camelopard,Apex Dragonfly,Warder of Love,Locus Dire Bat,Locus Colibri,Warder of Faith,Locus Ghost Crab,Warder of Justice,Locus Dragonfly,Apex Blazer Elytra,Armet Beetle,Warder of Hope</targets>
+            <targets>Warder of Prudence,Locus Camelopard,Apex Dragonfly,Warder of Love,Locus Dire Bat,Locus Colibri,Cannered Noz,Warder of Faith,Locus Ghost Crab,Warder of Justice,Locus Dragonfly,Apex Blazer Elytra,Warder of Hope,Armet Beetle</targets>
         </battle>
         <flags>
             <show_death_warning>false</show_death_warning>

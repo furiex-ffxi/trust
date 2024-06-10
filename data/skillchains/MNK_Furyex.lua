@@ -5,10 +5,7 @@ return {
         Skills = L{
             CombatSkillSettings.new("Hand-to-Hand", L{}, "Shijin Spiral"),
             CombatSkillSettings.new("Staff", L{}, ""),
-            CombatSkillSettings.new("Club", L{}, "")
-        },
-        Blacklist = L{
-
+            CombatSkillSettings.new("Club", L{}, "True Strike")
         },
         Skillchain = L{
             SkillchainAbility.auto(),
@@ -17,6 +14,9 @@ return {
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto()
+        },
+        Blacklist = L{
+
         }
     }
 }

@@ -1,24 +1,5 @@
 -- Weapon skill settings file for BRD
 return {
-    SortieLight = {
-        Skills = L{
-            CombatSkillSettings.new("Dagger", L{}, ""),
-            CombatSkillSettings.new("Sword", L{}, ""),
-            CombatSkillSettings.new("Club", L{}, ""),
-            CombatSkillSettings.new("Staff", L{}, "")
-        },
-        Skillchain = L{
-            SkillchainAbility.skip(),
-            WeaponSkill.new("Savage Blade"),
-            SkillchainAbility.skip(),
-            SkillchainAbility.skip(),
-            SkillchainAbility.skip(),
-            SkillchainAbility.skip()
-        },
-        Blacklist = L{
-
-        }
-    },
     Default = {
         Skills = L{
             CombatSkillSettings.new("Dagger", L{"Viper Bite", "Shadowstitch", "Cyclone", "Exenterator", "Wasp Sting", "Gust Slash"}, "Rudra's Storm"),
@@ -38,5 +19,24 @@ return {
             SkillchainAbility.auto()
         }
     },
-    Version = 1
+    Version = 1,
+    SortieLight = {
+        Skills = L{
+            CombatSkillSettings.new("Dagger", L{}, ""),
+            CombatSkillSettings.new("Sword", L{}, ""),
+            CombatSkillSettings.new("Club", L{}, ""),
+            CombatSkillSettings.new("Staff", L{}, "")
+        },
+        Skillchain = L{
+            SkillchainAbility.skip(),
+            WeaponSkill.new("Savage Blade"),
+            SkillchainAbility.skip(),
+            SkillchainAbility.skip(),
+            SkillchainAbility.skip(),
+            SkillchainAbility.skip()
+        },
+        Blacklist = L{
+
+        }
+    }
 }

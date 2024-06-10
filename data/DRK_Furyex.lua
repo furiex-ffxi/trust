@@ -14,9 +14,7 @@ return {
         },
         PullSettings = {
             Abilities = L{
-                Spell.new("Absorb-DEX", L{}, L{}, nil, L{}),
-                Spell.new("Aspir II", L{}, L{}, nil, L{}),
-                Spell.new("Absorb-VIT", L{}, L{}, nil, L{})
+                Spell.new("Fire", L{}, L{}, nil, L{})
             }
         }
     },

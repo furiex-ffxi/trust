@@ -5,7 +5,7 @@ return {
         Skills = L{
             CombatSkillSettings.new("Sword", L{}, "Atonement"),
             CombatSkillSettings.new("Club", L{}, ""),
-            CombatSkillSettings.new("Staff", L{}, "Spirit Taker"),
+            CombatSkillSettings.new("Staff", L{}, "Full Swing"),
             CombatSkillSettings.new("Great Sword", L{}, ""),
             CombatSkillSettings.new("Dagger", L{}, ""),
             CombatSkillSettings.new("Polearm", L{}, "")

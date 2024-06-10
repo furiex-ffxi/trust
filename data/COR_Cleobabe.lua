@@ -2,17 +2,22 @@
 return {
     Version = 2,
     Default = {
-        AutoFood="Grape Daifuku",
-        Shooter = {
-            Delay = 1.5
-        },
         SelfBuffs = L{
 
         },
+        PullSettings = {
+            Abilities = L{
+                RangedAttack.new()
+            }
+        },
+        Roll2 = Roll.new("Samurai Roll", false),
+        AutoFood = "Grape Daifuku",
+        Roll1 = Roll.new("Chaos Roll", true),
         PartyBuffs = L{
 
         },
-        Roll1 = Roll.new("Chaos Roll", true),
-        Roll2 = Roll.new("Samurai Roll", false)
+        Shooter = {
+            Delay = 1.5
+        }
     }
 }
