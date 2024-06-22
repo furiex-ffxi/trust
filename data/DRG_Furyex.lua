@@ -2,15 +2,20 @@
 return {
     Version = 1,
     Default = {
-        AutoFood="Grape Daifuku",
         SelfBuffs = L{
+
+        },
+        JobAbilities = L{
 
         },
         PartyBuffs = L{
 
         },
-        JobAbilities = L{
-
+        AutoFood = "Grape Daifuku",
+        PullSettings = {
+            Abilities = L{
+                JobAbility.new("Jump", L{}, L{})
+            }
         }
     }
 }

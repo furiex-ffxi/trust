@@ -3,14 +3,14 @@ return {
     Version = 2,
     Default = {
         PartyBuffs = L{
-
+            Spell.new("Indi-STR", L{"Entrust"}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
         },
         SelfBuffs = L{
 
         },
         Geomancy = {
-            Indi = Spell.new("Indi-Fury", L{}, L{}, "me", L{}),
-            Geo = Spell.new("Geo-Frailty", L{}, L{}, "bt", L{})
+            Indi = Spell.new("Indi-Haste", L{}, L{}, "me", L{}),
+            Geo = Spell.new("Geo-Fury", L{}, L{}, "p1", L{})
         },
         JobAbilities = L{
 

@@ -5,9 +5,14 @@ return {
         SelfBuffs = L{
 
         },
-        Roll1 = Roll.new("Samurai Roll", true),
-        AutoFood = "Grape Daifuku",
+        PullSettings = {
+            Abilities = L{
+                RangedAttack.new()
+            }
+        },
         Roll2 = Roll.new("Chaos Roll", false),
+        AutoFood = "Grape Daifuku",
+        Roll1 = Roll.new("Samurai Roll", true),
         PartyBuffs = L{
 
         },

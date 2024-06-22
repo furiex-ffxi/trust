@@ -2,7 +2,12 @@
 return {
     Version = 1,
     Default = {
-        AutoFood="Grape Daifuku",
+        SelfBuffs = L{
+            Spell.new("Endark II", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Spell.new("Absorb-DEX", L{}, L{}, "bt", L{}),
+            Spell.new("Absorb-STR", L{}, L{}, "bt", L{}),
+            Spell.new("Dread Spikes", L{}, L{}, nil, L{HasBuffCondition.new("Max HP Boost"), IdleCondition.new()})
+        },
         Skillchains = {
             spamws = L{
                 "Catastrophe",
@@ -25,34 +30,37 @@ return {
                 "Entropy",
                 "Torcleaver"
             },
-            preferws = L{
-                "Cross Reaper",
-                "Catastrophe",
-                "Torcleaver"
+            tpws = L{
+
             },
             cleavews = L{
                 "Fell Cleave",
                 "Spinning Scythe"
             },
             amws = "Entropy",
-            tpws = L{
+            preferws = L{
+                "Cross Reaper",
+                "Catastrophe",
+                "Torcleaver"
             }
         },
-        SelfBuffs = L{
-            Spell.new("Endark II", L{}, nil, nil, L{}),
-            Spell.new("Absorb-DEX", L{}, L{}, "bt", L{}),
-            Spell.new("Absorb-STR", L{}, L{}, "bt", L{}),
-            Spell.new("Dread Spikes", L{}, L{}, nil, L{HasBuffCondition.new("Max HP Boost"), IdleCondition.new()})
+        JobAbilities = L{
+            JobAbility.new("Last Resort", L{InBattleCondition.new()}),
+            JobAbility.new("Scarlet Delirium", L{InBattleCondition.new()})
+        },
+        AutoFood = "Grape Daifuku",
+        Debuffs = L{
+
         },
         PartyBuffs = L{
 
         },
-        JobAbilities = L{
-            JobAbility.new('Last Resort', L{InBattleCondition.new()}),
-            JobAbility.new('Scarlet Delirium', L{InBattleCondition.new()}),
-        },
-        Debuffs = L {
-
+        PullSettings = {
+            Abilities = L{
+                Spell.new("Absorb-STR", L{}, L{}, nil, L{}),
+                Spell.new("Absorb-ACC", L{}, L{}, nil, L{}),
+                Spell.new("Stone", L{}, L{}, nil, L{})
+            }
         }
     }
 }

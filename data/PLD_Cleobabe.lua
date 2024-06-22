@@ -3,8 +3,10 @@ return {
     Version = 1,
     Default = {
         SelfBuffs = L{
+            Buff.new("Crusade", L{}, L{}, nil, L{}),
             Spell.new("Phalanx", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-            Spell.new("Protect V", L{"Majesty"}, L{"SCH", "NIN", "BST", "BLM", "RNG", "RDM", "COR", "RUN", "DNC", "BLU", "PLD", "DRG", "DRK", "GEO", "THF", "SMN", "MNK", "WAR", "WHM", "BRD", "PUP", "SAM"}, nil, L{})
+            Spell.new("Protect V", L{"Majesty"}, L{"SCH", "NIN", "BST", "BLM", "RNG", "RDM", "COR", "RUN", "DNC", "BLU", "PLD", "DRG", "DRK", "GEO", "THF", "SMN", "MNK", "WAR", "WHM", "BRD", "PUP", "SAM"}, nil, L{}),
+            Buff.new("Reprisal", L{}, L{}, nil, L{})
         },
         CureSettings = {
             Thresholds = {
@@ -39,16 +41,16 @@ return {
                 "Savage Blade",
                 "Torcleaver"
             },
-            tpws = L{
-
+            preferws = L{
+                "Red Lotus Blade",
+                "Torcleaver"
             },
             cleavews = L{
                 "Circle Blade"
             },
             amws = "Torcleaver",
-            preferws = L{
-                "Red Lotus Blade",
-                "Torcleaver"
+            tpws = L{
+
             }
         },
         PullSettings = {

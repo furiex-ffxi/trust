@@ -2,19 +2,20 @@
 return {
     Version = 1,
     Default = {
+        Skills = L{
+            CombatSkillSettings.new("Club", L{}, "Mystic Boon"),
+            CombatSkillSettings.new("Staff", L{}, "")
+        },
         Skillchain = L{
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
+            SkillchainAbility.auto()
         },
         Blacklist = L{
-        },
-        Skills = L{
-            CombatSkillSettings.new('Club', L{}),
-            CombatSkillSettings.new('Staff', L{}),
-        },
+
+        }
     }
 }
