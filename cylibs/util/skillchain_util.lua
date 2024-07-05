@@ -165,20 +165,37 @@ skillchain_util.skillchain = {
         L{skillchain_util.Distortion, skillchain_util.Fusion},
     },
     Transfixion = L{
+        L{skillchain_util.Compression, skillchain_util.Transfixion},
     },
     Scission = L{
+        L{skillchain_util.Detonation, skillchain_util.Scission},
     },
     Compression = L{
+        L{skillchain_util.Transfixion, skillchain_util.Compression},
+        L{skillchain_util.Detonation, skillchain_util.Gravitation},
+        L{skillchain_util.Induration, skillchain_util.Compression},
     },
     Reverberation = L{
+        L{skillchain_util.Transfixion, skillchain_util.Reverberation},
+        L{skillchain_util.Scission, skillchain_util.Reverberation},
+        L{skillchain_util.Induration, skillchain_util.Fragmentation},
     },
     Liquefaction = L{
+        L{skillchain_util.Scission, skillchain_util.Liquefaction},
+        L{skillchain_util.Impaction, skillchain_util.Liquefaction},
     },
     Impaction = L{
+        L{skillchain_util.Liquefaction, skillchain_util.Impaction},
+        L{skillchain_util.Reverberation, skillchain_util.Impaction},
+        L{skillchain_util.Induration, skillchain_util.Impaction},
     },
     Detonation = L{
+        L{skillchain_util.Compression, skillchain_util.Detonation},
+        L{skillchain_util.Scission, skillchain_util.Detonation},
+        L{skillchain_util.Impaction, skillchain_util.Detonation},
     },
     Induration = L{
+        L{skillchain_util.Reverberation, skillchain_util.Induration},
     },
 }
 
@@ -231,6 +248,15 @@ skillchain_util.colors.Impaction =     skillchain_util.colors.Lightning
 
 function skillchain_util.color_for_element(element_name)
     return skillchain_util.colors[element_name] or skillchain_util.colors[(element_name:gsub("^%l", string.upper))]
+end
+
+function skillchain_util.all_skillchain_properties()
+    return L{
+        'Light Lv.4', 'Darkness Lv.4', 'Light', 'Darkness',
+        'Distortion', 'Gravitation', 'Fusion', 'Fragmentation',
+        'Induration', 'Scission', 'Reverberation', 'Compression',
+        'Detonation', 'Impaction', 'Liquefaction', 'Transfixion',
+    }
 end
 
 return skillchain_util

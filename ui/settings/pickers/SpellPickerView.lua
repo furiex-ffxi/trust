@@ -30,8 +30,8 @@ function SpellPickerView.new(trustSettings, spells, allSpells, defaultJobNames, 
     self.sort = sort
     self.selfBuffsWhitelist = S{
         'Absorb-ACC', 'Absorb-STR', 'Absorb-DEX',
-        'Absorb-STR', 'Absorb-INT', 'Absorb-CHR',
-        'Absorb-AGI', 'Absorb-MND', 'Absorb-VIT',
+        'Absorb-INT', 'Absorb-CHR', 'Absorb-AGI',
+        'Absorb-MND', 'Absorb-VIT',
         'Drain II', 'Drain III'
     }
 
@@ -57,7 +57,7 @@ function SpellPickerView:onSelectMenuItemAtIndexPath(textItem, _)
                     local spell = res.spells:with('en', item:getText())
                     if spell then
                         local status = buff_util.buff_for_spell(spell.id)
-                        if status and not L{ 40, 41, 42 }:contains(spell.skill) then
+                        if status and not L{ 40, 41, 42 }:contains(spell.skill) and not L{ 338, 339, 340 }:contains(spell.id) then
                             if S(spell.targets):contains('Enemy') then
                                 if not self.selfBuffsWhitelist:contains(spell.en) then
                                     self.spells:append(Debuff.new(spell_util.base_spell_name(item:getText()), L{}, L{}))
