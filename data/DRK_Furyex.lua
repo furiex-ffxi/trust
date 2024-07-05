@@ -10,10 +10,13 @@ return {
         },
         AutoFood = "Grape Daifuku",
         SelfBuffs = L{
-
+            Spell.new("Absorb-ACC", L{}, L{}, "bt", L{}),
+            Spell.new("Absorb-DEX", L{}, L{}, "bt", L{}),
+            Spell.new("Absorb-STR", L{}, L{}, "bt", L{})
         },
         PullSettings = {
             Abilities = L{
+                Spell.new("Aspir II", L{}, L{}, nil, L{}),
                 Spell.new("Fire", L{}, L{}, nil, L{})
             }
         }

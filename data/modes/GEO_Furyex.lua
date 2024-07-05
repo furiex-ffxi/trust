@@ -10,7 +10,7 @@ return {
         ["autofollowmode"]="Always", 
         ["autogeomode"]="Off", 
         ["maintrustsettingsmode"]="Default", 
-        ["subtrustsettingsmode"]="Subjob", 
+        ["subtrustsettingsmode"]="Default", 
         ["autoconvertmode"]="Off", 
         ["automagicburstmode"]="Off", 
         ["autodetectauramode"]="Off", 
