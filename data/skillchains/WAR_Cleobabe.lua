@@ -17,12 +17,12 @@ return {
             CombatSkillSettings.new("Marksmanship", L{}, "")
         },
         Skillchain = L{
-            WeaponSkill.new("Full Break"),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto()
+            WeaponSkill.new("Upheaval"),
+            SkillchainAbility.skip(),
+            WeaponSkill.new("Ukko's Fury"),
+            SkillchainAbility.skip(),
+            SkillchainAbility.skip(),
+            SkillchainAbility.skip()
         },
         Blacklist = L{
 

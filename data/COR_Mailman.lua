@@ -1,186 +1,186 @@
 -- Settings file for COR
 return {
     Ranged = {
-        PullSettings = {
-            Abilities = L{
-                RangedAttack.new()
-            }
+        Shooter = {
+            Delay = 1.5
         },
         AutoFood = "Grape Daifuku",
         Roll2 = Roll.new("Samurai Roll", false),
         Roll1 = Roll.new("Chaos Roll", true),
-        Shooter = {
-            Delay = 1.5
+        PullSettings = {
+            Abilities = L{
+                RangedAttack.new()
+            }
         }
     },
     Melee = {
-        PullSettings = {
-            Abilities = L{
-                RangedAttack.new()
-            }
+        Shooter = {
+            Delay = 1.5
         },
         AutoFood = "Grape Daifuku",
         Roll2 = Roll.new("Samurai Roll", false),
         Roll1 = Roll.new("Chaos Roll", true),
-        Shooter = {
-            Delay = 1.5
+        PullSettings = {
+            Abilities = L{
+                RangedAttack.new()
+            }
         }
     },
     Ep = {
-        PullSettings = {
-            Abilities = L{
-                RangedAttack.new()
-            }
+        Shooter = {
+            Delay = 1.5
         },
         AutoFood = "Grape Daifuku",
         Roll2 = Roll.new("Samurai Roll", false),
         Roll1 = Roll.new("Corsair's Roll", true),
-        Shooter = {
-            Delay = 1.5
-        }
-    },
-    Pet = {
         PullSettings = {
             Abilities = L{
                 RangedAttack.new()
             }
-        },
-        AutoFood = "Grape Daifuku",
-        Roll2 = Roll.new("Beast Roll", false),
-        Roll1 = Roll.new("Companion's Roll", true),
-        Shooter = {
-            Delay = 1.5
-        }
-    },
-    MagicRng = {
-        PullSettings = {
-            Abilities = L{
-                RangedAttack.new()
-            }
-        },
-        AutoFood = "Grape Daifuku",
-        Roll2 = Roll.new("Samurai Roll", false),
-        Roll1 = Roll.new("Wizard's Roll", true),
-        Shooter = {
-            Delay = 1.5
-        }
-    },
-    Mboze = {
-        PullSettings = {
-            Abilities = L{
-                RangedAttack.new()
-            }
-        },
-        AutoFood = "Grape Daifuku",
-        Roll2 = Roll.new("Samurai Roll", false),
-        Roll1 = Roll.new("Magus's Roll", true),
-        Shooter = {
-            Delay = 1.5
-        }
-    },
-    Version = 2,
-    Subjob = {
-        PullSettings = {
-            Abilities = L{
-                RangedAttack.new()
-            }
-        },
-        AutoFood = "Grape Daifuku",
-        Roll2 = Roll.new("Corsair's Roll", false),
-        Roll1 = Roll.new("Corsair's Roll", true),
-        Shooter = {
-            Delay = 1.5
-        }
-    },
-    Odin = {
-        PullSettings = {
-            Abilities = L{
-                RangedAttack.new()
-            }
-        },
-        AutoFood = "Grape Daifuku",
-        Roll2 = Roll.new("Warlock's Roll", false),
-        Roll1 = Roll.new("Wizard's Roll", true),
-        Shooter = {
-            Delay = 1.5
-        }
-    },
-    Dyna = {
-        PullSettings = {
-            Abilities = L{
-                RangedAttack.new()
-            }
-        },
-        AutoFood = "Grape Daifuku",
-        Roll2 = Roll.new("Tactician's Roll", false),
-        Roll1 = Roll.new("Wizard's Roll", true),
-        Shooter = {
-            Delay = 1.5
-        }
-    },
-    Subtle = {
-        PullSettings = {
-            Abilities = L{
-                RangedAttack.new()
-            }
-        },
-        AutoFood = "Grape Daifuku",
-        Roll2 = Roll.new("Samurai Roll", false),
-        Roll1 = Roll.new("Monk's Roll", true),
-        Shooter = {
-            Delay = 1.5
-        }
-    },
-    Default = {
-        PullSettings = {
-            Abilities = L{
-                RangedAttack.new()
-            }
-        },
-        AutoFood = "Grape Daifuku",
-        Roll2 = Roll.new("Samurai Roll", false),
-        Roll1 = Roll.new("Chaos Roll", true),
-        Shooter = {
-            Delay = 1.5
-        }
-    },
-    Proc = {
-        PullSettings = {
-            Abilities = L{
-                RangedAttack.new()
-            }
-        },
-        AutoFood = "Grape Daifuku",
-        Roll2 = Roll.new("Tactician's Roll", false),
-        Roll1 = Roll.new("Samurai Roll", true),
-        Shooter = {
-            Delay = 1.5
-        }
-    },
-    Magic = {
-        PullSettings = {
-            Abilities = L{
-                RangedAttack.new()
-            }
-        },
-        AutoFood = "Grape Daifuku",
-        Roll2 = Roll.new("Warlock's Roll", false),
-        Roll1 = Roll.new("Wizard's Roll", true),
-        Shooter = {
-            Delay = 1.5
         }
     },
     Ambu = {
-        PullSettings = {
-            Abilities = L{
-                RangedAttack.new()
-            }
+        Shooter = {
+            Delay = 1.5
         },
         AutoFood = "Grape Daifuku",
         Roll2 = Roll.new("Gallant's Roll", false),
         Roll1 = Roll.new("Samurai Roll", true),
+        PullSettings = {
+            Abilities = L{
+                RangedAttack.new()
+            }
+        }
+    },
+    Magic = {
         Shooter = {
             Delay = 1.5
+        },
+        AutoFood = "Grape Daifuku",
+        Roll2 = Roll.new("Warlock's Roll", false),
+        Roll1 = Roll.new("Wizard's Roll", true),
+        PullSettings = {
+            Abilities = L{
+                RangedAttack.new()
+            }
+        }
+    },
+    Pet = {
+        Shooter = {
+            Delay = 1.5
+        },
+        AutoFood = "Grape Daifuku",
+        Roll2 = Roll.new("Beast Roll", false),
+        Roll1 = Roll.new("Companion's Roll", true),
+        PullSettings = {
+            Abilities = L{
+                RangedAttack.new()
+            }
+        }
+    },
+    Odin = {
+        Shooter = {
+            Delay = 1.5
+        },
+        AutoFood = "Grape Daifuku",
+        Roll2 = Roll.new("Fighter's Roll", false),
+        Roll1 = Roll.new("Warlock's Roll", true),
+        PullSettings = {
+            Abilities = L{
+                RangedAttack.new()
+            }
+        }
+    },
+    MagicRng = {
+        Shooter = {
+            Delay = 1.5
+        },
+        AutoFood = "Grape Daifuku",
+        Roll2 = Roll.new("Samurai Roll", false),
+        Roll1 = Roll.new("Wizard's Roll", true),
+        PullSettings = {
+            Abilities = L{
+                RangedAttack.new()
+            }
+        }
+    },
+    Default = {
+        Shooter = {
+            Delay = 1.5
+        },
+        AutoFood = "Grape Daifuku",
+        Roll2 = Roll.new("Samurai Roll", false),
+        Roll1 = Roll.new("Chaos Roll", true),
+        PullSettings = {
+            Abilities = L{
+                RangedAttack.new()
+            }
+        }
+    },
+    Version = 2,
+    Subtle = {
+        Shooter = {
+            Delay = 1.5
+        },
+        AutoFood = "Grape Daifuku",
+        Roll2 = Roll.new("Samurai Roll", false),
+        Roll1 = Roll.new("Monk's Roll", true),
+        PullSettings = {
+            Abilities = L{
+                RangedAttack.new()
+            }
+        }
+    },
+    Dyna = {
+        Shooter = {
+            Delay = 1.5
+        },
+        AutoFood = "Grape Daifuku",
+        Roll2 = Roll.new("Tactician's Roll", false),
+        Roll1 = Roll.new("Wizard's Roll", true),
+        PullSettings = {
+            Abilities = L{
+                RangedAttack.new()
+            }
+        }
+    },
+    Proc = {
+        Shooter = {
+            Delay = 1.5
+        },
+        AutoFood = "Grape Daifuku",
+        Roll2 = Roll.new("Tactician's Roll", false),
+        Roll1 = Roll.new("Samurai Roll", true),
+        PullSettings = {
+            Abilities = L{
+                RangedAttack.new()
+            }
+        }
+    },
+    Subjob = {
+        Shooter = {
+            Delay = 1.5
+        },
+        AutoFood = "Grape Daifuku",
+        Roll2 = Roll.new("Corsair's Roll", false),
+        Roll1 = Roll.new("Corsair's Roll", true),
+        PullSettings = {
+            Abilities = L{
+                RangedAttack.new()
+            }
+        }
+    },
+    Mboze = {
+        Shooter = {
+            Delay = 1.5
+        },
+        AutoFood = "Grape Daifuku",
+        Roll2 = Roll.new("Samurai Roll", false),
+        Roll1 = Roll.new("Magus's Roll", true),
+        PullSettings = {
+            Abilities = L{
+                RangedAttack.new()
+            }
         }
     }
 }

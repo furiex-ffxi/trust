@@ -1,5 +1,6 @@
 -- Weapon skill settings file for COR
 return {
+    Version = 1,
     SortieLight = {
         Skills = L{
             CombatSkillSettings.new("Marksmanship", L{}, ""),
@@ -26,15 +27,14 @@ return {
         },
         Skillchain = L{
             SkillchainAbility.auto(),
+            WeaponSkill.new("Savage Blade"),
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto()
+            SkillchainAbility.skip()
         },
         Blacklist = L{
 
         }
-    },
-    Version = 1
+    }
 }

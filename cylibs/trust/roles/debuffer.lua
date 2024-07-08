@@ -76,7 +76,7 @@ function Debuffer:check_debuffs()
         for spell in self.debuff_spells:it() do
             local debuff = buff_util.debuff_for_spell(spell:get_spell().id)
             if debuff and not battle_target:has_debuff(debuff.id) and not battle_target:get_resist_tracker():isImmune(spell:get_spell().id)
-                    and battle_target:get_resist_tracker():numResists(spell:get_spell().id) < 4 then
+                    and battle_target:get_resist_tracker():numResists(spell:get_spell().id) < 6 then
                 self:cast_spell(spell, battle_target:get_mob().index)
                 return
             end

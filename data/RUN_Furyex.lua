@@ -30,16 +30,16 @@ return {
                 "Dimidiation",
                 "Steel Cyclone"
             },
-            preferws = L{
-                "Dimidiation",
-                "Savage Blade"
+            tpws = L{
+
             },
             cleavews = L{
 
             },
             amws = "Dimidiation",
-            tpws = L{
-
+            preferws = L{
+                "Dimidiation",
+                "Savage Blade"
             }
         },
         PartyBuffs = L{
