@@ -59,7 +59,7 @@ function NukeSettingsMenuItem:getNukesMenuItem()
 
             local jobId = res.jobs:with('ens', self.jobNameShort).id
             local allSpells = spell_util.get_spells(function(spell)
-                return spell.levels[jobId] ~= nil and S{'BlackMagic','WhiteMagic'}:contains(spell.type) and S{ 'Enemy' }:intersection(S(spell.targets)):length() > 0
+                return spell.levels[jobId] ~= nil and S{'BlackMagic','WhiteMagic','Ninjutsu'}:contains(spell.type) and S{ 'Enemy' }:intersection(S(spell.targets)):length() > 0
             end):map(function(spell) return spell.en end):sort()
 
             local sortSpells = function(spells)
@@ -110,8 +110,8 @@ function NukeSettingsMenuItem:getConfigMenuItem()
 end
 
 function NukeSettingsMenuItem:getModesMenuItem()
-    local nukeModesMenuItem = MenuItem.new(L{}, L{}, function(_)
-        local modesView = ModesView.new(L{'AutoMagicBurstMode', 'AutoNukeMode', 'MagicBurstTargetMode'})
+    local nukeModesMenuItem = MenuItem.new(L{}, L{}, function(_, infoView)
+        local modesView = ModesView.new(L{'AutoMagicBurstMode', 'AutoNukeMode', 'MagicBurstTargetMode'}, infoView)
         modesView:setShouldRequestFocus(true)
         return modesView
     end, "Modes", "Change nuking and magic bursting behavior.")

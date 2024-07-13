@@ -84,9 +84,9 @@ end
 -- @tparam table args (optional) Args to pass to the contentViewConstructor
 -- @treturn ContentView The ContentView associated with this MenuItem.
 --
-function MenuItem:getContentView(args)
+function MenuItem:getContentView(args, infoView)
     if self.contentViewConstructor ~= nil then
-        return self.contentViewConstructor(args)
+        return self.contentViewConstructor(args, infoView)
     end
     return nil
 end
@@ -125,7 +125,8 @@ end
 -- @treturn boolean True if they are equal, false otherwise.
 --
 function MenuItem:__eq(otherItem)
-    return otherItem.__type == MenuItem.__type
+    return otherItem.__type == MenuItem.__type and otherItem:getTitleText() == self:getTitleText()
+            and otherItem:getDescriptionText() == self:getDescriptionText()
 end
 
 return MenuItem

@@ -6,13 +6,24 @@ NinjaTrust.__index = NinjaTrust
 
 local Buffer = require('cylibs/trust/roles/buffer')
 local Tank = require('cylibs/trust/roles/tank')
+local Debuffer = require('cylibs/trust/roles/debuffer')
+local MagicBurster = require('cylibs/trust/roles/magic_burster')
+local Nuker = require('cylibs/trust/roles/nuker')
+local Puller = require('cylibs/trust/roles/puller')
+
 
 function NinjaTrust.new(settings, action_queue, battle_settings, trust_settings)
+	local job = Ninja.new()
 	local roles = S{
 		Buffer.new(action_queue, trust_settings.JobAbilities, trust_settings.SelfBuffs),
-		Tank.new(action_queue, L{}, L{  Spell.new('Sheep Song'), Spell.new('Geist Wall') })
+		Tank.new(action_queue, L{}, L{  Spell.new('Sheep Song'), Spell.new('Geist Wall') }),
+		Debuffer.new(action_queue, trust_settings.Debuffs or L{}),
+		MagicBurster.new(action_queue, trust_settings.NukeSettings, 0.8, L{ 'Futae' }, job),
+		Nuker.new(action_queue, trust_settings.NukeSettings, 0.8, L{}, job),
+		Puller.new(action_queue, battle_settings.targets, trust_settings.PullSettings.Abilities),
+
 	}
-	local self = setmetatable(Trust.new(action_queue, roles, trust_settings, Ninja.new()), NinjaTrust)
+	local self = setmetatable(Trust.new(action_queue, roles, trust_settings, job), NinjaTrust)
 
 	self.settings = settings
 	self.action_queue = action_queue
