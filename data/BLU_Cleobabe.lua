@@ -16,9 +16,9 @@ return {
                 Emergency = 40,
                 Default = 65,
                 ["Cure III"] = 400,
-                ["Curaga II"] = 400,
-                ["Curaga III"] = 800,
                 ["Cure II"] = 0,
+                ["Curaga III"] = 800,
+                ["Curaga II"] = 400,
                 Curaga = 0
             },
             MinNumAOETargets = 3,
@@ -34,13 +34,17 @@ return {
 
         },
         AutoFood = "Grape Daifuku",
+        Debuffs = L{
+
+        },
         PartyBuffs = L{
 
         },
         PullSettings = {
             Abilities = L{
                 Spell.new("Glutinous Dart", L{}, L{}, nil, L{})
-            }
+            },
+            Distance = 20
         }
     }
 }

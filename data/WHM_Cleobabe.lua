@@ -50,7 +50,8 @@ return {
         PullSettings = {
             Abilities = L{
                 Debuff.new("Dia", L{}, L{})
-            }
+            },
+            Distance = 20
         }
     },
     Version = 2,
@@ -131,7 +132,8 @@ return {
         PullSettings = {
             Abilities = L{
                 Debuff.new("Dia", L{}, L{})
-            }
+            },
+            Distance = 20
         }
     },
     CureOnly = {
@@ -207,7 +209,8 @@ return {
         PullSettings = {
             Abilities = L{
                 Debuff.new("Dia", L{}, L{})
-            }
+            },
+            Distance = 20
         }
     },
     Default = {
@@ -217,7 +220,6 @@ return {
         SelfBuffs = L{
             Buff.new("Auspice", L{}, L{}, nil, L{}),
             Buff.new("Boost-STR", L{}, L{}, nil, L{}),
-            Buff.new("Haste", L{}, L{}, nil, L{}),
             Buff.new("Protectra", L{}, L{}, nil, L{}),
             Buff.new("Regen", L{"Accession"}, L{}, nil, L{}),
             Buff.new("Reraise", L{}, L{}, nil, L{}),
@@ -248,8 +250,7 @@ return {
         },
         PartyBuffs = L{
             Buff.new("Protect", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-            Buff.new("Shell", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-            Buff.new("Haste", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+            Buff.new("Shell", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
         },
         NukeSettings = {
             MinNumMobsToCleave = 2,
@@ -288,7 +289,8 @@ return {
         PullSettings = {
             Abilities = L{
                 Debuff.new("Dia", L{}, L{})
-            }
+            },
+            Distance = 21
         }
     }
 }

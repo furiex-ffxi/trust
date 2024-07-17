@@ -4,31 +4,37 @@ return {
         ["autoengagemode"]="Mirror", 
         ["autoshootmode"]="Auto", 
         ["combatmode"]="Mirror", 
-        ["autoskillchainmode"]="Auto", 
+        ["maintrustsettingsmode"]="MagicRng", 
         ["skillchainprioritymode"]="Strict", 
         ["autofoodmode"]="Auto", 
-        ["maintrustsettingsmode"]="MagicRng"
-    }, 
-    ["Ep"]={
-        ["maintrustsettingsmode"]="Ep", 
-        ["autofollowmode"]="Off", 
-        ["autoskillchainmode"]="Spam", 
-        ["autodispelmode"]="Off"
-    }, 
-    ["Lilith"]={
-        ["autodispelmode"]="Off", 
-        ["autoskillchainmode"]="Spam", 
-        ["autofacemobmode"]="Off", 
-        ["autofollowmode"]="Off", 
-        ["maintrustsettingsmode"]="Melee"
-    }, 
-    ["Pet"]={
-        ["maintrustsettingsmode"]="Pet"
+        ["autoskillchainmode"]="Auto"
     }, 
     ["OdyC"]={
         ["maintrustsettingsmode"]="Melee", 
         ["autoskillchainmode"]="Spam", 
         ["autofoodmode"]="Auto"
+    }, 
+    ["Lilith"]={
+        ["autodispelmode"]="Off", 
+        ["maintrustsettingsmode"]="Melee", 
+        ["autofacemobmode"]="Off", 
+        ["autofollowmode"]="Off", 
+        ["autoskillchainmode"]="Spam"
+    }, 
+    ["Magic"]={
+        ["autoengagemode"]="Mirror", 
+        ["autoshootmode"]="Auto", 
+        ["combatmode"]="Mirror", 
+        ["maintrustsettingsmode"]="Magic", 
+        ["skillchainprioritymode"]="Strict", 
+        ["autofoodmode"]="Auto", 
+        ["autoskillchainmode"]="Auto"
+    }, 
+    ["Ep"]={
+        ["autodispelmode"]="Off", 
+        ["autofollowmode"]="Off", 
+        ["autoskillchainmode"]="Spam", 
+        ["maintrustsettingsmode"]="Ep"
     }, 
     ["Sortie"]={
         ["autoengagemode"]="Mirror", 
@@ -39,47 +45,45 @@ return {
         ["autodebuffmode"]="Off"
     }, 
     ["Default"]={
-        ["autobuffmode"]="Off", 
-        ["maintrustsettingsmode"]="Default", 
-        ["autofacemobmode"]="Auto", 
-        ["autorollmode"]="Auto", 
-        ["autohealmode"]="Emergency", 
-        ["autodisablemode"]="Auto", 
-        ["autotargetmode"]="Off", 
-        ["autotrustsmode"]="Off", 
-        ["engagemode"]="None", 
-        ["subtrustsettingsmode"]="Default", 
-        ["autounloadondeathmode"]="Off", 
-        ["approachpullmode"]="Off", 
-        ["skillchainassistantmode"]="Off", 
-        ["autofollowmode"]="Always", 
+        ["magicbursttargetmode"]="Single", 
         ["autofoodmode"]="Off", 
-        ["autoengagemode"]="Always", 
+        ["autodisablemode"]="Auto", 
+        ["autosilencemode"]="Off", 
+        ["autotargetmode"]="Off", 
+        ["autofollowmode"]="Always", 
+        ["autotankmode"]="Off", 
+        ["maintrustsettingsmode"]="Default", 
+        ["autotrustsmode"]="Off", 
+        ["autorollmode"]="Auto", 
+        ["approachpullmode"]="Auto", 
         ["weaponskillsettingsmode"]="Default", 
-        ["autoenablemode"]="Off", 
+        ["autofacemobmode"]="Auto", 
+        ["automagicburstmode"]="Off", 
+        ["autounloadondeathmode"]="Off", 
+        ["subtrustsettingsmode"]="Default", 
+        ["autoshootmode"]="Off", 
+        ["autoengagemode"]="Always", 
+        ["skillchainassistantmode"]="Off", 
+        ["autopullmode"]="Off", 
         ["skillchainpropertymode"]="Off", 
         ["ipcmode"]="All", 
         ["partychatmode"]="Private", 
-        ["combatmode"]="Off", 
-        ["autoskillchainmode"]="Off", 
-        ["autoshootmode"]="Off", 
-        ["autostepmode"]="Off", 
+        ["combatmode"]="Mirror", 
+        ["autoskillchainmode"]="Spam", 
+        ["engagemode"]="None", 
+        ["autobuffmode"]="Off", 
+        ["autoenablemode"]="Off", 
         ["skillchaindelaymode"]="Off", 
-        ["actionbatchingmode"]="Off", 
-        ["autopullmode"]="Off", 
-        ["autoaftermathmode"]="Off", 
-        ["autodispelmode"]="Auto", 
-        ["flankmode"]="Off", 
+        ["autodebuffmode"]="Off", 
         ["autoenmityreductionmode"]="Off", 
+        ["autodispelmode"]="Auto", 
+        ["autoaftermathmode"]="Off", 
+        ["flankmode"]="Off", 
+        ["actionbatchingmode"]="Off", 
+        ["autonukemode"]="Off", 
         ["autoassistantmode"]="Off"
     }, 
-    ["Magic"]={
-        ["autoengagemode"]="Mirror", 
-        ["autoshootmode"]="Auto", 
-        ["combatmode"]="Mirror", 
-        ["autoskillchainmode"]="Auto", 
-        ["skillchainprioritymode"]="Strict", 
-        ["autofoodmode"]="Auto", 
-        ["maintrustsettingsmode"]="Magic"
+    ["Pet"]={
+        ["maintrustsettingsmode"]="Pet"
     }
 }

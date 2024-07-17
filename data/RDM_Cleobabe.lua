@@ -37,24 +37,26 @@ return {
                 "Death Blossom",
                 "Black Halo"
             },
+            tpws = L{
+                "Savage Blade"
+            },
+            cleavews = L{
+                "Aeolian Edge"
+            },
+            amws = "Death Blossom",
             preferws = L{
                 "Flat Blade",
                 "Death Blossom",
                 "Savage Blade",
                 "Black Halo",
                 "Realmrazer"
-            },
-            cleavews = L{
-                "Aeolian Edge"
-            },
-            amws = "Death Blossom",
-            tpws = L{
-                "Savage Blade"
             }
         },
         NukeSettings = {
             MinNumMobsToCleave = 2,
-            MinManaPointsPercent = 40,
+            Blacklist = L{
+
+            },
             Spells = L{
                 Spell.new("Thunder V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
                 Spell.new("Thunder IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
@@ -76,17 +78,17 @@ return {
                 Spell.new("Stone III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
             },
             Delay = 4,
-            Blacklist = L{
-
-            }
+            MinManaPointsPercent = 40
         },
         Debuffs = L{
-            Debuff.new("Dia", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"})
+            Debuff.new("Dia", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}),
+            Debuff.new("Distract", L{}, L{})
         },
         PullSettings = {
             Abilities = L{
                 Debuff.new("Dia", L{}, L{})
-            }
+            },
+            Distance = 20
         }
     }
 }

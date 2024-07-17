@@ -23,19 +23,19 @@ return {
                 Emergency = 40,
                 Default = 78,
                 ["Cure III"] = 400,
+                ["Curaga II"] = 400,
                 ["Curaga III"] = 600,
                 ["Cure II"] = 0,
-                ["Curaga II"] = 400,
                 Curaga = 0
             },
-            Overcure = false,
-            Delay = 2,
             StatusRemovals = {
                 Delay = 3,
                 Blacklist = L{
 
                 }
-            }
+            },
+            Delay = 2,
+            Overcure = false
         },
         AutoFood = "Tropical Crepe",
         Skillchains = {
@@ -48,29 +48,29 @@ return {
             defaultws = L{
                 "Black Halo"
             },
-            tpws = L{
-
+            preferws = L{
+                "Black Halo"
             },
             cleavews = L{
 
             },
             amws = "Mystic Boon",
-            preferws = L{
-                "Black Halo"
+            tpws = L{
+
             }
         },
         NukeSettings = {
             MinNumMobsToCleave = 2,
-            Blacklist = L{
-
-            },
+            MinManaPointsPercent = 60,
             Spells = L{
                 Spell.new("Holy II", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
                 Spell.new("Holy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
                 Spell.new("Banish III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
             },
             Delay = 10,
-            MinManaPointsPercent = 60
+            Blacklist = L{
+
+            }
         },
         Debuffs = L{
             Spell.new("Dia II", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
@@ -78,7 +78,8 @@ return {
         PullSettings = {
             Abilities = L{
                 Debuff.new("Dia", L{}, L{})
-            }
+            },
+            Distance = 20
         }
     }
 }

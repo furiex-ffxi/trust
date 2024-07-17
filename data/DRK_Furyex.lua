@@ -10,15 +10,14 @@ return {
         },
         AutoFood = "Grape Daifuku",
         SelfBuffs = L{
-            Spell.new("Absorb-ACC", L{}, L{}, "bt", L{}),
-            Spell.new("Absorb-DEX", L{}, L{}, "bt", L{}),
-            Spell.new("Absorb-STR", L{}, L{}, "bt", L{})
+
         },
         PullSettings = {
             Abilities = L{
                 Spell.new("Aspir II", L{}, L{}, nil, L{}),
                 Spell.new("Fire", L{}, L{}, nil, L{})
-            }
+            },
+            Distance = 20
         }
     },
     OdyC = {
@@ -38,7 +37,8 @@ return {
                 Spell.new("Absorb-STR", L{}, L{}, nil, L{}),
                 Spell.new("Absorb-ACC", L{}, L{}, nil, L{}),
                 Spell.new("Stone", L{}, L{}, nil, L{})
-            }
+            },
+            Distance = 20
         }
     },
     Version = 1,
@@ -59,7 +59,8 @@ return {
                 Spell.new("Absorb-STR", L{}, L{}, nil, L{}),
                 Spell.new("Absorb-ACC", L{}, L{}, nil, L{}),
                 Spell.new("Stone", L{}, L{}, nil, L{})
-            }
+            },
+            Distance = 20
         }
     },
     Light = {
@@ -79,7 +80,8 @@ return {
                 Spell.new("Absorb-STR", L{}, L{}, nil, L{}),
                 Spell.new("Absorb-ACC", L{}, L{}, nil, L{}),
                 Spell.new("Stone", L{}, L{}, nil, L{})
-            }
+            },
+            Distance = 20
         }
     }
 }

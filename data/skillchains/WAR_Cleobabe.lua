@@ -9,7 +9,7 @@ return {
             CombatSkillSettings.new("Scythe", L{}, ""),
             CombatSkillSettings.new("Staff", L{}, ""),
             CombatSkillSettings.new("Sword", L{"Burning Blade", "Circle Blade", "Fast Blade", "Vorpal Blade", "Flat Blade", "Shining Blade", "Seraph Blade", "Red Lotus Blade"}, "Savage Blade"),
-            CombatSkillSettings.new("Club", L{}, "True Strike"),
+            CombatSkillSettings.new("Club", L{}, "Judgment"),
             CombatSkillSettings.new("Dagger", L{}, ""),
             CombatSkillSettings.new("Polearm", L{"Double Thrust", "Sonic Thrust", "Penta Thrust", "Leg Sweep", "Raiden Thrust", "Thunder Thrust", "Vorpal Thrust"}, "Impulse Drive"),
             CombatSkillSettings.new("Hand-to-Hand", L{}, ""),

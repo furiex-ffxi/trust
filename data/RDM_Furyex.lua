@@ -61,7 +61,8 @@ return {
         PullSettings = {
             Abilities = L{
                 Debuff.new("Dia", L{}, L{})
-            }
+            },
+            Distance = 20
         }
     },
     Odin = {
@@ -72,13 +73,11 @@ return {
         SelfBuffs = L{
             Buff.new("Aquaveil", L{}, L{}, nil, L{}),
             Buff.new("Enfire", L{}, L{}, nil, L{}),
-            Buff.new("Gain-MND", L{}, L{}, nil, L{}),
             Buff.new("Haste", L{}, L{"GEO", "THF", "BRD", "RUN", "DRG", "DNC", "BLM", "COR", "DRK", "WAR", "SAM", "WHM", "BST", "PLD", "MNK", "RDM", "NIN", "SCH", "RNG", "SMN", "BLU", "PUP"}, nil, L{}),
             Buff.new("Protect", L{}, L{}, nil, L{}),
             Buff.new("Refresh", L{}, L{}, nil, L{}),
             Buff.new("Shell", L{}, L{}, nil, L{}),
-            Buff.new("Stoneskin", L{}, L{}, nil, L{}),
-            Buff.new("Temper", L{}, L{}, nil, L{})
+            Buff.new("Stoneskin", L{}, L{}, nil, L{})
         },
         CureSettings = {
             Thresholds = {
@@ -123,7 +122,6 @@ return {
             MinManaPointsPercent = 40
         },
         Debuffs = L{
-            Debuff.new("Addle", L{}, L{}),
             Debuff.new("Blind", L{}, L{}),
             Debuff.new("Distract", L{}, L{}),
             Debuff.new("Frazzle", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}),
@@ -135,17 +133,14 @@ return {
         PullSettings = {
             Abilities = L{
                 Debuff.new("Dia", L{}, L{})
-            }
+            },
+            Distance = 20
         }
     },
     Version = 2,
     Default = {
         PartyBuffs = L{
-            Buff.new("Haste", L{}, L{"SMN", "RNG", "SCH", "MNK", "RDM", "BLM", "BLU", "NIN", "THF", "BST", "PUP", "SAM", "GEO", "DRK", "BRD", "DRG", "DNC", "WHM", "COR", "RUN", "PLD", "WAR"}, nil, L{}),
-            Buff.new("Phalanx", L{}, L{"PLD", "NIN", "RUN"}, nil, L{}),
-            Buff.new("Protect", L{}, L{}, nil, L{}),
-            Buff.new("Refresh", L{}, L{"SCH", "SMN", "DRK", "GEO", "BLM", "WHM", "PLD", "RDM"}, nil, L{}),
-            Buff.new("Shell", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+            Buff.new("Haste", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
         },
         SelfBuffs = L{
             Buff.new("Enfire", L{}, L{}, nil, L{}),
@@ -200,12 +195,14 @@ return {
         },
         Debuffs = L{
             Debuff.new("Dia", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}),
-            Debuff.new("Slow", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"})
+            Debuff.new("Distract", L{}, L{}),
+            Debuff.new("Frazzle", L{}, L{})
         },
         PullSettings = {
             Abilities = L{
                 Debuff.new("Dia", L{}, L{})
-            }
+            },
+            Distance = 20
         }
     },
     Sanguine = {
@@ -272,7 +269,8 @@ return {
         PullSettings = {
             Abilities = L{
                 Debuff.new("Dia", L{}, L{})
-            }
+            },
+            Distance = 20
         }
     },
     Melee = {
@@ -285,8 +283,7 @@ return {
             Spell.new("Gain-STR", L{}, L{}, nil, L{InBattleCondition.new()}),
             Buff.new("Haste", L{}, L{}, nil, L{}),
             Buff.new("Phalanx", L{}, L{}, nil, L{}),
-            Buff.new("Refresh", L{}, L{}, nil, L{}),
-            Buff.new("Temper", L{}, L{}, nil, L{})
+            Buff.new("Refresh", L{}, L{}, nil, L{})
         },
         CureSettings = {
             Thresholds = {
@@ -337,7 +334,8 @@ return {
         PullSettings = {
             Abilities = L{
                 Debuff.new("Dia", L{}, L{})
-            }
+            },
+            Distance = 20
         }
     }
 }

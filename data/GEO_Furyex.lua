@@ -1,28 +1,32 @@
 -- Settings file for GEO
 return {
+    Version = 2,
     Default = {
-        PartyBuffs = L{
-            Spell.new("Indi-STR", L{"Entrust"}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        Debuffs = L{
+
         },
         SelfBuffs = L{
 
         },
+        AutoFood = "Tropical Crepe",
         JobAbilities = L{
 
         },
-        AutoFood = "Tropical Crepe",
+        PartyBuffs = L{
+            Spell.new("Indi-STR", L{"Entrust"}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        },
         NukeSettings = {
             MinNumMobsToCleave = 2,
-            Blacklist = L{
-
-            },
+            MinManaPointsPercent = 40,
             Spells = L{
                 Spell.new("Fire V", L{}, L{}, nil, L{}),
                 Spell.new("Fire IV", L{}, L{}, nil, L{}),
                 Spell.new("Fire III", L{}, L{}, nil, L{})
             },
             Delay = 4,
-            MinManaPointsPercent = 40
+            Blacklist = L{
+
+            }
         },
         Geomancy = {
             Indi = Spell.new("Indi-Fury", L{}, L{}, "me", L{}),
@@ -31,32 +35,36 @@ return {
         PullSettings = {
             Abilities = L{
                 Spell.new("Stone", L{}, L{}, nil, L{})
-            }
+            },
+            Distance = 20
         }
     },
     Alex = {
-        PartyBuffs = L{
-            Spell.new("Indi-STR", L{"Entrust"}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        Debuffs = L{
+
         },
         SelfBuffs = L{
 
         },
+        AutoFood = "Tropical Crepe",
         JobAbilities = L{
 
         },
-        AutoFood = "Tropical Crepe",
+        PartyBuffs = L{
+            Spell.new("Indi-STR", L{"Entrust"}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        },
         NukeSettings = {
             MinNumMobsToCleave = 2,
-            Blacklist = L{
-
-            },
+            MinManaPointsPercent = 40,
             Spells = L{
                 Spell.new("Fire V", L{}, L{}, nil, L{}),
                 Spell.new("Fire IV", L{}, L{}, nil, L{}),
                 Spell.new("Fire III", L{}, L{}, nil, L{})
             },
             Delay = 4,
-            MinManaPointsPercent = 40
+            Blacklist = L{
+
+            }
         },
         Geomancy = {
             Indi = Spell.new("Indi-Refresh", L{}, L{}, "me", L{}),
@@ -65,8 +73,8 @@ return {
         PullSettings = {
             Abilities = L{
                 Spell.new("Stone", L{}, L{}, nil, L{})
-            }
+            },
+            Distance = 20
         }
-    },
-    Version = 2
+    }
 }

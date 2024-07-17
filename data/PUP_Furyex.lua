@@ -186,18 +186,21 @@ return {
             defaultws = L{
                 "Shijin Spiral"
             },
-            tpws = L{
-                "Shijin Spiral"
+            preferws = L{
+                "Victory Smite",
+                "Shijin Spiral",
+                "Stringing Pummel"
             },
             cleavews = L{
                 "Spinning Attack"
             },
             amws = "Stringing Pummel",
-            preferws = L{
-                "Victory Smite",
-                "Shijin Spiral",
-                "Stringing Pummel"
+            tpws = L{
+                "Shijin Spiral"
             }
+        },
+        Debuffs = L{
+
         },
         OverdriveManeuvers = {
             HybridRanged = L{
@@ -258,7 +261,8 @@ return {
         PullSettings = {
             Abilities = L{
 
-            }
+            },
+            Distance = 20
         }
     }
 }

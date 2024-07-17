@@ -34,6 +34,9 @@ return {
                 }
             }
         },
+        Debuffs = L{
+
+        },
         Skillchains = {
             spamws = L{
                 "Black Halo",
@@ -46,21 +49,23 @@ return {
                 "Retribution",
                 "Black Halo"
             },
-            preferws = L{
-                "Retribution",
-                "Black Halo"
+            tpws = L{
+
             },
             cleavews = L{
                 "Cataclysm"
             },
             amws = "Omniscience",
-            tpws = L{
-
+            preferws = L{
+                "Retribution",
+                "Black Halo"
             }
         },
         NukeSettings = {
             MinNumMobsToCleave = 2,
-            MinManaPointsPercent = 20,
+            Blacklist = L{
+
+            },
             Spells = L{
                 Spell.new("Thunder V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
                 Spell.new("Thunder IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
@@ -76,14 +81,7 @@ return {
                 Spell.new("Stone IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
             },
             Delay = 2,
-            Blacklist = L{
-
-            }
-        },
-        PullSettings = {
-            Abilities = L{
-                Spell.new("Stone", L{}, L{}, nil, L{})
-            }
+            MinManaPointsPercent = 20
         },
         DarkArts = {
             PartyBuffs = L{
@@ -95,6 +93,12 @@ return {
             JobAbilities = L{
                 JobAbility.new("Dark Arts", L{}, L{})
             }
+        },
+        PullSettings = {
+            Abilities = L{
+                Spell.new("Stone", L{}, L{}, nil, L{})
+            },
+            Distance = 20
         }
     }
 }

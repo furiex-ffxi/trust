@@ -27,13 +27,17 @@ return {
             JobAbility.new("Haste Samba", L{InBattleCondition.new()})
         },
         AutoFood = "Grape Daifuku",
+        Debuffs = L{
+
+        },
         PartyBuffs = L{
 
         },
         PullSettings = {
             Abilities = L{
                 JobAbility.new("Animated Flourish", L{}, L{})
-            }
+            },
+            Distance = 20
         }
     }
 }

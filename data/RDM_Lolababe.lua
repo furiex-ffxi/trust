@@ -40,33 +40,33 @@ return {
                 "Death Blossom",
                 "Black Halo"
             },
-            tpws = L{
-                "Savage Blade"
-            },
-            cleavews = L{
-                "Aeolian Edge"
-            },
-            amws = "Death Blossom",
             preferws = L{
                 "Flat Blade",
                 "Death Blossom",
                 "Savage Blade",
                 "Black Halo",
                 "Realmrazer"
+            },
+            cleavews = L{
+                "Aeolian Edge"
+            },
+            amws = "Death Blossom",
+            tpws = L{
+                "Savage Blade"
             }
         },
         NukeSettings = {
             MinNumMobsToCleave = 2,
-            Blacklist = L{
-
-            },
+            MinManaPointsPercent = 40,
             Spells = L{
                 Spell.new("Aero V", L{}, L{}, nil, L{}),
                 Spell.new("Aero IV", L{}, L{}, nil, L{}),
                 Spell.new("Aero III", L{}, L{}, nil, L{})
             },
             Delay = 4,
-            MinManaPointsPercent = 40
+            Blacklist = L{
+
+            }
         },
         SelfBuffs = L{
             Spell.new("Enblizzard", L{}, L{}, nil, L{InBattleCondition.new()}),
@@ -80,7 +80,8 @@ return {
         PullSettings = {
             Abilities = L{
                 Debuff.new("Dia", L{}, L{})
-            }
+            },
+            Distance = 20
         }
     }
 }

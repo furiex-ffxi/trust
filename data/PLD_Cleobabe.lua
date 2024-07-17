@@ -29,6 +29,9 @@ return {
         PartyBuffs = L{
 
         },
+        Debuffs = L{
+
+        },
         Skillchains = {
             spamws = L{
                 "Savage Blade",
@@ -41,22 +44,23 @@ return {
                 "Savage Blade",
                 "Torcleaver"
             },
-            preferws = L{
-                "Red Lotus Blade",
-                "Torcleaver"
+            tpws = L{
+
             },
             cleavews = L{
                 "Circle Blade"
             },
             amws = "Torcleaver",
-            tpws = L{
-
+            preferws = L{
+                "Red Lotus Blade",
+                "Torcleaver"
             }
         },
         PullSettings = {
             Abilities = L{
                 Spell.new("Flash", L{}, L{}, nil, L{})
-            }
+            },
+            Distance = 20
         }
     }
 }

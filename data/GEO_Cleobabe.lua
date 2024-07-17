@@ -1,13 +1,13 @@
 -- Settings file for GEO
 return {
-    Default = {
+    Odin = {
         SelfBuffs = L{
 
         },
-        Geomancy = {
-            Indi = Spell.new("Indi-Fury", L{}, L{}, "me", L{}),
-            Geo = Spell.new("Geo-Barrier", L{}, L{}, "p1", L{})
+        Debuffs = L{
+
         },
+        AutoFood = "Tropical Crepe",
         JobAbilities = L{
 
         },
@@ -29,27 +29,32 @@ return {
             },
             Delay = 4,
             MinManaPointsPercent = 40
-        },
-        AutoFood = "Tropical Crepe",
-        PullSettings = {
-            Abilities = L{
-                Spell.new("Stone", L{}, L{}, nil, L{})
-            }
-        }
-    },
-    Odin = {
-        SelfBuffs = L{
-
         },
         Geomancy = {
             Indi = Spell.new("Indi-Focus", L{}, L{}, "me", L{}),
             Geo = Spell.new("Geo-Barrier", L{}, L{}, "bt", L{})
         },
+        PullSettings = {
+            Abilities = L{
+                Spell.new("Stone", L{}, L{}, nil, L{})
+            },
+            Distance = 20
+        }
+    },
+    Version = 2,
+    Default = {
+        SelfBuffs = L{
+
+        },
+        Debuffs = L{
+
+        },
+        AutoFood = "Tropical Crepe",
         JobAbilities = L{
 
         },
         PartyBuffs = L{
-            Spell.new("Indi-Attunement", L{"Entrust"}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+            Spell.new("Indi-Precision", L{"Entrust"}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
         },
         NukeSettings = {
             MinNumMobsToCleave = 2,
@@ -67,12 +72,15 @@ return {
             Delay = 4,
             MinManaPointsPercent = 40
         },
-        AutoFood = "Tropical Crepe",
+        Geomancy = {
+            Indi = Spell.new("Indi-INT", L{}, L{}, "me", L{}),
+            Geo = Spell.new("Geo-Acumen", L{}, L{}, "me", L{})
+        },
         PullSettings = {
             Abilities = L{
                 Spell.new("Stone", L{}, L{}, nil, L{})
-            }
+            },
+            Distance = 20
         }
-    },
-    Version = 2
+    }
 }

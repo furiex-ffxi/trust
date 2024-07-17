@@ -11,11 +11,15 @@ return {
         PartyBuffs = L{
 
         },
+        Debuffs = L{
+
+        },
         AutoFood = "Grape Daifuku",
         PullSettings = {
             Abilities = L{
                 JobAbility.new("Jump", L{}, L{})
-            }
+            },
+            Distance = 20
         }
     }
 }

@@ -13,6 +13,7 @@ return {
         ["autoskillchainmode"]="Spam", 
         ["autostepmode"]="Auto", 
         ["autodebuffmode"]="Off", 
+        ["autobuffmode"]="On", 
         ["maintrustsettingsmode"]="Ep", 
         ["autofollowmode"]="Off", 
         ["autonitromode"]="Auto"

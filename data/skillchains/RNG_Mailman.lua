@@ -6,12 +6,9 @@ return {
             CombatSkillSettings.new("Archery", L{}, ""),
             CombatSkillSettings.new("Marksmanship", L{}, "Last Stand"),
             CombatSkillSettings.new("Dagger", L{"Shadowstitch", "Aeolian Edge", "Viper Bite", "Wasp Sting", "Cyclone", "Gust Slash"}, "Wasp Sting"),
-            CombatSkillSettings.new("Sword", L{}, "Burning Blade"),
+            CombatSkillSettings.new("Sword", L{}, "Savage Blade"),
             CombatSkillSettings.new("Axe", L{}, ""),
             CombatSkillSettings.new("Club", L{}, "")
-        },
-        Blacklist = L{
-
         },
         Skillchain = L{
             SkillchainAbility.auto(),
@@ -20,6 +17,9 @@ return {
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto()
+        },
+        Blacklist = L{
+
         }
     }
 }
