@@ -5,6 +5,11 @@ return {
         Debuffs = L{
             Debuff.new("Distract", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"})
         },
+        GambitSettings = {
+            Gambits = L{
+
+            }
+        },
         JobAbilities = L{
             JobAbility.new("Composure", L{}, L{})
         },
@@ -40,33 +45,33 @@ return {
                 "Death Blossom",
                 "Black Halo"
             },
+            tpws = L{
+                "Savage Blade"
+            },
+            cleavews = L{
+                "Aeolian Edge"
+            },
+            amws = "Death Blossom",
             preferws = L{
                 "Flat Blade",
                 "Death Blossom",
                 "Savage Blade",
                 "Black Halo",
                 "Realmrazer"
-            },
-            cleavews = L{
-                "Aeolian Edge"
-            },
-            amws = "Death Blossom",
-            tpws = L{
-                "Savage Blade"
             }
         },
         NukeSettings = {
             MinNumMobsToCleave = 2,
-            MinManaPointsPercent = 40,
+            Blacklist = L{
+
+            },
             Spells = L{
                 Spell.new("Aero V", L{}, L{}, nil, L{}),
                 Spell.new("Aero IV", L{}, L{}, nil, L{}),
                 Spell.new("Aero III", L{}, L{}, nil, L{})
             },
             Delay = 4,
-            Blacklist = L{
-
-            }
+            MinManaPointsPercent = 40
         },
         SelfBuffs = L{
             Spell.new("Enblizzard", L{}, L{}, nil, L{InBattleCondition.new()}),

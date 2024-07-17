@@ -2,6 +2,14 @@
 return {
     Version = 2,
     Default = {
+        Debuffs = L{
+
+        },
+        GambitSettings = {
+            Gambits = L{
+
+            }
+        },
         LightArts = {
             PartyBuffs = L{
                 Spell.new("Adloquium", L{}, L{"WAR", "PUP", "COR"}, nil, L{})
@@ -17,7 +25,6 @@ return {
                 JobAbility.new("Light Arts", L{}, L{})
             }
         },
-        StrategemCooldown = 33,
         CureSettings = {
             Thresholds = {
                 ["Cure IV"] = 1200,
@@ -34,9 +41,7 @@ return {
                 }
             }
         },
-        Debuffs = L{
-
-        },
+        StrategemCooldown = 33,
         Skillchains = {
             spamws = L{
                 "Black Halo",
@@ -49,23 +54,21 @@ return {
                 "Retribution",
                 "Black Halo"
             },
-            tpws = L{
-
+            preferws = L{
+                "Retribution",
+                "Black Halo"
             },
             cleavews = L{
                 "Cataclysm"
             },
             amws = "Omniscience",
-            preferws = L{
-                "Retribution",
-                "Black Halo"
+            tpws = L{
+
             }
         },
         NukeSettings = {
             MinNumMobsToCleave = 2,
-            Blacklist = L{
-
-            },
+            MinManaPointsPercent = 20,
             Spells = L{
                 Spell.new("Thunder V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
                 Spell.new("Thunder IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
@@ -81,7 +84,15 @@ return {
                 Spell.new("Stone IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
             },
             Delay = 2,
-            MinManaPointsPercent = 20
+            Blacklist = L{
+
+            }
+        },
+        PullSettings = {
+            Abilities = L{
+                Spell.new("Stone", L{}, L{}, nil, L{})
+            },
+            Distance = 20
         },
         DarkArts = {
             PartyBuffs = L{
@@ -93,12 +104,6 @@ return {
             JobAbilities = L{
                 JobAbility.new("Dark Arts", L{}, L{})
             }
-        },
-        PullSettings = {
-            Abilities = L{
-                Spell.new("Stone", L{}, L{}, nil, L{})
-            },
-            Distance = 20
         }
     }
 }
