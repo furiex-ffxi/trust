@@ -54,7 +54,7 @@ return {
         ["autotankmode"]="Off", 
         ["maintrustsettingsmode"]="Default", 
         ["autotrustsmode"]="Off", 
-        ["autorollmode"]="Auto", 
+        ["autorollmode"]="Safe", 
         ["approachpullmode"]="Auto", 
         ["weaponskillsettingsmode"]="Default", 
         ["autofacemobmode"]="Auto", 

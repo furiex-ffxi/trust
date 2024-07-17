@@ -5,14 +5,19 @@ return {
         Debuffs = L{
             Spell.new("Burn", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
         },
-        SelfBuffs = L{
+        GambitSettings = {
+            Gambits = L{
 
+            }
+        },
+        JobAbilities = L{
+            JobAbility.new("Mana Wall", L{}, L{})
         },
         PartyBuffs = L{
 
         },
-        JobAbilities = L{
-            JobAbility.new("Mana Wall", L{}, L{})
+        SelfBuffs = L{
+
         },
         Skillchains = {
             spamws = L{
@@ -24,20 +29,22 @@ return {
             defaultws = L{
                 "Vidohunir"
             },
-            preferws = L{
-                "Vidohunir"
+            tpws = L{
+
             },
             cleavews = L{
                 "Cataclysm"
             },
             amws = "Vidohunir",
-            tpws = L{
-
+            preferws = L{
+                "Vidohunir"
             }
         },
         NukeSettings = {
             MinNumMobsToCleave = 2,
-            MinManaPointsPercent = 20,
+            Blacklist = L{
+
+            },
             Spells = L{
                 Spell.new("Comet", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
                 Spell.new("Thunder VI", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
@@ -66,9 +73,7 @@ return {
                 Spell.new("Stone IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
             },
             Delay = 2,
-            Blacklist = L{
-
-            }
+            MinManaPointsPercent = 20
         },
         AutoFood = "Tropical Crepe",
         PullSettings = {

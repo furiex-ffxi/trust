@@ -11,6 +11,14 @@ return {
             Spell.new("Shell V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
             Spell.new("Temper", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
         },
+        GambitSettings = {
+            Gambits = L{
+                Gambit.new("Self", L{MaxManaPointsPercentCondition.new(75)}, JobAbility.new("Vivacious Pulse", L{}, L{})),
+                Gambit.new("Self", L{InBattleCondition.new()}, Spell.new("Foil", L{}, L{}, nil, L{})),
+                Gambit.new("Self", L{InBattleCondition.new()}, JobAbility.new("Liement", L{}, L{})),
+                Gambit.new("Self", L{InBattleCondition.new()}, JobAbility.new("One for All", L{}, L{}))
+            }
+        },
         JobAbilities = L{
             JobAbility.new("Swordplay", L{InBattleCondition.new()}),
             JobAbility.new("Valiance", L{InBattleCondition.new()}),
@@ -30,16 +38,16 @@ return {
                 "Dimidiation",
                 "Steel Cyclone"
             },
-            preferws = L{
-                "Dimidiation",
-                "Savage Blade"
+            tpws = L{
+
             },
             cleavews = L{
 
             },
             amws = "Dimidiation",
-            tpws = L{
-
+            preferws = L{
+                "Dimidiation",
+                "Savage Blade"
             }
         },
         Debuffs = L{

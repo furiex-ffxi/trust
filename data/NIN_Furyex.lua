@@ -2,12 +2,17 @@
 return {
     Version = 2,
     Default = {
+        Debuffs = L{
+
+        },
         SelfBuffs = L{
             Spell.new("Kakka: Ichi", L{}, L{}, nil, L{}),
             Spell.new("Myoshu: Ichi", L{}, L{}, nil, L{})
         },
-        Debuffs = L{
+        GambitSettings = {
+            Gambits = L{
 
+            }
         },
         AutoFoodMode = "Grape Daifuku",
         PartyBuffs = L{
@@ -15,9 +20,7 @@ return {
         },
         NukeSettings = {
             MinNumMobsToCleave = 2,
-            Blacklist = L{
-
-            },
+            MinManaPointsPercent = 0,
             Spells = L{
                 Spell.new("Raiton: San", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
                 Spell.new("Raiton: Ni", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
@@ -33,7 +36,9 @@ return {
                 Spell.new("Doton: Ni", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
             },
             Delay = 2,
-            MinManaPointsPercent = 0
+            Blacklist = L{
+
+            }
         },
         JobAbilities = L{
             JobAbility.new("Yonin", L{InBattleCondition.new()}),

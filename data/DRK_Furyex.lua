@@ -4,6 +4,11 @@ return {
         Debuffs = L{
 
         },
+        GambitSettings = {
+            Gambits = L{
+
+            }
+        },
         JobAbilities = L{
             JobAbility.new("Last Resort", L{InBattleCondition.new()}),
             JobAbility.new("Scarlet Delirium", L{InBattleCondition.new()})
@@ -23,6 +28,11 @@ return {
     OdyC = {
         Debuffs = L{
 
+        },
+        GambitSettings = {
+            Gambits = L{
+
+            }
         },
         JobAbilities = L{
             JobAbility.new("Last Resort", L{InBattleCondition.new()}),
@@ -46,6 +56,11 @@ return {
         Debuffs = L{
 
         },
+        GambitSettings = {
+            Gambits = L{
+
+            }
+        },
         JobAbilities = L{
             JobAbility.new("Last Resort", L{InBattleCondition.new()}),
             JobAbility.new("Scarlet Delirium", L{InBattleCondition.new()})
@@ -66,6 +81,11 @@ return {
     Light = {
         Debuffs = L{
 
+        },
+        GambitSettings = {
+            Gambits = L{
+
+            }
         },
         JobAbilities = L{
             JobAbility.new("Last Resort", L{InBattleCondition.new()}),

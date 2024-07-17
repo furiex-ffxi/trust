@@ -2,6 +2,11 @@
 return {
     Version = 1,
     Default = {
+        GambitSettings = {
+            Gambits = L{
+
+            }
+        },
         SelfBuffs = L{
 
         },

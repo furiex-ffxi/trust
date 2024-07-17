@@ -5,6 +5,11 @@ return {
         SelfBuffs = L{
 
         },
+        GambitSettings = {
+            Gambits = L{
+
+            }
+        },
         JobAbilities = L{
             JobAbility.new("Hasso", L{}, L{})
         },

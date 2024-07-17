@@ -43,7 +43,7 @@
             <y>3000</y>
         </party_widget>
         <remote_commands>
-            <whitelist>Furyex,Wapiti,Lolababe,Mailman,Mikazaru,Lilsouja,Cleobabe,Cyrite</whitelist>
+            <whitelist>Furyex,Cyrite,Lolababe,Wapiti,Mikazaru,Lilsouja,Cleobabe,Mailman</whitelist>
         </remote_commands>
         <settings_widget>
             <visible>true</visible>
@@ -70,7 +70,7 @@
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>9.5.0</version>
+        <version>9.6.0</version>
     </cleobabe>
     <furyex>
         <battle>
@@ -79,7 +79,7 @@
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>9.5.0</version>
+        <version>9.6.0</version>
     </furyex>
     <lolababe>
         <battle>
@@ -88,7 +88,7 @@
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>9.5.0</version>
+        <version>9.6.0</version>
     </lolababe>
     <mailman>
         <battle>
@@ -97,7 +97,7 @@
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>9.5.0</version>
+        <version>9.6.0</version>
     </mailman>
     <suckme>
         <battle>
