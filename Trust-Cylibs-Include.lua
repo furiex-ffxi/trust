@@ -31,6 +31,9 @@ BlockAction = require('cylibs/actions/block')
 Approach = require('cylibs/battle/approach')
 RangedAttack = require('cylibs/battle/ranged_attack')
 
+-- Gambits
+Gambit = require('cylibs/gambits/gambit')
+
 -- Conditions
 Condition = require('cylibs/conditions/condition')
 InBattleCondition = require('cylibs/conditions/in_battle')
@@ -43,11 +46,15 @@ InMogHouseCondition = require('cylibs/conditions/in_mog_house')
 JobAbilityRecastReadyCondition = require('cylibs/conditions/job_ability_recast_ready')
 MinHitPointsPercentCondition = require('cylibs/conditions/min_hpp')
 MaxHitPointsPercentCondition = require('cylibs/conditions/max_hpp')
+MaxManaPointsPercentCondition = require('cylibs/conditions/max_mpp')
 HitPointsPercentRangeCondition = require('cylibs/conditions/hpp_range')
+MainJobCondition = require('cylibs/conditions/main_job')
 MaxDistanceCondition = require('cylibs/conditions/max_distance')
 MinManaPointsCondition = require('cylibs/conditions/min_mp')
 MinManaPointsPercentCondition = require('cylibs/conditions/min_mpp')
 MinTacticalPointsCondition = require('cylibs/conditions/min_tp')
+ModeCondition = require('cylibs/conditions/mode')
+NeverCondition = require('cylibs/conditions/never')
 NotCondition = require('cylibs/conditions/not_condition')
 SpellRecastReadyCondition = require('cylibs/conditions/spell_recast_ready')
 StrategemCountCondition = require('cylibs/conditions/strategem_count')
@@ -82,6 +89,7 @@ Spammer = require('cylibs/trust/roles/spammer')
 Cleaver = require('cylibs/trust/roles/cleaver')
 Targeter = require('cylibs/trust/roles/targeter')
 Truster = require('cylibs/trust/roles/truster')
+Gambiter = require('cylibs/trust/roles/gambiter')
 
 -- Util
 action_message_util = require('cylibs/util/action_message_util')

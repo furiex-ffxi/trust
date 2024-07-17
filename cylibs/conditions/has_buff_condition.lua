@@ -16,8 +16,8 @@ HasBuffCondition.__class = "HasBuffCondition"
 
 function HasBuffCondition.new(buff_name, target_index)
     local self = setmetatable(Condition.new(target_index), HasBuffCondition)
-    self.buff_name = buff_name
-    self.buff_id = buff_util.buff_id(buff_name)
+    self.buff_name = buff_name or "Refresh"
+    self.buff_id = buff_util.buff_id(self.buff_name)
     return self
 end
 
@@ -30,28 +30,20 @@ function HasBuffCondition:is_satisfied(target_index)
 end
 
 function HasBuffCondition:get_config_items()
-    local all_buffs = S{
-        'Max HP Boost',
-        "KO", "weakness", "sleep", "poison",
-        "paralysis", "blindness", "silence", "petrification",
-        "disease", "curse", "stun", "bind",
-        "weight", "slow", "charm", "doom",
-        "amnesia", "charm", "gradual petrification", "sleep",
-        "curse", "addle",
-        "Finishing Move 1", "Finishing Move 2", "Finishing Move 3", "Finishing Move 4", "Finishing Move 5", "Finishing Move (6+)"
-    }
-
-    all_buffs:add(self.buff_name)
-
-    all_buffs = L(all_buffs)
+    local all_buffs = buff_util.get_all_buff_ids(true):map(function(buff_id)
+        return res.buffs[buff_id].en
+    end)
     all_buffs:sort()
+
     return L{
-        PickerConfigItem.new('buff_name', self.buff_name, all_buffs)
+        PickerConfigItem.new('buff_name', self.buff_name, all_buffs, function(buff_name)
+            return buff_name:gsub("^%l", string.upper)
+        end, "Buff Name")
     }
 end
 
 function HasBuffCondition:tostring()
-    return "Player is "..res.buffs:with('en', self.buff_name).enl
+    return "Is "..res.buffs:with('en', self.buff_name).enl
 end
 
 function HasBuffCondition:serialize()

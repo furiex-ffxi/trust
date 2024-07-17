@@ -17,15 +17,21 @@ function MinManaPointsCondition.new(min_mp)
 end
 
 function MinManaPointsCondition:is_satisfied(target_index)
-    local player = windower.ffxi.get_player()
-    if player and player.vitals.mp >= self.min_mp then
-        return true
+    local target = windower.ffxi.get_mob_by_index(target_index)
+    if target then
+        local party = player.party
+        if party then
+            local party_member = party:get_party_member(target.id)
+            if party_member then
+                return party_member:get_mp() >= self.min_mp
+            end
+        end
     end
     return false
 end
 
 function MinManaPointsCondition:get_config_items()
-    return L{ ConfigItem.new('min_mp', 0, 3000, 50, function(value) return value.."" end) }
+    return L{ ConfigItem.new('min_mp', 0, 3000, 50, function(value) return value.."" end, "Min MP") }
 end
 
 function MinManaPointsCondition:tostring()

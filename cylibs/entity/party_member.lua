@@ -386,8 +386,8 @@ function PartyMember:set_hp(hp)
 end
 
 -------
--- Returns the player's current hit point.
--- @treturn number Hit point
+-- Returns the player's current hit points.
+-- @treturn number Hit points
 function PartyMember:get_hp()
     return self.hp
 end
@@ -397,6 +397,49 @@ end
 -- @treturn number Maximum hit points
 function PartyMember:get_max_hp()
     return self.hp / (self.hpp / 100.0)
+end
+
+-------
+-- Sets the party member's current mana point percentage.
+-- @tparam number Mana point percentage
+function PartyMember:set_mpp(mpp)
+    mpp = mpp or 100
+    if self.mpp == mpp then
+        return
+    end
+    self.mpp = mpp
+end
+
+-------
+-- Returns the player's current mana point percentage.
+-- @treturn number Mana point percentage
+function PartyMember:get_mpp()
+    return self.mpp
+end
+
+-------
+-- Sets the party member's current mana points.
+-- @tparam number Mana points
+function PartyMember:set_mp(mp)
+    mp = mp or 0
+    if self.mp == mp then
+        return
+    end
+    self.mp = mp
+end
+
+-------
+-- Returns the player's current mana points.
+-- @treturn number Mana points
+function PartyMember:get_mp()
+    return self.mp
+end
+
+-------
+-- Returns the player's current tactical points.
+-- @treturn number Tactical points
+function PartyMember:get_tp()
+    return self.tp
 end
 
 -------

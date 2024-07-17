@@ -66,6 +66,27 @@ function Condition:serialize()
     return "Condition.new(" .. serializer_util.serialize_args() .. ")"
 end
 
+function Condition.defaultSerializableConditionClasses()
+    return L{
+        InBattleCondition.__class,
+        IdleCondition.__class,
+        HasBuffCondition.__class,
+        HasBuffsCondition.__class,
+        MainJobCondition.__class,
+        MaxDistanceCondition.__class,
+        MaxHitPointsPercentCondition.__class,
+        MinHitPointsPercentCondition.__class,
+        MinManaPointsCondition.__class,
+        MinManaPointsPercentCondition.__class,
+        MaxManaPointsPercentCondition.__class,
+        MinManaPointsCondition.__class,
+        MinTacticalPointsCondition.__class,
+        ModeCondition.__class,
+        NotCondition.__class,
+        ZoneCondition.__class,
+    }
+end
+
 function Condition.check_conditions(conditions, param)
     for condition in conditions:it() do
         local target_index = condition:get_target_index()
