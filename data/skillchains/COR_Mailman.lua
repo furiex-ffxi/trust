@@ -6,9 +6,6 @@ return {
             CombatSkillSettings.new("Marksmanship", L{"Sniper Shot", "Hot Shot", "Numbing Shot", "Wildfire", "Split Shot", "Slug Shot", "Detonator", "Last Stand"}, "Leaden Salute"),
             CombatSkillSettings.new("Sword", L{"Flat Blade", "Requiescat", "Fast Blade", "Circle Blade", "Shining Blade", "Burning Blade"}, "Savage Blade")
         },
-        Blacklist = L{
-
-        },
         Skillchain = L{
             SkillchainAbility.skip(),
             SkillchainAbility.auto(),
@@ -16,6 +13,9 @@ return {
             SkillchainAbility.skip(),
             SkillchainAbility.skip(),
             SkillchainAbility.skip()
+        },
+        Blacklist = L{
+
         }
     },
     Version = 1,
@@ -25,9 +25,6 @@ return {
             CombatSkillSettings.new("Dagger", L{}, ""),
             CombatSkillSettings.new("Sword", L{}, "Savage Blade")
         },
-        Blacklist = L{
-
-        },
         Skillchain = L{
             WeaponSkill.new("Last Stand"),
             SkillchainAbility.skip(),
@@ -35,6 +32,9 @@ return {
             SkillchainAbility.skip(),
             SkillchainAbility.skip(),
             SkillchainAbility.skip()
+        },
+        Blacklist = L{
+
         }
     }
 }
