@@ -13,16 +13,13 @@ return {
         },
         GambitSettings = {
             Gambits = L{
-                Gambit.new("Self", L{InBattleCondition.new()}, JobAbility.new("Vivacious Pulse", L{}, L{}), "Self"),
-                Gambit.new("Self", L{InBattleCondition.new(), MinHitPointsPercentCondition.new(40)}, Spell.new("Foil", L{}, L{}, nil, L{}), "Enemy"),
-                Gambit.new("Self", L{InBattleCondition.new(), MinHitPointsPercentCondition.new(40)}, JobAbility.new("One for All", L{}, L{}), "Enemy"),
-                Gambit.new("Self", L{InBattleCondition.new(), MinHitPointsPercentCondition.new(40)}, JobAbility.new("Liement", L{}, L{}), "Enemy")
+                Gambit.new("Self", L{InBattleCondition.new(), MinHitPointsPercentCondition.new(50)}, Spell.new("Foil", L{}, L{}, nil, L{}), "Enemy")
             }
         },
         JobAbilities = L{
             JobAbility.new("Swordplay", L{InBattleCondition.new()}),
             JobAbility.new("Valiance", L{InBattleCondition.new()}),
-            JobAbility.new("Vallation", L{InBattleCondition.new()}),
+            JobAbility.new("Vallation", L{InBattleCondition.new()})
         },
         Skillchains = {
             spamws = L{

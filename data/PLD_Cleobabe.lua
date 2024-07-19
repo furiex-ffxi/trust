@@ -1,12 +1,27 @@
 -- Settings file for PLD
 return {
-    Version = 1,
+    Version = 2,
     Default = {
         SelfBuffs = L{
-            Buff.new("Crusade", L{}, L{}, nil, L{}),
             Spell.new("Phalanx", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-            Spell.new("Protect V", L{"Majesty"}, L{"SCH", "NIN", "BST", "BLM", "RNG", "RDM", "COR", "RUN", "DNC", "BLU", "PLD", "DRG", "DRK", "GEO", "THF", "SMN", "MNK", "WAR", "WHM", "BRD", "PUP", "SAM"}, nil, L{}),
-            Buff.new("Reprisal", L{}, L{}, nil, L{})
+            Spell.new("Crusade", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Spell.new("Reprisal", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Spell.new("Protect V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        },
+        GambitSettings = {
+            Gambits = L{
+                Gambit.new("Ally", L{MaxHitPointsPercentCondition.new(80), InBattleCondition.new()}, JobAbility.new("Cover", L{}, L{}), nil),
+                Gambit.new("Enemy", L{InBattleCondition.new()}, JobAbility.new("Shield Bash", L{}, L{}), nil),
+                Gambit.new("Self", L{MinTacticalPointsCondition.new(2000), MaxManaPointsPercentCondition.new(30)}, JobAbility.new("Chivalry", L{}, L{}), nil),
+                Gambit.new("Self", L{MaxHitPointsPercentCondition.new(25), InBattleCondition.new()}, JobAbility.new("Sentinel", L{}, L{}), nil)
+            }
+        },
+        JobAbilities = L{
+            JobAbility.new("Majesty", L{InBattleCondition.new()}),
+            JobAbility.new("Rampart", L{InBattleCondition.new()})
+        },
+        PartyBuffs = L{
+
         },
         CureSettings = {
             Thresholds = {
@@ -14,8 +29,9 @@ return {
                 Emergency = 25,
                 Default = 78,
                 ["Cure II"] = 0,
-                ["Cure III"] = 600
+                ["Cure III"] = 400
             },
+            MinNumAOETargets = 3,
             Delay = 2,
             StatusRemovals = {
                 Blacklist = L{
@@ -23,42 +39,27 @@ return {
                 }
             }
         },
-        JobAbilities = L{
-            JobAbility.new("Majesty", L{InBattleCondition.new()})
-        },
-        PartyBuffs = L{
-
-        },
         Debuffs = L{
 
         },
-        Skillchains = {
-            spamws = L{
-                "Savage Blade",
-                "Torcleaver"
-            },
-            starterws = L{
-                "Red Lotus Blade"
-            },
-            defaultws = L{
-                "Savage Blade",
-                "Torcleaver"
-            },
-            tpws = L{
+        NukeSettings = {
+            MinNumMobsToCleave = 2,
+            Blacklist = L{
 
             },
-            cleavews = L{
-                "Circle Blade"
+            Spells = L{
+                Spell.new("Holy II", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Holy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Banish II", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
             },
-            amws = "Torcleaver",
-            preferws = L{
-                "Red Lotus Blade",
-                "Torcleaver"
-            }
+            Delay = 10,
+            MinManaPointsPercent = 60
         },
+        AutoFood = "Miso Ramen",
         PullSettings = {
             Abilities = L{
-                Spell.new("Flash", L{}, L{}, nil, L{})
+                Spell.new("Flash", L{}, L{}, nil, L{}),
+                Spell.new("Banish", L{}, L{}, nil, L{})
             },
             Distance = 20
         }

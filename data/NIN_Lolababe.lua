@@ -2,51 +2,56 @@
 return {
     Version = 2,
     Default = {
-        AutoFoodMode="Grape Daifuku",
+        Debuffs = L{
+
+        },
         SelfBuffs = L{
             Spell.new("Utsusemi: San", L{}, L{}, nil, L{}),
             Spell.new("Utsusemi: Ni", L{}, L{}, nil, L{}),
             Spell.new("Utsusemi: Ichi", L{}, L{}, nil, L{}),
             Spell.new("Kakka: Ichi", L{}, L{}, nil, L{}),
-            Spell.new("Myoshu: Ichi", L{}, L{}, nil, L{}),
+            Spell.new("Myoshu: Ichi", L{}, L{}, nil, L{})
         },
+        GambitSettings = {
+            Gambits = L{
+
+            }
+        },
+        AutoFoodMode = "Grape Daifuku",
         PartyBuffs = L{
 
         },
-        Debuffs = L{
-
-        },
         NukeSettings = {
-            Delay = 2,
-            MinManaPointsPercent = 0,
             MinNumMobsToCleave = 2,
-            Spells = L{
-                Spell.new('Raiton: San'),
-                Spell.new('Raiton: Ni'),
-                Spell.new('Hyoton: San'),
-                Spell.new('Hyoton: Ni'),
-                Spell.new('Katon: San'),
-                Spell.new('Katon: Ni'),
-                Spell.new('Huton: San'),
-                Spell.new('Huton: Ni'),
-                Spell.new('Suiton: San'),
-                Spell.new('Suiton: Ni'),
-                Spell.new('Doton: San'),
-                Spell.new('Doton: Ni'),
-            },
             Blacklist = L{
 
             },
+            Spells = L{
+                Spell.new("Raiton: San", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Raiton: Ni", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Hyoton: San", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Hyoton: Ni", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Katon: San", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Katon: Ni", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Huton: San", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Huton: Ni", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Suiton: San", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Suiton: Ni", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Doton: San", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Doton: Ni", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+            },
+            Delay = 2,
+            MinManaPointsPercent = 0
         },
         JobAbilities = L{
-            JobAbility.new('Yonin', L{InBattleCondition.new()}),
-            JobAbility.new('Issekigan', L{InBattleCondition.new()}, L{}, nil),
+            JobAbility.new("Yonin", L{InBattleCondition.new()}),
+            JobAbility.new("Issekigan", L{InBattleCondition.new()}, L{})
         },
         PullSettings = {
             Abilities = L{
-                Spell.new("Jubaku: Ni", L{}, L{})
+                Spell.new("Jubaku: Ni", L{}, L{}, nil, L{})
             },
             Distance = 20
-        },
+        }
     }
 }

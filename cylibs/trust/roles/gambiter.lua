@@ -63,6 +63,9 @@ function Gambiter:check_gambits(targets, param)
 
     for gambit in self.gambits:it() do
         local targets = targets or self:get_gambit_targets(gambit:getConditionsTarget())
+        if targets == nil then
+            return
+        end
         for target in targets:it() do
             if gambit:isSatisfied(target, param) then
                 if gambit:getAbilityTarget() == gambit:getConditionsTarget() then

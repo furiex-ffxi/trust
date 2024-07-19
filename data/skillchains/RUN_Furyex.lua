@@ -3,7 +3,7 @@ return {
     Version = 1,
     Default = {
         Skills = L{
-            CombatSkillSettings.new("Great Sword", L{}, "Dimidiation"),
+            CombatSkillSettings.new("Great Sword", L{}, "Ground Strike"),
             CombatSkillSettings.new("Sword", L{}, ""),
             CombatSkillSettings.new("Great Axe", L{}, "Full Break"),
             CombatSkillSettings.new("Axe", L{}, ""),

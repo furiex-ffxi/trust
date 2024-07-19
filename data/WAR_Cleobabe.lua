@@ -1,5 +1,6 @@
 -- Settings file for WAR
 return {
+    Version = 1,
     Default = {
         Debuffs = L{
 
@@ -32,7 +33,7 @@ return {
         },
         GambitSettings = {
             Gambits = L{
-                Gambit.new("Enemy", L{InBattleCondition.new(), HitPointsPercentRangeCondition.new(60, 100)}, WeaponSkill.new("Armor Break"), "Enemy")
+
             }
         },
         JobAbilities = L{
@@ -51,6 +52,5 @@ return {
             },
             Distance = 20
         }
-    },
-    Version = 1
+    }
 }

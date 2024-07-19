@@ -1,23 +1,5 @@
 -- Weapon skill settings file for COR
 return {
-    SortieLight = {
-        Skills = L{
-            CombatSkillSettings.new("Marksmanship", L{}, ""),
-            CombatSkillSettings.new("Dagger", L{}, ""),
-            CombatSkillSettings.new("Sword", L{}, "Savage Blade")
-        },
-        Blacklist = L{
-
-        },
-        Skillchain = L{
-            WeaponSkill.new("Last Stand"),
-            SkillchainAbility.skip(),
-            SkillchainAbility.skip(),
-            SkillchainAbility.skip(),
-            SkillchainAbility.skip(),
-            SkillchainAbility.skip()
-        }
-    },
     Default = {
         Skills = L{
             CombatSkillSettings.new("Dagger", L{"Gust Slash", "Cyclone", "Shadowstitch", "Wasp Sting"}, "Aeolian Edge"),
@@ -36,5 +18,23 @@ return {
             SkillchainAbility.skip()
         }
     },
-    Version = 1
+    Version = 1,
+    SortieLight = {
+        Skills = L{
+            CombatSkillSettings.new("Marksmanship", L{}, ""),
+            CombatSkillSettings.new("Dagger", L{}, ""),
+            CombatSkillSettings.new("Sword", L{}, "Savage Blade")
+        },
+        Blacklist = L{
+
+        },
+        Skillchain = L{
+            WeaponSkill.new("Last Stand"),
+            SkillchainAbility.skip(),
+            SkillchainAbility.skip(),
+            SkillchainAbility.skip(),
+            SkillchainAbility.skip(),
+            SkillchainAbility.skip()
+        }
+    }
 }
