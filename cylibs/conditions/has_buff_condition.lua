@@ -39,6 +39,7 @@ function HasBuffCondition:get_config_items()
         return res.buffs[buff_id].en
     end))
     all_buffs = L(all_buffs)
+    all_buffs:append("Triple Shot")
     all_buffs:sort()
 
     return L{
