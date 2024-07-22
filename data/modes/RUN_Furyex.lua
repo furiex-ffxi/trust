@@ -42,5 +42,8 @@ return {
         ["autostatusremovalmode"]="Off", 
         ["autonukemode"]="Off", 
         ["skillchainassistantmode"]="Off"
+    },
+    ["Ep"] = {
+        ["autogambitmode"]="Auto", 
     }
 }

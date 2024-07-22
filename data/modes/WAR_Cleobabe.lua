@@ -1,10 +1,10 @@
 -- Modes file for WAR
 return {
     ["Ep"]={
-        ["autoskillchainmode"]="Auto", 
+        ["autoskillchainmode"]="Off", 
         ["autofollowmode"]="Off", 
         ["maintrustsettingsmode"]="Melee",
-        ["skillchainprioritymode"]="Strict", 
+        ["autogambitmode"]="Auto", 
     }, 
     ["Sortie"]={
         ["autoskillchainmode"]="Spam", 
@@ -14,10 +14,8 @@ return {
         ["combatmode"]="Mirror",
     }, 
     ["Default"]={
-        ["skillchainpartnermode"]="Off", 
         ["autotargetmode"]="Off", 
         ["autoskillchainmode"]="Auto", 
-        ["skillchainprioritymode"]="Prefer", 
         ["autoaftermathmode"]="Off", 
         ["actionbatchingmode"]="Off", 
         ["autofacemobmode"]="Auto", 
@@ -44,7 +42,6 @@ return {
         ["maintrustsettingsmode"]="Melee", 
         ["autofollowmode"]="Off", 
         ["autofacemobmode"]="Off", 
-        ["skillchainprioritymode"]="Strict"
     }, 
     ["OdyC"]={
         ["combatmode"]="Mirror", 

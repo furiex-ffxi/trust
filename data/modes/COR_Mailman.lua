@@ -11,7 +11,8 @@ return {
     ["Ep"]={
         ["autodispelmode"]="Off", 
         ["autofollowmode"]="Off", 
-        ["maintrustsettingsmode"]="Ep"
+        ["maintrustsettingsmode"]="Ep",
+        ["autogambitmode"]="Auto", 
     }, 
     ["Lilith"]={
         ["maintrustsettingsmode"]="Melee", 
@@ -39,7 +40,7 @@ return {
         ["autotankmode"]="Off", 
         ["autofollowmode"]="Always", 
         ["autofoodmode"]="Off", 
-        ["autogambitmode"]="Auto", 
+        ["autogambitmode"]="Off", 
         ["autotrustsmode"]="Off", 
         ["autosilencemode"]="Off", 
         ["autounloadondeathmode"]="Off", 
