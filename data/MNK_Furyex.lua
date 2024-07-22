@@ -5,6 +5,11 @@ return {
         SelfBuffs = L{
 
         },
+        GambitSettings = {
+            Gambits = L{
+
+            }
+        },
         JobAbilities = L{
             JobAbility.new("Impetus", L{InBattleCondition.new()}),
             JobAbility.new("Footwork", L{InBattleCondition.new()}),
@@ -13,11 +18,15 @@ return {
         PartyBuffs = L{
 
         },
+        Debuffs = L{
+
+        },
         AutoFood = "Grape Daifuku",
         PullSettings = {
             Abilities = L{
                 JobAbility.new("Chi Blast", L{}, L{})
-            }
+            },
+            Distance = 20
         }
     }
 }

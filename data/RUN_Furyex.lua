@@ -23,7 +23,7 @@ return {
                 Gambit.new("Enemy", L{MinHitPointsPercentCondition.new(50)}, JobAbility.new("Lunge", L{}, L{}), "Enemy"),
                 Gambit.new("Enemy", L{MinHitPointsPercentCondition.new(50)}, JobAbility.new("Rayke", L{}, L{}), "Enemy"),
                 Gambit.new("Enemy", L{MinHitPointsPercentCondition.new(50)}, JobAbility.new("Gambit", L{}, L{}), "Enemy"),
-                Gambit.new("Self", L{MinHitPointsPercentCondition.new(50)}, JobAbility.new("One for All", L{}, L{}), "Enemy")
+                Gambit.new("Ally", L{MaxHitPointsPercentCondition.new(70), InBattleCondition.new()}, Spell.new("Cure IV", L{}, L{}, nil, L{}), "Ally")
             }
         },
         JobAbilities = L{
@@ -44,16 +44,16 @@ return {
                 "Dimidiation",
                 "Steel Cyclone"
             },
-            tpws = L{
-
+            preferws = L{
+                "Dimidiation",
+                "Savage Blade"
             },
             cleavews = L{
 
             },
             amws = "Dimidiation",
-            preferws = L{
-                "Dimidiation",
-                "Savage Blade"
+            tpws = L{
+
             }
         },
         Debuffs = L{

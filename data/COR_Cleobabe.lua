@@ -5,19 +5,28 @@ return {
         SelfBuffs = L{
 
         },
-        PullSettings = {
-            Abilities = L{
-                RangedAttack.new()
+        GambitSettings = {
+            Gambits = L{
+
             }
         },
-        Roll2 = Roll.new("Samurai Roll", false),
         AutoFood = "Grape Daifuku",
-        Roll1 = Roll.new("Chaos Roll", true),
-        PartyBuffs = L{
+        Roll2 = Roll.new("Samurai Roll", false),
+        Debuffs = L{
 
         },
         Shooter = {
             Delay = 1.5
+        },
+        Roll1 = Roll.new("Chaos Roll", true),
+        PartyBuffs = L{
+
+        },
+        PullSettings = {
+            Abilities = L{
+                RangedAttack.new(L{})
+            },
+            Distance = 20
         }
     }
 }

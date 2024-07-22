@@ -2,6 +2,22 @@
 return {
     Version = 1,
     Default = {
+        Debuffs = L{
+
+        },
+        GambitSettings = {
+            Gambits = L{
+
+            }
+        },
+        JobAbilities = L{
+            JobAbility.new("Berserk", L{InBattleCondition.new()}, L{}),
+            JobAbility.new("Aggressor", L{InBattleCondition.new()}, L{}),
+            JobAbility.new("Warcry", L{InBattleCondition.new()}, L{}),
+            JobAbility.new("Restraint", L{InBattleCondition.new()}, L{}),
+            JobAbility.new("Blood Rage", L{InBattleCondition.new()}, L{}),
+            JobAbility.new("Retaliation", L{}, L{})
+        },
         Skillchains = {
             spamws = L{
                 "Impulse Drive",
@@ -20,6 +36,13 @@ return {
                 "Savage Blade",
                 "Impulse Drive"
             },
+            tpws = L{
+
+            },
+            cleavews = L{
+                "Fell Cleave"
+            },
+            amws = "King's Justice",
             preferws = L{
                 "King's Justice",
                 "Steel Cyclone",
@@ -27,22 +50,13 @@ return {
                 "Savage Blade",
                 "Full Break",
                 "Impulse Drive"
-            },
-            cleavews = L{
-                "Fell Cleave"
-            },
-            amws = "King's Justice",
-            tpws = L{
-
             }
         },
-        JobAbilities = L{
-            JobAbility.new('Berserk', L{InBattleCondition.new()}, L{}, nil),
-            JobAbility.new('Aggressor', L{InBattleCondition.new()}, L{}, nil),
-            JobAbility.new('Warcry', L{InBattleCondition.new()}, L{}, nil),
-            JobAbility.new('Restraint', L{InBattleCondition.new()}, L{}, nil),
-            JobAbility.new('Blood Rage', L{InBattleCondition.new()}, L{}, nil),
-            JobAbility.new('Retaliation', L{}, L{}, nil),
+        PullSettings = {
+            Abilities = L{
+                JobAbility.new("Provoke", L{}, L{})
+            },
+            Distance = 20
         }
     }
 }

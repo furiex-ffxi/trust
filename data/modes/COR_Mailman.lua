@@ -1,67 +1,55 @@
 -- Modes file for COR
 return {
     ["MagicRng"]={
-        ["autoengagemode"]="Mirror", 
+        ["autoskillchainmode"]="Auto", 
         ["autoshootmode"]="Auto", 
-        ["combatmode"]="Mirror", 
+        ["autoengagemode"]="Mirror", 
         ["maintrustsettingsmode"]="MagicRng", 
         ["skillchainprioritymode"]="Strict", 
-        ["autofoodmode"]="Auto", 
-        ["autoskillchainmode"]="Auto"
-    }, 
-    ["OdyC"]={
-        ["maintrustsettingsmode"]="Melee", 
-        ["autoskillchainmode"]="Spam", 
         ["autofoodmode"]="Auto"
-    }, 
-    ["Lilith"]={
-        ["autodispelmode"]="Off", 
-        ["maintrustsettingsmode"]="Melee", 
-        ["autofacemobmode"]="Off", 
-        ["autofollowmode"]="Off", 
-        ["autoskillchainmode"]="Spam"
-    }, 
-    ["Magic"]={
-        ["autoengagemode"]="Mirror", 
-        ["autoshootmode"]="Auto", 
-        ["combatmode"]="Mirror", 
-        ["maintrustsettingsmode"]="Magic", 
-        ["skillchainprioritymode"]="Strict", 
-        ["autofoodmode"]="Auto", 
-        ["autoskillchainmode"]="Auto"
     }, 
     ["Ep"]={
         ["autodispelmode"]="Off", 
         ["autofollowmode"]="Off", 
-        ["autoskillchainmode"]="Spam", 
         ["maintrustsettingsmode"]="Ep"
     }, 
-    ["Sortie"]={
-        ["autoengagemode"]="Mirror", 
-        ["autosilencemode"]="Off", 
-        ["combatmode"]="Mirror", 
+    ["Lilith"]={
         ["maintrustsettingsmode"]="Melee", 
-        ["autobuffmode"]="Auto", 
-        ["autodebuffmode"]="Off"
+        ["autofollowmode"]="Off", 
+        ["autodispelmode"]="Off", 
+        ["autofacemobmode"]="Off"
+    }, 
+    ["Pet"]={
+        ["maintrustsettingsmode"]="Pet"
+    }, 
+    ["OdyC"]={
+        ["maintrustsettingsmode"]="Melee", 
+        ["autofoodmode"]="Auto"
+    }, 
+    ["Sortie"]={
+        ["maintrustsettingsmode"]="Melee", 
+        ["autoengagemode"]="Mirror", 
+        ["autobuffmode"]="Auto"
     }, 
     ["Default"]={
         ["magicbursttargetmode"]="Single", 
-        ["autofoodmode"]="Off", 
-        ["autodisablemode"]="Auto", 
-        ["autosilencemode"]="Off", 
         ["autotargetmode"]="Off", 
-        ["autofollowmode"]="Always", 
-        ["autotankmode"]="Off", 
+        ["autodisablemode"]="Auto", 
         ["maintrustsettingsmode"]="Default", 
+        ["autotankmode"]="Off", 
+        ["autofollowmode"]="Always", 
+        ["autofoodmode"]="Off", 
+        ["autogambitmode"]="Auto", 
         ["autotrustsmode"]="Off", 
-        ["autorollmode"]="Safe", 
-        ["approachpullmode"]="Auto", 
+        ["autosilencemode"]="Off", 
+        ["autounloadondeathmode"]="Off", 
         ["weaponskillsettingsmode"]="Default", 
         ["autofacemobmode"]="Auto", 
-        ["automagicburstmode"]="Off", 
-        ["autounloadondeathmode"]="Off", 
-        ["subtrustsettingsmode"]="Default", 
+        ["autorollmode"]="Safe", 
         ["autoshootmode"]="Off", 
+        ["subtrustsettingsmode"]="Default", 
+        ["automagicburstmode"]="Off", 
+        ["approachpullmode"]="Auto", 
         ["autoengagemode"]="Always", 
         ["skillchainassistantmode"]="Off", 
         ["autopullmode"]="Off", 
@@ -83,7 +71,12 @@ return {
         ["autonukemode"]="Off", 
         ["autoassistantmode"]="Off"
     }, 
-    ["Pet"]={
-        ["maintrustsettingsmode"]="Pet"
+    ["Magic"]={
+        ["autoskillchainmode"]="Auto", 
+        ["autoshootmode"]="Auto", 
+        ["autoengagemode"]="Mirror", 
+        ["maintrustsettingsmode"]="Magic", 
+        ["skillchainprioritymode"]="Strict", 
+        ["autofoodmode"]="Auto"
     }
 }

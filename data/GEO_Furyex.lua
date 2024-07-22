@@ -1,5 +1,6 @@
 -- Settings file for GEO
 return {
+    Version = 2,
     Default = {
         Debuffs = L{
 
@@ -33,8 +34,8 @@ return {
             }
         },
         Geomancy = {
-            Indi = Spell.new("Indi-Fury", L{}, L{}, "me", L{}),
-            Geo = Spell.new("Geo-Frailty", L{}, L{}, "bt", L{})
+            Indi = Spell.new("Indi-Refresh", L{}, L{}, "me", L{}),
+            Geo = Spell.new("Geo-Fury", L{}, L{}, "me", L{})
         },
         PullSettings = {
             Abilities = L{
@@ -85,6 +86,5 @@ return {
             },
             Distance = 20
         }
-    },
-    Version = 2
+    }
 }

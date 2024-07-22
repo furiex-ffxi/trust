@@ -5,13 +5,22 @@ return {
         SelfBuffs = L{
 
         },
+        GambitSettings = {
+            Gambits = L{
+
+            }
+        },
         JobAbilities = L{
+
+        },
+        Debuffs = L{
 
         },
         PullSettings = {
             Abilities = L{
-                Approach.new()
-            }
-        },
+                Approach.new(L{})
+            },
+            Distance = 20
+        }
     }
 }

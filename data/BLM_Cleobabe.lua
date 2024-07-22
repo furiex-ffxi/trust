@@ -2,6 +2,21 @@
 return {
     Version = 2,
     Default = {
+        SelfBuffs = L{
+
+        },
+        GambitSettings = {
+            Gambits = L{
+
+            }
+        },
+        JobAbilities = L{
+            JobAbility.new("Mana Wall", L{}, L{})
+        },
+        AutoFood = "Tropical Crepe",
+        Debuffs = L{
+            Spell.new("Burn", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        },
         Skillchains = {
             spamws = L{
                 "Vidohunir"
@@ -12,32 +27,20 @@ return {
             defaultws = L{
                 "Vidohunir"
             },
-            tpws = L{
-
+            preferws = L{
+                "Vidohunir"
             },
             cleavews = L{
                 "Cataclysm"
             },
             amws = "Vidohunir",
-            preferws = L{
-                "Vidohunir"
+            tpws = L{
+
             }
         },
-        SelfBuffs = L{
-
-        },
-        Debuffs = L{
-            Spell.new("Burn", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
-        },
-        JobAbilities = L{
-            JobAbility.new("Mana Wall", L{}, L{})
-        },
-        AutoFood = "Tropical Crepe",
         NukeSettings = {
             MinNumMobsToCleave = 2,
-            Blacklist = L{
-
-            },
+            MinManaPointsPercent = 20,
             Spells = L{
                 Spell.new("Comet", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
                 Spell.new("Thunder VI", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
@@ -66,7 +69,9 @@ return {
                 Spell.new("Stone IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
             },
             Delay = 2,
-            MinManaPointsPercent = 20
+            Blacklist = L{
+
+            }
         },
         PartyBuffs = L{
 
@@ -74,7 +79,8 @@ return {
         PullSettings = {
             Abilities = L{
                 Spell.new("Burn", L{}, L{}, nil, L{})
-            }
+            },
+            Distance = 20
         }
     }
 }

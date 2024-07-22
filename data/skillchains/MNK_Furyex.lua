@@ -3,7 +3,7 @@ return {
     Version = 1,
     Default = {
         Skills = L{
-            CombatSkillSettings.new("Hand-to-Hand", L{}, "Shijin Spiral"),
+            CombatSkillSettings.new("Hand-to-Hand", L{}, "Howling Fist"),
             CombatSkillSettings.new("Staff", L{}, ""),
             CombatSkillSettings.new("Club", L{}, "True Strike")
         },
