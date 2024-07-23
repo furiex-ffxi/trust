@@ -176,7 +176,6 @@ function TrustSettings:runMigrations(settings)
 
     local modeNames = list.subtract(L(T(settings):keyset()), L{'Version'})
 
-    -- 1. Add PullSettings
     for modeName in modeNames:it() do
         local settingsForMode = settings[modeName]
         if not settingsForMode.PullSettings then
@@ -193,8 +192,14 @@ function TrustSettings:runMigrations(settings)
         end
         if not settingsForMode.GambitSettings then
             settingsForMode.GambitSettings = {}
-            settingsForMode.GambitSettings.Gambits = L{}
+            settingsForMode.GambitSettings.Gambits = self.defaultSettings.Default.GambitSettings.Gambits
             needsMigration = true
+        end
+        if not settingsForMode.GambitSettings.Default then
+            if self.defaultSettings.Default.GambitSettings and self.defaultSettings.Default.GambitSettings.Default then
+                settingsForMode.GambitSettings.Default = self.defaultSettings.Default.GambitSettings and self.defaultSettings.Default.GambitSettings.Default or L{}
+                needsMigration = true
+            end
         end
     end
 

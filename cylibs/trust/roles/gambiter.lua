@@ -5,7 +5,7 @@ local Gambiter = setmetatable({}, {__index = Role })
 Gambiter.__index = Gambiter
 Gambiter.__class = "Gambiter"
 
-state.AutoGambitMode = M{['description'] = 'Auto Gambit Mode', 'Off', 'Auto'}
+state.AutoGambitMode = M{['description'] = 'Auto Gambit Mode', 'Auto', 'Off'}
 state.AutoGambitMode:set_description('Off', "Okay, I'll ignore any gambits you've set.")
 state.AutoGambitMode:set_description('Auto', "Okay, I'll customize my battle plan with gambits.")
 
@@ -26,7 +26,6 @@ end
 function Gambiter:on_add()
     Role.on_add(self)
 
-    -- Enemy abilities
     WindowerEvents.Ability.Ready:addAction(function(target_id, ability_id)
         if not ability_id then
             return
@@ -37,7 +36,61 @@ function Gambiter:on_add()
             if ability then
                 logger.notice(self.__class, 'ability_ready', 'check_gambits', ability.en)
 
-                self:check_gambits(L{ target }, ability.en)
+                local gambits = self:get_all_gambits():filter(function(gambit)
+                    for condition in gambit:getConditions():it() do
+                        if condition.__type == ReadyAbilityCondition.__type then
+                            return true
+                        end
+                        return false
+                    end
+                end)
+
+                self:check_gambits(L{ target }, gambits, ability.en)
+            end
+        end
+    end)
+
+    WindowerEvents.Ability.Finish:addAction(function(target_id, ability_id)
+        if not ability_id then
+            return
+        end
+        local target = self:get_target()
+        if target and target:get_id() == target_id then
+            local ability = res.monster_abilities[ability_id]
+            if ability then
+                logger.notice(self.__class, 'ability_finish', 'check_gambits', ability.en)
+
+                local gambits = self:get_all_gambits():filter(function(gambit)
+                    for condition in gambit:getConditions():it() do
+                        if condition.__type == FinishAbilityCondition.__type then
+                            return true
+                        end
+                        return false
+                    end
+                end)
+
+                self:check_gambits(L{ target }, gambits, ability.en)
+            end
+        end
+    end)
+
+    WindowerEvents.GainDebuff:addAction(function(target_id, debuff_id)
+        local target = self:get_target()
+        if target and target:get_id() == target_id then
+            local debuff = res.buffs[debuff_id]
+            if debuff then
+                logger.notice(self.__class, 'gain_debuff', 'check_gambits', debuff.en)
+
+                local gambits = self:get_all_gambits():filter(function(gambit)
+                    for condition in gambit:getConditions():it() do
+                        if condition.__type == GainDebuffCondition.__type then
+                            return true
+                        end
+                        return false
+                    end
+                end)
+
+                self:check_gambits(L{ target }, gambits, debuff.en)
             end
         end
     end)
@@ -54,14 +107,15 @@ function Gambiter:tic(new_time, old_time)
     self:check_gambits()
 end
 
-function Gambiter:check_gambits(targets, param)
+function Gambiter:check_gambits(targets, gambits, param)
     if state.AutoGambitMode.value == 'Off' then
         return
     end
 
     logger.notice(self.__class, 'check_gambits')
 
-    for gambit in self.gambits:it() do
+    local gambits = (gambits or self:get_all_gambits()):filter(function(gambit) return gambit:isEnabled() end)
+    for gambit in gambits:it() do
         local targets = targets or self:get_gambit_targets(gambit:getConditionsTarget()) or L{}
         for target in targets:it() do
             if gambit:isSatisfied(target, param) then
@@ -82,7 +136,7 @@ function Gambiter:check_gambits(targets, param)
 end
 
 function Gambiter:get_gambit_targets(gambit_target)
-    local targets
+    local targets = L{}
     local target_group
     if gambit_target == GambitTarget.TargetType.Self then
         target_group = self:get_player()
@@ -123,11 +177,16 @@ function Gambiter:get_type()
 end
 
 function Gambiter:set_gambit_settings(gambit_settings)
-    self.gambits = gambit_settings.Gambits
+    self.gambits = gambit_settings.Gambits or L{}
+    self.job_gambits = gambit_settings.Default or L{}
+end
+
+function Gambiter:get_all_gambits()
+    return L{}:extend(self.gambits):extend(self.job_gambits)
 end
 
 function Gambiter:tostring()
-    return tostring(self.gambits)
+    return tostring(self:get_all_gambits())
 end
 
 return Gambiter

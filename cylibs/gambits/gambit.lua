@@ -9,9 +9,10 @@ function Gambit.new(target, conditions, ability, conditions_target)
     local self = setmetatable({}, Gambit)
 
     self.target = target
-    self.conditions = conditions
+    self.conditions = conditions or L{}
     self.ability = ability
     self.conditions_target = conditions_target
+    self.enabled = true
 
     return self
 end
@@ -37,6 +38,14 @@ function Gambit:getConditionsTarget()
     return self.conditions_target
 end
 
+function Gambit:setEnabled(enabled)
+    self.enabled = enabled
+end
+
+function Gambit:isEnabled()
+    return self.enabled
+end
+
 function Gambit:tostring()
     local conditionsDescription = "Never"
     if self.conditions:length() > 0 then
@@ -53,8 +62,8 @@ end
 
 function Gambit:copy()
     local conditions = L{}
-    for condition in self:getConditions() do
-        conditions:append(condition)
+    for condition in self:getConditions():it() do
+        conditions:append(condition:copy())
     end
     return Gambit.new(self:getAbilityTarget(), conditions, self:getAbility(), self:getConditionsTarget())
 end

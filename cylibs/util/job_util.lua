@@ -158,6 +158,14 @@ function job_util.getAbility(abilityName)
         return Approach.new()
     elseif abilityName == 'Ranged Attack' then
         return RangedAttack.new()
+    elseif abilityName == 'Turn Around' then
+        return TurnAround.new()
+    elseif abilityName == 'Turn to Face' then
+        return TurnToFace.new()
+    elseif abilityName == 'Run Away' then
+        return RunAway.new()
+    elseif abilityName == 'Run To' then
+        return RunTo.new()
     else
         return nil
     end

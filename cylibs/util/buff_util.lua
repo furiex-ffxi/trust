@@ -91,7 +91,7 @@ local buff_conflicts = T{
 	[446] = S{66,444,445,446},
 }
 
-local buff_ids = list.from_range(32, 467)
+local buff_ids = list.from_range(32, 633)
 
 -------
 -- Determines if the player has a given buff active.
@@ -365,6 +365,21 @@ function buff_util.get_all_debuffs()
 	return L(T(debuffs):keyset()):map(function(debuff_id)
 		return res.buffs[debuff_id].en:gsub("^%l", string.upper)
 	end)
+end
+
+function buff_util.get_all_debuff_spells()
+	local result = L{}
+	for _, spells in pairs(debuffs) do
+		result = result:extend(L(spells))
+	end
+	result = result:map(function(spell_id)
+		return res.spells[spell_id].en
+	end):compact_map()
+	return result
+end
+
+function buff_util.get_all_debuff_ids()
+	return L(T(debuffs):keyset())
 end
 
 return buff_util

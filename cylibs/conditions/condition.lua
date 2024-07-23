@@ -72,6 +72,7 @@ function Condition.defaultSerializableConditionClasses()
         IdleCondition.__class,
         HasBuffCondition.__class,
         HasBuffsCondition.__class,
+        HasRunesCondition.__class,
         MainJobCondition.__class,
         MaxDistanceCondition.__class,
         MaxHitPointsPercentCondition.__class,
@@ -99,6 +100,27 @@ function Condition.check_conditions(conditions, param, ...)
         end
     end
     return true
+end
+
+function Condition:copy()
+    local original = self
+    local lookup_table = {}
+
+    local function _copy(original)
+        if type(original) ~= "table" then
+            return original
+        elseif lookup_table[original] then
+            return lookup_table[original]
+        end
+        local new_table = {}
+        lookup_table[original] = new_table
+        for key, value in pairs(original) do
+            new_table[_copy(key)] = _copy(value)
+        end
+        return setmetatable(new_table, getmetatable(original))
+    end
+
+    return _copy(original)
 end
 
 return Condition

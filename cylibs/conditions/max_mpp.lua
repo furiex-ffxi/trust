@@ -38,6 +38,10 @@ function MaxManaPointsPercentCondition:tostring()
     return "MP <= "..self.max_mpp.. "%"
 end
 
+function MaxManaPointsPercentCondition.description()
+    return "MP <= X%."
+end
+
 function MaxManaPointsPercentCondition:serialize()
     return "MaxManaPointsPercentCondition.new(" .. serializer_util.serialize_args(self.max_mpp) .. ")"
 end

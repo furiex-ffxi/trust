@@ -37,6 +37,10 @@ function HitPointsPercentRangeCondition:tostring()
     return 'HP >= '..self.min_hpp..' % and HP <= '..self.max_hpp..' %'
 end
 
+function HitPointsPercentRangeCondition.description()
+    return "HP >= X% and HP <= Y%"
+end
+
 function HitPointsPercentRangeCondition:serialize()
     return "HitPointsPercentRangeCondition.new(" .. serializer_util.serialize_args(self.min_hpp, self.max_hpp) .. ")"
 end

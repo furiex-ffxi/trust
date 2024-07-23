@@ -23,19 +23,30 @@ function ConditionSettingsMenuItem.new(trustSettings, trustSettingsMode, parentM
     self.editableConditionClasses = T{
         [IdleCondition.__type] = "idle",
         [InBattleCondition.__type] = "in_battle",
+        [GainDebuffCondition.__type] = "gain_debuff",
         [HasBuffsCondition.__type] = "has_buffs",
+        [HasDebuffCondition.__type] = "has_debuff",
         [MaxHitPointsPercentCondition.__type] = "max_hpp",
         [MinHitPointsPercentCondition.__type] = "min_hpp",
         [HitPointsPercentRangeCondition.__type] = "hpp_range",
+        [MeleeAccuracyCondition.__type] = "melee_accuracy",
         [MinManaPointsCondition.__type] = "min_mp",
         [MaxManaPointsPercentCondition.__type] = "max_mpp",
         [MinManaPointsPercentCondition.__type] = "min_mpp",
+        [MaxTacticalPointsCondition.__type] = "max_tp",
         [MinTacticalPointsCondition.__type] = "min_tp",
         [MaxDistanceCondition.__type] = "max_distance",
         [HasBuffCondition.__type] = "has_buff_condition",
         [ZoneCondition.__type] = "zone",
         [MainJobCondition.__type] = "main_job",
         [ReadyAbilityCondition.__type] = "ready_ability",
+        [FinishAbilityCondition.__type] = "finish_ability",
+        [HasRunesCondition.__type] = "has_runes",
+        [EnemiesNearbyCondition.__type] = "enemies_nearby",
+        [ModeCondition.__type] = "mode",
+        [PetHitPointsPercentCondition.__type] = "pet_hpp",
+        [HasPetCondition.__type] = "has_pet",
+        [NumResistsCondition.__type] = "num_resists",
         --[ModeCondition.__type] = "mode", -- Need to dynamically reload mode values when mode name config cell changes
     }
 
@@ -103,6 +114,17 @@ function ConditionSettingsMenuItem:getAddConditionMenuItem(parentMenuItem)
 
             addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I've added a new condition!")
         end)
+        chooseConditionView:getDisposeBag():add(chooseConditionView:getDelegate():didHighlightItemAtIndexPath():addAction(function(indexPath)
+            local item = chooseConditionView:getDataSource():itemAtIndexPath(indexPath)
+            if item then
+                local conditionClass = require('cylibs/conditions/'..self.editableConditionClasses[item:getText()])
+                if conditionClass and conditionClass.description then
+                    infoView:setDescription(conditionClass.description())
+                else
+                    infoView:setDescription("Add a new condition.")
+                end
+            end
+        end), chooseConditionView:getDelegate():didHighlightItemAtIndexPath())
         return chooseConditionView
     end, "Conditions", "Add a new condition.")
     return addConditionsMenuItem
@@ -111,7 +133,7 @@ end
 function ConditionSettingsMenuItem:getEditConditionMenuItem()
     local editConditionMenuItem = MenuItem.new(L{
         ButtonItem.default('Confirm', 18),
-    }, L{}, function(menuArgs, _)
+    }, L{}, function(menuArgs, infoView)
         local configItems
         if self.selectedCondition and self.selectedCondition.get_config_items ~= nil then
             configItems = self.selectedCondition:get_config_items()
@@ -121,13 +143,15 @@ function ConditionSettingsMenuItem:getEditConditionMenuItem()
             if condition.__type == NotCondition.__type then
                 condition = condition.conditions[1]
             end
-            local conditionConfigEditor = ConfigEditor.new(self.trustSettings, condition, configItems)
+            local conditionConfigEditor = ConfigEditor.new(self.trustSettings, condition, configItems, infoView)
             conditionConfigEditor:setShouldRequestFocus(true)
             return conditionConfigEditor
         else
             addon_message(260, '('..windower.ffxi.get_player().name..') '.."This condition can't be configured!")
         end
-    end, "Conditions", "Edit the selected condition.")
+    end, "Conditions", "Edit the selected condition.", false, function()
+        return self.selectedCondition ~= nil
+    end)
     return editConditionMenuItem
 end
 
@@ -148,7 +172,9 @@ function ConditionSettingsMenuItem:getInvertConditionMenuItem()
 
             addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I've inverted the condition logic!")
         end
-    end, "Conditions", "Invert the selected condition logic.")
+    end, "Conditions", "Invert the selected condition logic.", false, function()
+        return self.selectedCondition ~= nil
+    end)
     return invertConditionMenuItem
 end
 

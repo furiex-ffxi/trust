@@ -24,11 +24,12 @@ end
 function HasBuffCondition:is_satisfied(target_index)
     local target = windower.ffxi.get_mob_by_index(self:get_target_index() or target_index)
     if target then
+        local buff_id = buff_util.buff_id(self.buff_name)
         local monster = player.party:get_target(target.id)
         if monster then
-            return monster:has_debuff(self.buff_id)
+            return monster:has_debuff(buff_id)
         else
-            return L(party_util.get_buffs(target.id)):contains(self.buff_id)
+            return L(party_util.get_buffs(target.id)):contains(buff_id)
         end
     end
     return false
@@ -53,9 +54,12 @@ function HasBuffCondition:get_config_items()
     }
 end
 
-
 function HasBuffCondition:tostring()
-    return "Is "..res.buffs:with('en', self.buff_name).enl
+    return "Is "..res.buffs:with('en', self.buff_name).enl:gsub("^%l", string.upper)
+end
+
+function HasBuffCondition.description()
+    return "Has buff."
 end
 
 function HasBuffCondition:serialize()
