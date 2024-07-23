@@ -1,25 +1,24 @@
 -- Modes file for WHM
 return {
-    ["Melee"]={}, 
     ["Default"]={
         ["magicbursttargetmode"]="Single", 
-        ["autounloadondeathmode"]="Off", 
+        ["autotankmode"]="Off", 
         ["autotargetmode"]="Off", 
-        ["weaponskillsettingsmode"]="Default", 
-        ["autodisablemode"]="Auto", 
-        ["autofoodmode"]="Off", 
         ["maintrustsettingsmode"]="Default", 
+        ["autounloadondeathmode"]="Off", 
+        ["autofoodmode"]="Off", 
+        ["autogambitmode"]="Off", 
         ["autofollowmode"]="Always", 
         ["autotrustsmode"]="Off", 
         ["skillchainassistantmode"]="Off", 
         ["autosilencemode"]="Off", 
-        ["autoskillchainmode"]="Off", 
-        ["autodetectauramode"]="Auto", 
         ["automagicburstmode"]="Off", 
+        ["autodetectauramode"]="Auto", 
+        ["autoskillchainmode"]="Spam", 
         ["autoassistantmode"]="Off", 
-        ["autofacemobmode"]="Off", 
+        ["weaponskillsettingsmode"]="Default", 
         ["subtrustsettingsmode"]="Default", 
-        ["autobuffmode"]="Auto", 
+        ["autofacemobmode"]="Auto", 
         ["approachpullmode"]="Off", 
         ["autoengagemode"]="Off", 
         ["autobarspellmode"]="Manual", 
@@ -31,20 +30,19 @@ return {
         ["combatmode"]="Off", 
         ["autorestoremanamode"]="Auto", 
         ["engagemode"]="None", 
-        ["autohealmode"]="Auto", 
+        ["autobuffmode"]="Auto", 
         ["autoenablemode"]="Off", 
         ["autoaftermathmode"]="Off", 
         ["autoraisemode"]="Off", 
         ["autoenmityreductionmode"]="Auto", 
-        ["autodispelmode"]="Off", 
+        ["autodisablemode"]="Auto", 
         ["autodebuffmode"]="Off", 
         ["autostatusremovalmode"]="Auto", 
         ["autonukemode"]="Off", 
         ["flankmode"]="Off", 
-        ["autoartsmode"]="LightArts", 
-        ["actionbatchingmode"]="Off"
+        ["actionbatchingmode"]="Off", 
+        ["autohealmode"]="Auto"
     }, 
-    ["OdyC"]={
-        ["autoenablemode"]="Off"
-    }
+    ["Melee"]={}, 
+    ["OdyC"]={}
 }

@@ -3,8 +3,8 @@ return {
     Version = 1,
     Default = {
         Skills = L{
-            CombatSkillSettings.new("Hand-to-Hand", L{}, "Howling Fist"),
-            CombatSkillSettings.new("Staff", L{}, ""),
+            CombatSkillSettings.new("Hand-to-Hand", L{}, "Shoulder Tackle"),
+            CombatSkillSettings.new("Staff", L{}, "Earth Crusher"),
             CombatSkillSettings.new("Club", L{}, "True Strike")
         },
         Skillchain = L{

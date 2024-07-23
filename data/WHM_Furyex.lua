@@ -3,14 +3,18 @@ return {
     Version = 2,
     Default = {
         SelfBuffs = L{
-            Buff.new("Haste", L{}, L{}, nil, L{}),
             Buff.new("Reraise", L{}, L{}, nil, L{})
+        },
+        GambitSettings = {
+            Gambits = L{
+
+            }
         },
         JobAbilities = L{
             JobAbility.new("Afflatus Solace", L{}, L{})
         },
         PartyBuffs = L{
-            Buff.new("Haste", L{}, L{"WAR", "MNK", "THF", "PLD", "DRK", "SAM", "DRG", "NIN", "PUP", "COR", "DNC", "BLU", "RUN", "BLM", "BRD", "BST"}, nil, L{})
+
         },
         CureSettings = {
             Thresholds = {
@@ -18,8 +22,8 @@ return {
                 Emergency = 40,
                 Default = 78,
                 ["Cure III"] = 400,
-                ["Cure II"] = 0,
                 ["Curaga III"] = 500,
+                ["Cure II"] = 0,
                 ["Curaga II"] = 300,
                 Curaga = 0
             },

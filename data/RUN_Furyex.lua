@@ -44,16 +44,16 @@ return {
                 "Dimidiation",
                 "Steel Cyclone"
             },
-            preferws = L{
-                "Dimidiation",
-                "Savage Blade"
+            tpws = L{
+
             },
             cleavews = L{
 
             },
             amws = "Dimidiation",
-            tpws = L{
-
+            preferws = L{
+                "Dimidiation",
+                "Savage Blade"
             }
         },
         Debuffs = L{
@@ -64,7 +64,7 @@ return {
         },
         PullSettings = {
             Abilities = L{
-                Spell.new("Flash", L{}, L{}, nil, L{})
+                Spell.new("Dia II", L{}, L{}, nil, L{})
             },
             Distance = 20
         }
