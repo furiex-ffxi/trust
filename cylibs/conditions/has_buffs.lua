@@ -16,8 +16,8 @@ HasBuffsCondition.__index = HasBuffsCondition
 HasBuffsCondition.__type = "HasBuffsCondition"
 HasBuffsCondition.__class = "HasBuffsCondition"
 
-function HasBuffsCondition.new(buff_names, num_required)
-    local self = setmetatable(Condition.new(windower.ffxi.get_player().index), HasBuffsCondition)
+function HasBuffsCondition.new(buff_names, num_required, target_index)
+    local self = setmetatable(Condition.new(target_index), HasBuffsCondition)
     self.buff_names = buff_names or L{ "sleep" } -- save arg for serializer
     self.buff_ids = self.buff_names:map(function(buff_name) return buff_util.buff_id(buff_name)  end)
     self.num_required = num_required or self.buff_names:length()
@@ -35,7 +35,7 @@ end
 
 function HasBuffsCondition:get_buff_count(buff_id, target_index)
     local buff_ids = L{}
-    if target_index == windower.ffxi.get_player().index then
+    if target_index == nil or target_index == windower.ffxi.get_player().index then
         buff_ids = L(windower.ffxi.get_player().buffs)
     else
         buff_ids = self.party_member:get_buff_ids()
@@ -90,9 +90,9 @@ function HasBuffsCondition:get_config_items()
 end
 
 function HasBuffsCondition:tostring()
-    local buff_names = (self.buff_names or L{}):map(function(buff_name)
+    local buff_names = L((self.buff_names or L{}):map(function(buff_name)
         return buff_name:gsub("^%l", string.upper)
-    end)
+    end))
     if buff_names:length() == self.num_required then
         return "Has "..localization_util.commas(buff_names)
     else

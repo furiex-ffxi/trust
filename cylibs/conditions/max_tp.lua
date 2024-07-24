@@ -10,16 +10,13 @@ MaxTacticalPointsCondition.__index = MaxTacticalPointsCondition
 MaxTacticalPointsCondition.__class = "MaxTacticalPointsCondition"
 MaxTacticalPointsCondition.__type = "MaxTacticalPointsCondition"
 
-function MaxTacticalPointsCondition.new(max_tp)
-    local self = setmetatable(Condition.new(windower.ffxi.get_player().index), MaxTacticalPointsCondition)
+function MaxTacticalPointsCondition.new(max_tp, target_index)
+    local self = setmetatable(Condition.new(target_index), MaxTacticalPointsCondition)
     self.max_tp = max_tp or 1000
     return self
 end
 
 function MaxTacticalPointsCondition:is_satisfied(target_index)
-    if target_index == windower.ffxi.get_player().index then
-        return windower.ffxi.get_player().vitals.tp <= self.max_tp
-    end
     local target = windower.ffxi.get_mob_by_index(target_index)
     if target then
         if target.id == windower.ffxi.get_player().id then
