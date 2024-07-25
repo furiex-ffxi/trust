@@ -64,7 +64,7 @@ return {
         },
         PullSettings = {
             Abilities = L{
-                Spell.new("Dia II", L{}, L{}, nil, L{})
+                Spell.new("Flash", L{}, L{}, nil, L{})
             },
             Distance = 20
         }

@@ -1,5 +1,6 @@
 -- Modes file for WHM
 return {
+    ["Melee"]={}, 
     ["Default"]={
         ["magicbursttargetmode"]="Single", 
         ["autotankmode"]="Off", 
@@ -20,7 +21,7 @@ return {
         ["subtrustsettingsmode"]="Default", 
         ["autofacemobmode"]="Auto", 
         ["approachpullmode"]="Off", 
-        ["autoengagemode"]="Off", 
+        ["autoengagemode"]="Always", 
         ["autobarspellmode"]="Manual", 
         ["autopullmode"]="Off", 
         ["skillchainpropertymode"]="Off", 
@@ -43,6 +44,5 @@ return {
         ["actionbatchingmode"]="Off", 
         ["autohealmode"]="Auto"
     }, 
-    ["Melee"]={}, 
     ["OdyC"]={}
 }

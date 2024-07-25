@@ -7,6 +7,9 @@ return {
             CombatSkillSettings.new("Club", L{}, ""),
             CombatSkillSettings.new("Staff", L{}, "")
         },
+        Blacklist = L{
+
+        },
         Skillchain = L{
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
@@ -14,29 +17,6 @@ return {
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto()
-        },
-        Blacklist = L{
-
         }
     },
-    Version = 1,
-    SortieLight = {
-        Skills = L{
-            CombatSkillSettings.new("Dagger", L{}, ""),
-            CombatSkillSettings.new("Sword", L{}, ""),
-            CombatSkillSettings.new("Club", L{}, ""),
-            CombatSkillSettings.new("Staff", L{}, "")
-        },
-        Blacklist = L{
-
-        },
-        Skillchain = L{
-            SkillchainAbility.skip(),
-            WeaponSkill.new("Savage Blade"),
-            SkillchainAbility.skip(),
-            SkillchainAbility.skip(),
-            SkillchainAbility.skip(),
-            SkillchainAbility.skip()
-        }
-    }
 }

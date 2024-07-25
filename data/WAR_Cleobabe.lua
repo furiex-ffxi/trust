@@ -1,6 +1,5 @@
 -- Settings file for WAR
 return {
-    Version = 1,
     Default = {
         Debuffs = L{
 
@@ -8,7 +7,7 @@ return {
         GambitSettings = {
             Gambits = L{
                 Gambit.new("Enemy", L{NotCondition.new(L{HasBuffCondition.new("Defense Down")})}, WeaponSkill.new("Full Break"), "Enemy"),
-                Gambit.new("Enemy", L{MinTacticalPointsCondition.new(1000)}, WeaponSkill.new("Upheaval"), "Enemy")
+                Gambit.new("Enemy", L{MinTacticalPointsCondition.new(1000)}, WeaponSkill.new("Upheaval"), "Self")
             }
         },
         JobAbilities = L{
@@ -34,7 +33,7 @@ return {
         GambitSettings = {
             Gambits = L{
                 Gambit.new("Enemy", L{NotCondition.new(L{HasBuffCondition.new("Defense Down")})}, WeaponSkill.new("Full Break"), "Enemy"),
-                Gambit.new("Enemy", L{MinTacticalPointsCondition.new(1000)}, WeaponSkill.new("Upheaval"), "Enemy")
+                Gambit.new("Enemy", L{MinTacticalPointsCondition.new(1000)}, WeaponSkill.new("Upheaval"), "Self")
             }
         },
         JobAbilities = L{
@@ -53,5 +52,6 @@ return {
             },
             Distance = 20
         }
-    }
+    },
+    Version = 1
 }

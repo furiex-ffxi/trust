@@ -5,6 +5,10 @@ return {
 
         },
         GambitSettings = {
+            Default = L{
+                Gambit.new("Enemy", L{MeleeAccuracyCondition.new(75, "<="), MainJobCondition.new("DRK")}, Spell.new("Absorb-ACC", L{}, L{}, nil, L{}), "Self"),
+                Gambit.new("Self", L{HasBuffCondition.new("Max HP Boost"), IdleCondition.new(), NotCondition.new(L{HasBuffCondition.new("Dread Spikes")})}, Spell.new("Dread Spikes", L{}, L{}, nil, L{}), "Self")
+            },
             Gambits = L{
 
             }
@@ -30,6 +34,10 @@ return {
 
         },
         GambitSettings = {
+            Default = L{
+                Gambit.new("Enemy", L{MeleeAccuracyCondition.new(75, "<="), MainJobCondition.new("DRK")}, Spell.new("Absorb-ACC", L{}, L{}, nil, L{}), "Self"),
+                Gambit.new("Self", L{HasBuffCondition.new("Max HP Boost"), IdleCondition.new(), NotCondition.new(L{HasBuffCondition.new("Dread Spikes")})}, Spell.new("Dread Spikes", L{}, L{}, nil, L{}), "Self")
+            },
             Gambits = L{
 
             }
@@ -57,6 +65,10 @@ return {
 
         },
         GambitSettings = {
+            Default = L{
+                Gambit.new("Enemy", L{MeleeAccuracyCondition.new(75, "<="), MainJobCondition.new("DRK")}, Spell.new("Absorb-ACC", L{}, L{}, nil, L{}), "Self"),
+                Gambit.new("Self", L{HasBuffCondition.new("Max HP Boost"), IdleCondition.new(), NotCondition.new(L{HasBuffCondition.new("Dread Spikes")})}, Spell.new("Dread Spikes", L{}, L{}, nil, L{}), "Self")
+            },
             Gambits = L{
 
             }
@@ -83,6 +95,10 @@ return {
 
         },
         GambitSettings = {
+            Default = L{
+                Gambit.new("Enemy", L{MeleeAccuracyCondition.new(75, "<="), MainJobCondition.new("DRK")}, Spell.new("Absorb-ACC", L{}, L{}, nil, L{}), "Self"),
+                Gambit.new("Self", L{HasBuffCondition.new("Max HP Boost"), IdleCondition.new(), NotCondition.new(L{HasBuffCondition.new("Dread Spikes")})}, Spell.new("Dread Spikes", L{}, L{}, nil, L{}), "Self")
+            },
             Gambits = L{
 
             }

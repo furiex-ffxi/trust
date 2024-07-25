@@ -22,5 +22,6 @@ return {
         ["combatmode"]="Off",
         ["autoenmityreductionmode"]="Off",
         ["ipcmode"]="All",
+        ["autohealmode"]="Emergency"
     }
 }
