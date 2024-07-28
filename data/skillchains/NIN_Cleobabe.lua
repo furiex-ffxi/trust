@@ -5,7 +5,7 @@ return {
         Skills = L{
             CombatSkillSettings.new("Hand-to-Hand", L{}, ""),
             CombatSkillSettings.new("Dagger", L{}, ""),
-            CombatSkillSettings.new("Sword", L{"Vorpal Blade", "Flat Blade", "Shining Blade", "Sanguine Blade", "Red Lotus Blade", "Burning Blade", "Circle Blade", "Fast Blade", "Seraph Blade"}, "Flat Blade"),
+            CombatSkillSettings.new("Sword", L{"Vorpal Blade", "Flat Blade", "Shining Blade", "Sanguine Blade", "Red Lotus Blade", "Burning Blade", "Circle Blade", "Fast Blade", "Seraph Blade"}, "Savage Blade"),
             CombatSkillSettings.new("Katana", L{"Blade: Chi", "Blade: To", "Blade: Rin", "Blade: Teki", "Blade: Shun", "Blade: Jin", "Blade: Ei", "Blade: Ten", "Blade: Yu"}, "Blade: Ten"),
             CombatSkillSettings.new("Great Katana", L{}, ""),
             CombatSkillSettings.new("Club", L{}, ""),
