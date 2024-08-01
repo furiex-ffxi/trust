@@ -171,6 +171,10 @@ function TrustSettings:getSettings()
     return self.settings
 end
 
+function TrustSettings:getDefaultSettings()
+    return self.defaultSettings
+end
+
 function TrustSettings:runMigrations(settings)
     local needsMigration = false
 
@@ -198,6 +202,12 @@ function TrustSettings:runMigrations(settings)
         if not settingsForMode.GambitSettings.Default then
             if self.defaultSettings.Default.GambitSettings and self.defaultSettings.Default.GambitSettings.Default then
                 settingsForMode.GambitSettings.Default = self.defaultSettings.Default.GambitSettings and self.defaultSettings.Default.GambitSettings.Default or L{}
+                needsMigration = true
+            end
+        end
+        if not settingsForMode.AttachmentSettings then
+            if self.defaultSettings.Default.AttachmentSettings then
+                settingsForMode.AttachmentSettings = self.defaultSettings.Default.AttachmentSettings
                 needsMigration = true
             end
         end

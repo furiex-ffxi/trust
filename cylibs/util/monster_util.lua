@@ -25,7 +25,7 @@ local aggroes_by_magic_regex = L{
     '%a+ Weapon'
 }
 
-local ability_ids = list.from_range(257, 2000)
+local ability_ids = list.from_range(257, 4394)
 
 function monster_util.get_all_ability_ids()
     local result = L{}
@@ -122,7 +122,7 @@ function monster_util.immune_to_debuff(target_name, debuff_name)
     if debuff_name == 'sleep' then
         return L{
             'Nostos Qutrub',
-        }:contains(target_name) or string.find(target_name, 'Agon (%a+ ?)+')
+        }:contains(target_name) or string.sub(target_name, 1, 4) == "Agon"
     end
     return false
 end

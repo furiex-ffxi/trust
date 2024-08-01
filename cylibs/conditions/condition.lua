@@ -15,6 +15,12 @@ Condition.Operator.GreaterThanOrEqualTo = ">="
 Condition.Operator.LessThan = "<"
 Condition.Operator.LessThanOrEqualTo = "<="
 
+Condition.TargetType = {}
+Condition.TargetType.Self = "Self"
+Condition.TargetType.Ally = "Ally"
+Condition.TargetType.Enemy = "Enemy"
+Condition.TargetType.AllTargets = S{ Condition.TargetType.Self, Condition.TargetType.Ally, Condition.TargetType.Enemy }
+
 -------
 -- Default initializer for a condition.
 -- @tparam number target_index (optional) Target index, will override target_index passed into is_satisfied
@@ -67,24 +73,35 @@ function Condition:serialize()
 end
 
 function Condition.defaultSerializableConditionClasses()
-    return L{
-        InBattleCondition.__class,
+    return L {
         IdleCondition.__class,
-        HasBuffCondition.__class,
+        InBattleCondition.__class,
+        GainDebuffCondition.__class,
         HasBuffsCondition.__class,
-        HasRunesCondition.__class,
-        MainJobCondition.__class,
-        MaxDistanceCondition.__class,
+        HasDebuffCondition.__class,
         MaxHitPointsPercentCondition.__class,
         MinHitPointsPercentCondition.__class,
+        HitPointsPercentRangeCondition.__class,
+        MeleeAccuracyCondition.__class,
         MinManaPointsCondition.__class,
-        MinManaPointsPercentCondition.__class,
         MaxManaPointsPercentCondition.__class,
-        MinManaPointsCondition.__class,
+        MinManaPointsPercentCondition.__class,
+        MaxTacticalPointsCondition.__class,
         MinTacticalPointsCondition.__class,
-        ModeCondition.__class,
-        NotCondition.__class,
+        MaxDistanceCondition.__class,
+        HasBuffCondition.__class,
         ZoneCondition.__class,
+        MainJobCondition.__class,
+        ReadyAbilityCondition.__class,
+        FinishAbilityCondition.__class,
+        HasRunesCondition.__class,
+        EnemiesNearbyCondition.__class,
+        ModeCondition.__class,
+        PetHitPointsPercentCondition.__class,
+        HasPetCondition.__class,
+        NumResistsCondition.__class,
+        SkillchainPropertyCondition.__class,
+        HasDazeCondition.__class,
     }
 end
 
@@ -100,6 +117,10 @@ function Condition.check_conditions(conditions, param, ...)
         end
     end
     return true
+end
+
+function Condition.valid_targets()
+    return Condition.TargetType.AllTargets
 end
 
 function Condition:copy()

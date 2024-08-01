@@ -1,3 +1,4 @@
+local BuffRecord = require('cylibs/battle/buff_record')
 local Event = require('cylibs/events/Luvent')
 local DisposeBag = require('cylibs/events/dispose_bag')
 local EquipmentChangedMessage = require('cylibs/messages/equipment_changed_message')
@@ -32,8 +33,10 @@ WindowerEvents.ZoneUpdate = Event.newEvent()
 WindowerEvents.ZoneRequest = Event.newEvent()
 WindowerEvents.BuffsChanged = Event.newEvent()
 WindowerEvents.DebuffsChanged = Event.newEvent()
+WindowerEvents.BuffDurationChanged = Event.newEvent()
 WindowerEvents.GainDebuff = Event.newEvent()
 WindowerEvents.LoseDebuff = Event.newEvent()
+WindowerEvents.GainDaze = Event.newEvent()
 WindowerEvents.AllianceMemberListUpdate = Event.newEvent()
 WindowerEvents.PetUpdate = Event.newEvent()
 WindowerEvents.Equipment = {}
@@ -48,6 +51,11 @@ WindowerEvents.Ability.Finish = Event.newEvent()
 local main_weapon_id
 local ranged_weapon_id
 
+local time = os.time()
+local vana_time = time - 1009810800
+
+local bufftime_offset = math.floor(time - (vana_time * 60 % 0x100000000) / 60)
+
 local incoming_event_ids = S{
     0x028, -- data.incoming[0x028] = {name='Action',              description='Packet sent when an NPC is attacking.'}
     0x029, -- data.incoming[0x029] = {name='Action Message',      description='Packet sent for simple battle-related messages.'}
@@ -59,7 +67,8 @@ local incoming_event_ids = S{
     0x0C8,
     0x037,
     0x050,
-    0x068
+    0x068,
+    0x063,
 }
 
 local outgoing_event_ids = S{
@@ -79,30 +88,10 @@ local incoming_event_dispatcher = {
             if res.monster_abilities[act.targets[1].actions[1].param] then
                 WindowerEvents.Ability.Ready:trigger(act.actor_id, act.targets[1].actions[1].param)
             end
-
-            --[[for _, target in pairs(act.targets) do
-                local action = target.actions[1]
-                if action then
-                    -- ${actor} uses ${weapon_skill}.${lb}${target} takes ${number} points of damage.
-                    if L{ 43, 326, 675 }:contains(action.message) then
-                        WindowerEvents.Ability.Ready:trigger(target.id, action.param)
-                    end
-                end
-            end]]
         elseif act.category == 11 then
             if res.monster_abilities[act.param] then
                 WindowerEvents.Ability.Finish:trigger(act.actor_id, act.param)
             end
-            --[[for _, target in pairs(act.targets) do
-                local action = target.actions[1]
-                if action then
-                    -- ${actor} uses ${weapon_skill}.${lb}${target} takes ${number} points of damage.
-                    if L{ 185, 186, 187, 188 }:contains(action.message) then
-                        WindowerEvents.Ability.Finish:trigger(act.actor_id, act.param)
-                        break
-                    end
-                end
-            end]]
         end
 
         for _, target in pairs(act.targets) do
@@ -334,6 +323,26 @@ local incoming_event_dispatcher = {
         end
 
     end,
+
+    [0x063] = function(data)
+        local buff_records = L{}
+
+        for n=1,32 do
+            local buff_id = data:unpack('H', n*2+7)
+            local buff_ts = data:unpack('I', n*4+69)
+
+            if buff_ts == 0 then
+                break
+            elseif buff_id ~= 255 and buff_ts ~= nil then
+                local duration = math.floor(buff_ts / 60 + bufftime_offset) - os.time()
+                buff_records:append(BuffRecord.new(buff_id, duration))
+            end
+        end
+
+        if buff_records:length() > 0 then
+            WindowerEvents.BuffDurationChanged:trigger(windower.ffxi.get_player().id, buff_records)
+        end
+    end
 
 }
 

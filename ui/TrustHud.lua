@@ -1,5 +1,5 @@
 local AlterEgoSettingsMenuItem = require('ui/settings/menus/AlterEgoSettingsMenuItem')
-local AutomatonView = require('cylibs/entity/automaton/ui/automaton_view')
+local AutomatonSettingsMenuItem = require('ui/settings/menus/attachments/AutomatonSettingsMenuItem')
 local BackgroundView = require('cylibs/ui/views/background/background_view')
 local BufferView = require('ui/views/BufferView')
 local BufferSettingsMenuItem = require('ui/settings/menus/buffs/BufferSettingsMenuItem')
@@ -30,6 +30,7 @@ local PartyMemberView = require('cylibs/entity/party/ui/party_member_view')
 local PartyStatusWidget = require('ui/widgets/PartyStatusWidget')
 local PartyTargetsMenuItem = require('ui/settings/menus/PartyTargetsMenuItem')
 local PathSettingsMenuItem = require('ui/settings/menus/misc/PathSettingsMenuItem')
+local ReactSettingsMenuItem = require('ui/settings/menus/gambits/react/ReactSettingsMenuItem')
 local SingerView = require('ui/views/SingerView')
 local SongSettingsMenuItem = require('ui/settings/menus/songs/SongSettingsMenuItem')
 local SpellPickerView = require('ui/settings/pickers/SpellPickerView')
@@ -199,8 +200,11 @@ function TrustHud:getMainMenuItem()
         ButtonItem.default(player.sub_job_name, 18),
     }, {
         [player.main_job_name] = mainJobItem,
-        [player.sub_job_name] = subJobItem,
     }, nil, "Jobs")
+
+    if player.sub_job_name ~= 'None' then
+        mainMenuItem:setChildMenuItem(player.sub_job_name, subJobItem)
+    end
 
     self.mainMenuItem = mainMenuItem
 
@@ -300,6 +304,11 @@ function TrustHud:getSettingsMenuItem(trust, trustSettings, trustSettingsMode, w
         childMenuItems['Rolls'] = RollSettingsMenuItem.new(trustSettings, trustSettingsMode, trust)
     end
 
+    if jobNameShort == 'PUP' then
+        menuItems:append(ButtonItem.default('Automaton', 18))
+        childMenuItems['Automaton'] = AutomatonSettingsMenuItem.new(trustSettings, trustSettingsMode)
+    end
+
     -- Add menu items only if the Trust has the appropriate role
     if trust:role_with_type("buffer") then
         menuItems:append(ButtonItem.default('Buffs', 18))
@@ -357,9 +366,11 @@ function TrustHud:getSettingsMenuItem(trust, trustSettings, trustSettingsMode, w
     childMenuItems.Gambits = MenuItem.new(L{
         ButtonItem.default('Custom', 18),
         ButtonItem.default(jobName, 18),
+        ButtonItem.default('Reactions', 18),
     }, {
         Custom = GambitSettingsMenuItem.new(trustSettings, trustSettingsMode),
         [jobName] = JobGambitSettingsMenuItem.new(trustSettings, trustSettingsMode),
+        Reactions = ReactSettingsMenuItem.new(trustSettings, trustSettingsMode),
     }, nil, "Gambits", "Configure Trust behavior.")
 
     local settingsMenuItem = MenuItem.new(menuItems, childMenuItems, nil, "Settings", "Configure Trust settings for skillchains, buffs, debuffs and more.")
@@ -439,9 +450,7 @@ function TrustHud:getPullerMenuItem(trust, jobNameShort, trustSettings, trustSet
 end
 
 function TrustHud:getSingerMenuItem(trust, trustSettings, trustSettingsMode, viewSize)
-    local singerSettingsMenuItem = SongSettingsMenuItem.new(self.addon_settings, trustSettings, trustSettingsMode, function(view)
-        return setupView(view, viewSize)
-    end)
+    local singerSettingsMenuItem = SongSettingsMenuItem.new(self.addon_settings, trustSettings, trustSettingsMode, trust)
     return singerSettingsMenuItem
 end
 
@@ -517,17 +526,6 @@ function TrustHud:getMenuItems(trust, trustSettings, trustSettingsMode, weaponSk
         return setupView(view, viewSize)
     end)
 
-    -- Puppetmaster
-    local automatonMenuItem = MenuItem.new(L{}, {},
-    function()
-        local backgroundImageView = createBackgroundView(viewSize.width, viewSize.height)
-        local automatonView = AutomatonView.new(trustSettings, trustSettingsMode)
-        automatonView:setBackgroundImageView(backgroundImageView)
-        --automatonView:setNavigationBar(createTitleView(viewSize))
-        automatonView:setSize(viewSize.width, viewSize.height)
-        return automatonView
-    end)
-
     -- Bard
     local singerMenuItem = MenuItem.new(L{
         ButtonItem.default('Clear All', 18),
@@ -545,9 +543,7 @@ function TrustHud:getMenuItems(trust, trustSettings, trustSettingsMode, weaponSk
         ButtonItem.default('Buffs', 18),
         ButtonItem.default('Targets', 18)
     }
-    if jobNameShort == 'PUP' then
-        statusMenuButtons:insert(2, ButtonItem.default('Automaton', 18))
-    elseif jobNameShort == 'BRD' then
+    if jobNameShort == 'BRD' then
         statusMenuButtons:insert(2, ButtonItem.default('Songs', 18))
     end
 
@@ -557,7 +553,6 @@ function TrustHud:getMenuItems(trust, trustSettings, trustSettingsMode, weaponSk
 
     local statusMenuItem = MenuItem.new(statusMenuButtons, {
         Party = partyMenuItem,
-        Automaton = automatonMenuItem,
         Buffs = buffsMenuItem,
         Debuffs = debuffsMenuItem,
         Targets = targetsMenuItem,
@@ -566,14 +561,28 @@ function TrustHud:getMenuItems(trust, trustSettings, trustSettingsMode, weaponSk
 
     -- Help
     local helpMenuItem = MenuItem.new(L{
+        ButtonItem.default('Wiki', 18),
+        ButtonItem.default('Commands', 18),
+        ButtonItem.default('Multi-Boxing', 18),
+        ButtonItem.default('Support', 18),
         ButtonItem.default('Debug', 18),
     }, {
+        Wiki = MenuItem.action(function()
+            windower.open_url(self.addon_settings:getSettings().help.wiki_base_url)
+        end, "Wiki", "Learn more about Trust."),
+        Commands = MenuItem.action(function()
+            windower.open_url(self.addon_settings:getSettings().help.wiki_base_url..'/Commands')
+            windower.send_command('trust commands')
+        end, "Commands", "See a list of Trust commands."),
+        ['Multi-Boxing'] = MenuItem.action(function()
+            windower.open_url(self.addon_settings:getSettings().help.wiki_base_url..'/Multi-Boxing')
+        end, "Multi-Boxing", "Learn more about multi-boxing with Trust."),
+        Support = MenuItem.action(function()
+            windower.open_url(self.addon_settings:getSettings().discord.channels.support)
+        end, "Support", "Get help on Discord."),
         Debug = debugMenuItem,
     },
-    function()
-        local helpView = setupView(HelpView.new(jobNameShort, self.addon_settings:getSettings().help.wiki_base_url), viewSize)
-        return helpView
-    end, "Help", "Get help using Trust.")
+    nil, "Help", "Get help using Trust.")
 
     -- Mode settings
 
@@ -595,6 +604,7 @@ function TrustHud:getMenuItems(trust, trustSettings, trustSettingsMode, weaponSk
         ButtonItem.default('Config', 18),
         ButtonItem.default('Help', 18),
         ButtonItem.default('Donate', 18),
+        ButtonItem.default('Discord', 18),
     }, {
         Status = statusMenuItem,
         Settings = settingsMenuItem,
@@ -603,7 +613,10 @@ function TrustHud:getMenuItems(trust, trustSettings, trustSettingsMode, weaponSk
         Help = helpMenuItem,
         Donate = MenuItem.action(function()
             windower.open_url(self.addon_settings:getSettings().donate.url)
-        end, "Donate", "Enjoying Trust? Show your support!")
+        end, "Donate", "Enjoying Trust? Show your support!"),
+        Discord = MenuItem.action(function()
+            windower.open_url(self.addon_settings:getSettings().discord.url)
+        end, "Discord", "Need help? Join the Discord!")
     }, nil, jobName, "Settings for "..jobName..".")
 
     return mainMenuItem
