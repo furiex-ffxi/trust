@@ -1,5 +1,6 @@
 -- Settings file for GEO
 return {
+    Version = 2,
     Default = {
         SelfBuffs = L{
 
@@ -18,13 +19,12 @@ return {
         Debuffs = L{
 
         },
-        Geomancy = {
-            Indi = Spell.new("Indi-Acumen", L{}, L{}, "me", L{}),
-            Geo = Spell.new("Geo-Malaise", L{}, L{}, "bt", L{})
-        },
+        AutoFood = "Tropical Crepe",
         NukeSettings = {
             MinNumMobsToCleave = 2,
-            MinManaPointsPercent = 40,
+            Blacklist = L{
+
+            },
             Spells = L{
                 Spell.new("Blizzard V", L{"Theurgic Focus"}, L{}, nil, L{}),
                 Spell.new("Blizzard IV", L{}, L{}, nil, L{}),
@@ -34,11 +34,12 @@ return {
                 Spell.new("Aera III", L{}, L{}, nil, L{})
             },
             Delay = 4,
-            Blacklist = L{
-
-            }
+            MinManaPointsPercent = 40
         },
-        AutoFood = "Tropical Crepe",
+        Geomancy = {
+            Indi = Spell.new("Indi-Fury", L{}, L{}, "me", L{}),
+            Geo = Spell.new("Geo-Frailty", L{}, L{}, "bt", L{})
+        },
         PullSettings = {
             Abilities = L{
                 Spell.new("Stone", L{}, L{}, nil, L{})
@@ -64,13 +65,12 @@ return {
         Debuffs = L{
 
         },
-        Geomancy = {
-            Indi = Spell.new("Indi-Focus", L{}, L{}, "me", L{}),
-            Geo = Spell.new("Geo-Barrier", L{}, L{}, "bt", L{})
-        },
+        AutoFood = "Tropical Crepe",
         NukeSettings = {
             MinNumMobsToCleave = 2,
-            MinManaPointsPercent = 40,
+            Blacklist = L{
+
+            },
             Spells = L{
                 Spell.new("Blizzard V", L{"Theurgic Focus"}, L{}, nil, L{}),
                 Spell.new("Blizzard IV", L{}, L{}, nil, L{}),
@@ -80,17 +80,17 @@ return {
                 Spell.new("Aera III", L{}, L{}, nil, L{})
             },
             Delay = 4,
-            Blacklist = L{
-
-            }
+            MinManaPointsPercent = 40
         },
-        AutoFood = "Tropical Crepe",
+        Geomancy = {
+            Indi = Spell.new("Indi-Focus", L{}, L{}, "me", L{}),
+            Geo = Spell.new("Geo-Barrier", L{}, L{}, "bt", L{})
+        },
         PullSettings = {
             Abilities = L{
                 Spell.new("Stone", L{}, L{}, nil, L{})
             },
             Distance = 20
         }
-    },
-    Version = 2
+    }
 }

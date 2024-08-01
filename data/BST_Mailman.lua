@@ -1,5 +1,6 @@
 -- Settings file for BST
 return {
+    Version = 1,
     Default = {
         SelfBuffs = L{
             {
@@ -8,6 +9,11 @@ return {
                 Buff = "Counter Boost"
             }
         },
+        GambitSettings = {
+            Gambits = L{
+
+            }
+        },
         JobAbilities = L{
             JobAbility.new("Killer Instinct", L{InBattleCondition.new()}),
             JobAbility.new("Spur", L{InBattleCondition.new()})
@@ -15,14 +21,17 @@ return {
         PartyBuffs = L{
 
         },
+        Debuffs = L{
+
+        },
         AutoFood = "Grape Daifuku",
         PullSettings = {
             Abilities = L{
 
-            }
+            },
+            Distance = 20
         }
     },
-    Version = 1,
     Ep = {
         SelfBuffs = L{
             {
@@ -31,6 +40,11 @@ return {
                 Buff = "Counter Boost"
             }
         },
+        GambitSettings = {
+            Gambits = L{
+
+            }
+        },
         JobAbilities = L{
             JobAbility.new("Killer Instinct", L{InBattleCondition.new()}),
             JobAbility.new("Spur", L{InBattleCondition.new()})
@@ -38,11 +52,15 @@ return {
         PartyBuffs = L{
 
         },
+        Debuffs = L{
+
+        },
         AutoFood = "Grape Daifuku",
         PullSettings = {
             Abilities = L{
 
-            }
+            },
+            Distance = 20
         }
     }
 }

@@ -1,5 +1,6 @@
 -- Weapon skill settings file for DRK
 return {
+    Version = 1,
     SortieLight = {
         Skills = L{
             CombatSkillSettings.new("Dagger", L{}, ""),
@@ -11,6 +12,9 @@ return {
             CombatSkillSettings.new("Club", L{}, ""),
             CombatSkillSettings.new("Marksmanship", L{}, "")
         },
+        Blacklist = L{
+
+        },
         Skillchain = L{
             SkillchainAbility.skip(),
             SkillchainAbility.skip(),
@@ -18,9 +22,6 @@ return {
             SkillchainAbility.skip(),
             SkillchainAbility.skip(),
             SkillchainAbility.skip()
-        },
-        Blacklist = L{
-
         }
     },
     Default = {
@@ -34,6 +35,9 @@ return {
             CombatSkillSettings.new("Club", L{}, ""),
             CombatSkillSettings.new("Marksmanship", L{}, "")
         },
+        Blacklist = L{
+
+        },
         Skillchain = L{
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
@@ -41,10 +45,6 @@ return {
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto()
-        },
-        Blacklist = L{
-
         }
-    },
-    Version = 1
+    }
 }

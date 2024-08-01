@@ -5,10 +5,7 @@ return {
         Skills = L{
             CombatSkillSettings.new("Marksmanship", L{}, "Leaden Salute"),
             CombatSkillSettings.new("Dagger", L{}, ""),
-            CombatSkillSettings.new("Sword", L{}, "Savage Blade")
-        },
-        Blacklist = L{
-
+            CombatSkillSettings.new("Sword", L{"Flat Blade", "Circle Blade", "Burning Blade", "Requiescat", "Fast Blade", "Shining Blade"}, "Savage Blade")
         },
         Skillchain = L{
             SkillchainAbility.auto(),
@@ -17,6 +14,9 @@ return {
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto()
+        },
+        Blacklist = L{
+
         }
     }
 }

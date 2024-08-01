@@ -217,7 +217,7 @@ return {
         },
         SelfBuffs = L{
             Buff.new("Enblizzard", L{}, L{}, nil, L{}),
-            Spell.new("Gain-STR", L{}, L{}, nil, L{InBattleCondition.new()}),
+            Buff.new("Gain-STR", L{}, L{}, nil, L{}),
             Buff.new("Haste", L{}, L{}, nil, L{}),
             Buff.new("Phalanx", L{}, L{}, nil, L{}),
             Buff.new("Refresh", L{}, L{}, nil, L{}),
