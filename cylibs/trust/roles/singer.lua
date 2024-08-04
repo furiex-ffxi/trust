@@ -115,9 +115,7 @@ function Singer:tic(new_time, old_time)
     end
     self.song_tracker:tic(new_time, old_time)
 
-    --if not self.is_singing then
-        self:check_songs()
-    --end
+    self:check_songs()
 end
 
 function Singer:assert_num_songs(party_member)
@@ -139,28 +137,31 @@ function Singer:assert_num_songs(party_member)
 end
 
 function Singer:check_songs()
+    if self:get_player():is_moving() then
+        return
+    end
+
     local player = self:get_party():get_player()
+    local has_more_songs = false
 
     self:assert_num_songs(player)
-
-    --if self:should_nitro() then
-    --    self:nitro()
-    --    return
-    --end
-
 
     local party_members = self:get_party():get_party_members(true):filter(function(p) return p:get_id() ~= self.song_target:get_id()  end)
     for party_member in list.extend(L{self.song_target}, party_members):it() do
         if party_member:is_alive() then
             local next_song = self:get_next_song(party_member, self.dummy_songs, self:get_merged_songs(party_member))
             if next_song then
+                has_more_songs = true
                 self:sing_song(next_song, party_member:get_mob().index, self:should_nitro())
-                return
+                if party_member:get_id() == self.song_target:get_id() then
+                    return
+                end
             end
         end
     end
-
-    self:set_is_singing(false)
+    if not has_more_songs then
+        self:set_is_singing(false)
+    end
 end
 
 function Singer:get_next_song(party_member, dummy_songs, songs)
@@ -207,6 +208,7 @@ function Singer:sing_song(song, target_index, should_nitro)
 
         local actions = L{}
         local conditions = L{}
+        local extra_duration = 0
 
         self.last_sing_time = self:get_last_tic_time()
 
@@ -214,6 +216,7 @@ function Singer:sing_song(song, target_index, should_nitro)
         if should_nitro then
             self.song_tracker:set_all_expiring_soon()
             job_abilities = self:get_nitro_abilities()
+            extra_duration = extra_duration + 4
         end
 
         local job_abilities = job_abilities:extend(song:get_job_abilities():copy())
@@ -259,7 +262,7 @@ function Singer:sing_song(song, target_index, should_nitro)
         actions:append(WaitAction.new(0, 0, 0, 2))
 
         local sing_action = SequenceAction.new(actions, action_identifier, true)
-        sing_action.max_duration = 8
+        sing_action.max_duration = 8 + extra_duration
         sing_action.priority = ActionPriority.highest
 
         self.action_queue:push_action(sing_action, true)
@@ -273,6 +276,8 @@ end
 
 function Singer:should_nitro()
     if state.AutoNitroMode.value == 'Auto' and self.brd_job:is_nitro_ready() then
+        -- NOTE: this check doesn't work anymore beucase nitro job abilities are being added
+        -- directly to the spell action
         if self.action_queue:has_action('nitro') then
             return false
         end

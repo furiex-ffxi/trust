@@ -24,7 +24,6 @@ function TradeRequestAction:destroy()
 end
 
 function TradeRequestAction:perform()
-    print("performing trade")
     local target = windower.ffxi.get_mob_by_index(self:get_target_index())
 
     local data = {}
@@ -34,8 +33,8 @@ function TradeRequestAction:perform()
 
     local p = packets.new('outgoing', 0x032, data)
     packets.inject(p)
+
     if self.wait_for_accept then
-        print("wait_for_accept")
         self.events.incoming_chunk = windower.register_event('incoming chunk', function(id, data)
             if id == 0x022 then
                 local response = packets.parse('incoming', data)
@@ -80,7 +79,6 @@ function TradeRequestAction:debug_string()
 end
 
 return TradeRequestAction
-
 
 
 
