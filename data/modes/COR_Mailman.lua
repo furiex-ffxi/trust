@@ -31,7 +31,6 @@ return {
         ["autogambitmode"]="Auto", 
         ["autostepmode"]="Off", 
         ["autounloadondeathmode"]="Auto", 
-        ["autohealmode"]="Emergency", 
         ["autofollowmode"]="Off",
         ["autodispelmode"]="Off"
     }, 
@@ -78,7 +77,8 @@ return {
         ["flankmode"]="Off", 
         ["actionbatchingmode"]="Off", 
         ["autonukemode"]="Off", 
-        ["autorollmode"]="Safe"
+        ["autorollmode"]="Safe",
+        ["autohealmode"]="Emergency", 
     }, 
     ["Pet"]={
         ["maintrustsettingsmode"]="Pet"

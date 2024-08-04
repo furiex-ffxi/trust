@@ -28,6 +28,7 @@ return {
         ["autobuffmode"]="Off", 
         ["autoenmityreductionmode"]="Off",
         ["skillchainassistantmode"]="Off",
+        ["autohealmode"]="Emergency", 
     },
     ["OdyC"]={
         ["autodispelmode"]="Auto", 
