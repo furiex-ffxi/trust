@@ -1,273 +1,75 @@
 -- Settings file for PUP
 return {
-    Version = 1,
+    Version = 2,
     Default = {
+        Debuffs = L{
+
+        },
+        SelfBuffs = L{
+
+        },
         GambitSettings = {
             Default = L{
-                Gambit.new("Self", L{NotCondition.new(L{HasPetCondition.new(L{})}), ModeCondition.new("AutoPetMode", "Auto")}, JobAbility.new("Activate", L{}, L{}), "Self"),
-                Gambit.new("Self", L{NotCondition.new(L{HasPetCondition.new(L{})}), ModeCondition.new("AutoPetMode", "Auto")}, JobAbility.new("Deus Ex Automata", L{}, L{}), "Self"),
-                Gambit.new("Self", L{HasPetCondition.new(L{}), PetHitPointsPercentCondition.new(20, "<="), ModeCondition.new("AutoRepairMode", "Auto")}, JobAbility.new("Repair", L{}, L{}), "Self"),
-                Gambit.new("Self", L{HasBuffCondition.new("Overload")}, JobAbility.new("Cooldown", L{}, L{}), "Self")
+                Gambit.new("Self", L{NotCondition.new(L{HasPetCondition.new(L{})}), ModeCondition.new("AutoPetMode", "Auto")}, JobAbility.new("Activate", L{}, L{}), "Self", L{}),
+                Gambit.new("Self", L{NotCondition.new(L{HasPetCondition.new(L{})}), ModeCondition.new("AutoPetMode", "Auto")}, JobAbility.new("Deus Ex Automata", L{}, L{}), "Self", L{}),
+                Gambit.new("Self", L{HasPetCondition.new(L{}), PetHitPointsPercentCondition.new(20, "<="), ModeCondition.new("AutoRepairMode", "Auto")}, JobAbility.new("Repair", L{}, L{}), "Self", L{}),
+                Gambit.new("Self", L{HasBuffCondition.new("Overload")}, JobAbility.new("Cooldown", L{}, L{}), "Self", L{})
             },
             Gambits = L{
 
             }
         },
-        AutomatonName = "Pamama",
-        DefaultManeuvers = {
-            Ranged = L{
-                {
-                    Name = "Wind Maneuver",
-                    Amount = 1
-                },
-                {
-                    Name = "Fire Maneuver",
-                    Amount = 2
-                },
-                {
-                    Name = "Light Maneuver",
-                    Amount = 0
-                },
-                {
-                    Name = "Thunder Maneuver",
-                    Amount = 0
-                }
-            },
-            HybridRanged = L{
-                {
-                    Name = "Wind Maneuver",
-                    Amount = 0
-                },
-                {
-                    Name = "Light Maneuver",
-                    Amount = 1
-                },
-                {
-                    Name = "Fire Maneuver",
-                    Amount = 2
-                },
-                {
-                    Name = "Thunder Maneuver",
-                    Amount = 0
-                }
-            },
-            Melee = L{
-                {
-                    Name = "Fire Maneuver",
-                    Amount = 1
-                },
-                {
-                    Name = "Light Maneuver",
-                    Amount = 1
-                },
-                {
-                    Name = "Thunder Maneuver",
-                    Amount = 0
-                },
-                {
-                    Name = "Wind Maneuveras",
-                    Amount = 0
-                },
-                {
-                    Name = "Water Maneuver",
-                    Amount = 1
-                },
-                {
-                    Name = "Earth Maneuver",
-                    Amount = 0
-                }
-            },
-            LightTank = L{
-                {
-                    Name = "Earth Maneuver",
-                    Amount = 0
-                },
-                {
-                    Name = "Fire Maneuver",
-                    Amount = 1
-                },
-                {
-                    Name = "Light Maneuver",
-                    Amount = 1
-                },
-                {
-                    Name = "Dark Maneuver",
-                    Amount = 0
-                },
-                {
-                    Name = "Water Maneuver",
-                    Amount = 1
-                },
-                {
-                    Name = "Thunder Maneuver",
-                    Amount = 0
-                }
-            },
-            Tank = L{
-                {
-                    Name = "Earth Maneuver",
-                    Amount = 0
-                },
-                {
-                    Name = "Fire Maneuver",
-                    Amount = 1
-                },
-                {
-                    Name = "Light Maneuver",
-                    Amount = 1
-                },
-                {
-                    Name = "Dark Maneuver",
-                    Amount = 0
-                },
-                {
-                    Name = "Water Maneuver",
-                    Amount = 1
-                },
-                {
-                    Name = "Thunder Maneuver",
-                    Amount = 0
-                }
-            },
-            Heal = L{
-                {
-                    Name = "Light Maneuver",
-                    Amount = 2
-                },
-                {
-                    Name = "Dark Maneuver",
-                    Amount = 1
-                },
-                {
-                    Name = "Water Maneuver",
-                    Amount = 0
-                },
-                {
-                    Name = "Earth Maneuver",
-                    Amount = 0
-                }
-            },
-            Magic = L{
-                {
-                    Name = "Light Maneuver",
-                    Amount = 0
-                },
-                {
-                    Name = "Ice Maneuver",
-                    Amount = 2
-                },
-                {
-                    Name = "Dark Maneuver",
-                    Amount = 1
-                },
-                {
-                    Name = "Earth Maneuver",
-                    Amount = 0
-                }
-            },
-            Nuke = L{
-                {
-                    Name = "Ice Maneuver",
-                    Amount = 3
-                },
-                {
-                    Name = "Dark Maneuver",
-                    Amount = 0
-                },
-                {
-                    Name = "Water Maneuver",
-                    Amount = 0
-                },
-                {
-                    Name = "Earth Maneuver",
-                    Amount = 0
-                }
-            }
-        },
         JobAbilities = L{
 
         },
-        Skillchains = {
-            spamws = L{
-                "Howling Fist"
+        AutoFood = "Grape Daifuku",
+        AutomatonSettings = {
+            AttachmentSettings = {
+                Overdrive = {
+                    HybridRanged = AttachmentSet.new("Sharpshot Frame", "Valoredge Head", L{"Auto-Repair Kit IV", "Optic Fiber", "Optic Fiber II", "Coiler II", "Inhibitor", "Inhibitor II", "Magniplug", "Magniplug II", "Attuner", "Speedloader II", "Turbo Charger II", "Truesights"})
+                },
+                Default = {
+                    Ranged = AttachmentSet.new("Sharpshot Frame", "Sharpshot Head", L{"Inhibitor", "Inhibitor II", "Magniplug", "Magniplug II", "Attuner", "Truesights", "Barrage Turbine", "Repeater", "Drum Magazine", "Scope IV", "Optic Fiber", "Optic Fiber II"}),
+                    Tank = AttachmentSet.new("Valoredge Frame", "Soulsoother Head", L{"Strobe", "Strobe II", "Heat Capacitor II", "Mana Jammer IV", "Mana Jammer III", "Regulator", "Armor Plate IV", "Barrier Module II", "Auto-Repair Kit IV", "Optic Fiber", "Optic Fiber II", "Flashbulb"}),
+                    Melee = AttachmentSet.new("Sharpshot Frame", "Valoredge Head", L{"Inhibitor", "Inhibitor II", "Attuner", "Magniplug", "Magniplug II", "Speedloader II", "Truesights", "Turbo Charger", "Turbo Charger II", "Optic Fiber", "Optic Fiber II", "Coiler II"}),
+                    LightTank = AttachmentSet.new("Valoredge Frame", "Soulsoother Head", L{"Strobe", "Strobe II", "Heat Capacitor II", "Mana Jammer IV", "Mana Jammer III", "Regulator", "Armor Plate IV", "Barrier Module II", "Auto-Repair Kit IV", "Optic Fiber", "Optic Fiber II", "Flashbulb"}),
+                    Heal = AttachmentSet.new("Stormwaker Frame", "Soulsoother Head", L{"Mana Booster", "Tactical Processor", "Mana Tank II", "Mana Tank IV", "Damage Gauge", "Damage Gauge II", "Optic Fiber", "Optic Fiber II", "Vivi-Valve II", "Resister", "Resister II", "Scanner"}),
+                    HybridRanged = AttachmentSet.new("Sharpshot Frame", "Sharpshot Head", L{"Inhibitor", "Inhibitor II", "Magniplug", "Magniplug II", "Attuner", "Truesights", "Barrage Turbine", "Repeater", "Drum Magazine", "Scope IV", "Optic Fiber", "Optic Fiber II"}),
+                    Magic = AttachmentSet.new("Stormwaker Frame", "Spiritreaver Head", L{"Loudspeaker IV", "Ice Maker", "Amplifier", "Amplifier II", "Arcanoclutch", "Optic Fiber", "Optic Fiber II", "Arcanic Cell", "Arcanic Cell II", "Mana Tank III", "Mana Tank IV", "Mana Conserver"}),
+                    Nuke = AttachmentSet.new("Stormwaker Frame", "Spiritreaver Head", L{"Loudspeaker IV", "Ice Maker", "Amplifier", "Amplifier II", "Arcanoclutch", "Optic Fiber", "Optic Fiber II", "Arcanic Cell", "Arcanic Cell II", "Mana Tank III", "Mana Tank IV", "Mana Conserver"})
+                },
+                Custom = {
+                    Default = AttachmentSet.new("Valoredge Frame", "Soulsoother Head", L{"Strobe", "Strobe II", "Magniplug", "Magniplug II", "Coiler II", "Armor Plate IV", "Turbo Charger", "Turbo Charger II", "Auto-Repair Kit IV", "Optic Fiber", "Optic Fiber II", "Flashbulb"})
+                }
             },
-            starterws = L{
-                "Stringing Pummel"
-            },
-            defaultws = L{
-                "Shijin Spiral"
-            },
-            tpws = L{
-                "Shijin Spiral"
-            },
-            cleavews = L{
-                "Spinning Attack"
-            },
-            amws = "Stringing Pummel",
-            preferws = L{
-                "Victory Smite",
-                "Shijin Spiral",
-                "Stringing Pummel"
+            ManeuverSettings = {
+                Overdrive = {
+                    Ranged = ManeuverSet.new(2, 0, 0, 1, 0, 0, 0, 0),
+                    Tank = ManeuverSet.new(1, 0, 1, 0, 0, 0, 1, 0),
+                    Melee = ManeuverSet.new(1, 0, 1, 0, 0, 0, 1, 0),
+                    LightTank = ManeuverSet.new(1, 0, 1, 0, 0, 0, 1, 0),
+                    Heal = ManeuverSet.new(0, 0, 0, 0, 0, 0, 2, 1),
+                    HybridRanged = ManeuverSet.new(1, 0, 0, 0, 0, 1, 1, 0),
+                    Magic = ManeuverSet.new(0, 0, 0, 0, 2, 0, 0, 1),
+                    Nuke = ManeuverSet.new(0, 0, 0, 0, 3, 0, 0, 0)
+                },
+                Default = {
+                    Ranged = ManeuverSet.new(2, 0, 0, 1, 0, 0, 0, 0),
+                    Tank = ManeuverSet.new(1, 0, 1, 0, 0, 0, 1, 0),
+                    Melee = ManeuverSet.new(1, 0, 1, 0, 0, 0, 1, 0),
+                    LightTank = ManeuverSet.new(1, 0, 1, 0, 0, 0, 1, 0),
+                    Heal = ManeuverSet.new(0, 0, 0, 0, 0, 0, 2, 1),
+                    HybridRanged = ManeuverSet.new(2, 0, 0, 0, 0, 0, 1, 0),
+                    Magic = ManeuverSet.new(0, 0, 0, 0, 2, 0, 0, 1),
+                    Nuke = ManeuverSet.new(0, 0, 0, 0, 3, 0, 0, 0)
+                },
+                Custom = {
+                    Default = ManeuverSet.new(1, 0, 1, 0, 0, 0, 1, 0)
+                }
             }
         },
-        Debuffs = L{
+        PartyBuffs = L{
 
-        },
-        OverdriveManeuvers = {
-            HybridRanged = L{
-                {
-                    Name = "Fire Maneuver",
-                    Amount = 1
-                },
-                {
-                    Name = "Light Maneuver",
-                    Amount = 1
-                },
-                {
-                    Name = "Thunder Maneuver",
-                    Amount = 1
-                },
-                {
-                    Name = "Wind Maneuver",
-                    Amount = 0
-                }
-            },
-            Melee = L{
-                {
-                    Name = "Fire Maneuver",
-                    Amount = 1
-                },
-                {
-                    Name = "Light Maneuver",
-                    Amount = 1
-                },
-                {
-                    Name = "Thunder Maneuver",
-                    Amount = 0
-                },
-                {
-                    Name = "Water Maneuver",
-                    Amount = 1
-                },
-                {
-                    Name = "Earth Maneuver",
-                    Amount = 0
-                }
-            },
-            LightTank = L{
-                {
-                    Name = "Fire Maneuver",
-                    Amount = 1
-                },
-                {
-                    Name = "Light Maneuver",
-                    Amount = 1
-                },
-                {
-                    Name = "Water Maneuver",
-                    Amount = 1
-                }
-            }
         },
         PullSettings = {
             Abilities = L{

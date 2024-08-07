@@ -1,5 +1,6 @@
 -- Settings file for COR
 return {
+    Version = 2,
     Default = {
         SelfBuffs = L{
 
@@ -19,23 +20,22 @@ return {
         PartyBuffs = L{
 
         },
-        Roll2 = Roll.new("Miser's Roll", false),
-        Shooter = {
-            Delay = 1.5
+        Roll2 = Roll.new("Samurai Roll", false),
+        PullSettings = {
+            Abilities = L{
+                RangedAttack.new(L{MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20)})
+            },
+            Distance = 20
         },
-        AutoFood = "Grape Daifuku",
-        Roll1 = Roll.new("Tactician's Roll", true),
         Debuffs = L{
 
         },
-        PullSettings = {
-            Abilities = L{
-                RangedAttack.new(L{MaxDistanceCondition.new(20)})
-            },
-            Distance = 20
+        Roll1 = Roll.new("Chaos Roll", true),
+        AutoFood = "Grape Daifuku",
+        Shooter = {
+            Delay = 1.5
         }
     },
-    Version = 2,
     Ep = {
         SelfBuffs = L{
 
@@ -56,19 +56,19 @@ return {
 
         },
         Roll2 = Roll.new("Samurai Roll", false),
-        Shooter = {
-            Delay = 1.5
+        PullSettings = {
+            Abilities = L{
+                RangedAttack.new(L{MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20)})
+            },
+            Distance = 20
         },
-        AutoFood = "Grape Daifuku",
-        Roll1 = Roll.new("Corsair's Roll", true),
         Debuffs = L{
 
         },
-        PullSettings = {
-            Abilities = L{
-                RangedAttack.new(L{MaxDistanceCondition.new(20)})
-            },
-            Distance = 20
+        Roll1 = Roll.new("Corsair's Roll", true),
+        AutoFood = "Grape Daifuku",
+        Shooter = {
+            Delay = 1.5
         }
     }
 }

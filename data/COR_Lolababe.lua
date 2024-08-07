@@ -20,7 +20,7 @@ return {
         PartyBuffs = L{
 
         },
-        Roll2 = Roll.new("Blitzer's Roll", false),
+        Roll2 = Roll.new("Hunter's Roll", false),
         Shooter = {
             Delay = 1.5
         },
@@ -31,7 +31,7 @@ return {
         },
         PullSettings = {
             Abilities = L{
-                RangedAttack.new(L{MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20)})
+                RangedAttack.new(L{MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20)})
             },
             Distance = 20
         }

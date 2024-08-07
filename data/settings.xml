@@ -48,14 +48,50 @@
             <x>3000</x>
             <y>3000</y>
         </party_widget>
+        <pet_widget>
+            <visible>true</visible>
+            <x>4</x>
+            <y>258</y>
+        </pet_widget>
         <remote_commands>
-            <whitelist>Furyex,Cyrite,Lolababe,Wapiti,Mikazaru,Lilsouja,Cleobabe,Mailman</whitelist>
+            <whitelist>Furyex,Mailman,Lolababe,Cyrite,Mikazaru,Lilsouja,Cleobabe,Wapiti</whitelist>
         </remote_commands>
         <settings_widget>
             <visible>true</visible>
             <x>8</x>
             <y>140</y>
         </settings_widget>
+        <shortcuts>
+            <menus>
+                <gambits>
+                    <enabled>false</enabled>
+                    <flags>1</flags>
+                    <key>G</key>
+                </gambits>
+                <modes>
+                    <enabled>false</enabled>
+                    <flags>1</flags>
+                    <key>M</key>
+                </modes>
+                <skillchains>
+                    <enabled>false</enabled>
+                    <flags>1</flags>
+                    <key>S</key>
+                </skillchains>
+            </menus>
+            <widgets>
+                <party>
+                    <enabled>false</enabled>
+                    <flags>1</flags>
+                    <key>P</key>
+                </party>
+                <trust>
+                    <enabled>false</enabled>
+                    <flags>1</flags>
+                    <key>T</key>
+                </trust>
+            </widgets>
+        </shortcuts>
         <target_widget>
             <detailed>true</detailed>
             <visible>true</visible>
@@ -78,17 +114,17 @@
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>10.1.2</version>
+        <version>10.2.2</version>
     </cleobabe>
     <furyex>
         <battle>
-            <targets>Warder of Prudence,Locus Camelopard,Warder of Love,Locus Dire Bat,Camahueto,Locus Armet Beetle,Warder of Faith,Locus Ghost Crab,Warder of Justice,Locus Dragonfly,Warder of Hope,Ayapec,Locus Colibri</targets>
+            <targets>Eschan Weapon,Locus Camelopard,Warder of Love,Locus Dire Bat,Locus Colibri,Locus Armet Beetle,Jester Malatrix,Warder of Faith,Locus Ghost Crab,Warder of Justice,Locus Dragonfly,Warder of Prudence,Warder of Hope</targets>
             <trusts>Koru-Moru,Sylvie (UC)</trusts>
         </battle>
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>10.1.2</version>
+        <version>10.2.2</version>
     </furyex>
     <lolababe>
         <battle>
@@ -98,7 +134,7 @@
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>10.1.2</version>
+        <version>10.2.2</version>
     </lolababe>
     <mailman>
         <battle>
@@ -108,7 +144,7 @@
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>10.1.2</version>
+        <version>10.2.2</version>
     </mailman>
     <suckme>
         <battle>

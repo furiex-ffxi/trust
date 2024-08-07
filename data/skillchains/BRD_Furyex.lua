@@ -3,7 +3,7 @@ return {
     Version = 1,
     Default = {
         Skills = L{
-            CombatSkillSettings.new("Dagger", L{}, "Evisceration"),
+            CombatSkillSettings.new("Dagger", L{}, "Wasp Sting"),
             CombatSkillSettings.new("Sword", L{}, "Savage Blade"),
             CombatSkillSettings.new("Club", L{}, ""),
             CombatSkillSettings.new("Staff", L{}, "")

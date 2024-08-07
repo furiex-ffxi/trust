@@ -28,7 +28,7 @@ return {
         ["weaponskillsettingsmode"]="Default", 
         ["skillchaindelaymode"]="Off", 
         ["actionbatchingmode"]="Off", 
-        ["autopullmode"]="All", 
+        ["autopullmode"]="Off", 
         ["autoaftermathmode"]="Off", 
         ["autodispelmode"]="Auto", 
         ["flankmode"]="Off", 
