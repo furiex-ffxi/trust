@@ -57,7 +57,7 @@ return {
                 Spell.new("Aspir II", L{}, L{}, nil, L{}),
                 Spell.new("Absorb-VIT", L{}, L{}, nil, L{}),
                 Spell.new("Absorb-DEX", L{}, L{}, nil, L{}),
-                Spell.new("Absorb-ACC", L{}, L{}, nil, L{})
+                Spell.new("Absorb-STR", L{}, L{}, nil, L{})
             },
             Distance = 20
         }

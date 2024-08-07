@@ -4,7 +4,7 @@ return {
         SelfBuffs = L{
 
         },
-        SongDuration = 300,
+        SongDuration = 315,
         PartyBuffs = L{
             Spell.new("Sage Etude", L{"Pianissimo"}, L{"BLM"}, nil, L{}),
             Spell.new("Dragonfoe Mambo", L{"Pianissimo"}, L{"NIN"}, nil, L{}),
@@ -49,7 +49,7 @@ return {
         SelfBuffs = L{
 
         },
-        SongDuration = 300,
+        SongDuration = 315,
         PartyBuffs = L{
             Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH", "SMN", "PLD"}, nil, L{}),
             Spell.new("Sage Etude", L{"Pianissimo"}, L{"BLM"}, nil, L{}),
@@ -94,7 +94,7 @@ return {
         SelfBuffs = L{
 
         },
-        SongDuration = 300,
+        SongDuration = 315,
         PartyBuffs = L{
             Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH", "SMN", "PLD", "RUN"}, nil, L{}),
             Spell.new("Knight's Minne V", L{"Pianissimo"}, L{"RUN"}, nil, L{})
@@ -137,7 +137,7 @@ return {
         SelfBuffs = L{
 
         },
-        SongDuration = 300,
+        SongDuration = 315,
         PartyBuffs = L{
             Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH", "SMN", "PLD"}, nil, L{}),
             Spell.new("Sage Etude", L{"Pianissimo"}, L{"BLM"}, nil, L{})
@@ -179,7 +179,7 @@ return {
         SelfBuffs = L{
 
         },
-        SongDuration = 300,
+        SongDuration = 315,
         PartyBuffs = L{
             Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH", "SMN", "PLD"}, nil, L{}),
             Spell.new("Sage Etude", L{"Pianissimo"}, L{"BLM"}, nil, L{}),
@@ -223,7 +223,7 @@ return {
         SelfBuffs = L{
 
         },
-        SongDuration = 300,
+        SongDuration = 315,
         PartyBuffs = L{
             Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH", "SMN", "PLD", "RUN"}, nil, L{}),
             Spell.new("Lightning Carol II", L{"Pianissimo"}, L{"RUN"}, nil, L{}),
@@ -267,7 +267,7 @@ return {
         SelfBuffs = L{
 
         },
-        SongDuration = 300,
+        SongDuration = 315,
         PartyBuffs = L{
             Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH", "SMN", "PLD"}, nil, L{}),
             Spell.new("Sage Etude", L{"Pianissimo"}, L{"BLM"}, nil, L{}),
@@ -312,7 +312,7 @@ return {
         SelfBuffs = L{
 
         },
-        SongDuration = 300,
+        SongDuration = 315,
         PartyBuffs = L{
             Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH", "SMN", "PLD", "RUN"}, nil, L{}),
             Spell.new("Foe Sirvente", L{"Pianissimo"}, L{"RUN"}, nil, L{})
@@ -355,7 +355,7 @@ return {
         SelfBuffs = L{
 
         },
-        SongDuration = 300,
+        SongDuration = 315,
         PartyBuffs = L{
             Spell.new("Mage's Ballad II", L{"Pianissimo"}, L{"WHM"}, nil, L{}),
             Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"PLD", "WHM", "GEO"}, nil, L{})
@@ -398,7 +398,7 @@ return {
         SelfBuffs = L{
 
         },
-        SongDuration = 300,
+        SongDuration = 315,
         PartyBuffs = L{
             Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH", "SMN", "PLD"}, nil, L{}),
             Spell.new("Sage Etude", L{"Pianissimo"}, L{"BLM"}, nil, L{}),
@@ -442,7 +442,7 @@ return {
         SelfBuffs = L{
 
         },
-        SongDuration = 300,
+        SongDuration = 315,
         PartyBuffs = L{
             Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH", "SMN", "PLD"}, nil, L{}),
             Spell.new("Sage Etude", L{"Pianissimo"}, L{"BLM"}, nil, L{}),
@@ -486,7 +486,7 @@ return {
         SelfBuffs = L{
 
         },
-        SongDuration = 300,
+        SongDuration = 315,
         PartyBuffs = L{
             Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH", "SMN", "PLD"}, nil, L{}),
             Spell.new("Sage Etude", L{"Pianissimo"}, L{"BLM"}, nil, L{}),
@@ -532,7 +532,7 @@ return {
         SelfBuffs = L{
 
         },
-        SongDuration = 300,
+        SongDuration = 315,
         PartyBuffs = L{
             Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH", "SMN", "PLD", "RUN", "RDM"}, nil, L{})
         },
@@ -574,7 +574,7 @@ return {
         SelfBuffs = L{
 
         },
-        SongDuration = 300,
+        SongDuration = 315,
         PartyBuffs = L{
             Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH", "SMN", "PLD"}, nil, L{}),
             Spell.new("Sage Etude", L{"Pianissimo"}, L{"BLM"}, nil, L{}),
@@ -618,7 +618,7 @@ return {
         SelfBuffs = L{
 
         },
-        SongDuration = 300,
+        SongDuration = 315,
         PartyBuffs = L{
             Spell.new("Mage's Ballad II", L{"Pianissimo"}, L{"WHM"}, nil, L{}),
             Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"PLD", "WHM", "GEO"}, nil, L{})
@@ -662,7 +662,7 @@ return {
         SelfBuffs = L{
 
         },
-        SongDuration = 300,
+        SongDuration = 315,
         PartyBuffs = L{
             Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "SCH", "SMN", "PLD", "RUN"}, nil, L{}),
             Spell.new("Knight's Minne V", L{"Pianissimo"}, L{"PLD", "RUN", "NIN"}, nil, L{})
