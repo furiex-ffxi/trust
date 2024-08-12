@@ -54,7 +54,7 @@
             <y>258</y>
         </pet_widget>
         <remote_commands>
-            <whitelist>Furyex,Mailman,Lolababe,Cyrite,Mikazaru,Lilsouja,Cleobabe,Wapiti</whitelist>
+            <whitelist>Furyex,Cyrite,Lolababe,Wapiti,Mikazaru,Lilsouja,Cleobabe,Mailman</whitelist>
         </remote_commands>
         <settings_widget>
             <visible>true</visible>
@@ -118,7 +118,7 @@
     </cleobabe>
     <furyex>
         <battle>
-            <targets>Eschan Weapon,Locus Camelopard,Warder of Love,Locus Dire Bat,Locus Colibri,Locus Armet Beetle,Jester Malatrix,Warder of Faith,Locus Ghost Crab,Warder of Justice,Locus Dragonfly,Warder of Prudence,Warder of Hope</targets>
+            <targets>Eschan Weapon,Locus Camelopard,Warder of Love,Locus Dire Bat,Locus Colibri,Satellite Great Axes,Locus Armet Beetle,Jester Malatrix,Warder of Faith,Locus Ghost Crab,Warder of Justice,Locus Dragonfly,Warder of Prudence,Eschan Euvhi,Warder of Hope</targets>
             <trusts>Koru-Moru,Sylvie (UC)</trusts>
         </battle>
         <flags>

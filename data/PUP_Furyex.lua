@@ -2,10 +2,10 @@
 return {
     Version = 2,
     Default = {
-        Debuffs = L{
+        SelfBuffs = L{
 
         },
-        SelfBuffs = L{
+        Debuffs = L{
 
         },
         GambitSettings = {

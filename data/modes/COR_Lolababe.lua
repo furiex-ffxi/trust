@@ -1,5 +1,13 @@
 -- Modes file for COR
 return {
+    ["Ep"]={
+        ["maintrustsettingsmode"]="Ep", 
+        ["autogambitmode"]="Auto", 
+        ["autostepmode"]="Off", 
+        ["autounloadondeathmode"]="Auto", 
+        ["autofollowmode"]="Off",
+        ["autodispelmode"]="Off"
+    }, 
     ["Default"]={
         ["autobuffmode"]="Off", 
         ["autofacemobmode"]="Auto", 
@@ -18,7 +26,7 @@ return {
         ["autofoodmode"]="Off", 
         ["autoengagemode"]="Always", 
         ["autotrustsmode"]="Off", 
-        ["autoenablemode"]="Auto", 
+        ["autoenablemode"]="Off", 
         ["skillchainpropertymode"]="Off", 
         ["ipcmode"]="All", 
         ["partychatmode"]="Private", 

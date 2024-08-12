@@ -10,6 +10,9 @@ return {
             CombatSkillSettings.new("Dagger", L{}, ""),
             CombatSkillSettings.new("Polearm", L{}, "")
         },
+        Blacklist = L{
+
+        },
         Skillchain = L{
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
@@ -17,9 +20,6 @@ return {
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto()
-        },
-        Blacklist = L{
-
         }
     }
 }
