@@ -33,14 +33,15 @@ return {
         },
         PullSettings = {
             Abilities = L{
-                JobAbility.new("Animated Flourish", L{}, L{})
+                JobAbility.new("Animated Flourish", L{}, L{}),
+                RangedAttack.new(),
             },
             Distance = 20
         },
         GambitSettings = {
             Default = L{
-                Gambit.new("Enemy", L{HasBuffCondition.new("Presto")}, JobAbility.new("Box Step", L{}, L{}), "Self", L{}),
-                Gambit.new("Self", L{HasDazeCondition.new("Sluggish Daze", 5, "<")}, JobAbility.new("Presto", L{}, L{}), "Enemy", L{}),
+                Gambit.new("Enemy", L{HasBuffCondition.new("Presto"), InBattleCondition.new()}, JobAbility.new("Box Step", L{}, L{}), "Self", L{}),
+                Gambit.new("Self", L{HasDazeCondition.new("Sluggish Daze", 5, "<"), InBattleCondition.new()}, JobAbility.new("Presto", L{}, L{}), "Enemy", L{}),
             },
             Gambits = L{
 

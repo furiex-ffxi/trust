@@ -1,40 +1,37 @@
 _addon.author = 'Cyrite'
 _addon.commands = {'Trust','trust'}
 _addon.name = 'Trust'
-_addon.version = '10.2.2'
+_addon.version = '10.5.9'
 _addon.release_notes = [[
-This update introduces significant improvements to Bard and Dancer,
-adds elemental resistances to the target widget, new conditions,
-menu keyboard shortcuts and more!
+This update introduces new menus for Bard, autocomplete for Trust
+commands, new commands and important bug fixes for users running the
+Japanese client.
+
+	• Pulling
+	    • By popular demand, pulling capabilities have been added
+	      to all jobs.
+	    • When neither the main nor sub job can pull, default pull actions
+	      like Approach and Ranged Attack will be used.
+	    • Pull actions can be customized under Settings > Pulling > Actions.
+
+	• Autocomplete
+	    • Added autocomplete for // trust commands.
 
 	• Bard
-	    • Singing speed has been significantly improved (37s → 23s
-	      for default nitro + pianissimo songs).
-	    • Time spent singing on Alter Egos has been reduced.
+	    • Added menu to customize Pianissimo songs under
+	      Settings > Songs > Edit > Pianissimo.
+	    • Added menu to select ally jobs.
 
-	• Dancer
-	    • Added step tracking for Quick Step, Box Step and Stutter Step.
-	    • Added ability to apply a specific level daze to an enemy
-	      using Gambits (see "Has daze" condition).
-
-	• Target Widget
-	    • Elemental resistances are now shown for select enemies.
-	    • Visibility can be configured under Config > Widgets > Target
-	      by toggling "Show Detailed View" and selecting "Save".
-
-	• Menu Shortcuts
-	    • Keyboard shortcuts have been added to directly navigate to
-	      the Modes (Shift + M), Skillchains (Shift + S) and
-	      Gambits (Shift + G) menus.
-	    • To enable keyboard shortcuts, select "Shortcuts" on the
-	      respective menu, set "Keyboard Shortcut" to "On" and
-	      select "Save".
+	• Commands
+	    • Added `// trust mb` and `// trust nuke` commands to cycle
+	      between magic burst and nuke modes
+	    • Added `// trust sch storm` commands to set storm element
 
 	• Bug Fixes
-	    • Fixed issue where song editor would incorrectly override
-	      the Default set.
-	    • Fixed issue where `CombatMode` `Mirror` would not mirror
-	      movements until the target was claimed.
+	    • Fixed issue where Summoner would not dismiss Earth Spirit.
+	    • Fixed issue with JP clients when running GearSwap in Japanese.
+	    • Fixed issue where menu would not update on Scholar.
+	    • Fixed issue where Hasso would be used with 1-handed weapons.
 
 
 	• Press escape or enter to exit.
@@ -47,6 +44,8 @@ require('Trust-Include')
 
 addon_settings = TrustAddonSettings.new()
 addon_settings:loadSettings()
+
+localization_util.set_should_use_client_locale(addon_settings:getSettings().locales.actions.use_client_locale or false)
 
 addon_enabled = ValueRelay.new(false)
 addon_enabled:onValueChanged():addAction(function(_, isEnabled)
@@ -74,7 +73,7 @@ state.AutoUnloadOnDeathMode = M{['description'] = 'Auto Unload On Death Mode', '
 state.AutoUnloadOnDeathMode:set_description('Off', "Okay, I'll pause Trust after getting knocked out but won't unload it. DO NOT USE WHILE AFK!")
 state.AutoUnloadOnDeathMode:set_description('Auto', "Okay, I'll automatically unload Trust after getting knocked out.")
 
-state.AutoBuffMode = M{['description'] = 'Auto Buff Mode', 'Off', 'Auto'}
+state.AutoBuffMode = M{['description'] = 'Buff Self and Party', 'Off', 'Auto'}
 state.AutoBuffMode:set_description('Auto', "Okay, I'll automatically buff myself and the party.")
 
 state.AutoEnmityReductionMode = M{['description'] = 'Auto Enmity Reduction Mode', 'Off', 'Auto'}
@@ -125,7 +124,7 @@ function load_user_files(main_job_id, sub_job_id)
 	main_trust_settings:onSettingsChanged():addAction(function(newSettings)
 		local oldValue = state.MainTrustSettingsMode.value
 		player.trust.main_job_settings = newSettings
-		local mode_names = list.subtract(L(T(newSettings):keyset()), L{'Version'})
+		local mode_names = list.subtract(L(T(newSettings):keyset()), L{'Migrations','Version'})
 		if not mode_names:equals(state.MainTrustSettingsMode:options()) then
 			state.MainTrustSettingsMode:options(T(mode_names):unpack())
 		end
@@ -142,7 +141,7 @@ function load_user_files(main_job_id, sub_job_id)
 	sub_trust_settings:onSettingsChanged():addAction(function(newSettings)
 		local oldValue = state.SubTrustSettingsMode.value
 		player.trust.sub_job_settings = newSettings
-		local mode_names = list.subtract(L(T(newSettings):keyset()), L{'Version'})
+		local mode_names = list.subtract(L(T(newSettings):keyset()), L{'Migrations','Version'})
 		if not mode_names:equals(state.SubTrustSettingsMode:options()) then
 			state.SubTrustSettingsMode:options(T(mode_names):unpack())
 		end
@@ -159,7 +158,7 @@ function load_user_files(main_job_id, sub_job_id)
 	weapon_skill_settings:onSettingsChanged():addAction(function(newSettings)
 		local oldValue = state.WeaponSkillSettingsMode.value
 		player.trust.weapon_skill_settings = newSettings
-		local mode_names = list.subtract(L(T(newSettings):keyset()), L{'Version'})
+		local mode_names = list.subtract(L(T(newSettings):keyset()), L{'Migrations','Version'})
 		state.WeaponSkillSettingsMode:options(T(mode_names):unpack())
 		if mode_names:contains(oldValue) then
 			state.WeaponSkillSettingsMode:set(oldValue)
@@ -172,6 +171,11 @@ function load_user_files(main_job_id, sub_job_id)
 	player.trust.main_job_settings = main_trust_settings:loadSettings()
 	player.trust.sub_job_settings = sub_trust_settings:loadSettings()
 	player.trust.weapon_skill_settings = weapon_skill_settings:loadSettings(true)
+
+	local MigrationManager = require('settings/migrations/migration_manager')
+
+	migration_manager = MigrationManager.new(main_trust_settings, addon_settings, weapon_skill_settings)
+	migration_manager:perform()
 
 	state.MainTrustSettingsMode:on_state_change():addAction(function(_, new_value)
 		player.trust.main_job:set_trust_settings(player.trust.main_job_settings[new_value])
@@ -205,6 +209,14 @@ function load_user_files(main_job_id, sub_job_id)
 	player.trust.main_job:add_role(Aftermather.new(action_queue, player.trust.main_job:role_with_type("skillchainer")))
 	player.trust.main_job:add_role(Assistant.new(action_queue))
 
+	if player.trust.main_job:role_with_type("puller") == nil and player.trust.sub_job:role_with_type("puller") == nil then
+		local pull_abilities = player.trust.main_job_settings.Default.PullSettings.Abilities
+		if pull_abilities == nil or pull_abilities:length() == 0 then
+			pull_abilities = L{ Approach.new() }
+		end
+		player.trust.main_job:add_role(Puller.new(action_queue, addon_settings:getSettings().targets, pull_abilities))
+	end
+
 	if player.sub_job_name_short ~= 'NON' then
 		player.trust.sub_job:add_role(Gambiter.new(action_queue, player.trust.sub_job_settings.Default.GambitSettings, skillchainer))
 	end
@@ -214,18 +226,17 @@ function load_user_files(main_job_id, sub_job_id)
 	default_trust_name = string.gsub(string.lower(player.main_job_name), "%s+", "")
 
 	load_trust_modes(player.main_job_name_short)
-	load_trust_reactions(player.main_job_name_short)
 	load_ui()
-	load_trust_commands(player.main_job_name_short, player.trust.main_job, action_queue, player.party)
+	load_trust_commands(player.main_job_name_short, player.trust.main_job, player.trust.sub_job, action_queue, player.party, main_trust_settings)
 
 	main_trust_settings:copySettings()
 	sub_trust_settings:copySettings()
 	weapon_skill_settings:copySettings()
 
 	if state.AutoEnableMode.value == 'Auto' then
-		handle_start()
+		addon_enabled:setValue(true)
 	else
-		handle_stop()
+		addon_enabled:setValue(false)
 	end
 
 	check_version()
@@ -272,25 +283,24 @@ function load_trust_modes(job_name_short)
 	player.trust.trust_name = job_name_short
 end
 
-function load_trust_reactions(job_name_short)
-	--trust_reactions = TrustReactions.new(job_name_short)
-	--trust_reactions:loadReactions()
-end
-
-function load_trust_commands(job_name_short, trust, action_queue, party)
+function load_trust_commands(job_name_short, main_job_trust, sub_job_trust, action_queue, party, main_trust_settings)
 	local common_commands = L{
-		AssistCommands.new(trust, action_queue),
-		AttackCommands.new(trust, action_queue),
-		FollowCommands.new(trust, action_queue),
-		LoggingCommands.new(trust, action_queue),
-		PathCommands.new(trust, action_queue),
-		PullCommands.new(trust, action_queue),
-		ScenarioCommands.new(trust, action_queue, party),
-		SendAllCommands.new(trust, action_queue),
-		SendCommands.new(trust, action_queue),
-		SkillchainCommands.new(trust, weapon_skill_settings, action_queue),
-		WidgetCommands.new(trust, action_queue, addon_settings, hud.widgetManager),
-	}:extend(get_job_commands(job_name_short, trust, action_queue))
+		AssistCommands.new(main_job_trust, action_queue),
+		AttackCommands.new(main_job_trust, action_queue),
+		FollowCommands.new(main_job_trust, action_queue),
+		GeneralCommands.new(main_job_trust, action_queue, addon_enabled, trust_mode_settings, main_trust_settings, sub_trust_settings),
+		LoggingCommands.new(main_job_trust, action_queue),
+		MagicBurstCommands.new(main_job_trust, main_trust_settings, action_queue),
+		MenuCommands.new(main_job_trust, action_queue, hud),
+		NukeCommands.new(main_job_trust, main_trust_settings, action_queue),
+		PathCommands.new(main_job_trust, action_queue),
+		PullCommands.new(main_job_trust, action_queue, main_job_trust:role_with_type("puller") or sub_job_trust:role_with_type("puller")),
+		ScenarioCommands.new(main_job_trust, action_queue, party, addon_settings),
+		SendAllCommands.new(main_job_trust, action_queue),
+		SendCommands.new(main_job_trust, action_queue),
+		SkillchainCommands.new(main_job_trust, weapon_skill_settings, action_queue),
+		WidgetCommands.new(main_job_trust, action_queue, addon_settings, hud.widgetManager),
+	}:extend(get_job_commands(job_name_short, main_job_trust, action_queue, main_trust_settings))
 
 	local add_command = function(command)
 		shortcuts[command:get_command_name()] = command
@@ -299,18 +309,78 @@ function load_trust_commands(job_name_short, trust, action_queue, party)
 	for command in common_commands:it() do
 		add_command(command)
 	end
+
+	local FFXIPickerView = require('ui/themes/ffxi/FFXIPickerView')
+
+	command_widget = FFXIPickerView.withItems(L{}, L{}, false, nil, nil, nil, true)
+	command_widget:setPosition(16, windower.get_windower_settings().ui_y_res - 233)
+	command_widget:setShouldRequestFocus(false)
+	command_widget:setUserInteractionEnabled(false)
+	command_widget:setVisible(false)
+
+	local all_commands = L{}
+
+	for command in common_commands:it() do
+		for text in command:get_all_commands():it() do
+			all_commands:append(text)
+		end
+	end
+
+	for state_name, _ in pairs(state) do
+		local state_var = get_state(state_name)
+		if state_var then
+			all_commands:append('// trust cycle '..state_name)
+			for option in state_var:options():it() do
+				all_commands:append('// trust set '..state_name..' '..option)
+			end
+		end
+	end
+
+	all_commands:sort()
+
+	local ChatAutoCompleter = require('cylibs/ui/input/autocomplete/chat_auto_completer')
+
+	chat_auto_completer = ChatAutoCompleter.new(all_commands)
+	chat_auto_completer:onAutoCompleteListChange():addAction(function(_, terms)
+		command_widget:getDataSource():removeAllItems()
+		if not addon_settings:getSettings().autocomplete.visible then
+			return
+		end
+		if terms:length() > 0 then
+			command_widget:setVisible(true)
+			command_widget:setItems(terms:map(function(term) return term:gsub("^// trust ", "") end), L{})
+			local description
+			if terms:length() == 1 then
+				hud.infoBar:setTitle("Commands")
+				local args = string.split(terms[1], " ")
+				if args[3] and args[4] and shortcuts[args[3]] and type(shortcuts[args[3]]) ~= 'function' then
+					description = shortcuts[args[3]]:get_description(args[4]).."."
+				end
+			end
+			hud.infoBar:setDescription(description or '')
+			hud.infoBar:setVisible(description ~= nil)
+			hud.infoBar:layoutIfNeeded()
+		else
+			if command_widget:isVisible() then
+				command_widget:setVisible(false)
+				command_widget:setContentOffset(0, 0)
+				hud.infoBar:setVisible(false)
+				hud.infoBar:layoutIfNeeded()
+			end
+		end
+	end)
 end
 
-function get_job_commands(job_name_short, trust, action_queue)
+function get_job_commands(job_name_short, trust, action_queue, main_trust_settings, sub_trust_settings)
 	local root_paths = L{windower.windower_path..'addons/libs/', windower.addon_path}
 	for root_path in root_paths:it() do
 		local file_prefix = root_path..'cylibs/trust/commands/'..job_name_short
 		if windower.file_exists(file_prefix..'_'..windower.ffxi.get_player().name..'.lua') then
 			local TrustCommands = require('cylibs/trust/commands/'..job_name_short..'_'..windower.ffxi.get_player().name)
-			return L{ TrustCommands.new(trust, action_queue) }
+			return L{ TrustCommands.new(trust, action_queue, main_trust_settings) }
 		elseif windower.file_exists(file_prefix..'.lua') then
 			local TrustCommands = require('cylibs/trust/commands/'..job_name_short)
-			return L{ TrustCommands.new(trust, action_queue) }
+			return L{ TrustCommands.new(trust, action_queue, main_trust_settings) }
 		end
 	end
 	return L{}
@@ -416,7 +486,7 @@ function check_version()
 
 		local Frame = require('cylibs/ui/views/frame')
 
-		local updateView = TrustMessageView.new("Version ".._addon.version, "What's new", _addon.release_notes, "Click here for full release notes.", Frame.new(0, 0, 500, 625))
+		local updateView = TrustMessageView.new("Version ".._addon.version, "What's new", _addon.release_notes, "Click here for full release notes.", Frame.new(0, 0, 500, 675))
 
 		updateView:getDelegate():didSelectItemAtIndexPath():addAction(function(indexPath)
 			updateView:getDelegate():deselectItemAtIndexPath(indexPath)
@@ -446,6 +516,10 @@ end
 
 -- Handlers
 
+function handle_stop()
+	addon_enabled:setValue(false)
+end
+
 function handle_tic(old_time, new_time)
 	if not trust or not windower.ffxi.get_player() or not addon_enabled:getValue() or not player or not player.trust then return end
 
@@ -465,23 +539,6 @@ function handle_status_change(new_status_id, old_status_id)
 	end
 end
 
-function handle_start()
-	addon_enabled:setValue(true)
-end
-
-function handle_stop()
-	addon_enabled:setValue(false)
-end
-
-function handle_toggle_addon()
-	addon_enabled:setValue(not addon_enabled:getValue())
-end
-
-function handle_reload()
-	main_trust_settings:loadSettings()
-	sub_trust_settings:loadSettings()
-end
-
 function handle_unload()
 	windower.chat.input('// lua unload trust')
 end
@@ -499,14 +556,6 @@ function handle_zone_change(new_zone_id, old_zone_id)
 	if state.AutoDisableMode.value ~= 'Off' then
 		handle_stop()
 	end
-end
-
-function handle_load_set(mode_set_name)
-	state.TrustMode:set(mode_set_name)
-end
-
-function handle_save_trust(mode_name)
-	trust_mode_settings:saveSettings(mode_name or state.TrustMode.value)
 end
 
 function handle_create_trust(job_name_short)
@@ -555,10 +604,6 @@ function handle_command(args)
 	action_queue:push_action(action, false)
 end
 
-function handle_toggle_menu()
-	hud:toggleMenu()
-end
-
 function handle_debug()
 	print(num_created)
 	print('images', num_images_created)
@@ -592,20 +637,10 @@ end
 
 local commands = T{}
 
-commands['start'] = handle_start
-commands['stop'] = handle_stop
-commands['toggle'] = handle_toggle_addon
-commands['reload'] = handle_reload
-commands['load'] = handle_load_set
-commands['save'] = handle_save_trust
-commands['create'] = handle_create_trust
-commands['status'] = handle_trust_status
 commands['command'] = handle_command
 commands['debug'] = handle_debug
 commands['tests'] = handle_tests
 commands['help'] = handle_help
-commands['migrate'] = handle_migrate_settings
-commands['menu'] = handle_toggle_menu
 commands['commands'] = handle_command_list
 
 local function addon_command(cmd, ...)
@@ -625,6 +660,8 @@ local function addon_command(cmd, ...)
 		player.trust.sub_job_commands:handle_command(unpack({...}))
 	elseif shortcuts[cmd] then
 		shortcuts[cmd]:handle_command(...)
+	elseif shortcuts['default']:is_valid_command(cmd, ...) then
+		shortcuts['default']:handle_command(cmd, ...)
 	else
 		if not L{'cycle', 'set', 'help'}:contains(cmd) then
 			error("Unknown command %s":format(cmd))

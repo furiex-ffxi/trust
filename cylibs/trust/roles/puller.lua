@@ -2,24 +2,28 @@ local Approach = require('cylibs/battle/approach')
 local ClaimedCondition = require('cylibs/conditions/claimed')
 local DisposeBag = require('cylibs/events/dispose_bag')
 local ffxi_util = require('cylibs/util/ffxi_util')
+local RunToLocationAction = require('cylibs/actions/runtolocation')
 local SwitchTargetAction = require('cylibs/actions/switch_target')
 
 local Puller = setmetatable({}, {__index = Role })
 Puller.__index = Puller
 Puller.__class = "Puller"
 
-state.AutoPullMode = M{['description'] = 'Auto Pull Mode', 'Off', 'Auto','Party','All'}
+state.AutoPullMode = M{['description'] = 'Pull Monsters to Fight', 'Off', 'Auto','Party','All'}
 state.AutoPullMode:set_description('Off', "Okay, I won't pull monsters for the party.")
 state.AutoPullMode:set_description('Auto', "Okay, I'll automatically pull monsters for the party.")
---state.AutoPullMode:set_description('Target', "Okay, I'll pull whatever monster I'm currently targeting.")
 state.AutoPullMode:set_description('Party', "Okay, I'll pull monsters the party is fighting.")
 state.AutoPullMode:set_description('All', "Okay, I'll pull any monster that's nearby.")
 
-state.ApproachPullMode = M{['description'] = 'Approach Pull Mode', 'Off', 'Auto'}
+state.AutoCampMode = M{['description'] = 'Return to Camp after Battle', 'Off', 'Auto'}
+state.AutoCampMode:set_description('Off', "Okay, I won't return to camp after battle.")
+state.AutoCampMode:set_description('Auto', "Okay, I'll return to camp after battle (set camp with // trust pull camp).")
+
+state.ApproachPullMode = M{['description'] = 'Force Pull with Approach', 'Off', 'Auto'}
 state.ApproachPullMode:set_description('Auto', "Okay, I'll pull by engaging and approaching instead.")
 
 
-function Puller.new(action_queue, target_names, pull_abilities)
+function Puller.new(action_queue, target_names, pull_abilities, truster)
     local self = setmetatable(Role.new(action_queue), Puller)
 
     self.action_queue = action_queue
@@ -28,6 +32,7 @@ function Puller.new(action_queue, target_names, pull_abilities)
     self.pull_settings = {
         Abilities = pull_abilities
     }
+    self.truster = truster
     self.last_pull_time = os.time() - 6
     self.dispose_bag = DisposeBag.new()
 
@@ -65,8 +70,26 @@ function Puller:on_add()
     self.dispose_bag:add(WindowerEvents.MobKO:addAction(function(mob_id, mob_name)
         if self:get_pull_target() and self:get_pull_target():get_id() == mob_id then
             self:set_pull_target(nil)
+            self:return_to_camp()
         end
     end), WindowerEvents.MobKO)
+end
+
+function Puller:return_to_camp()
+    if state.AutoCampMode.value == 'Off' or self:get_camp_position() == nil then
+        return
+    end
+
+    if ffxi_util.distance(ffxi_util.get_mob_position(windower.ffxi.get_player().name), self:get_camp_position()) > 40 then
+        self:set_camp_position(nil)
+        self:get_party():add_to_chat(self:get_party():get_player(), "I'm too far from camp to go back now.")
+        return
+    end
+
+    local return_to_camp_action = RunToLocationAction.new(self:get_camp_position()[1], self:get_camp_position()[2], self:get_camp_position()[3], 2.0)
+    return_to_camp_action.identifier = "Return to camp"
+
+    self.action_queue:push_action(return_to_camp_action, true)
 end
 
 function Puller:target_change(target_index)
@@ -129,7 +152,7 @@ function Puller:check_pull()
 
     if os.time() - self.last_pull_time < 6 or self:get_pull_target() == nil
             or Condition.check_conditions(L{ ClaimedCondition.new(self:get_party():get_party_members(true):map(function(p) return p:get_id() end)) }, self:get_pull_target():get_mob().index)
-            or (state.AutoTrustsMode.value ~= 'Off' and party_util.is_party_leader(windower.ffxi.get_player().id) and self:get_party():num_party_members() < 6) then
+            or (state.AutoTrustsMode.value ~= 'Off' and party_util.is_party_leader(windower.ffxi.get_player().id) and player.trust.main_job:role_with_type("truster"):get_valid_trusts():length() > 0) then
         return
     end
     self.last_pull_time = os.time()
@@ -251,6 +274,14 @@ function Puller:get_target_names()
         return L{}
     end
     return self.target_names
+end
+
+function Puller:set_camp_position(position)
+    self.camp_position = position
+end
+
+function Puller:get_camp_position()
+    return self.camp_position
 end
 
 function Puller:allows_duplicates()

@@ -16,6 +16,11 @@ function WeaponSkillAction.new(weapon_skill_name, target_index)
 
 	self.weapon_skill_name = weapon_skill_name
 
+	if res.weapon_skills:with('en', weapon_skill_name).targets:contains('Self') then
+		target_index = windower.ffxi.get_player().index
+		self.target_index = target_index
+	end
+
 	if target_index ~= windower.ffxi.get_player().index then
 		self:add_condition(MaxDistanceCondition.new(battle_util.get_weapon_skill_distance(weapon_skill_name, target_index), target_index))
 	end
@@ -24,17 +29,25 @@ function WeaponSkillAction.new(weapon_skill_name, target_index)
 end
 
 function WeaponSkillAction:perform()
-	local send_chat_input = function(weapon_skill_name)
-		if self.target_index == windower.ffxi.get_player().index then
-			windower.chat.input("/ws %s <me>":format(weapon_skill_name))
-		else
-			windower.chat.input("/ws %s <t>":format(weapon_skill_name))
-		end
-	end
-
-	send_chat_input(self.weapon_skill_name)
+	windower.chat.input(self:localize())
 
 	self:complete(true)
+end
+
+function WeaponSkillAction:localize()
+	local weapon_skill = res.weapon_skills:with('en', self.weapon_skill_name)
+	if weapon_skill then
+		local weapon_skill_name = weapon_skill.en
+		if localization_util.should_use_client_locale() then
+			weapon_skill_name = localization_util.encode(weapon_skill.name, windower.ffxi.get_info().language:lower())
+		end
+		if self.target_index == windower.ffxi.get_player().index then
+			return "/ws %s <me>":format(weapon_skill_name)
+		else
+			return "/ws %s <t>":format(weapon_skill_name)
+		end
+	end
+	return ""
 end
 
 function WeaponSkillAction:get_weapon_skill_name()

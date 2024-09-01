@@ -17,28 +17,28 @@ local Puller = require('cylibs/trust/roles/puller')
 local Singer = require('cylibs/trust/roles/singer')
 local Sleeper = require('cylibs/trust/roles/sleeper')
 
-state.AutoSongMode = M{['description'] = 'Auto Song Mode', 'Off', 'Auto', 'Dummy'}
+state.AutoSongMode = M{['description'] = 'Sing Songs', 'Off', 'Auto', 'Dummy'}
 state.AutoSongMode:set_description('Auto', "Okay, I'll keep songs on the party.")
 state.AutoSongMode:set_description('Dummy', "Okay, I'll only sing dummy songs.")
 
-state.AutoPianissimoMode = M{['description'] = 'Auto Pianissimo Mode', 'Merged', 'Override'}
+state.AutoPianissimoMode = M{['description'] = 'Pianissimo Type', 'Merged', 'Override'}
 state.AutoPianissimoMode:set_description('Merged', "Okay, I'll make sure to keep all songs on everyone.")
 state.AutoPianissimoMode:set_description('Override', "Okay, I'll only focus on Pianissimo songs.")
 
-state.AutoNitroMode = M{['description'] = 'Auto Nitro Mode', 'Auto', 'Off'}
+state.AutoNitroMode = M{['description'] = 'Use Nitro', 'Auto', 'Off'}
 state.AutoNitroMode:set_description('Auto', "Okay, I'll use Nightingale and Troubadour before singing songs.")
 
-state.AutoClarionCallMode = M{['description'] = 'Auto Clarion Call Mode', 'Off', 'Auto'}
-state.AutoClarionCallMode:set_description('Auto', "Okay, I'll try to sing as many songs as possible.")
+state.AutoClarionCallMode = M{['description'] = 'Use Clarion Call', 'Off', 'Auto'}
+state.AutoClarionCallMode:set_description('Auto', "Okay, I'll use Clarion Call before Nightingale and Troubadour.")
 
 function BardTrust.new(settings, action_queue, battle_settings, trust_settings)
 	local job = Bard.new(trust_settings)
 	local roles = S{
 		Debuffer.new(action_queue, trust_settings.Debuffs),
-		Singer.new(action_queue, trust_settings.DummySongs, trust_settings.Songs, trust_settings.PartyBuffs, job, state.AutoSongMode, ActionPriority.medium),
+		Singer.new(action_queue, trust_settings.SongSettings.DummySongs, trust_settings.SongSettings.Songs, trust_settings.SongSettings.PianissimoSongs, job, state.AutoSongMode, ActionPriority.medium),
 		Dispeler.new(action_queue, L{ Spell.new('Magic Finale') }, L{}, true),
 		Puller.new(action_queue, battle_settings.targets, L{ Spell.new('Carnage Elegy') }),
-		Sleeper.new(action_queue, L{ Spell.new('Horde Lullaby'), Spell.new('Horde Lullaby II') }, 3)
+		Sleeper.new(action_queue, L{ Spell.new('Horde Lullaby'), Spell.new('Horde Lullaby II') }, 2)
 	}
 	local self = setmetatable(Trust.new(action_queue, roles, trust_settings, job), BardTrust)
 
@@ -70,9 +70,9 @@ function BardTrust:on_init()
 
 		local singer = self:role_with_type("singer")
 
-		singer:set_dummy_songs(new_trust_settings.DummySongs)
-		singer:set_songs(new_trust_settings.Songs)
-		singer:set_pianissimo_songs(new_trust_settings.PartyBuffs)
+		singer:set_dummy_songs(new_trust_settings.SongSettings.DummySongs)
+		singer:set_songs(new_trust_settings.SongSettings.Songs)
+		singer:set_pianissimo_songs(new_trust_settings.SongSettings.PianissimoSongs)
 
 		local debuffer = self:role_with_type("debuffer")
 		debuffer:set_debuff_spells(new_trust_settings.Debuffs)

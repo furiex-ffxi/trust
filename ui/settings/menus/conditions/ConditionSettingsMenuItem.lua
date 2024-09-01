@@ -40,6 +40,7 @@ function ConditionSettingsMenuItem.new(trustSettings, trustSettingsMode, parentM
         [HasBuffCondition.__type] = "has_buff_condition",
         [ZoneCondition.__type] = "zone",
         [MainJobCondition.__type] = "main_job",
+        [JobCondition.__type] = "job",
         [ReadyAbilityCondition.__type] = "ready_ability",
         [FinishAbilityCondition.__type] = "finish_ability",
         [HasRunesCondition.__type] = "has_runes",
@@ -50,6 +51,8 @@ function ConditionSettingsMenuItem.new(trustSettings, trustSettingsMode, parentM
         [NumResistsCondition.__type] = "num_resists",
         [SkillchainPropertyCondition.__type] = "skillchain_property",
         [HasDazeCondition.__type] = "has_daze",
+        [TargetNameCondition.__type] = "target_name",
+        [CombatSkillsCondition.__type] = "combat_skills",
     }
     self.conditionPickerItems = L(self.editableConditionClasses:keyset()):filter(function(c)
         local conditionClass = self:getFileForCondition(c)
@@ -153,7 +156,7 @@ end
 function ConditionSettingsMenuItem:getEditConditionMenuItem()
     local editConditionMenuItem = MenuItem.new(L{
         ButtonItem.default('Confirm', 18),
-    }, L{}, function(menuArgs, infoView)
+    }, L{}, function(menuArgs, infoView, showMenu)
         local configItems
         if self.selectedCondition and self.selectedCondition.get_config_items ~= nil then
             configItems = self.selectedCondition:get_config_items()
@@ -163,7 +166,7 @@ function ConditionSettingsMenuItem:getEditConditionMenuItem()
             if condition.__type == NotCondition.__type then
                 condition = condition.conditions[1]
             end
-            local conditionConfigEditor = ConfigEditor.new(self.trustSettings, condition, configItems, infoView)
+            local conditionConfigEditor = ConfigEditor.new(self.trustSettings, condition, configItems, infoView, nil, showMenu)
             conditionConfigEditor:setShouldRequestFocus(true)
             return conditionConfigEditor
         else

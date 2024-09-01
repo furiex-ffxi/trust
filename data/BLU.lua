@@ -39,9 +39,15 @@ return {
         },
         PullSettings = {
             Abilities = L{
-                Spell.new('Glutinous Dart', L{}, L{})
+                Spell.new('Glutinous Dart', L{}, L{}),
+                Approach.new(),
             },
             Distance = 20
+        },
+        BlueMagicSettings = {
+            SpellSets = {
+                Default = BlueMagicSet.new(L{"White Wind", "Molting Plumage", "Thrashing Assault", "Fantod", "Erratic Flutter", "Tail Slap", "Paralyzing Triad", "Metallic Body", "Diffusion Ray", "Magic Fruit", "Embalming Earth", "Sudden Lunge", "Sinker Drill", "Cocoon", "Occultation", "Heavy Strike", "Nat. Meditation", "Empty Thrash", "Sickle Slash"})
+            }
         },
         GambitSettings = {
             Gambits = L{

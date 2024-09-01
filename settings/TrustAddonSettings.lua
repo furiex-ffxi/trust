@@ -31,6 +31,8 @@ default.logging = {}
 default.logging.enabled = false
 default.logging.logtofile = false
 default.menu_key = '%^numpad+'
+default.autocomplete = {}
+default.autocomplete.visible = true
 default.party_widget = {}
 default.party_widget.x = 4
 default.party_widget.y = 397
@@ -52,8 +54,12 @@ default.trust_widget.y = 324
 default.trust_widget.visible = true
 default.pet_widget = {}
 default.pet_widget.x = 4
-default.pet_widget.y = 258
+default.pet_widget.y = 244
 default.pet_widget.visible = true
+default.path_widget = {}
+default.path_widget.x = 18
+default.path_widget.y = 500
+default.path_widget.visible = true
 default.verbose = true
 default.version = '1.0.0'
 default.shortcuts = {}
@@ -79,6 +85,9 @@ default.shortcuts.widgets.party = {}
 default.shortcuts.widgets.party.enabled = false
 default.shortcuts.widgets.party.key = "P"
 default.shortcuts.widgets.party.flags = 1
+default.locales = {}
+default.locales.actions = {}
+default.locales.actions.use_client_locale = false
 
 
 

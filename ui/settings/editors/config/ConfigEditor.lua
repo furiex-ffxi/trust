@@ -3,11 +3,13 @@ local CollectionViewDataSource = require('cylibs/ui/collection_view/collection_v
 local ConfigItem = require('ui/settings/editors/config/ConfigItem')
 local Event = require('cylibs/events/Luvent')
 local FFXIClassicStyle = require('ui/themes/FFXI/FFXIClassicStyle')
+local FFXITextFieldItem = require('ui/themes/ffxi/FFXITextFieldItem')
 local FFXIToggleButtonItem = require('ui/themes/ffxi/FFXIToggleButtonItem')
 local GroupConfigItem = require('ui/settings/editors/config/GroupConfigItem')
 local ImageItem = require('cylibs/ui/collection_view/items/image_item')
 local IndexedItem = require('cylibs/ui/collection_view/indexed_item')
 local IndexPath = require('cylibs/ui/collection_view/index_path')
+local MultiPickerConfigItem = require('ui/settings/editors/config/MultiPickerConfigItem')
 local PickerCollectionViewCell = require('cylibs/ui/collection_view/cells/picker_collection_view_cell')
 local PickerConfigItem = require('ui/settings/editors/config/PickerConfigItem')
 local PickerItem = require('cylibs/ui/collection_view/items/picker_item')
@@ -15,6 +17,9 @@ local SectionHeaderItem = require('cylibs/ui/collection_view/items/section_heade
 local SliderCollectionViewCell = require('cylibs/ui/collection_view/cells/slider_collection_view_cell')
 local SliderItem = require('cylibs/ui/collection_view/items/slider_item')
 local TextCollectionViewCell = require('cylibs/ui/collection_view/cells/text_collection_view_cell')
+local TextFieldCollectionViewCell = require('cylibs/ui/collection_view/cells/text_field_collection_view_cell')
+local TextFieldItem = require('cylibs/ui/collection_view/items/text_field_item')
+local TextInputConfigItem = require('ui/settings/editors/config/TextInputConfigItem')
 local TextItem = require('cylibs/ui/collection_view/items/text_item')
 local TextStyle = require('cylibs/ui/style/text_style')
 local ToggleButtonCollectionViewCell = require('cylibs/ui/collection_view/cells/toggle_button_collection_view_cell')
@@ -24,13 +29,14 @@ local VerticalFlowLayout = require('cylibs/ui/collection_view/layouts/vertical_f
 local FFXIWindow = require('ui/themes/ffxi/FFXIWindow')
 local ConfigEditor = setmetatable({}, {__index = FFXIWindow })
 ConfigEditor.__index = ConfigEditor
+ConfigEditor.__type = "ConfigEditor"
 
 function ConfigEditor:onConfigChanged()
     return self.configChanged
 end
 
 
-function ConfigEditor.new(trustSettings, configSettings, configItems, infoView, validator)
+function ConfigEditor.new(trustSettings, configSettings, configItems, infoView, validator, showMenu)
     local dataSource = CollectionViewDataSource.new(function(item, indexPath)
         if item.__type == SliderItem.__type then
             local cell = SliderCollectionViewCell.new(item)
@@ -55,6 +61,12 @@ function ConfigEditor.new(trustSettings, configSettings, configItems, infoView, 
             cell:setIsSelectable(true)
             cell:setItemSize(16)
             return cell
+        elseif item.__type == TextFieldItem.__type then
+            local cell = TextFieldCollectionViewCell.new(item)
+            cell:setUserInteractionEnabled(true)
+            cell:setIsSelectable(true)
+            cell:setItemSize(32)
+            return cell
         end
         return nil
     end)
@@ -69,15 +81,30 @@ function ConfigEditor.new(trustSettings, configSettings, configItems, infoView, 
     self.trustSettings = trustSettings
     self.configSettings = configSettings
     self.validator = validator or function() return true end
+    self.showMenu = function(menuItem)
+        self:resignFocus()
+        showMenu(menuItem)
+    end
     self.configChanged = Event.newEvent()
 
     self:setConfigItems(configItems)
 
     self:getDisposeBag():add(self:getDelegate():didSelectItemAtIndexPath():addAction(function(indexPath)
-        if infoView then
-            local cell = self:getDataSource():cellForItemAtIndexPath(indexPath)
-            if cell and cell.__type == PickerCollectionViewCell.__type then
-                infoView:setDescription("Hold shift and press the left and right arrow keys to cycle faster.")
+        local cell = self:getDataSource():cellForItemAtIndexPath(indexPath)
+        if cell then
+            if cell.__type == PickerCollectionViewCell.__type then
+                if infoView then
+                    infoView:setDescription("Hold shift and press the left and right arrow keys to cycle faster.")
+                end
+            end
+        end
+
+        local item = self:getDataSource():itemAtIndexPath(indexPath)
+        if item then
+            if item.__type == PickerItem.__type then
+                if item:allowsMultipleSelection() then
+                    self:getDelegate():deselectItemAtIndexPath(indexPath)
+                end
             end
         end
     end), self:getDelegate():didSelectItemAtIndexPath())
@@ -195,13 +222,13 @@ end
 function ConfigEditor:getCellItemForConfigItem(configItem)
     if configItem.__type == ConfigItem.__type then
         return SliderItem.new(
-            configItem:getMinValue(),
-            configItem:getMaxValue(),
-            self.configSettings[configItem:getKey()],
-            configItem:getInterval(),
-            ImageItem.new(windower.addon_path..'assets/backgrounds/slider_track.png', 166, 16),
-            ImageItem.new(windower.addon_path..'assets/backgrounds/slider_fill.png', 166, 16),
-            configItem:getTextFormat()
+                configItem:getMinValue(),
+                configItem:getMaxValue(),
+                self.configSettings[configItem:getKey()],
+                configItem:getInterval(),
+                ImageItem.new(windower.addon_path..'assets/backgrounds/slider_track.png', 166, 16),
+                ImageItem.new(windower.addon_path..'assets/backgrounds/slider_fill.png', 166, 16),
+                configItem:getTextFormat()
         )
     elseif configItem.__type == BooleanConfigItem.__type then
         local defaultItem = FFXIToggleButtonItem.new()
@@ -209,6 +236,15 @@ function ConfigEditor:getCellItemForConfigItem(configItem)
         return defaultItem
     elseif configItem.__type == PickerConfigItem.__type then
         return PickerItem.new(configItem:getInitialValue(), configItem:getAllValues(), configItem:getTextFormat())
+    elseif configItem.__type == MultiPickerConfigItem.__type then
+        local pickerItem = PickerItem.new(configItem:getInitialValues(), configItem:getAllValues(), configItem:getTextFormat(), true)
+        pickerItem:setShowMenu(self.showMenu)
+        pickerItem:setOnPickItems(function(newValue)
+            self.configSettings[configItem:getKey()] = newValue
+        end)
+        return pickerItem
+    elseif configItem.__type == TextInputConfigItem.__type then
+        return FFXITextFieldItem.new(configItem:getPlaceholderText(), configItem:getValidator())
     end
     return nil
 end
@@ -247,6 +283,8 @@ function ConfigEditor:onConfirmClick(skipSave)
                     self.configSettings[configKey] = cellConfigItem:getEnabled()
                 elseif cellConfigItem.__type == PickerItem.__type then
                     self.configSettings[configKey] = cellConfigItem:getCurrentValue()
+                elseif cellConfigItem.__type == TextFieldItem.__type then
+                    self.configSettings[configKey] = cellConfigItem:getTextItem():getText()
                 end
             end
         end
@@ -256,8 +294,9 @@ function ConfigEditor:onConfirmClick(skipSave)
         return
     end
 
-
-    self:onConfigChanged():trigger(self.configSettings, originalSettings)
+    if self.configSettings ~= originalSettings then
+        self:onConfigChanged():trigger(self.configSettings, originalSettings)
+    end
 
     if self.trustSettings and not skipSave then
         self.trustSettings:saveSettings(true)

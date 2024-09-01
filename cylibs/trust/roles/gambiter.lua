@@ -5,7 +5,7 @@ local Gambiter = setmetatable({}, {__index = Role })
 Gambiter.__index = Gambiter
 Gambiter.__class = "Gambiter"
 
-state.AutoGambitMode = M{['description'] = 'Auto Gambit Mode', 'Auto', 'Off'}
+state.AutoGambitMode = M{['description'] = 'Use Gambits', 'Auto', 'Off'}
 state.AutoGambitMode:set_description('Off', "Okay, I'll ignore any gambits you've set.")
 state.AutoGambitMode:set_description('Auto', "Okay, I'll customize my battle plan with gambits.")
 
@@ -196,8 +196,12 @@ function Gambiter:get_type()
 end
 
 function Gambiter:set_gambit_settings(gambit_settings)
-    self.gambits = gambit_settings.Gambits or L{}
-    self.job_gambits = gambit_settings.Default or L{}
+    self.gambits = (gambit_settings.Gambits or L{}):filter(function(gambit)
+        return gambit:getAbility() ~= nil
+    end)
+    self.job_gambits = (gambit_settings.Default or L{}):filter(function(gambit)
+        return gambit:getAbility() ~= nil
+    end)
 end
 
 function Gambiter:get_all_gambits()

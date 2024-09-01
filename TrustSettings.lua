@@ -144,6 +144,7 @@ function TrustSettings:deleteSettings(setName)
 end
 
 function TrustSettings:backupSettings(filePath)
+    filePath = filePath or self.settingsFolder..self.jobNameShort..'_'..windower.ffxi.get_player().name..'.lua'
     local playerSettings = FileIO.new(filePath)
     if playerSettings:exists() then
         local backupFilePath = self.settingsFolder..self.backupsFolder..self.jobNameShort..'_'..windower.ffxi.get_player().name..'.lua'
@@ -178,7 +179,7 @@ end
 function TrustSettings:runMigrations(settings)
     local needsMigration = false
 
-    local modeNames = list.subtract(L(T(settings):keyset()), L{'Version'})
+    local modeNames = list.subtract(L(T(settings):keyset()), L{'Migrations','Version'})
 
     for modeName in modeNames:it() do
         local settingsForMode = settings[modeName]

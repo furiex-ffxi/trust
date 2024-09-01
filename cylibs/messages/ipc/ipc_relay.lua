@@ -4,6 +4,7 @@ local Event = require('cylibs/events/Luvent')
 local GainBuffMessage = require('cylibs/messages/gain_buff_message')
 local IpcConnection = require('cylibs/messages/ipc/ipc_connection')
 local IpcMessage = require('cylibs/messages/ipc_message')
+local LampUpdateMessage = require('cylibs/messages/lamp_update_message')
 local logger = require('cylibs/logger/logger')
 local LoseBuffMessage = require('cylibs/messages/lose_buff_message')
 local MobUpdateMessage = require('cylibs/messages/mob_update_message')
@@ -13,7 +14,7 @@ local IpcRelay = {}
 IpcRelay.__index = IpcRelay
 IpcRelay.__class = "IpcRelay"
 
-state.IpcMode = M{['description'] = 'Ipc Mode', 'All', 'Off', 'Send', 'Receive'}
+state.IpcMode = M{['description'] = 'Send IPC Messages', 'All', 'Off', 'Send', 'Receive'}
 state.IpcMode:set_description('All', "Okay, I'll send and receive IPC messages.")
 state.IpcMode:set_description('Send', "Okay, I'll only send IPC messages.")
 state.IpcMode:set_description('Receive', "Okay, I'll only receive IPC messages.")
@@ -54,6 +55,8 @@ function IpcRelay.new()
                     self:on_message_received():trigger(CommandMessage.deserialize(message))
                 elseif message_type == 'equipment_changed' then
                     self:on_message_received():trigger(EquipmentChangedMessage.deserialize(message))
+                elseif message_type == 'lamp_update' then
+                    self:on_message_received():trigger(LampUpdateMessage.deserialize(message))
                 end
             end
         end

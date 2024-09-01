@@ -3,18 +3,21 @@ local ButtonItem = require('cylibs/ui/collection_view/items/button_item')
 local ConfigEditor = require('ui/settings/editors/config/ConfigEditor')
 local FFXITextInputView = require('ui/themes/ffxi/FFXITextInputView')
 local MenuItem = require('cylibs/ui/menu/menu_item')
+local RemoteCommandsSettingsMenuItem = require('ui/settings/menus/RemoteCommandsSettingsMenuItem')
 local WidgetSettingsMenuItem = require('ui/settings/menus/widgets/WidgetSettingsMenuItem')
 
 local ConfigSettingsMenuItem = setmetatable({}, {__index = MenuItem })
 ConfigSettingsMenuItem.__index = ConfigSettingsMenuItem
 
-function ConfigSettingsMenuItem.new(addonSettings, viewFactory)
+function ConfigSettingsMenuItem.new(addonSettings)
     local self = setmetatable(MenuItem.new(L{
         ButtonItem.default('Widgets', 18),
         ButtonItem.default('Logging', 18),
+        ButtonItem.default('Remote', 18),
+        ButtonItem.default('Language', 18),
     }, {}, nil, "Config", "Change Trust's options."), ConfigSettingsMenuItem)
 
-    self:reloadSettings(addonSettings, viewFactory)
+    self:reloadSettings(addonSettings)
 
     return self
 end
@@ -23,9 +26,11 @@ function ConfigSettingsMenuItem:destroy()
     MenuItem.destroy(self)
 end
 
-function ConfigSettingsMenuItem:reloadSettings(addonSettings, viewFactory)
-    self:setChildMenuItem("Widgets", WidgetSettingsMenuItem.new(addonSettings, viewFactory))
+function ConfigSettingsMenuItem:reloadSettings(addonSettings)
+    self:setChildMenuItem("Widgets", WidgetSettingsMenuItem.new(addonSettings))
     self:setChildMenuItem("Logging", self:getLoggingMenuItem(addonSettings))
+    self:setChildMenuItem("Remote", RemoteCommandsSettingsMenuItem.new(addonSettings))
+    self:setChildMenuItem("Language", self:getLanguageSettingsMenuItem(addonSettings))
 end
 
 function ConfigSettingsMenuItem:getLoggingMenuItem(addonSettings)
@@ -65,6 +70,22 @@ function ConfigSettingsMenuItem:getLoggingMenuItem(addonSettings)
         return ConfigEditor.new(addonSettings, addonSettings:getSettings()[("logging"):lower()], configItems)
     end, "Logging", "Configure debug logging.")
     return loggingMenuItem
+end
+
+function ConfigSettingsMenuItem:getLanguageSettingsMenuItem(addonSettings)
+    local languageMenuItem = MenuItem.new(L{
+        ButtonItem.default('Save'),
+    }, {
+        Save = MenuItem.action(function()
+            localization_util.set_should_use_client_locale(addonSettings:getSettings().locales.actions.use_client_locale)
+        end),
+    }, function(menuArgs)
+        local configItems = L{
+            BooleanConfigItem.new('use_client_locale', "Use client langauge for actions"),
+        }
+        return ConfigEditor.new(addonSettings, addonSettings:getSettings().locales.actions, configItems)
+    end, "Language", "Configure language settings.")
+    return languageMenuItem
 end
 
 return ConfigSettingsMenuItem

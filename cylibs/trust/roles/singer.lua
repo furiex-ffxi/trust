@@ -123,13 +123,13 @@ function Singer:assert_num_songs(party_member)
 
     logger.notice(self.__class, "assert_num_songs", "maximum number of songs is", max_num_songs)
 
-    local current_num_songs = L(self.song_tracker:get_songs(party_member:get_mob().id)):length()
+    local current_num_songs = L(self.song_tracker:get_songs(party_member:get_id())):length()
     local current_num_song_buffs = self.brd_job:get_song_buff_ids(party_member:get_buff_ids()):length()
 
     if current_num_songs ~= current_num_song_buffs then
         logger.error(self.__class, "assert_num_songs", "expected", current_num_song_buffs, "songs but got", current_num_songs, "song records")
 
-        local songs_from_records = L(self.song_tracker:get_songs(party_member:get_mob().id)):map(function(song_record) return res.spells[song_record:get_song_id()].en end)
+        local songs_from_records = L(self.song_tracker:get_songs(party_member:get_id())):map(function(song_record) return res.spells[song_record:get_song_id()].en end)
         local song_buff_names = self.brd_job:get_song_buff_ids(party_member:get_buff_ids()):map(function(buff_id) return res.buffs[buff_id].en  end)
 
         logger.error(self.__class, "assert_num_songs", "song records are", tostring(songs_from_records), "but buffs are", tostring(song_buff_names))
@@ -244,7 +244,7 @@ function Singer:sing_song(song, target_index, should_nitro)
         end
         for job_ability_name in job_abilities:it() do
             local job_ability = res.job_abilities:with('en', job_ability_name)
-            if job_ability and not buff_util.is_buff_active(job_ability.status) then
+            if job_ability and not buff_util.is_buff_active(job_ability.status) and not buff_util.conflicts_with_buffs(job_ability.status, self:get_party():get_player():get_buff_ids()) then
                 if job_util.can_use_job_ability(job_ability_name) then
                     actions:append(JobAbilityAction.new(0, 0, 0, job_ability_name))
                     actions:append(WaitAction.new(0, 0, 0, 1.5))

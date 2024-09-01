@@ -79,7 +79,7 @@ function ScholarTrust:on_init()
         if L{'Light Arts', 'Addendum: White'}:contains(buff_name) then
             self:switch_arts('LightArts')
         elseif L{'Dark Arts', 'Addendum: Black'}:contains(buff_name) then
-            self:switch_arts('Darkarts')
+            self:switch_arts('DarkArts')
         end
     end, self:get_party():get_player():on_gain_buff()))
 end
@@ -113,6 +113,10 @@ function ScholarTrust:switch_arts(new_arts_mode)
     self.current_arts_mode = new_arts_mode
 
     self:update_for_arts(self.current_arts_mode)
+
+    if hud then
+        hud:reloadMainMenuItem()
+    end
 end
 
 function ScholarTrust:update_for_arts(new_arts_mode)

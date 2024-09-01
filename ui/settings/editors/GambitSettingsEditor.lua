@@ -15,8 +15,9 @@ GambitSettingsEditor.__type = "GambitSettingsEditor"
 
 
 function GambitSettingsEditor.new(gambit, trustSettings, trustSettingsMode, abilitiesByTargetType)
+    local validTargets = L(GambitTarget.TargetType:keyset()):filter(function(targetType) return abilitiesByTargetType[targetType]:length() > 0 end)
     local configItems = L{
-        PickerConfigItem.new('target', gambit.target or GambitTarget.TargetType.Self, L(GambitTarget.TargetType:keyset()), nil, "Ability target"),
+        PickerConfigItem.new('target', gambit.target or GambitTarget.TargetType.Self, validTargets, nil, "Ability target"),
         PickerConfigItem.new('ability', gambit:getAbility(), abilitiesByTargetType[gambit:getAbilityTarget()], function(ability)
             return ability:get_name()
         end, "Ability"),
@@ -27,6 +28,7 @@ function GambitSettingsEditor.new(gambit, trustSettings, trustSettingsMode, abil
 
     self.gambit = gambit
     self.abilitiesByTargetType = abilitiesByTargetType
+    self.validTargets = validTargets
     self.menuArgs = {}
 
     local conditionsSectionHeaderItem = SectionHeaderItem.new(
@@ -35,8 +37,6 @@ function GambitSettingsEditor.new(gambit, trustSettings, trustSettingsMode, abil
             16
     )
     self:getDataSource():setItemForSectionHeader(4, conditionsSectionHeaderItem)
-
-    --self:reloadSettings()
 
     self:getDisposeBag():add(self:getDelegate():didSelectItemAtIndexPath():addAction(function(indexPath)
         if indexPath.section == 4 then
@@ -73,7 +73,7 @@ function GambitSettingsEditor:reloadConfigItems()
         currentAbility = abilities[1]
     end
     local configItems = L{
-        PickerConfigItem.new('target', self.gambit.target or GambitTarget.TargetType.Self, L(GambitTarget.TargetType:keyset()), nil, "Ability target"),
+        PickerConfigItem.new('target', self.gambit.target or GambitTarget.TargetType.Self, self.validTargets, nil, "Ability target"),
         PickerConfigItem.new('ability', currentAbility, abilities, function(ability)
             return ability:get_name()
         end, "Ability"),

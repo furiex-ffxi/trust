@@ -3,7 +3,7 @@ local ConfigEditor = require('ui/settings/editors/config/ConfigEditor')
 local ConfigItem = require('ui/settings/editors/config/ConfigItem')
 local DisposeBag = require('cylibs/events/dispose_bag')
 local MenuItem = require('cylibs/ui/menu/menu_item')
-local ModesView = require('ui/settings/editors/ModeSettingsEditor')
+local ModesView = require('ui/settings/editors/config/ModeConfigEditor')
 local PullActionMenuItem = require('ui/settings/menus/pulling/PullActionMenuItem')
 local PullSettingsEditor = require('ui/settings/PullSettingsEditor')
 local TargetsPickerView = require('ui/settings/pickers/TargetsPickerView')
@@ -61,7 +61,7 @@ function PullSettingsMenuItem:getTargetsMenuItem()
         local chooseTargetsView = TargetsPickerView.new(self.addon_settings, self.puller)
         chooseTargetsView:setShouldRequestFocus(true)
         return chooseTargetsView
-    end, "Targets", "Add targets to pull.")
+    end, "Targets", "Choose which enemies to pull.")
 
     local targetsMenuItem = MenuItem.new(L{
         ButtonItem.default('Add', 18),
@@ -80,8 +80,10 @@ function PullSettingsMenuItem:getTargetsMenuItem()
 end
 
 function PullSettingsMenuItem:getModesMenuItem()
-    local pullModesMenuItem = MenuItem.new(L{}, L{}, function(_, infoView)
-        local modesView = ModesView.new(L{ 'AutoPullMode', 'AutoApproachMode' }, infoView)
+    local pullModesMenuItem = MenuItem.new(L{
+        ButtonItem.default('Confirm')
+    }, L{}, function(_, infoView)
+        local modesView = ModesView.new(L{ 'AutoPullMode', 'ApproachPullMode', 'AutoCampMode' }, infoView)
         modesView:setShouldRequestFocus(true)
         modesView:setTitle("Set modes for pulling.")
         return modesView
@@ -93,10 +95,24 @@ function PullSettingsMenuItem:getConfigMenuItem()
     return MenuItem.new(L{
         ButtonItem.default('Save')
     }, L{}, function(menuArgs)
+        local allSettings = self.trust_settings:getSettings()[self.trust_settings_mode.value]
+
+        local pullSettings = T{
+            Distance = allSettings.PullSettings.Distance,
+        }
+
         local configItems = L{
             ConfigItem.new('Distance', 0, 35, 1, function(value) return value.." yalms" end, "Target Distance"),
         }
-        return ConfigEditor.new(self.trust_settings, self.trust_settings:getSettings()[self.trust_settings_mode.value].PullSettings, configItems)
+        local pullConfigEditor = ConfigEditor.new(self.trust_settings, pullSettings, configItems)
+
+        self.dispose_bag:add(pullConfigEditor:onConfigChanged():addAction(function(newSettings, _)
+            allSettings.PullSettings.Distance = newSettings.Distance
+
+            self.trust_settings:saveSettings(true)
+        end), pullConfigEditor:onConfigChanged())
+
+        return pullConfigEditor
     end, "Config", "Configure pull settings.")
 end
 

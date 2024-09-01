@@ -1,6 +1,7 @@
 local AlterEgoSettingsMenuItem = require('ui/settings/menus/AlterEgoSettingsMenuItem')
 local AutomatonSettingsMenuItem = require('ui/settings/menus/attachments/AutomatonSettingsMenuItem')
 local BackgroundView = require('cylibs/ui/views/background/background_view')
+local BlueMagicSettingsMenuItem = require('ui/settings/menus/bluemagic/BlueMagicSettingsMenuItem')
 local BooleanConfigItem = require('ui/settings/editors/config/BooleanConfigItem')
 local BufferView = require('ui/views/BufferView')
 local BufferSettingsMenuItem = require('ui/settings/menus/buffs/BufferSettingsMenuItem')
@@ -25,7 +26,7 @@ local Keybind = require('cylibs/ui/input/keybind')
 local Keyboard = require('cylibs/ui/input/keyboard')
 local MenuItem = require('cylibs/ui/menu/menu_item')
 local ModesMenuItem = require('ui/settings/menus/ModesMenuItem')
-local ModesView = require('ui/settings/editors/ModeSettingsEditor')
+local ModesView = require('ui/settings/editors/config/ModeConfigEditor')
 local NavigationBar = require('cylibs/ui/navigation/navigation_bar')
 local PullSettingsMenuItem = require('ui/settings/menus/pulling/PullSettingsMenuItem')
 local LoadSettingsMenuItem = require('ui/settings/menus/loading/LoadSettingsMenuItem')
@@ -34,6 +35,7 @@ local PartyMemberView = require('cylibs/entity/party/ui/party_member_view')
 local PartyStatusWidget = require('ui/widgets/PartyStatusWidget')
 local PartyTargetsMenuItem = require('ui/settings/menus/PartyTargetsMenuItem')
 local PathSettingsMenuItem = require('ui/settings/menus/misc/PathSettingsMenuItem')
+local PathWidget = require('ui/widgets/PathWidget')
 local AutomatonStatusWidget = require('ui/widgets/AutomatonStatusWidget')
 local PickerConfigItem = require('ui/settings/editors/config/PickerConfigItem')
 local ReactSettingsMenuItem = require('ui/settings/menus/gambits/react/ReactSettingsMenuItem')
@@ -78,6 +80,7 @@ function TrustHud.new(player, action_queue, addon_settings, trustModeSettings, a
     local self = setmetatable(View.new(), TrustHud)
 
     CollectionView.setDefaultStyle(FFXIClassicStyle.default())
+    CollectionView.setDefaultBackgroundStyle(FFXIClassicStyle.background())
 
     self.lastMenuToggle = os.time()
     self.menuSize = Frame.new(0, 0, menu_width, menu_height)
@@ -227,6 +230,9 @@ function TrustHud:createWidgets(addon_settings, addon_enabled, action_queue, par
     local partyStatusWidget = PartyStatusWidget.new(Frame.new(0, 0, 125, 55), addon_settings, party)
     self.widgetManager:addWidget(partyStatusWidget, "party")
 
+    local pathWidget = PathWidget.new(Frame.new(0, 0, 125, 57), addon_settings, party:get_player(), self, main_trust_settings, state.MainTrustSettingsMode, trust)
+    self.widgetManager:addWidget(pathWidget, "path")
+
     if player.main_job_name_short == 'PUP' then
         local petStatusWidget = AutomatonStatusWidget.new(Frame.new(0, 0, 125, 57), addon_settings, party:get_player(), self, main_trust_settings, state.MainTrustSettingsMode)
         self.widgetManager:addWidget(petStatusWidget, "pet")
@@ -240,6 +246,10 @@ function TrustHud:toggleMenu()
     self.trustMenu:closeAll()
 
     self.trustMenu:showMenu(self.mainMenuItem)
+end
+
+function TrustHud:closeAllMenus()
+    self.trustMenu:closeAll()
 end
 
 function TrustHud:openMenu(menuItem)
@@ -264,6 +274,13 @@ function TrustHud:getMainMenuItem()
     local mainJobItem = self:getMenuItems(player.trust.main_job, main_trust_settings, state.MainTrustSettingsMode, weapon_skill_settings, state.WeaponSkillSettingsMode, player.main_job_name_short, player.main_job_name)
     local subJobItem = self:getMenuItems(player.trust.sub_job, sub_trust_settings, state.SubTrustSettingsMode, nil, nil, player.sub_job_name_short, player.sub_job_name)
 
+    if mainJobItem:getChildMenuItem('Settings'):getChildMenuItem('Pulling') == nil then
+        local pullerMenuItem = subJobItem:getChildMenuItem('Settings'):getChildMenuItem('Pulling')
+        if pullerMenuItem then
+            mainJobItem:getChildMenuItem('Settings'):setChildMenuItem('Pulling', pullerMenuItem)
+        end
+    end
+
     local mainMenuItem = MenuItem.new(L{
         ButtonItem.default(player.main_job_name, 18),
         ButtonItem.default(player.sub_job_name, 18),
@@ -278,6 +295,20 @@ function TrustHud:getMainMenuItem()
     self.mainMenuItem = mainMenuItem
 
     return self.mainMenuItem
+end
+
+function TrustHud:reloadMainMenuItem()
+    local showMenu = self.trustMenu:isVisible()
+
+    self.trustMenu:closeAll()
+    self.mainMenuItem:destroy()
+    self.mainMenuItem = nil
+
+    self:getMainMenuItem()
+
+    if showMenu then
+        self.trustMenu:showMenu(self.mainMenuItem)
+    end
 end
 
 local function createBackgroundView(width, height)
@@ -320,7 +351,9 @@ function TrustHud:getSettingsMenuItem(trust, trustSettings, trustSettingsMode, w
                 return chooseSpellsView
             end, "Debuffs", "Add a new debuff.")
 
-    local debuffModesMenuItem = MenuItem.new(L{}, L{}, function(_, infoView)
+    local debuffModesMenuItem = MenuItem.new(L{
+        ButtonItem.default('Confirm')
+    }, L{}, function(_, infoView)
         local modesView = ModesView.new(L{'AutoDebuffMode', 'AutoDispelMode', 'AutoSilenceMode'}, infoView)
         modesView:setShouldRequestFocus(true)
         return modesView
@@ -376,6 +409,11 @@ function TrustHud:getSettingsMenuItem(trust, trustSettings, trustSettingsMode, w
         childMenuItems['Automaton'] = AutomatonSettingsMenuItem.new(trustSettings, trustSettingsMode)
     end
 
+    if jobNameShort == 'BLU' then
+        menuItems:append(ButtonItem.default('Blue Magic', 18))
+        childMenuItems['Blue Magic'] = BlueMagicSettingsMenuItem.new(trustSettings, trustSettingsMode, true)
+    end
+
     -- Add menu items only if the Trust has the appropriate role
     if trust:role_with_type("buffer") then
         menuItems:append(ButtonItem.default('Buffs', 18))
@@ -397,8 +435,8 @@ function TrustHud:getSettingsMenuItem(trust, trustSettings, trustSettingsMode, w
         childMenuItems.Healing = self:getMenuItemForRole(trust:role_with_type("healer"), weaponSkillSettings, weaponSkillSettingsMode, trust, jobNameShort, viewSize, trustSettings, trustSettingsMode)
     end
 
+    menuItems:append(ButtonItem.default('Pulling', 18))
     if trust:role_with_type("puller") then
-        menuItems:append(ButtonItem.default('Pulling', 18))
         childMenuItems.Pulling = self:getMenuItemForRole(trust:role_with_type("puller"), weaponSkillSettings, weaponSkillSettingsMode, trust, jobNameShort, viewSize, trustSettings, trustSettingsMode)
     end
 
@@ -510,9 +548,7 @@ function TrustHud:getSkillchainerMenuItem(weaponSkillSettings, weaponSkillSettin
 end
 
 function TrustHud:getPullerMenuItem(trust, jobNameShort, trustSettings, trustSettingsMode, viewSize)
-    local pullerSettingsMenuItem = PullSettingsMenuItem.new(L{}, trust, jobNameShort, self.addon_settings, self.addon_settings:getSettings().battle.targets, trustSettings, trustSettingsMode, function(view)
-        return setupView(view, viewSize)
-    end)
+    local pullerSettingsMenuItem = PullSettingsMenuItem.new(L{}, trust, jobNameShort, self.addon_settings, self.addon_settings:getSettings().battle.targets, trustSettings, trustSettingsMode)
     return pullerSettingsMenuItem
 end
 
