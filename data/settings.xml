@@ -49,12 +49,12 @@
             <y>3000</y>
         </party_widget>
         <pet_widget>
-            <visible>true</visible>
+            <visible>false</visible>
             <x>4</x>
             <y>258</y>
         </pet_widget>
         <remote_commands>
-            <whitelist>Furyex,Cyrite,Lolababe,Wapiti,Mikazaru,Lilsouja,Cleobabe,Mailman</whitelist>
+            <whitelist>Furyex,Mailman,Lolababe,Cleobabe</whitelist>
         </remote_commands>
         <settings_widget>
             <visible>true</visible>
@@ -108,7 +108,7 @@
     </global>
     <cleobabe>
         <battle>
-            <targets>Locus Camelopard,Locus Ghost Crab,Locus Dragonfly,Locus Colibri,Ayapec,Locus Dire Bat</targets>
+            <targets>Locus Camelopard,Locus Ghost Crab,Ayapec,Locus Dire Bat,Locus Colibri,Locus Dragonfly,Locus Armet Beetle</targets>
             <trusts>Koru-Moru,Sylvie (UC)</trusts>
         </battle>
         <flags>
@@ -128,7 +128,7 @@
     </furyex>
     <lolababe>
         <battle>
-            <targets>Warder of Prudence,Locus Camelopard,Apex Dragonfly,Warder of Love,Locus Dire Bat,Locus Colibri,Cannered Noz,Warder of Faith,Locus Ghost Crab,Warder of Justice,Locus Dragonfly,Apex Blazer Elytra,Warder of Hope,Armet Beetle</targets>
+            <targets>Locus Armet Beetle,Warder of Prudence,Locus Camelopard,Apex Dragonfly,Warder of Love,Locus Dire Bat,Locus Colibri,Cannered Noz,Warder of Faith,Locus Ghost Crab,Warder of Justice,Locus Dragonfly,Apex Blazer Elytra,Warder of Hope,Armet Beetle</targets>
             <trusts>Koru-Moru,Sylvie (UC)</trusts>
         </battle>
         <flags>

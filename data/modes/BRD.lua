@@ -27,6 +27,5 @@ return {
         ["autoenablemode"]="Auto",
         ["autodisablemode"]="Auto",
         ["ipcmode"]="All",
-        ["weaponskillsettingsmode"] = "Default",
     }
 }

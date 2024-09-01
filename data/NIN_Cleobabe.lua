@@ -6,9 +6,7 @@ return {
 
         },
         SelfBuffs = L{
-            Spell.new("Utsusemi: San", L{}, L{}, nil, L{}),
-            Spell.new("Utsusemi: Ni", L{}, L{}, nil, L{}),
-            Spell.new("Utsusemi: Ichi", L{}, L{}, nil, L{})
+            Buff.new("Kakka: Ichi", L{}, L{}, nil, L{})
         },
         GambitSettings = {
             Gambits = L{
@@ -47,7 +45,7 @@ return {
         },
         PullSettings = {
             Abilities = L{
-                Spell.new("Jubaku: Ni", L{}, L{}, nil, L{})
+                Spell.new("Jubaku: Ichi", L{}, L{}, nil, L{})
             },
             Distance = 20
         }

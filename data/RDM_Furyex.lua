@@ -21,8 +21,7 @@ return {
             JobAbility.new("Composure", L{}, L{})
         },
         PartyBuffs = L{
-            Buff.new("Refresh", L{}, L{"DRK", "PUP", "PLD", "BLU", "BLM", "BRD", "GEO", "SMN", "WHM", "RUN"}, nil, L{}),
-            Buff.new("Haste", L{}, L{"SAM", "SCH", "RUN", "WAR", "BST", "COR", "PLD", "RNG", "DRG", "DNC", "PUP", "BRD", "RDM", "DRK", "BLU", "THF", "BLM", "SMN", "WHM", "GEO", "MNK", "NIN"}, nil, L{})
+            Buff.new("Haste", L{}, L{"SAM", "SCH", "RUN", "WAR", "BST", "COR", "PLD", "RNG", "DRG", "DNC", "PUP", "BRD", "RDM", "DRK", "BLU", "THF", "BLM", "SMN", "WHM", "GEO", "MNK", "NIN"}, nil, L{InBattleCondition.new()})
         },
         CureSettings = {
             Thresholds = {
@@ -216,7 +215,7 @@ return {
         },
         SelfBuffs = L{
             Buff.new("Enblizzard", L{}, L{}, nil, L{}),
-            Buff.new("Gain-DEX", L{}, L{}, nil, L{}),
+            Buff.new("Gain-STR", L{}, L{}, nil, L{}),
             Buff.new("Haste", L{}, L{}, nil, L{}),
             Buff.new("Phalanx", L{}, L{}, nil, L{}),
             Buff.new("Refresh", L{}, L{}, nil, L{}),

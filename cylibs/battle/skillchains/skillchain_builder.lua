@@ -17,7 +17,7 @@ function SkillchainBuilder.new(abilities)
         abilities = (abilities or L{}):filter(function(ability) return skills[ability.resource][ability.ability_id] ~= nil end);
         conditions = L{};
         cached_steps = L{};
-        include_aeonic = false;
+        include_aeonic = true;
     }, SkillchainBuilder)
     return self
 end

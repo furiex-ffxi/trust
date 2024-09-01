@@ -1,6 +1,5 @@
 -- Settings file for GEO
 return {
-    Version = 2,
     Default = {
         SelfBuffs = L{
 
@@ -14,7 +13,7 @@ return {
 
         },
         PartyBuffs = L{
-            Spell.new("Indi-STR", L{"Entrust"}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+            Spell.new("Indi-INT", L{"Entrust"}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
         },
         Debuffs = L{
 
@@ -26,7 +25,7 @@ return {
 
             },
             Spells = L{
-                Spell.new("Blizzard V", L{"Theurgic Focus"}, L{}, nil, L{}),
+                Spell.new("Blizzard V", L{}, L{}, nil, L{}),
                 Spell.new("Blizzard IV", L{}, L{}, nil, L{}),
                 Spell.new("Blizzard III", L{}, L{}, nil, L{}),
                 Spell.new("Aero V", L{}, L{}, nil, L{}),
@@ -37,8 +36,8 @@ return {
             MinManaPointsPercent = 40
         },
         Geomancy = {
-            Indi = Spell.new("Indi-Fury", L{}, L{}, "me", L{}),
-            Geo = Spell.new("Geo-Frailty", L{}, L{}, "bt", L{})
+            Indi = Spell.new("Indi-Acumen", L{}, L{}, "me", L{}),
+            Geo = Spell.new("Geo-Malaise", L{}, L{}, "bt", L{})
         },
         PullSettings = {
             Abilities = L{
@@ -92,5 +91,6 @@ return {
             },
             Distance = 20
         }
-    }
+    },
+    Version = 2
 }

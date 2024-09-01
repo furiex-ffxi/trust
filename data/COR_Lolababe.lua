@@ -1,6 +1,5 @@
 -- Settings file for COR
 return {
-    Version = 2,
     Default = {
         SelfBuffs = L{
 
@@ -20,22 +19,23 @@ return {
         PartyBuffs = L{
 
         },
-        Roll2 = Roll.new("Samurai Roll", false),
-        PullSettings = {
-            Abilities = L{
-                RangedAttack.new(L{MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20)})
-            },
-            Distance = 20
+        Roll2 = Roll.new("Fighter's Roll", false),
+        Shooter = {
+            Delay = 1.5
         },
+        AutoFood = "Grape Daifuku",
+        Roll1 = Roll.new("Wizard's Roll", true),
         Debuffs = L{
 
         },
-        Roll1 = Roll.new("Chaos Roll", true),
-        AutoFood = "Grape Daifuku",
-        Shooter = {
-            Delay = 1.5
+        PullSettings = {
+            Abilities = L{
+                RangedAttack.new(L{MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20)})
+            },
+            Distance = 20
         }
     },
+    Version = 2,
     Ep = {
         SelfBuffs = L{
 
@@ -55,20 +55,20 @@ return {
         PartyBuffs = L{
 
         },
-        Roll2 = Roll.new("Samurai Roll", false),
-        PullSettings = {
-            Abilities = L{
-                RangedAttack.new(L{MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20)})
-            },
-            Distance = 20
+        Roll2 = Roll.new("Fighter's Roll", false),
+        Shooter = {
+            Delay = 1.5
         },
+        AutoFood = "Grape Daifuku",
+        Roll1 = Roll.new("Wizard's Roll", true),
         Debuffs = L{
 
         },
-        Roll1 = Roll.new("Corsair's Roll", true),
-        AutoFood = "Grape Daifuku",
-        Shooter = {
-            Delay = 1.5
+        PullSettings = {
+            Abilities = L{
+                RangedAttack.new(L{MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20)})
+            },
+            Distance = 20
         }
     }
 }

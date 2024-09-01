@@ -16,16 +16,16 @@ return {
             CombatSkillSettings.new("Archery", L{}, ""),
             CombatSkillSettings.new("Marksmanship", L{}, "")
         },
-        Skillchain = L{
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto()
-        },
         Blacklist = L{
 
+        },
+        Skillchain = L{
+            SkillchainAbility.skip(),
+            WeaponSkill.new("Upheaval"),
+            SkillchainAbility.skip(),
+            SkillchainAbility.skip(),
+            SkillchainAbility.skip(),
+            SkillchainAbility.skip()
         }
     }
 }
