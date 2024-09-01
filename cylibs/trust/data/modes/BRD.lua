@@ -15,5 +15,6 @@ return {
         ["autotrustsmode"]="Off",
         ["autostepmode"]="Off",
         ["autostatusremovalmode"]="Off",
+        ["autoskillchainmode"]="Off",
     },
 }

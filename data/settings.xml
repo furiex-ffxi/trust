@@ -1,6 +1,9 @@
 <?xml version="1.1" ?>
 <settings>
     <global>
+        <autocomplete>
+            <visible>true</visible>
+        </autocomplete>
         <battle>
             <melee_distance>3</melee_distance>
             <range_distance>21</range_distance>
@@ -38,6 +41,11 @@
                 <y>0</y>
             </position>
         </hud>
+        <locales>
+            <actions>
+                <use_client_locale>false</use_client_locale>
+            </actions>
+        </locales>
         <logging>
             <enabled>false</enabled>
             <logtofile>false</logtofile>
@@ -48,13 +56,18 @@
             <x>3000</x>
             <y>3000</y>
         </party_widget>
+        <path_widget>
+            <visible>true</visible>
+            <x>18</x>
+            <y>500</y>
+        </path_widget>
         <pet_widget>
             <visible>false</visible>
             <x>4</x>
             <y>258</y>
         </pet_widget>
         <remote_commands>
-            <whitelist>Furyex,Mailman,Lolababe,Cleobabe</whitelist>
+            <whitelist>Furyex,Cleobabe,Lolababe,Mailman</whitelist>
         </remote_commands>
         <settings_widget>
             <visible>true</visible>
@@ -124,7 +137,7 @@
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>10.2.2</version>
+        <version>10.5.9</version>
     </furyex>
     <lolababe>
         <battle>
