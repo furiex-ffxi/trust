@@ -12,6 +12,9 @@ return {
             Spell.new("Temper", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
         },
         GambitSettings = {
+            Default = L{
+                Gambit.new("Self", L{MaxHitPointsPercentCondition.new(30), HasRunesCondition.new(3)}, JobAbility.new("Vivacious Pulse", L{}, L{}), "Self", L{})
+            },
             Gambits = L{
                 Gambit.new("Self", L{MaxHitPointsPercentCondition.new(70), InBattleCondition.new()}, Spell.new("Cure IV", L{}, L{}, nil, L{}), "Self", L{}),
                 Gambit.new("Ally", L{MaxHitPointsPercentCondition.new(70), InBattleCondition.new()}, Spell.new("Cure IV", L{}, L{}, nil, L{}), "Ally", L{}),
@@ -20,7 +23,7 @@ return {
                 Gambit.new("Self", L{MinHitPointsPercentCondition.new(50), InBattleCondition.new()}, JobAbility.new("Vallation", L{}, L{}), "Enemy", L{}),
                 Gambit.new("Self", L{MinHitPointsPercentCondition.new(50), InBattleCondition.new()}, JobAbility.new("Pflug", L{}, L{}), "Enemy", L{}),
                 Gambit.new("Self", L{MinHitPointsPercentCondition.new(50), InBattleCondition.new()}, JobAbility.new("Liement", L{}, L{}), "Enemy", L{}),
-                Gambit.new("Self", L{MinHitPointsPercentCondition.new(50), InBattleCondition.new()}, JobAbility.new("Battuta", L{}, L{}), "Enemy", L{}),
+                Gambit.new("Self", L{MinHitPointsPercentCondition.new(50), InBattleCondition.new()}, JobAbility.new("Battuta", L{}, L{}), "Enemy", L{})
             }
         },
         JobAbilities = L{
@@ -28,10 +31,10 @@ return {
             JobAbility.new("Valiance", L{InBattleCondition.new()}),
             JobAbility.new("Vallation", L{InBattleCondition.new()})
         },
-        Debuffs = L{
+        PartyBuffs = L{
 
         },
-        PartyBuffs = L{
+        Debuffs = L{
 
         },
         PullSettings = {

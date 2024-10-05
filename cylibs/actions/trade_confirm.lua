@@ -102,7 +102,3 @@ function TradeConfirmAction:debug_string()
 end
 
 return TradeConfirmAction
-
-
-
-

@@ -58,7 +58,3 @@ function TradeAcceptAction:debug_string()
 end
 
 return TradeAcceptAction
-
-
-
-

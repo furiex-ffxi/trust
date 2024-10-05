@@ -7,7 +7,7 @@ return {
         ["autotargetmode"]="Off", 
         ["weaponskillsettingsmode"]="Default", 
         ["autofoodmode"]="Off", 
-        ["autotrustsmode"]="Off", 
+        ["autotrustsmode"]="Auto", 
         ["autounloadondeathmode"]="Auto", 
         ["autohealmode"]="Emergency", 
         ["skillchainassistantmode"]="Off", 

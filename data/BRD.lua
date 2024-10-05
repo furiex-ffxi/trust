@@ -18,7 +18,7 @@ return {
                 Spell.new("Valor Minuet III", L{}, L{'WAR','PLD','BRD','SAM','DRG','BLU','PUP','RUN','MNK','THF','BST','NIN','DNC','DRK','COR'}, nil, L{})
             },
             PianissimoSongs = L{
-                Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH"}, nil, L{}),
+                Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH", "PLD","RUN"}, nil, L{}),
                 Spell.new("Sage Etude", L{"Pianissimo"}, L{"BLM"}, nil, L{}),
                 Spell.new("Knight's Minne V", L{"Pianissimo"}, L{"PLD","RUN"}, nil, L{}),
             },

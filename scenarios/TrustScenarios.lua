@@ -39,32 +39,32 @@ end
 function TrustScenarios:add_scenario(name)
     if not self:has_scenario(name) then
         if name == 'di' then
-            local DomainInvasion = require('cylibs/scenarios/data/domain_invasion/domain_invasion')
+            local DomainInvasion = require('cylibs/scenarios/domain_invasion/domain_invasion')
             local scenario = DomainInvasion.new(self.action_queue)
             self.scenarios:append(scenario)
             self:start_scenario(scenario)
         elseif name == 'einherjar' then
-            local Einherjar = require('scenarios/data/einherjar/einherjar')
+            local Einherjar = require('scenarios/einherjar/einherjar')
             local scenario = Einherjar.new(self.action_queue, self.party, self.trust)
             self.scenarios:append(scenario)
             self:start_scenario(scenario)
         elseif name == 'upinarms' then
-            local UpInArms = require('scenarios/data/up_in_arms/up_in_arms')
+            local UpInArms = require('scenarios/up_in_arms/up_in_arms')
             local scenario = UpInArms.new(self.action_queue, self.party, self.trust)
             self.scenarios:append(scenario)
             self:start_scenario(scenario)
         elseif name == 'starter_weaponskill' then
-            local StarterWeaponSkill = require('scenarios/data/misc/starter_weaponskill')
+            local StarterWeaponSkill = require('scenarios/misc/starter_weaponskill')
             local scenario = StarterWeaponSkill.new(self.action_queue, self.party, self.trust, 'Armor Break', 'KajaChopper', 'Apocalypse')
             self.scenarios:append(scenario)
             self:start_scenario(scenario)
         elseif name == 'research' then
-            local Research = require('scenarios/data/research/research')
+            local Research = require('scenarios/research/research')
             local scenario = Research.new(self.action_queue, self.party, self.trust)
             self.scenarios:append(scenario)
             self:start_scenario(scenario)
         elseif name == 'nyzul' then
-            local Nyzul = require('scenarios/data/nyzul/nyzul')
+            local Nyzul = require('scenarios/nyzul/nyzul')
             local scenario = Nyzul.new(self.action_queue, self.addon_settings, self.party, self.trust, hud.widgetManager)
             self.scenarios:append(scenario)
             self:start_scenario(scenario)

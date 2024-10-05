@@ -89,6 +89,3 @@ function TradeOfferAction:debug_string()
 end
 
 return TradeOfferAction
-
-
-

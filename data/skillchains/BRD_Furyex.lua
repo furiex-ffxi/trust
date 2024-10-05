@@ -8,6 +8,9 @@ return {
             CombatSkillSettings.new("Club", L{}, ""),
             CombatSkillSettings.new("Staff", L{}, "")
         },
+        Blacklist = L{
+
+        },
         Skillchain = L{
             WeaponSkill.new("Rudra's Storm"),
             SkillchainAbility.skip(),
@@ -15,9 +18,6 @@ return {
             SkillchainAbility.skip(),
             SkillchainAbility.skip(),
             SkillchainAbility.skip()
-        },
-        Blacklist = L{
-
         }
     }
 }

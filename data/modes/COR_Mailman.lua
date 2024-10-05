@@ -14,7 +14,7 @@ return {
         ["approachpullmode"]="Off", 
         ["maintrustsettingsmode"]="Ep", 
         ["autofollowmode"]="Off", 
-        ["autopullmode"]="Auto", 
+        ["autopullmode"]="Off", 
         ["autodispelmode"]="Off"
     }, 
     ["Lilith"]={
@@ -53,7 +53,7 @@ return {
         ["maintrustsettingsmode"]="Default", 
         ["subtrustsettingsmode"]="Default", 
         ["autofacemobmode"]="Auto", 
-        ["approachpullmode"]="Auto", 
+        ["approachpullmode"]="Off", 
         ["autoengagemode"]="Always", 
         ["skillchainassistantmode"]="Off", 
         ["autoenablemode"]="Off", 

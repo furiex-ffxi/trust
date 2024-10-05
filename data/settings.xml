@@ -121,18 +121,18 @@
     </global>
     <cleobabe>
         <battle>
-            <targets>Locus Camelopard,Locus Ghost Crab,Ayapec,Locus Dire Bat,Locus Colibri,Locus Dragonfly,Locus Armet Beetle</targets>
-            <trusts>Koru-Moru,Sylvie (UC)</trusts>
+            <targets>Bugbear Bondman,Bugbear Strongman,Locus Camelopard,Locus Ghost Crab,Ayapec,Locus Dire Bat,Locus Colibri,Locus Dragonfly,Locus Armet Beetle</targets>
+            <trusts>Monberaux,Cornelia</trusts>
         </battle>
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>10.2.2</version>
+        <version>10.5.9</version>
     </cleobabe>
     <furyex>
         <battle>
-            <targets>Eschan Weapon,Locus Camelopard,Warder of Love,Locus Dire Bat,Locus Colibri,Satellite Great Axes,Locus Armet Beetle,Jester Malatrix,Warder of Faith,Locus Ghost Crab,Warder of Justice,Locus Dragonfly,Warder of Prudence,Eschan Euvhi,Warder of Hope</targets>
-            <trusts>Koru-Moru,Sylvie (UC)</trusts>
+            <targets>Warder of Prudence,Locus Camelopard,Sovereign Behemoth,Warder of Love,Locus Dire Bat,Locus Colibri,Locus Armet Beetle,Warder of Faith,Locus Ghost Crab,Warder of Justice,Locus Dragonfly,Sarama,Snippy Rafflesia,Warder of Hope</targets>
+            <trusts>Monberaux,Cornelia</trusts>
         </battle>
         <flags>
             <show_death_warning>false</show_death_warning>
@@ -141,28 +141,28 @@
     </furyex>
     <lolababe>
         <battle>
-            <targets>Locus Armet Beetle,Warder of Prudence,Locus Camelopard,Apex Dragonfly,Warder of Love,Locus Dire Bat,Locus Colibri,Cannered Noz,Warder of Faith,Locus Ghost Crab,Warder of Justice,Locus Dragonfly,Apex Blazer Elytra,Warder of Hope,Armet Beetle</targets>
-            <trusts>Koru-Moru,Sylvie (UC)</trusts>
+            <targets>Bugbear Bondman,Bugbear Strongman,Locus Armet Beetle,Warder of Prudence,Locus Camelopard,Apex Dragonfly,Warder of Love,Locus Dire Bat,Locus Colibri,Cannered Noz,Warder of Faith,Locus Ghost Crab,Warder of Justice,Locus Dragonfly,Apex Blazer Elytra,Warder of Hope,Armet Beetle</targets>
+            <trusts>Monberaux,Cornelia</trusts>
         </battle>
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>10.2.2</version>
+        <version>10.5.9</version>
     </lolababe>
     <mailman>
         <battle>
-            <targets>Warder of Prudence,Locus Camelopard,Apex Dragonfly,Warder of Love,Locus Dire Bat,Locus Colibri,Locus Armet Beetle,Warder of Faith,Locus Ghost Crab,Warder of Justice,Locus Dragonfly,Apex Blazer Elytra,Warder of Hope,Armet Beetle</targets>
-            <trusts>Koru-Moru,Sylvie (UC)</trusts>
+            <targets>Bugbear Bondman,Bugbear Strongman,Warder of Prudence,Locus Camelopard,Apex Dragonfly,Warder of Love,Locus Dire Bat,Locus Colibri,Locus Armet Beetle,Warder of Faith,Locus Ghost Crab,Warder of Justice,Locus Dragonfly,Apex Blazer Elytra,Warder of Hope,Armet Beetle</targets>
+            <trusts>Monberaux,Cornelia</trusts>
         </battle>
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
-        <version>10.2.2</version>
+        <version>10.5.9</version>
     </mailman>
     <suckme>
         <battle>
             <targets>Warder of Prudence,Locus Camelopard,Apex Dragonfly,Warder of Love,Locus Dire Bat,Locus Colibri,Warder of Faith,Locus Ghost Crab,Warder of Justice,Locus Dragonfly,Apex Blazer Elytra,Armet Beetle,Warder of Hope</targets>
-            <trusts>Koru-Moru,Sylvie (UC)</trusts>
+            <trusts>Monberaux,Cornelia</trusts>
         </battle>
         <flags>
             <show_death_warning>false</show_death_warning>

@@ -3,7 +3,7 @@ return {
     Version = 1,
     Default = {
         Skills = L{
-            CombatSkillSettings.new("Club", L{}, "Flash Nova"),
+            CombatSkillSettings.new("Club", L{}, "Black Halo"),
             CombatSkillSettings.new("Staff", L{}, ""),
             CombatSkillSettings.new("Dagger", L{}, "")
         },

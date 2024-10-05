@@ -79,6 +79,3 @@ function TradeRequestAction:debug_string()
 end
 
 return TradeRequestAction
-
-
-

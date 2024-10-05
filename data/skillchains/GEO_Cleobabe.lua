@@ -7,9 +7,6 @@ return {
             CombatSkillSettings.new("Staff", L{}, "Spirit Taker"),
             CombatSkillSettings.new("Dagger", L{}, "Wasp Sting")
         },
-        Blacklist = L{
-
-        },
         Skillchain = L{
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
@@ -17,6 +14,9 @@ return {
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto()
+        },
+        Blacklist = L{
+
         }
     }
 }
