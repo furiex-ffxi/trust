@@ -21,6 +21,9 @@ state.AutoIndiMode:set_description('Auto', "Okay, I'll use Indicolure spells on 
 state.AutoEntrustMode = M{['description'] = 'Auto Entrust Mode', 'Auto', 'Off'}
 state.AutoEntrustMode:set_description('Auto', "Okay, I'll entrust Indicolure spells on party members.")
 
+state.AutoBlazeOfGloryMode = M{['description'] = 'Auto Blaze of Glory Mode', 'Auto', 'Off'}
+state.AutoBlazeOfGloryMode:set_description('Auto', "Okay, I'll use Blaze of Glory before casting a Geocolure spell.")
+
 function GeomancerTrust.new(settings, action_queue, battle_settings, trust_settings)
 	local job = Geomancer.new()
 	local roles = S{
@@ -133,7 +136,7 @@ function GeomancerTrust:check_geo()
 			local target = windower.ffxi.get_mob_by_target(self.geo_spell:get_target()) or windower.ffxi.get_mob_by_name(self.geo_spell:get_target())
 			if target then
 				local actions = L{}
-				if player_util.get_job_ability_recast('Blaze of Glory') == 0 then
+				if player_util.get_job_ability_recast('Blaze of Glory') == 0 and state.AutoBlazeOfGloryMode.value == 'Auto' then
 					actions:append(JobAbilityAction.new(0, 0, 0, 'Blaze of Glory'))
 					actions:append(WaitAction.new(0, 0, 0, 1))
 				end
