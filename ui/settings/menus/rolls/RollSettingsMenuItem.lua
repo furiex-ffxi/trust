@@ -68,13 +68,13 @@ function RollSettingsMenuItem:getRollMenuItem(roll, descriptionText)
             local roll_name = selectedItems[1]:getText()
             if roll_name then
                 if roll_name == self.rolls[1]:get_roll_name() or roll_name == self.rolls[2]:get_roll_name() then
-                    addon_message(260, '('..windower.ffxi.get_player().name..') '.."I'm already using "..roll_name.."!")
+                    addon_message(207, '('..windower.ffxi.get_player().name..') '.."I'm already using "..roll_name.."!")
                     return
                 end
                 roll:set_roll_name(roll_name)
 
                 self.trustSettings:saveSettings(true)
-                addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I'll use "..roll_name.." now!")
+                addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I'll use "..roll_name.." now!")
             end
         end)
         return chooseRollView

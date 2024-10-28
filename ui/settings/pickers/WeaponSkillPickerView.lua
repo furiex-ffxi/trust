@@ -29,7 +29,7 @@ function WeaponSkillPickerView:onSelectMenuItemAtIndexPath(textItem, _)
             end
             self:getDelegate():deselectAllItems()
             self.trustSettings:saveSettings(true)
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my weapon skills!")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my weapon skills!")
         end
     elseif textItem:getText() == 'Clear' then
         self:getDelegate():deselectAllItems()

@@ -300,7 +300,7 @@ function ConfigEditor:onConfirmClick(skipSave)
 
     if self.trustSettings and not skipSave then
         self.trustSettings:saveSettings(true)
-        addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my settings!")
+        addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my settings!")
     end
 end
 

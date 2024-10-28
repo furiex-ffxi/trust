@@ -3,7 +3,7 @@ return {
     Version = 1,
     Default = {
         Skills = L{
-            CombatSkillSettings.new("Dagger", L{}, "Rudra's Storm"),
+            CombatSkillSettings.new("Dagger", L{}, "Ruthless Stroke"),
             CombatSkillSettings.new("Sword", L{}, "Savage Blade"),
             CombatSkillSettings.new("Club", L{}, ""),
             CombatSkillSettings.new("Staff", L{}, "")

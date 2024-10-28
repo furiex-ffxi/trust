@@ -34,13 +34,13 @@ function StatusRemovalBlacklistPickerView:onSelectMenuItemAtIndexPath(textItem, 
             end
             self:getDelegate():deselectAllItems()
             self.trustSettings:saveSettings(true)
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I'll ignore these status effects!")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I'll ignore these status effects!")
         end
     elseif textItem:getText() == 'Clear' then
         self:getDelegate():deselectAllItems()
         self.statusEffectsBlacklist:clear()
         self.trustSettings:saveSettings(true)
-        addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I'll remove all status effects again!")
+        addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I'll remove all status effects again!")
     end
 end
 

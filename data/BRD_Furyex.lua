@@ -16,7 +16,7 @@ return {
         AutoFood = "Grape Daifuku",
         SongSettings = {
             NumSongs = 4,
-            SongDuration =340,
+            SongDuration = 340,
             SongDelay = 4,
             Songs = L{
                 Spell.new("Honor March", L{"Marcato"}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "COR", "WHM"}, nil, L{}),

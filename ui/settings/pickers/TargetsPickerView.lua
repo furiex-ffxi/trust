@@ -48,7 +48,7 @@ function TargetsPickerView:onSelectMenuItemAtIndexPath(textItem, _)
                 self.puller:set_target_names(targets)
             end
 
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated the list of mobs to pull.")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated the list of mobs to pull.")
         end
     elseif textItem:getText() == 'Clear' then
         self:getDelegate():deselectAllItems()

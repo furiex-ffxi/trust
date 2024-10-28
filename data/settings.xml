@@ -67,7 +67,7 @@
             <y>258</y>
         </pet_widget>
         <remote_commands>
-            <whitelist>Furyex,Cleobabe,Lolababe,Mailman</whitelist>
+            <whitelist>Furyex,Mailman,Lolababe,Cleobabe</whitelist>
         </remote_commands>
         <settings_widget>
             <visible>true</visible>
@@ -121,7 +121,7 @@
     </global>
     <cleobabe>
         <battle>
-            <targets>Bugbear Bondman,Bugbear Strongman,Locus Camelopard,Locus Ghost Crab,Ayapec,Locus Dire Bat,Locus Colibri,Locus Dragonfly,Locus Armet Beetle</targets>
+            <targets>Locus Camelopard,Sovereign Behemoth,Bugbear Strongman,Locus Dire Bat,Locus Colibri,Locus Armet Beetle,Bugbear Bondman,Locus Ghost Crab,Locus Dragonfly,Sarama</targets>
             <trusts>Monberaux,Cornelia</trusts>
         </battle>
         <flags>
@@ -152,7 +152,7 @@
     <mailman>
         <battle>
             <targets>Bugbear Bondman,Bugbear Strongman,Warder of Prudence,Locus Camelopard,Apex Dragonfly,Warder of Love,Locus Dire Bat,Locus Colibri,Locus Armet Beetle,Warder of Faith,Locus Ghost Crab,Warder of Justice,Locus Dragonfly,Apex Blazer Elytra,Warder of Hope,Armet Beetle</targets>
-            <trusts>Monberaux,Cornelia</trusts>
+            <trusts>Monberaux,Sylvie (UC)</trusts>
         </battle>
         <flags>
             <show_death_warning>false</show_death_warning>

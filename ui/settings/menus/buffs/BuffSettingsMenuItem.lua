@@ -137,7 +137,7 @@ function BuffSettingsMenuItem:getResetMenuItem()
             currentSettings[self.settingsKey] = defaultSettings[self.settingsKey]
         end
         self.trustSettings:saveSettings(true)
-        addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I've forgotten any custom settings!")
+        addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I've forgotten any custom settings!")
 
         menu:showMenu(self)
     end, "Reset", "Reset to default settings. WARNING: your settings will be overriden.")

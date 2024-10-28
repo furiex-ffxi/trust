@@ -100,10 +100,10 @@ function BlueMagicSettingsMenuItem:getCreateSetMenuItem()
 
                     self.trustSettings:saveSettings(true)
 
-                    addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I've saved a new spell set called "..newSetName.."!")
+                    addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I've saved a new spell set called "..newSetName.."!")
                 end
             else
-                addon_message(260, '('..windower.ffxi.get_player().name..') '.."That name is too short, pick something else?")
+                addon_message(207, '('..windower.ffxi.get_player().name..') '.."That name is too short, pick something else?")
             end
         end)
         return createSetView
@@ -116,7 +116,7 @@ function BlueMagicSettingsMenuItem:getDeleteSetMenuItem()
         if self.selectedSetName then
             local spellSets = self.trustSettings:getSettings()[self.trustSettingsMode.value].BlueMagicSettings.SpellSets
             if L(T(spellSets):keyset()):length() <= 1 then
-                addon_message(260, '('..windower.ffxi.get_player().name..') '.."I can't delete my last set!")
+                addon_message(207, '('..windower.ffxi.get_player().name..') '.."I can't delete my last set!")
                 return
             end
 
@@ -124,7 +124,7 @@ function BlueMagicSettingsMenuItem:getDeleteSetMenuItem()
 
             self.trustSettings:saveSettings(true)
 
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, "..self.selectedSetName.." is no more!")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, "..self.selectedSetName.." is no more!")
 
             menu:showMenu(self)
         end

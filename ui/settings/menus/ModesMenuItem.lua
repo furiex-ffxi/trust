@@ -39,7 +39,7 @@ end
 function ModesMenuItem:reloadSettings()
     self:setChildMenuItem("Save", MenuItem.action(function()
         windower.send_command('trust save '..state.TrustMode.value)
-        addon_message(260, '('..windower.ffxi.get_player().name..') '.."You got it! I'll remember what to do.")
+        addon_message(207, '('..windower.ffxi.get_player().name..') '.."You got it! I'll remember what to do.")
     end), "Save", "Override the current mode set.")
     self:setChildMenuItem("Save As", self:getSaveAsMenuItem())
 end
@@ -51,7 +51,7 @@ end
 function ModesMenuItem:getSaveAsMenuItem()
     local onRenameSet = function(newModeSetName)
         windower.send_command('trust save '..newModeSetName)
-        addon_message(260, '('..windower.ffxi.get_player().name..') '.."You got it! I'll remember what to do.")
+        addon_message(207, '('..windower.ffxi.get_player().name..') '.."You got it! I'll remember what to do.")
     end
 
     local saveAsMenuItem = MenuItem.new(L{

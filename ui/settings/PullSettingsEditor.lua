@@ -102,7 +102,7 @@ function PullSettingsEditor:onSelectMenuItemAtIndexPath(textItem, indexPath)
             self:getDelegate():deselectAllItems()
             self:getDataSource():removeItems(selectedIndexPaths)
 
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I won't pull these mobs anymore.")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I won't pull these mobs anymore.")
         end
     end
 end

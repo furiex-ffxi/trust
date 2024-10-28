@@ -66,7 +66,7 @@ function BloodPactSettingsMenuItem:getBuffsMenuItem()
             end
 
             self.trustSettings:saveSettings(true)
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my list of Blood Pact: Wards!")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my list of Blood Pact: Wards!")
         end)
         return chooseBloodPactView
     end, "Summoner", "Customize Blood Pact: Wards to use on the party.")

@@ -135,7 +135,7 @@ function Puppetmaster:equip_attachment_set(head_name, frame_name, attachment_nam
             return
         else
             if not job_util.can_use_job_ability('Deactivate') then
-                addon_message(260, '('..windower.ffxi.get_player().name..') '.."Deactivate isn't ready, try again in "..math.floor(player_util.get_job_ability_recast('Deactivate')).." seconds.")
+                addon_message(207, '('..windower.ffxi.get_player().name..') '.."Deactivate isn't ready, try again in "..math.floor(player_util.get_job_ability_recast('Deactivate')).." seconds.")
                 return
             end
             if auto_pet_mode ~= 'Off' then
@@ -173,7 +173,7 @@ function Puppetmaster:equip_attachment_set(head_name, frame_name, attachment_nam
         if auto_pet_mode ~= 'Off' then
             state.AutoPetMode:set(auto_pet_mode)
         end
-        addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, done!")
+        addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, done!")
     end), 'equip_attachments_done')
 
     local equip_action = SequenceAction.new(actions, 'equip_attachment_set', true)
@@ -181,7 +181,7 @@ function Puppetmaster:equip_attachment_set(head_name, frame_name, attachment_nam
     equip_action.priority = ActionPriority.highest
     equip_action.max_duration = 15
 
-    addon_message(260, '('..windower.ffxi.get_player().name..') '.."Give me a sec, I'm updating my attachments...")
+    addon_message(207, '('..windower.ffxi.get_player().name..') '.."Give me a sec, I'm updating my attachments...")
 
     self.automaton_action_queue:push_action(equip_action, true)
 end

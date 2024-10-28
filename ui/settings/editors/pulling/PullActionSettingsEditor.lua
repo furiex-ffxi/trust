@@ -54,7 +54,7 @@ function PullActionSettingsEditor:onRemoveAbilityClick()
             self:getDataSource():removeItem(indexPath)
             self.trustSettings:saveSettings(true)
 
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I'll no longer use "..localization_util.translate(item:getText()).." to pull!")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I'll no longer use "..localization_util.translate(item:getText()).." to pull!")
         end
     end
 end

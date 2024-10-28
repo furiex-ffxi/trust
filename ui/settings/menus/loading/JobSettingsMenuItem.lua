@@ -64,9 +64,9 @@ function JobSettingsMenuItem:getCreateSetMenuItem()
 
                 self.jobSettingsMode:set(newSetName)
 
-                addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I'll remember what to do for "..newSetName.." now!")
+                addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I'll remember what to do for "..newSetName.." now!")
             else
-                addon_message(260, '('..windower.ffxi.get_player().name..') '.."That name is too short, pick something else?")
+                addon_message(207, '('..windower.ffxi.get_player().name..') '.."That name is too short, pick something else?")
             end
         end)
         return createSetView
@@ -90,7 +90,7 @@ function JobSettingsMenuItem:getResetMenuItem()
             self.jobSettings:getSettings()[self.jobSettingsMode.value] = defaultSettings
             self.jobSettings:saveSettings(true)
 
-            addon_message(260, '('..windower.ffxi.get_player().name..") Alright, I've reset "..self.jobSettingsMode.value.." to the default job settings!")
+            addon_message(207, '('..windower.ffxi.get_player().name..") Alright, I've reset "..self.jobSettingsMode.value.." to the default job settings!")
         end, "Settings", "Reset to default job settings. WARNING: your settings will be overriden.")
     }, nil, "Settings", "Reset to default job settings. WARNING: your settings will be overriden.", true)
     return resetMenuItem

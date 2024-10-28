@@ -31,7 +31,7 @@ function SongPickerView:onSelectMenuItemAtIndexPath(textItem, _)
 
             local errorMessage = self.validateSongs(selectedSongNames)
             if errorMessage then
-                addon_message(260, '('..windower.ffxi.get_player().name..') '..errorMessage)
+                addon_message(207, '('..windower.ffxi.get_player().name..') '..errorMessage)
                 return
             end
 
@@ -49,7 +49,7 @@ function SongPickerView:onSelectMenuItemAtIndexPath(textItem, _)
             end
 
             self.trustSettings:saveSettings(true)
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my songs!")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my songs!")
         end
     end
 end

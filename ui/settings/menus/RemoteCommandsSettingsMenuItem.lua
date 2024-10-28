@@ -51,7 +51,7 @@ function RemoteCommandsSettingsMenuItem:reloadSettings(addonSettings)
         if self.selectedPlayerName then
             addonSettings:getSettings().remote_commands.whitelist:remove(self.selectedPlayerName)
             addonSettings:saveSettings(true)
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, "..self.selectedPlayerName.." can no longer tell me what to do!")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, "..self.selectedPlayerName.." can no longer tell me what to do!")
             self.selectedPlayerName = nil
             menu:showMenu(self)
         end
@@ -78,7 +78,7 @@ function RemoteCommandsSettingsMenuItem:getAddPlayerMenuItem(addonSettings)
                 if not whitelist:contains(playerName) then
                     addonSettings:getSettings().remote_commands.whitelist:add(playerName)
                     addonSettings:saveSettings(true)
-                    addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, "..playerName.." can control me now!")
+                    addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, "..playerName.." can control me now!")
                     windower.add_to_chat(122, "---== WARNING ==---- Adding a player to the whitelist will allow them to control your Trust. Please use this carefully.")
                 end
             end

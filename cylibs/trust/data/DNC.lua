@@ -48,7 +48,7 @@ end
 
 function DancerTrust:on_role_added(role)
 	if L{"skillchainer", "spammer"}:contains(role:get_type()) then
-		role:set_job_abilities(L{ JobAbility.new('Building Flourish'), JobAbility.new('Climactic Flourish') })
+		role:set_job_abilities(L{ JobAbility.new('Climactic Flourish') })
 	end
 end
 
@@ -65,6 +65,9 @@ end
 function DancerTrust:check_finishing_moves()
 	if job_util.can_use_job_ability('No Foot Rise') and not self:get_job():has_finishing_moves() then
 		self.action_queue:push_action(JobAbilityAction.new(0, 0, 0, 'No Foot Rise'), true)
+	end
+	if job_util.can_use_job_ability('Reverse Flourish') and self:get_job():has_finishing_moves() then
+		self.action_queue:push_action(JobAbilityAction.new(0, 0, 0, 'Reverse Flourish'), true)
 	end
 end
 

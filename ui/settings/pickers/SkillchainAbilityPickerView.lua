@@ -86,7 +86,7 @@ function SkillchainAbilityPickerView:onSelectMenuItemAtIndexPath(textItem, _)
             self:setNeedsLayout()
             self:layoutIfNeeded()
             self.weaponSkillSettings:saveSettings(true)
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my weapon skills!")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my weapon skills!")
         end
     end
 end

@@ -573,7 +573,7 @@ function handle_migrate_settings()
 			end
 		end
 	end
-	addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, all of my settings have been upgraded to the latest and greatest!")
+	addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, all of my settings have been upgraded to the latest and greatest!")
 end
 
 function handle_trust_status()

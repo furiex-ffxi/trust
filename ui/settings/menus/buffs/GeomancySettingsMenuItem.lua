@@ -74,7 +74,7 @@ function GeomancySettingsMenuItem:getGeoMenuItem()
                 self.geomancySettings.Geo = spell
 
                 self.trustSettings:saveSettings(true)
-                addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I'll use "..spell:get_name().." now!")
+                addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I'll use "..spell:get_name().." now!")
             end
         end)
         return chooseSpellsView
@@ -94,7 +94,7 @@ function GeomancySettingsMenuItem:getGeoMenuItem()
                 self.geomancySettings.Geo.target = target
 
                 self.trustSettings:saveSettings(true)
-                addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I'll target "..target.." now!")
+                addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I'll target "..target.." now!")
             end
         end)
         return chooseSpellsView
@@ -132,7 +132,7 @@ function GeomancySettingsMenuItem:getIndiMenuItem()
                 self.geomancySettings.Indi = spell
 
                 self.trustSettings:saveSettings(true)
-                addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I'll use "..spell:get_name().." now!")
+                addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I'll use "..spell:get_name().." now!")
             end
         end)
         return chooseSpellsView

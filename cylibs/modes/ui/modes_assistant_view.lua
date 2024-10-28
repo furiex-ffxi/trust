@@ -197,7 +197,7 @@ end
 function ModesAssistantView:onSelectMenuItemAtIndexPath(textItem, indexPath)
     if textItem:getText() == 'Save' then
         windower.send_command('trust save '..state.TrustMode.value)
-        addon_message(260, '('..windower.ffxi.get_player().name..') '.."You got it! I'll remember what to do.")
+        addon_message(207, '('..windower.ffxi.get_player().name..') '.."You got it! I'll remember what to do.")
     end
 end
 

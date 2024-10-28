@@ -61,7 +61,7 @@ function EntrustSettingsMenuItem:getAddMenuItem()
             self.entrustSpells:append(spell)
 
             self.trustSettings:saveSettings(true)
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I'll use "..spell:get_name().." now!")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I'll use "..spell:get_name().." now!")
         end)
         return chooseSpellsView
     end, "Entrust", "Add indicolures to entrust on party members.")
@@ -81,7 +81,7 @@ function EntrustSettingsMenuItem:getTargetsMenuItem()
             spell:set_job_names(selectedItems:map(function(item) return item:getText()  end))
 
             self.trustSettings:saveSettings(true)
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated the jobs to entrust with "..spell:get_name()..".")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated the jobs to entrust with "..spell:get_name()..".")
         end)
         return chooseSpellsView
     end, "Entrust", "Choose which jobs to entrust with this indicolure.")

@@ -139,7 +139,7 @@ function SongSettingsMenuItem:getPianissmoSongsMenuItem()
                 songs = songs:extend(newSongs)
 
                 self.trustSettings:saveSettings(true)
-                addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my songs!")
+                addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my songs!")
             end
         end), chooseSongsView:on_pick_items())
 
@@ -169,7 +169,7 @@ function SongSettingsMenuItem:getPianissmoSongsMenuItem()
                 end
 
                 self.trustSettings:saveSettings(true)
-                addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I'll only pianissimo this song on these jobs!")
+                addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I'll only pianissimo this song on these jobs!")
             end
         end), jobsPickerView:on_pick_items())
 
@@ -212,7 +212,7 @@ function SongSettingsMenuItem:getPianissmoSongsMenuItem()
             songs:remove(self.selectedPianissimoSongIndex)
 
             self.trustSettings:saveSettings(true)
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my songs!")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my songs!")
 
             self.selectedPianissimoSongIndex = nil
 

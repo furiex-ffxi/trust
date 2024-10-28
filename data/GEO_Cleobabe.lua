@@ -7,21 +7,24 @@ return {
         GambitSettings = {
             Gambits = L{
                 Gambit.new("Self", L{MaxHitPointsPercentCondition.new(70), InBattleCondition.new()}, Spell.new("Cure IV", L{}, L{}, nil, L{}), "Self", L{}),
-                Gambit.new("Ally", L{MaxHitPointsPercentCondition.new(70), InBattleCondition.new()}, Spell.new("Cure IV", L{}, L{}, nil, L{}), "Ally", L{})
+                Gambit.new("Ally", L{MaxHitPointsPercentCondition.new(70), InBattleCondition.new()}, Spell.new("Cure IV", L{}, L{}, nil, L{}), "Ally", L{}),
+                Gambit.new("Self", L{MinTacticalPointsCondition.new(1000), MaxManaPointsPercentCondition.new(80)}, WeaponSkill.new("Starlight"), "Self", L{}),
+                Gambit.new("Enemy", L{MaxManaPointsPercentCondition.new(80), InBattleCondition.new()}, Spell.new("Aspir III", L{}, L{}, nil, L{}), "Self", L{}),
+                Gambit.new("Enemy", L{MaxManaPointsPercentCondition.new(80), InBattleCondition.new()}, Spell.new("Aspir II", L{}, L{}, nil, L{}), "Self", L{})
             }
         },
         JobAbilities = L{
 
         },
         PartyBuffs = L{
-            Spell.new("Indi-Precision", L{"Entrust"}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+            Spell.new("Indi-Fend", L{"Entrust"}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
         },
         Debuffs = L{
 
         },
         Geomancy = {
-            Indi = Spell.new("Indi-Acumen", L{}, L{}, "me", L{}),
-            Geo = Spell.new("Geo-Malaise", L{}, L{}, "bt", L{})
+            Indi = Spell.new("Indi-Fury", L{}, L{}, "me", L{}),
+            Geo = Spell.new("Geo-Barrier", L{}, L{}, "me", L{})
         },
         NukeSettings = {
             MinNumMobsToCleave = 2,
@@ -60,14 +63,14 @@ return {
 
         },
         PartyBuffs = L{
-            Spell.new("Indi-Attunement", L{"Entrust"}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+            Spell.new("Indi-Fury", L{"Entrust"}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
         },
         Debuffs = L{
 
         },
         Geomancy = {
-            Indi = Spell.new("Indi-Focus", L{}, L{}, "me", L{}),
-            Geo = Spell.new("Geo-Barrier", L{}, L{}, "bt", L{})
+            Indi = Spell.new("Indi-Barrier", L{}, L{}, "me", L{}),
+            Geo = Spell.new("Geo-Frailty", L{}, L{}, "bt", L{})
         },
         NukeSettings = {
             MinNumMobsToCleave = 2,

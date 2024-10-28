@@ -200,7 +200,7 @@ function BlueMage:equip_spells(spell_names)
     end
 
     actions:append(BlockAction.new(function()
-        addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, done!")
+        addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, done!")
     end), 'equip_spells_done')
 
     local equip_action = SequenceAction.new(actions, 'equip_spell_set', true)
@@ -208,7 +208,7 @@ function BlueMage:equip_spells(spell_names)
     equip_action.priority = ActionPriority.highest
     equip_action.max_duration = 15
 
-    addon_message(260, '('..windower.ffxi.get_player().name..') '.."Give me a sec, I'm updating my spells...")
+    addon_message(207, '('..windower.ffxi.get_player().name..') '.."Give me a sec, I'm updating my spells...")
 
     self.spells_action_queue:push_action(equip_action, true)
 end

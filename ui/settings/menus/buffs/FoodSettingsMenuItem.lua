@@ -79,7 +79,7 @@ function FoodSettingsMenuItem:getFoodMenuItem()
             self.trustSettings:getSettings()[self.trustSettingsMode.value].AutoFood = newFood
             self.trustSettings:saveSettings(true)
 
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I'll eat "..newFood.." now when I have them in my inventory!")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I'll eat "..newFood.." now when I have them in my inventory!")
         end)
         return chooseFoodView
     end, "Food", "Choose a food to eat.")

@@ -112,7 +112,7 @@ function SkillchainSettingsEditor:onSelectMenuItemAtIndexPath(textItem, indexPat
                 local indexPath = cursorIndexPath
                 self.abilities[indexPath.row] = SkillchainAbility.auto()
                 self.weaponSkillSettings:saveSettings(true)
-                addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I'll figure out what to use on my own for Step "..indexPath.row.."!")
+                addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I'll figure out what to use on my own for Step "..indexPath.row.."!")
 
                 self:reloadSettings()
             end
@@ -125,7 +125,7 @@ function SkillchainSettingsEditor:onSelectMenuItemAtIndexPath(textItem, indexPat
                 local indexPath = cursorIndexPath
                 self.abilities[indexPath.row] = SkillchainAbility.skip()
                 self.weaponSkillSettings:saveSettings(true)
-                addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I'll let a party member take care of Step "..indexPath.row.."!")
+                addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I'll let a party member take care of Step "..indexPath.row.."!")
 
                 self:reloadSettings()
             end
@@ -136,7 +136,7 @@ function SkillchainSettingsEditor:onSelectMenuItemAtIndexPath(textItem, indexPat
             self.abilities:append(SkillchainAbility.auto())
         end
         self.weaponSkillSettings:saveSettings(true)
-        addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, back to the drawing board!")
+        addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, back to the drawing board!")
 
         self:reloadSettings()
     elseif textItem:getText() == 'Cycle' then
@@ -148,18 +148,18 @@ function SkillchainSettingsEditor:onSelectMenuItemAtIndexPath(textItem, indexPat
 
         state.WeaponSkillSettingsMode:set(setName)
 
-        addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I copied the default settings to "..setName.." and switched to the new set.")
+        addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I copied the default settings to "..setName.." and switched to the new set.")
     elseif textItem:getText() == 'Delete' then
         local setName = state.WeaponSkillSettingsMode.value
         if setName == 'Default' then
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."I can't delete the Default set!")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."I can't delete the Default set!")
         else
             self.weaponSkillSettings:getSettings()[setName] = nil
             self.weaponSkillSettings:saveSettings(true)
 
             state.WeaponSkillSettingsMode:set('Default')
 
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Poof! I've forgotten "..setName..". Things feel less cluttered already.")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Poof! I've forgotten "..setName..". Things feel less cluttered already.")
         end
     end
 end

@@ -127,7 +127,7 @@ function PartySkillchainSettingsMenuItem:reloadSettings()
         end]]
         end
         self.weaponSkillSettings:saveSettings(true)
-        addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my skillchain!")
+        addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my skillchain!")
     end), "Skillchains", "Choose party members for each step.")
 end
 

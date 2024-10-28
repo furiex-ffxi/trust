@@ -148,7 +148,7 @@ function SpellSettingsEditor:updateSpell()
 
     self.trustSettings:saveSettings(true)
 
-    addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I'll follow these rules for "..self.spell:get_spell().en..'.')
+    addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I'll follow these rules for "..self.spell:get_spell().en..'.')
 end
 
 function SpellSettingsEditor:getMenuArgs()

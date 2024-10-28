@@ -89,7 +89,7 @@ function SpellPickerView:onSelectMenuItemAtIndexPath(textItem, _)
             end
 
             self.trustSettings:saveSettings(true)
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my spells!")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my spells!")
         end
     elseif textItem:getText() == 'Clear' then
         self:getDelegate():deselectAllItems()

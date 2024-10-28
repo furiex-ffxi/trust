@@ -103,7 +103,7 @@ function PullActionMenuItem:getAddAbilityMenuItem()
 
                     self.trustSettings:saveSettings(true)
 
-                    addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I'll use "..localization_util.commas(selectedItems).." to pull!")
+                    addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I'll use "..localization_util.commas(selectedItems).." to pull!")
                 end)
 
                 return chooseSpellsView

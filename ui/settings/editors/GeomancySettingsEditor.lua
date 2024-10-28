@@ -103,7 +103,7 @@ function GeomancySettingsEditor:onRemoveSpellClick()
             self:getDataSource():removeItem(indexPath)
 
             self.trustSettings:saveSettings(true)
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I wont entrust "..item:getText().." anymore.")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I wont entrust "..item:getText().." anymore.")
         end
     end
 end

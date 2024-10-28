@@ -41,7 +41,7 @@ function AlterEgoSettingsMenuItem:getEditMenuItem()
 
             self.addonSettings:getSettings().battle.trusts = alterEgos
             self.addonSettings:saveSettings(true)
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my list of Alter Egos to summon!")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my list of Alter Egos to summon!")
         end)
         return chooseAlterEgosView
     end, "Alter Egos", "Choose Alter Egos to summon.")

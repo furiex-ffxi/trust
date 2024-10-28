@@ -97,9 +97,9 @@ function JobSettingsView:onSelectMenuItemAtIndexPath(textItem, indexPath)
             if item:getText() ~= 'Default' then
                 self.jobSettings:deleteSettings(item:getText())
                 self:getDataSource():removeItem(selectedIndexPath)
-                addon_message(260, '('..windower.ffxi.get_player().name..') '..item:getText().."? What "..item:getText().."?")
+                addon_message(207, '('..windower.ffxi.get_player().name..') '..item:getText().."? What "..item:getText().."?")
             else
-                addon_message(260, '('..windower.ffxi.get_player().name..") I can't forget Default!")
+                addon_message(207, '('..windower.ffxi.get_player().name..") I can't forget Default!")
             end
         end
     end

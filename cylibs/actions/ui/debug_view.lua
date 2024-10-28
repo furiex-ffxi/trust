@@ -120,11 +120,11 @@ function DebugView:onSelectMenuItemAtIndexPath(textItem, indexPath)
     if textItem:getText() == 'Clear' then
         if self.actionQueue:length() > 0 then
             self.actionQueue:clear()
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Okay, I'll reconsider what I was going to do.")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Okay, I'll reconsider what I was going to do.")
         elseif self.actionQueue.current_action ~= nil then
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."I'm in the middle of something!")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."I'm in the middle of something!")
         else
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."I'm not doing anything...")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."I'm not doing anything...")
         end
     end
 end

@@ -66,7 +66,7 @@ function ManeuverSettingsMenuItem:getConfirmMenuItem()
     return MenuItem.action(function()
         if self.selectedSetName then
             state.ManeuverMode:set(self.selectedSetName)
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Okay, I'll use the "..self.selectedSetName.." maneuver set now!")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Okay, I'll use the "..self.selectedSetName.." maneuver set now!")
         end
     end)
 end
@@ -87,9 +87,9 @@ function ManeuverSettingsMenuItem:getEditSetMenuItem()
             end
             if count < 3 then
                 if count == 0 then
-                    addon_message(260, '('..windower.ffxi.get_player().name..') '.."No can do. You didn't select any maneuvers!")
+                    addon_message(207, '('..windower.ffxi.get_player().name..') '.."No can do. You didn't select any maneuvers!")
                 else
-                    addon_message(260, '('..windower.ffxi.get_player().name..') '.."No can do? You only selected "..count.." maneuvers!")
+                    addon_message(207, '('..windower.ffxi.get_player().name..') '.."No can do? You only selected "..count.." maneuvers!")
                 end
                 return false
             end

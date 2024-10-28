@@ -33,7 +33,7 @@ function JobAbilityPickerView:onSelectMenuItemAtIndexPath(textItem, _)
                 if item then
                     local jobAbility = JobAbility.new(item:getText(), L{}, L{}, nil)
                     if self.jobAbilities:contains(jobAbility) then
-                        addon_message(260, '('..windower.ffxi.get_player().name..') '.."I'm already using "..jobAbility:get_job_ability_name()..".")
+                        addon_message(207, '('..windower.ffxi.get_player().name..') '.."I'm already using "..jobAbility:get_job_ability_name()..".")
                     else
                         self.jobAbilities:append(jobAbility)
                     end
@@ -41,7 +41,7 @@ function JobAbilityPickerView:onSelectMenuItemAtIndexPath(textItem, _)
             end
             self:getDelegate():deselectAllItems()
             self.trustSettings:saveSettings(true)
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my abilities!")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my abilities!")
         end
     elseif textItem:getText() == 'Clear' then
         self:getDelegate():deselectAllItems()

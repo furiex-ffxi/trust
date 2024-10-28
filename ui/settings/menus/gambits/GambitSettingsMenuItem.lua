@@ -320,7 +320,7 @@ function GambitSettingsMenuItem:getResetGambitsMenuItem()
 
             self.trustSettings:saveSettings(true)
 
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I've reset my Gambits to their factory settings!")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I've reset my Gambits to their factory settings!")
 
             menu:showMenu(self)
         end

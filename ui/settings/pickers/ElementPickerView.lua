@@ -48,7 +48,7 @@ function ElementPickerView:onSelectMenuItemAtIndexPath(textItem, _)
                 end
             end
             self.trustSettings:saveSettings(true)
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I won't use nukes of these elements!")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I won't use nukes of these elements!")
         else
             self:clearAll()
         end
@@ -61,7 +61,7 @@ function ElementPickerView:clearAll()
     self:getDelegate():deselectAllItems()
     self.elementBlacklist:clear()
     self.trustSettings:saveSettings(true)
-    addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I'll nuke with all elements!")
+    addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I'll nuke with all elements!")
 end
 
 return ElementPickerView

@@ -93,7 +93,7 @@ end
 function LoadSettingsView:deleteModeSet(modeSetName)
     if self.trustModeSettings:getSettings()[modeSetName] then
         self.trustModeSettings:deleteSettings(modeSetName)
-        addon_message(260, '('..windower.ffxi.get_player().name..') '..modeSetName.."? What "..modeSetName.."?")
+        addon_message(207, '('..windower.ffxi.get_player().name..') '..modeSetName.."? What "..modeSetName.."?")
     end
 end
 
@@ -107,7 +107,7 @@ function LoadSettingsView:onSelectMenuItemAtIndexPath(textItem, indexPath)
                 self:getDataSource():removeItem(selectedIndexPath)
                 self:getDelegate():selectItemAtIndexPath(IndexPath.new(1, 1))
             else
-                addon_message(260, '('..windower.ffxi.get_player().name..") I can't forget Default!")
+                addon_message(207, '('..windower.ffxi.get_player().name..") I can't forget Default!")
             end
         end
     end

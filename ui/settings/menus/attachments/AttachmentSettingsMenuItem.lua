@@ -84,7 +84,7 @@ function AttachmentSettingsMenuItem:getEquipSetMenuItem()
                 --self.job:remove_all_attachments()
                 self.job:equip_attachment_set(self.selectedSet:getHeadName(), self.selectedSet:getFrameName(), self.selectedSet:getAttachments(), action_queue, true)
             else
-                addon_message(260, '('..windower.ffxi.get_player().name..') '.."I can't change sets while my Automaton is still out!")
+                addon_message(207, '('..windower.ffxi.get_player().name..') '.."I can't change sets while my Automaton is still out!")
             end]]
             self.job:equip_attachment_set(self.selectedSet:getHeadName(), self.selectedSet:getFrameName(), self.selectedSet:getAttachments(), true)
         end
@@ -118,10 +118,10 @@ function AttachmentSettingsMenuItem:getCreateSetMenuItem()
 
                     self.trustSettings:saveSettings(true)
 
-                    addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I've saved a new attachment set called "..newSetName.."!")
+                    addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I've saved a new attachment set called "..newSetName.."!")
                 end
             else
-                addon_message(260, '('..windower.ffxi.get_player().name..') '.."That name is too short, pick something else?")
+                addon_message(207, '('..windower.ffxi.get_player().name..') '.."That name is too short, pick something else?")
             end
         end)
         return createSetView
@@ -134,7 +134,7 @@ function AttachmentSettingsMenuItem:getDeleteSetMenuItem()
         if self.selectedSetName then
             local attachmentSets = self.trustSettings:getSettings()[self.trustSettingsMode.value].AutomatonSettings.AttachmentSettings[self.settingsKeyName]
             if L(T(attachmentSets):keyset()):length() <= 1 then
-                addon_message(260, '('..windower.ffxi.get_player().name..') '.."I can't delete my last set!")
+                addon_message(207, '('..windower.ffxi.get_player().name..') '.."I can't delete my last set!")
                 return
             end
 
@@ -142,7 +142,7 @@ function AttachmentSettingsMenuItem:getDeleteSetMenuItem()
 
             self.trustSettings:saveSettings(true)
 
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, "..self.selectedSetName.." is no more!")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, "..self.selectedSetName.." is no more!")
 
             menu:showMenu(self)
         end

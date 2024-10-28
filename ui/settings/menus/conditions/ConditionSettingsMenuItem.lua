@@ -138,7 +138,7 @@ function ConditionSettingsMenuItem:getAddConditionMenuItem(parentMenuItem)
 
             self.trustSettings:saveSettings(true)
 
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I've added a new condition!")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I've added a new condition!")
         end)
         --[[chooseConditionView:getDisposeBag():add(chooseConditionView:getDelegate():didHighlightItemAtIndexPath():addAction(function(indexPath)
             local conditionClass = self:getFileForCondition(self.conditionPickerItems[indexPath.row])
@@ -170,7 +170,7 @@ function ConditionSettingsMenuItem:getEditConditionMenuItem()
             conditionConfigEditor:setShouldRequestFocus(true)
             return conditionConfigEditor
         else
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."This condition can't be configured!")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."This condition can't be configured!")
         end
     end, "Conditions", "Edit the selected condition.", false, function()
         return self.selectedCondition ~= nil
@@ -193,7 +193,7 @@ function ConditionSettingsMenuItem:getInvertConditionMenuItem()
 
             self.trustSettings:saveSettings(true)
 
-            addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I've inverted the condition logic!")
+            addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I've inverted the condition logic!")
         end
     end, "Conditions", "Invert the selected condition logic.", false, function()
         return self.selectedCondition ~= nil
