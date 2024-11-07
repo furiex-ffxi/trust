@@ -81,7 +81,7 @@ function BardTrustCommands:handle_sing(_, use_nitro)
     local actions = L{}
     if use_nitro and self.trust:get_job():is_nitro_ready() then
         actions:append(JobAbilityAction.new(0, 0, 0, 'Nightingale'))
-        actions:append(WaitAction.new(0, 0, 0, 1.5))
+        actions:append(WaitAction.new(0, 0, 0, 2.0))
         actions:append(JobAbilityAction.new(0, 0, 0, 'Troubadour'))
         actions:append(WaitAction.new(0, 0, 0, 1.5))
     end

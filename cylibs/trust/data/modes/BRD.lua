@@ -8,7 +8,7 @@ return {
         ["autodebuffmode"]="Off",
         ["autosilencemode"]="Off",
         ["autopullmode"]="Off",
-        ["autohealmode"]="Emergency",
+        ["autohealmode"]="Off",
         ["combatmode"]="Off",
         ["autofoodmode"]="Off",
         ["autobarspellmode"]="Off",

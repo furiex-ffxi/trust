@@ -4,6 +4,14 @@ return {
         SelfBuffs = L{
 
         },
+        GambitSettings = {
+            Default = L{
+
+            },
+            Gambits = L{
+
+            }
+        },
         SongSettings = {
             NumSongs = 4,
             SongDuration = 315,
@@ -28,15 +36,20 @@ return {
             },
             SongDelay = 5
         },
+        Debuffs = L{
+            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        },
+        AutoFood = "Grape Daifuku",
         PullSettings = {
             Abilities = L{
                 Spell.new("Carnage Elegy", L{}, L{}, nil, L{})
             },
             Distance = 20
-        },
-        AutoFood = "Grape Daifuku",
-        Debuffs = L{
-            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        }
+    },
+    Aria = {
+        SelfBuffs = L{
+
         },
         GambitSettings = {
             Default = L{
@@ -45,11 +58,6 @@ return {
             Gambits = L{
 
             }
-        }
-    },
-    Aria = {
-        SelfBuffs = L{
-
         },
         SongSettings = {
             NumSongs = 4,
@@ -74,16 +82,21 @@ return {
             },
             SongDelay = 5
         },
+        Debuffs = L{
+            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Spell.new("Pining Nocturne", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        },
+        AutoFood = "Grape Daifuku",
         PullSettings = {
             Abilities = L{
                 Spell.new("Carnage Elegy", L{}, L{}, nil, L{})
             },
             Distance = 20
-        },
-        AutoFood = "Grape Daifuku",
-        Debuffs = L{
-            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-            Spell.new("Pining Nocturne", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        }
+    },
+    Ambu = {
+        SelfBuffs = L{
+
         },
         GambitSettings = {
             Default = L{
@@ -92,11 +105,6 @@ return {
             Gambits = L{
 
             }
-        }
-    },
-    Ambu = {
-        SelfBuffs = L{
-
         },
         SongSettings = {
             NumSongs = 4,
@@ -111,7 +119,7 @@ return {
                 Spell.new("Blade Madrigal", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "COR", "RNG", "WHM"}, nil, L{}),
                 Spell.new("Valor Minuet V", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "COR", "RNG"}, nil, L{}),
                 Spell.new("Valor Minuet IV", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "COR", "RNG"}, nil, L{}),
-                Spell.new("Sword Madrigal", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "COR", "RNG"}, nil, L{}),
+                Spell.new("Sword Madrigal", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "COR", "RNG"}, nil, L{})
             },
             PianissimoSongs = L{
                 Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH", "SMN", "PLD", "RUN"}, nil, L{}),
@@ -119,16 +127,21 @@ return {
             },
             SongDelay = 5
         },
+        Debuffs = L{
+            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Spell.new("Pining Nocturne", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        },
+        AutoFood = "Grape Daifuku",
         PullSettings = {
             Abilities = L{
                 Spell.new("Carnage Elegy", L{}, L{}, nil, L{})
             },
             Distance = 20
-        },
-        AutoFood = "Grape Daifuku",
-        Debuffs = L{
-            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-            Spell.new("Pining Nocturne", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        }
+    },
+    Ep = {
+        SelfBuffs = L{
+
         },
         GambitSettings = {
             Default = L{
@@ -137,15 +150,10 @@ return {
             Gambits = L{
 
             }
-        }
-    },
-    Ep = {
-        SelfBuffs = L{
-
         },
         SongSettings = {
             NumSongs = 4,
-            SongDuration = 315,
+            SongDuration = 325,
             DummySongs = L{
                 Spell.new("Scop's Operetta", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
                 Spell.new("Goblin Gavotte", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
@@ -159,20 +167,25 @@ return {
                 Spell.new("Aria of Passion", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
             },
             PianissimoSongs = L{
-                Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "WHM", "GEO", "SCH", "SMN", "PLD"}, nil, L{}),
+                Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "SMN", "WHM", "SCH", "PLD"}, nil, L{}),
                 Spell.new("Sage Etude", L{"Pianissimo"}, L{"BLM"}, nil, L{})
             },
             SongDelay = 4
         },
+        Debuffs = L{
+            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        },
+        AutoFood = "Grape Daifuku",
         PullSettings = {
             Abilities = L{
                 Spell.new("Carnage Elegy", L{}, L{}, nil, L{})
             },
             Distance = 20
-        },
-        AutoFood = "Grape Daifuku",
-        Debuffs = L{
-            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        }
+    },
+    Magic = {
+        SelfBuffs = L{
+
         },
         GambitSettings = {
             Default = L{
@@ -181,11 +194,6 @@ return {
             Gambits = L{
 
             }
-        }
-    },
-    Magic = {
-        SelfBuffs = L{
-
         },
         SongSettings = {
             NumSongs = 4,
@@ -210,15 +218,20 @@ return {
             },
             SongDelay = 5
         },
+        Debuffs = L{
+            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        },
+        AutoFood = "Grape Daifuku",
         PullSettings = {
             Abilities = L{
                 Spell.new("Carnage Elegy", L{}, L{}, nil, L{})
             },
             Distance = 20
-        },
-        AutoFood = "Grape Daifuku",
-        Debuffs = L{
-            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        }
+    },
+    Ongo = {
+        SelfBuffs = L{
+
         },
         GambitSettings = {
             Default = L{
@@ -227,11 +240,6 @@ return {
             Gambits = L{
 
             }
-        }
-    },
-    Ongo = {
-        SelfBuffs = L{
-
         },
         SongSettings = {
             NumSongs = 4,
@@ -255,16 +263,21 @@ return {
             },
             SongDelay = 5
         },
+        Debuffs = L{
+            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Spell.new("Pining Nocturne", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        },
+        AutoFood = "Grape Daifuku",
         PullSettings = {
             Abilities = L{
                 Spell.new("Carnage Elegy", L{}, L{}, nil, L{})
             },
             Distance = 20
-        },
-        AutoFood = "Grape Daifuku",
-        Debuffs = L{
-            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-            Spell.new("Pining Nocturne", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        }
+    },
+    Melee = {
+        SelfBuffs = L{
+
         },
         GambitSettings = {
             Default = L{
@@ -273,11 +286,6 @@ return {
             Gambits = L{
 
             }
-        }
-    },
-    Melee = {
-        SelfBuffs = L{
-
         },
         SongSettings = {
             NumSongs = 4,
@@ -303,23 +311,15 @@ return {
             },
             SongDelay = 5
         },
+        Debuffs = L{
+            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        },
+        AutoFood = "Grape Daifuku",
         PullSettings = {
             Abilities = L{
                 Spell.new("Carnage Elegy", L{}, L{}, nil, L{})
             },
             Distance = 20
-        },
-        AutoFood = "Grape Daifuku",
-        Debuffs = L{
-            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
-        },
-        GambitSettings = {
-            Default = L{
-
-            },
-            Gambits = L{
-
-            }
         }
     },
     Migrations = L{
@@ -328,6 +328,14 @@ return {
     March = {
         SelfBuffs = L{
 
+        },
+        GambitSettings = {
+            Default = L{
+
+            },
+            Gambits = L{
+
+            }
         },
         SongSettings = {
             NumSongs = 4,
@@ -350,16 +358,21 @@ return {
             },
             SongDelay = 5
         },
+        Debuffs = L{
+            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Spell.new("Pining Nocturne", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        },
+        AutoFood = "Grape Daifuku",
         PullSettings = {
             Abilities = L{
                 Spell.new("Carnage Elegy", L{}, L{}, nil, L{})
             },
             Distance = 20
-        },
-        AutoFood = "Grape Daifuku",
-        Debuffs = L{
-            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-            Spell.new("Pining Nocturne", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        }
+    },
+    Mboze = {
+        SelfBuffs = L{
+
         },
         GambitSettings = {
             Default = L{
@@ -368,11 +381,6 @@ return {
             Gambits = L{
 
             }
-        }
-    },
-    Mboze = {
-        SelfBuffs = L{
-
         },
         SongSettings = {
             NumSongs = 4,
@@ -395,16 +403,21 @@ return {
             },
             SongDelay = 5
         },
+        Debuffs = L{
+            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Spell.new("Pining Nocturne", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        },
+        AutoFood = "Grape Daifuku",
         PullSettings = {
             Abilities = L{
                 Spell.new("Carnage Elegy", L{}, L{}, nil, L{})
             },
             Distance = 20
-        },
-        AutoFood = "Grape Daifuku",
-        Debuffs = L{
-            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-            Spell.new("Pining Nocturne", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        }
+    },
+    Kalunga = {
+        SelfBuffs = L{
+
         },
         GambitSettings = {
             Default = L{
@@ -413,11 +426,6 @@ return {
             Gambits = L{
 
             }
-        }
-    },
-    Kalunga = {
-        SelfBuffs = L{
-
         },
         SongSettings = {
             NumSongs = 4,
@@ -442,15 +450,20 @@ return {
             },
             SongDelay = 5
         },
+        Debuffs = L{
+            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        },
+        AutoFood = "Grape Daifuku",
         PullSettings = {
             Abilities = L{
                 Spell.new("Carnage Elegy", L{}, L{}, nil, L{})
             },
             Distance = 20
-        },
-        AutoFood = "Grape Daifuku",
-        Debuffs = L{
-            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        }
+    },
+    MagicRng = {
+        SelfBuffs = L{
+
         },
         GambitSettings = {
             Default = L{
@@ -459,11 +472,6 @@ return {
             Gambits = L{
 
             }
-        }
-    },
-    MagicRng = {
-        SelfBuffs = L{
-
         },
         SongSettings = {
             NumSongs = 4,
@@ -488,15 +496,20 @@ return {
             },
             SongDelay = 5
         },
+        Debuffs = L{
+            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        },
+        AutoFood = "Grape Daifuku",
         PullSettings = {
             Abilities = L{
                 Spell.new("Carnage Elegy", L{}, L{}, nil, L{})
             },
             Distance = 20
-        },
-        AutoFood = "Grape Daifuku",
-        Debuffs = L{
-            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        }
+    },
+    Halphas = {
+        SelfBuffs = L{
+
         },
         GambitSettings = {
             Default = L{
@@ -505,11 +518,6 @@ return {
             Gambits = L{
 
             }
-        }
-    },
-    Halphas = {
-        SelfBuffs = L{
-
         },
         SongSettings = {
             NumSongs = 4,
@@ -535,15 +543,21 @@ return {
             },
             SongDelay = 5
         },
+        Debuffs = L{
+            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        },
+        AutoFood = "Grape Daifuku",
         PullSettings = {
             Abilities = L{
                 Spell.new("Carnage Elegy", L{}, L{}, nil, L{})
             },
             Distance = 20
-        },
-        AutoFood = "Grape Daifuku",
-        Debuffs = L{
-            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        }
+    },
+    Version = 1,
+    Dyna = {
+        SelfBuffs = L{
+
         },
         GambitSettings = {
             Default = L{
@@ -552,12 +566,6 @@ return {
             Gambits = L{
 
             }
-        }
-    },
-    Version = 1,
-    Dyna = {
-        SelfBuffs = L{
-
         },
         SongSettings = {
             NumSongs = 4,
@@ -579,15 +587,20 @@ return {
             },
             SongDelay = 5
         },
+        Debuffs = L{
+            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        },
+        AutoFood = "Grape Daifuku",
         PullSettings = {
             Abilities = L{
                 Spell.new("Carnage Elegy", L{}, L{}, nil, L{})
             },
             Distance = 20
-        },
-        AutoFood = "Grape Daifuku",
-        Debuffs = L{
-            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        }
+    },
+    Odin = {
+        SelfBuffs = L{
+
         },
         GambitSettings = {
             Default = L{
@@ -596,11 +609,6 @@ return {
             Gambits = L{
 
             }
-        }
-    },
-    Odin = {
-        SelfBuffs = L{
-
         },
         SongSettings = {
             NumSongs = 4,
@@ -623,17 +631,22 @@ return {
             },
             SongDelay = 5
         },
+        Debuffs = L{
+            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Spell.new("Fire Threnody II", L{}, L{}, nil, L{}),
+            Spell.new("Pining Nocturne", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        },
+        AutoFood = "Grape Daifuku",
         PullSettings = {
             Abilities = L{
                 Spell.new("Carnage Elegy", L{}, L{}, nil, L{})
             },
             Distance = 20
-        },
-        AutoFood = "Grape Daifuku",
-        Debuffs = L{
-            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-            Spell.new("Fire Threnody II", L{}, L{}, nil, L{}),
-            Spell.new("Pining Nocturne", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        }
+    },
+    Proc = {
+        SelfBuffs = L{
+
         },
         GambitSettings = {
             Default = L{
@@ -642,11 +655,6 @@ return {
             Gambits = L{
 
             }
-        }
-    },
-    Proc = {
-        SelfBuffs = L{
-
         },
         SongSettings = {
             NumSongs = 4,
@@ -671,15 +679,20 @@ return {
             },
             SongDelay = 5
         },
+        Debuffs = L{
+            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        },
+        AutoFood = "Grape Daifuku",
         PullSettings = {
             Abilities = L{
                 Spell.new("Carnage Elegy", L{}, L{}, nil, L{})
             },
             Distance = 20
-        },
-        AutoFood = "Grape Daifuku",
-        Debuffs = L{
-            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        }
+    },
+    Acc = {
+        SelfBuffs = L{
+
         },
         GambitSettings = {
             Default = L{
@@ -688,11 +701,6 @@ return {
             Gambits = L{
 
             }
-        }
-    },
-    Acc = {
-        SelfBuffs = L{
-
         },
         SongSettings = {
             NumSongs = 4,
@@ -716,16 +724,21 @@ return {
             },
             SongDelay = 5
         },
+        Debuffs = L{
+            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Spell.new("Pining Nocturne", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        },
+        AutoFood = "Grape Daifuku",
         PullSettings = {
             Abilities = L{
                 Spell.new("Carnage Elegy", L{}, L{}, nil, L{})
             },
             Distance = 20
-        },
-        AutoFood = "Grape Daifuku",
-        Debuffs = L{
-            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-            Spell.new("Pining Nocturne", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        }
+    },
+    Default = {
+        SelfBuffs = L{
+
         },
         GambitSettings = {
             Default = L{
@@ -734,11 +747,6 @@ return {
             Gambits = L{
 
             }
-        }
-    },
-    Default = {
-        SelfBuffs = L{
-
         },
         SongSettings = {
             NumSongs = 4,
@@ -760,24 +768,16 @@ return {
             },
             SongDelay = 5
         },
+        Debuffs = L{
+            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Spell.new("Pining Nocturne", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        },
+        AutoFood = "Grape Daifuku",
         PullSettings = {
             Abilities = L{
                 Spell.new("Carnage Elegy", L{}, L{}, nil, L{})
             },
             Distance = 20
-        },
-        AutoFood = "Grape Daifuku",
-        Debuffs = L{
-            Spell.new("Carnage Elegy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-            Spell.new("Pining Nocturne", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
-        },
-        GambitSettings = {
-            Default = L{
-
-            },
-            Gambits = L{
-
-            }
         }
     }
 }

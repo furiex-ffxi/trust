@@ -7,9 +7,6 @@ return {
             CombatSkillSettings.new("Staff", L{}, "Earth Crusher"),
             CombatSkillSettings.new("Club", L{}, "True Strike")
         },
-        Blacklist = L{
-
-        },
         Skillchain = L{
             WeaponSkill.new("Tornado Kick"),
             WeaponSkill.new("Shijin Spiral"),
@@ -17,6 +14,9 @@ return {
             WeaponSkill.new("Victory Smite"),
             SkillchainAbility.skip(),
             SkillchainAbility.skip()
+        },
+        Blacklist = L{
+
         }
     }
 }

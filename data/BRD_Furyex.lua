@@ -78,7 +78,7 @@ return {
                 Spell.new("Herculean Etude", L{}, L{"WAR", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "DRK"}, nil, L{})
             },
             PianissimoSongs = L{
-                Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"WHM", "SCH", "GEO", "PLD"}, nil, L{}),
+                Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"WHM", "SCH", "BLM", "SMN", "PLD"}, nil, L{}),
                 Spell.new("Sage Etude", L{"Pianissimo"}, L{"BLM"}, nil, L{})
             },
             SongDelay = 4

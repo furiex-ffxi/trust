@@ -3,13 +3,10 @@ return {
     Version = 1,
     Default = {
         Skills = L{
-            CombatSkillSettings.new("Dagger", L{}, "Wasp Sting"),
+            CombatSkillSettings.new("Dagger", L{}, "Rudra's Storm"),
             CombatSkillSettings.new("Sword", L{}, "Savage Blade"),
             CombatSkillSettings.new("Club", L{}, ""),
             CombatSkillSettings.new("Staff", L{}, "")
-        },
-        Blacklist = L{
-
         },
         Skillchain = L{
             SkillchainAbility.auto(),
@@ -18,6 +15,9 @@ return {
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto()
+        },
+        Blacklist = L{
+
         }
     }
 }

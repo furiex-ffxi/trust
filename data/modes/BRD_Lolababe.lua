@@ -1,55 +1,39 @@
 -- Modes file for BRD
 return {
-    ["Ep"]={
-        ["partychatmode"]="Private", 
-        ["autoclarioncallmode"]="Auto", 
-        ["ipcmode"]="All", 
-        ["autoskillchainmode"]="Spam", 
-        ["autostepmode"]="Auto", 
-        ["autodebuffmode"]="Off", 
-        ["autobuffmode"]="On", 
-        ["maintrustsettingsmode"]="Ep", 
-        ["autofollowmode"]="Off", 
-        ["autonitromode"]="Auto"
-    }, 
-    ["Magic"]={
-        ["partychatmode"]="Private", 
-        ["autostatusremovalmode"]="Auto", 
-        ["ipcmode"]="All", 
-        ["maintrustsettingsmode"]="Magic", 
-        ["autoengagemode"]="Mirror"
-    }, 
-    ["OdyC"]={
-        ["autodispelmode"]="Off", 
-        ["ipcmode"]="All", 
-        ["autoskillchainmode"]="Spam", 
-        ["autoclarioncallmode"]="Auto", 
-        ["autodebuffmode"]="Off", 
+    ["Sortie"]={
         ["maintrustsettingsmode"]="Melee"
     }, 
-    ["Sortie"]={
-        ["maintrustsettingsmode"]="Melee", 
-        ["autofollowmode"]="Off", 
-        ["autoskillchainmode"]="Spam"
+    ["Magic"]={
+        ["maintrustsettingsmode"]="Magic", 
+        ["autostatusremovalmode"]="Auto", 
+        ["autoengagemode"]="Mirror"
+    }, 
+    ["Ep"]={
+        ["autogambitmode"]="Auto", 
+        ["autobuffmode"]="Auto", 
+        ["autoclarioncallmode"]="Auto", 
+        ["autotargetmode"]="Party", 
+        ["autocampmode"]="Off", 
+        ["combatmode"]="Melee"
     }, 
     ["Default"]={
-        ["autohealmode"]="Emergency", 
+        ["autobuffmode"]="Off", 
         ["autotargetmode"]="Off", 
-        ["autofollowmode"]="Off", 
-        ["autofoodmode"]="Off", 
-        ["maintrustsettingsmode"]="Ep", 
-        ["autotrustsmode"]="Off", 
-        ["engagemode"]="None", 
-        ["skillchainassistantmode"]="Off", 
-        ["autosongmode"]="Auto", 
-        ["autosilencemode"]="Off", 
-        ["autoaftermathmode"]="Off", 
         ["weaponskillsettingsmode"]="Default", 
         ["autofacemobmode"]="Auto", 
-        ["autoassistantmode"]="Off", 
+        ["engagemode"]="None", 
+        ["autotrustsmode"]="Off", 
+        ["skillchainassistantmode"]="Off", 
+        ["autofoodmode"]="Off", 
+        ["autosongmode"]="Auto", 
+        ["autosilencemode"]="Off", 
         ["autostepmode"]="Off", 
-        ["subtrustsettingsmode"]="Default", 
+        ["autohealmode"]="Emergency", 
+        ["maintrustsettingsmode"]="Ep", 
+        ["autoassistantmode"]="Off", 
         ["autodisablemode"]="Auto", 
+        ["subtrustsettingsmode"]="Default", 
+        ["autoaftermathmode"]="Off", 
         ["approachpullmode"]="Off", 
         ["autoengagemode"]="Always", 
         ["autoenablemode"]="Off", 
@@ -66,10 +50,15 @@ return {
         ["autodebuffmode"]="Off", 
         ["flankmode"]="Off", 
         ["autoenmityreductionmode"]="Off", 
-        ["autonitromode"]="Auto", 
+        ["autofollowmode"]="Off", 
         ["autoclarioncallmode"]="Off", 
         ["autosleepmode"]="Off", 
         ["actionbatchingmode"]="Off", 
-        ["autobuffmode"]="Off"
+        ["autonitromode"]="Auto"
     }, 
+    ["OdyC"]={
+        ["autodispelmode"]="Off", 
+        ["maintrustsettingsmode"]="Melee", 
+        ["autoclarioncallmode"]="Auto"
+    }
 }

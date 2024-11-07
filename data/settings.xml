@@ -121,7 +121,7 @@
     </global>
     <cleobabe>
         <battle>
-            <targets>Locus Camelopard,Sovereign Behemoth,Bugbear Strongman,Locus Dire Bat,Locus Colibri,Locus Armet Beetle,Bugbear Bondman,Locus Ghost Crab,Locus Dragonfly,Sarama</targets>
+            <targets>Locus Camelopard,Sovereign Behemoth,Bugbear Strongman,Locus Dire Bat,Locus Colibri,Locus Armet Beetle,Bugbear Bondman,Locus Ghost Crab,Locus Dragonfly,Sarama,Tiyanak</targets>
             <trusts>Monberaux,Cornelia</trusts>
         </battle>
         <flags>
@@ -131,7 +131,7 @@
     </cleobabe>
     <furyex>
         <battle>
-            <targets>Warder of Prudence,Locus Camelopard,Sovereign Behemoth,Warder of Love,Locus Dire Bat,Locus Colibri,Locus Armet Beetle,Warder of Faith,Locus Ghost Crab,Warder of Justice,Locus Dragonfly,Sarama,Snippy Rafflesia,Warder of Hope</targets>
+            <targets>Warder of Prudence,Locus Camelopard,Sovereign Behemoth,Warder of Love,Locus Dire Bat,Locus Colibri,Locus Armet Beetle,Ayapec,Warder of Faith,Locus Ghost Crab,Warder of Justice,Locus Dragonfly,Warder of Hope,Sarama,Snippy Rafflesia</targets>
             <trusts>Monberaux,Cornelia</trusts>
         </battle>
         <flags>
