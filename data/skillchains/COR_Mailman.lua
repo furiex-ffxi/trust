@@ -8,12 +8,12 @@ return {
             CombatSkillSettings.new("Sword", L{"Flat Blade", "Circle Blade", "Burning Blade", "Requiescat", "Fast Blade", "Shining Blade"}, "Savage Blade")
         },
         Skillchain = L{
-            SkillchainAbility.skip(),
             WeaponSkill.new("Leaden Salute"),
-            SkillchainAbility.skip(),
-            SkillchainAbility.skip(),
-            SkillchainAbility.skip(),
-            SkillchainAbility.skip()
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto()
         },
         Blacklist = L{
 
