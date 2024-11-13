@@ -14,6 +14,7 @@ local Mouse = require('cylibs/ui/input/mouse')
 
 local Widget = setmetatable({}, {__index = CollectionView })
 Widget.__index = Widget
+Widget.__type = "Widget"
 
 
 function Widget:onSettingsChanged()
@@ -56,46 +57,6 @@ function Widget.new(frame, title, addonSettings, dataSource, layout, titleWidth,
 
     self:setNeedsLayout()
     self:layoutIfNeeded()
-
-    self:getDisposeBag():add(Mouse.input():onMouseEvent():addAction(function(type, x, y, delta, blocked)
-        if type == Mouse.Event.Click then
-            if self:isExpanded() and self:hitTest(x, y) then
-                if not self:hasFocus() then
-                    -- TODO: do I need to uncomment this?
-                    --self:requestFocus()
-                end
-                local startPosition = self:getAbsolutePosition()
-                self.dragging = { x = startPosition.x, y = startPosition.y, dragX = x, dragY = y }
-
-                Mouse.input().blockEvent = true
-            end
-        elseif type == Mouse.Event.Move then
-            if self.dragging then
-                self:setEditing(true)
-                Mouse.input().blockEvent = true
-
-                local newX = self.dragging.x + (x - self.dragging.dragX)
-                local newY = self.dragging.y + (y - self.dragging.dragY)
-
-                self:setPosition(newX, newY)
-                self:layoutIfNeeded()
-            end
-            return true
-        elseif type == Mouse.Event.ClickRelease then
-            if self.dragging then
-                self.dragging = nil
-                Mouse.input().blockEvent = true
-                self:setEditing(false)
-                coroutine.schedule(function()
-                    Mouse.input().blockEvent = false
-                end, 0.1)
-            end
-        else
-            self.dragging = nil
-            Mouse.input().blockEvent = false
-        end
-        return false
-    end), Mouse.input():onMouseEvent())
 
     self:getDisposeBag():add(addonSettings:onSettingsChanged():addAction(function(settings)
         local settings = self:getSettings(self.addonSettings)
@@ -146,11 +107,11 @@ function Widget:layoutIfNeeded()
         end
     end
 
+    self:setSize(self.frame.width, self:getContentSize().height)
+
     if not CollectionView.layoutIfNeeded(self) then
         return
     end
-    self.backgroundImageView:setSize(self.frame.width, self:getContentSize().height)
-    self.backgroundImageView:layoutIfNeeded()
 end
 
 ---
@@ -206,16 +167,64 @@ end
 
 function Widget:setHasFocus(hasFocus)
     CollectionView.setHasFocus(self, hasFocus)
-
     if hasFocus then
-        for key in L{'up','down','enter'}:it() do
+        for key in L{'up','down','enter','numpadenter'}:it() do
             windower.send_command('bind %s block':format(key))
         end
     else
-        for key in L{'up','down','enter'}:it() do
+        for key in L{'up','down','enter','numpadenter'}:it() do
             windower.send_command('unbind %s':format(key))
         end
     end
+end
+
+function Widget:onMouseEvent(type, x, y, delta)
+    if self:getDelegate():onMouseEvent(type, x, y, delta) then
+        return true
+    end
+    if type == Mouse.Event.Click then
+        if self:isExpanded() and self:hitTest(x, y) then
+            if not self:hasFocus() then
+                -- TODO: do I need to uncomment this?
+                self:requestFocus()
+            end
+            local startPosition = self:getAbsolutePosition()
+            self.dragging = { x = startPosition.x, y = startPosition.y, dragX = x, dragY = y }
+
+            return true
+        end
+    elseif type == Mouse.Event.Move then
+        if self.dragging then
+            self:setEditing(true)
+
+            local newX = self.dragging.x + (x - self.dragging.dragX)
+            local newY = self.dragging.y + (y - self.dragging.dragY)
+
+            self:setPosition(newX, newY)
+            self:layoutIfNeeded()
+
+            return true
+        end
+        --return true
+    elseif type == Mouse.Event.ClickRelease then
+        if self.dragging then
+            self.dragging = nil
+            self:setEditing(false)
+            addon_system_message("Use // trust widget save to save positions for all widgets.")
+            return true
+        end
+    else
+        self.dragging = nil
+        return false
+    end
+    return false
+end
+
+function Widget:hitTest(x, y)
+    if not self.dragging then
+        return CollectionView.hitTest(self, x, y)
+    end
+    return true
 end
 
 function Widget:__eq(otherItem)

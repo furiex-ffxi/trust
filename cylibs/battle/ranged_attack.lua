@@ -17,7 +17,12 @@ function RangedAttack.new(conditions)
     local self = setmetatable({}, RangedAttack)
     self.conditions = conditions or L{}
 
-    self:add_condition(MaxDistanceCondition.new(20))
+    local matches = (conditions or L{}):filter(function(c)
+        return c.__class == MaxDistanceCondition.__class
+    end)
+    if matches:length() == 0 then
+        self:add_condition(MaxDistanceCondition.new(20))
+    end
 
     return self
 end
@@ -45,7 +50,7 @@ end
 -- Returns the maximum range in yalms.
 -- @treturn number Range in yalms
 function RangedAttack:get_range()
-    return 20
+    return 24
 end
 
 -------

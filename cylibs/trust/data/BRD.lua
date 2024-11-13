@@ -37,7 +37,7 @@ function BardTrust.new(settings, action_queue, battle_settings, trust_settings)
 		Debuffer.new(action_queue, trust_settings.Debuffs),
 		Singer.new(action_queue, trust_settings.SongSettings.DummySongs, trust_settings.SongSettings.Songs, trust_settings.SongSettings.PianissimoSongs, job, state.AutoSongMode, ActionPriority.medium),
 		Dispeler.new(action_queue, L{ Spell.new('Magic Finale') }, L{}, true),
-		Puller.new(action_queue, battle_settings.targets, L{ Spell.new('Carnage Elegy') }),
+		Puller.new(action_queue, trust_settings.PullSettings.Targets, L{ Spell.new('Carnage Elegy') }),
 		Sleeper.new(action_queue, L{ Spell.new('Horde Lullaby'), Spell.new('Horde Lullaby II') }, 2)
 	}
 	local self = setmetatable(Trust.new(action_queue, roles, trust_settings, job), BardTrust)
@@ -45,7 +45,7 @@ function BardTrust.new(settings, action_queue, battle_settings, trust_settings)
 	self.settings = settings
 	self.num_songs = trust_settings.NumSongs
 	self.action_queue = action_queue
-	self.song_modes_delta = ModeDelta.new(BardModes.Singing)
+	self.song_modes_delta = ModeDelta.new(BardModes.Singing, "You cannot change modes while singing.", S{ 'AutoSongMode' })
 
 	return self
 end
@@ -66,6 +66,8 @@ function BardTrust:on_init()
 	end
 
 	self:on_trust_settings_changed():addAction(function(_, new_trust_settings)
+		self:get_job():set_trust_settings(new_trust_settings)
+
 		self.num_songs = new_trust_settings.NumSongs
 
 		local singer = self:role_with_type("singer")

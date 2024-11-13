@@ -1,28 +1,27 @@
-local BooleanConfigItem = require('ui/settings/editors/config/BooleanConfigItem')
 local ButtonItem = require('cylibs/ui/collection_view/items/button_item')
-local ConfigEditor = require('ui/settings/editors/config/ConfigEditor')
 local DisposeBag = require('cylibs/events/dispose_bag')
-local Keyboard = require('cylibs/ui/input/keyboard')
 local MenuItem = require('cylibs/ui/menu/menu_item')
-local ModesView = require('ui/settings/editors/ModeSettingsEditor')
-local PickerConfigItem = require('ui/settings/editors/config/PickerConfigItem')
-local FFXITextInputView = require('ui/themes/ffxi/FFXITextInputView')
+local ModesView = require('ui/settings/editors/config/ModeConfigEditor')
 
 local ModesMenuItem = setmetatable({}, {__index = MenuItem })
 ModesMenuItem.__index = ModesMenuItem
 ModesMenuItem.__type = "ModesMenuItem"
 
-function ModesMenuItem.new(trustSettings)
+function ModesMenuItem.new(trustModeSettings, description, modeNames, showModeName, shortcutConfigKey)
+    description = description or "View and change Trust modes."
+    modeNames = modeNames or L(T(state):keyset()):sort()
     local self = setmetatable(MenuItem.new(L{
+        ButtonItem.default('Confirm', 18),
         ButtonItem.default('Save', 18),
-        ButtonItem.default('Save As', 18),
     }, {},
         function(_, infoView)
-            local modesView = ModesView.new(L(T(state):keyset()):sort(), infoView)
+            local modesView = ModesView.new(modeNames, infoView, state, showModeName)
             modesView:setShouldRequestFocus(true)
             return modesView
-        end, "Modes", "View and change Trust modes."), ModesMenuItem)
+        end, "Modes", description), ModesMenuItem)
 
+    self.trustModeSettings = trustModeSettings
+    self.shortcutConfigKey = shortcutConfigKey
     self.disposeBag = DisposeBag.new()
 
     self:reloadSettings()
@@ -37,35 +36,23 @@ function ModesMenuItem:destroy()
 end
 
 function ModesMenuItem:reloadSettings()
-    self:setChildMenuItem("Save", MenuItem.action(function()
-        windower.send_command('trust save '..state.TrustMode.value)
-        addon_message(207, '('..windower.ffxi.get_player().name..') '.."You got it! I'll remember what to do.")
-    end), "Save", "Override the current mode set.")
-    self:setChildMenuItem("Save As", self:getSaveAsMenuItem())
+    self:setChildMenuItem("Confirm", MenuItem.action(function()
+        addon_system_message("Modes will reload from the profile when the addon reloads. To update your profile, use Save instead.")
+    end, "Modes", "Changes modes only until the addon reloads."))
+    if self.trustModeSettings then
+        self:setChildMenuItem("Save", MenuItem.action(function()
+            if self.trustModeSettings then
+                self.trustModeSettings:saveSettings(state.TrustMode.value)
+                addon_message(260, '('..windower.ffxi.get_player().name..') '.."You got it! I'll update my profile and remember this for next time!")
+            else
+                addon_system_error("Unable to save mode changes to profile. Please report this issue.")
+            end
+        end, "Modes", "Change modes and save changes to the current profile."))
+    end
 end
 
 function ModesMenuItem:getConfigKey()
-    return "modes"
-end
-
-function ModesMenuItem:getSaveAsMenuItem()
-    local onRenameSet = function(newModeSetName)
-        windower.send_command('trust save '..newModeSetName)
-        addon_message(207, '('..windower.ffxi.get_player().name..') '.."You got it! I'll remember what to do.")
-    end
-
-    local saveAsMenuItem = MenuItem.new(L{
-        ButtonItem.default('Confirm', 18),
-    }, {},
-    function()
-        local modesView = FFXITextInputView.new('Default', "Mode set name")
-        modesView:setShouldRequestFocus(true)
-        self.disposeBag:add(modesView:onTextChanged():addAction(function(_, modeSetName)
-            onRenameSet(modeSetName)
-        end), modesView:onTextChanged())
-        return modesView
-    end, "Modes", "Save as a new mode set.")
-    return saveAsMenuItem
+    return self.shortcutConfigKey
 end
 
 return ModesMenuItem

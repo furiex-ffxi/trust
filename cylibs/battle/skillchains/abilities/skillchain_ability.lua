@@ -12,15 +12,17 @@ SkillchainAbility.__class = "SkillchainAbility"
 
 SkillchainAbility.Auto = "Auto"
 SkillchainAbility.Skip = "Skip"
+SkillchainAbility.None = "None"
 
 -------
 -- Default initializer for a SkillchainAbility that represents any ability (or spell) that can participate in a skillchain.
 -- @tparam string resource Resource for the ability (e.g. `weapon_skills` for `res/weapon_skills.lua`)
 -- @tparam number ability_id Id of the ability within the resource file
 -- @tparam list conditions (optional) List of conditions that must be met to use this ability
+-- @tparam list job_abilities (optional) List of job abilities to use before this ability
 -- @tparam PartyMember party_member (optional) Party member that will use or used this ability
 -- @treturn SkillchainAbility A skillchain abilty
-function SkillchainAbility.new(resource, ability_id, conditions, party_member)
+function SkillchainAbility.new(resource, ability_id, conditions, job_abilities, party_member)
     if not skills[resource][ability_id] then
         return nil
     end
@@ -28,6 +30,7 @@ function SkillchainAbility.new(resource, ability_id, conditions, party_member)
         resource = resource;
         ability_id = ability_id;
         conditions = conditions or L{};
+        job_abilities = job_abilities or L{};
         party_member = party_member;
         name = res[resource][ability_id].en;
         skill_id = res[resource][ability_id].skill;
@@ -47,6 +50,14 @@ function SkillchainAbility.auto()
     local self = setmetatable({
         ability_id = SkillchainAbility.Auto;
         name = "Auto";
+    }, SkillchainAbility)
+    return self
+end
+
+function SkillchainAbility.none()
+    local self = setmetatable({
+        ability_id = SkillchainAbility.None;
+        name = "None";
     }, SkillchainAbility)
     return self
 end
@@ -91,7 +102,7 @@ end
 -- Returns the list of conditions that must be met to skillchain with this ability.
 -- @treturn list List of conditions
 function SkillchainAbility:get_conditions()
-    local conditions = L{}:extend(self.conditions)
+    local conditions = L{}:extend(self.conditions or L{})
     if self.party_member then
         local buffs = self:get_buffs()
         if buffs:length() > 0 then
@@ -126,8 +137,20 @@ function SkillchainAbility:get_skillchain_properties(include_aeonic)
     return properties:map(function(property_name) return skillchain_util[property_name] end)
 end
 
+-- Sets the job abilities to use before this ability.
+-- @tparam list job_abilities List of job abilities
+function SkillchainAbility:set_job_abilities(job_abilities)
+    self.job_abilities = job_abilities
+end
+
+-- Returns job abilities to use before this ability.
+-- @treturn list List of job abilities
+function SkillchainAbility:get_job_abilities()
+    return self.job_abilities
+end
+
 -- Returns whether this ability is AOE.
--- @treturn boolean True if AOE, falster otherwise
+-- @treturn boolean True if AOE, false otherwise
 function SkillchainAbility:is_aoe()
     local name = self:get_name()
     return spell_util.is_aoe_spell(name)
@@ -153,8 +176,10 @@ function SkillchainAbility:to_action(target_index, player, job_abilities)
         end
     end
 
-    for job_ability in (job_abilities or L{}):it() do
-        if job_util.can_use_job_ability(job_ability:get_name()) then
+    job_abilities = L{}:extend(job_abilities or L{}):extend(self.job_abilities)
+    for job_ability in job_abilities:it() do
+        if job_util.can_use_job_ability(job_ability:get_name())
+                and Condition.check_conditions(job_ability:get_conditions(), windower.ffxi.get_player().index) then
             local job_ability_action = job_ability:to_action()
             if job_ability_action:can_perform() then
                 actions:append(job_ability_action)
@@ -167,7 +192,12 @@ function SkillchainAbility:to_action(target_index, player, job_abilities)
     if self.resource == 'weapon_skills' then
         actions:append(WeaponSkillAction.new(self:get_name(), target_index))
     elseif self.resource == 'job_abilities' then
-        actions:append(JobAbilityAction.new(0, 0, 0, self:get_name(), target_index))
+        local job_ability = res.job_abilities:with('en', self:get_name())
+        if job_ability and job_ability.prefix == '/pet' and job_ability.type ~= 'BloodPactRage' then
+            actions:append(JobAbilityAction.new(0, 0, 0, self:get_name()))
+        else
+            actions:append(JobAbilityAction.new(0, 0, 0, self:get_name(), target_index))
+        end
     elseif self.resource == 'spells' then
         actions:append(SpellAction.new(0, 0, 0, self:get_ability_id(), target_index, player))
     end
@@ -182,7 +212,7 @@ function SkillchainAbility:copy()
     for condition in self:get_conditions():it() do
         conditions:append(condition:copy())
     end
-    return SkillchainAbility.new(self.resource, self.ability_id, conditions, self.party_member)
+    return SkillchainAbility.new(self.resource, self.ability_id, conditions, self.job_abilities, self.party_member)
 end
 
 function SkillchainAbility:serialize()

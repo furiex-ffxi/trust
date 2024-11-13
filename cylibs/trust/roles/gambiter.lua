@@ -96,6 +96,24 @@ function Gambiter:on_add()
         end
     end)
 
+    WindowerEvents.PetUpdate:addAction(function(owner_id, pet_id, pet_index, pet_name, pet_hpp, pet_mpp, pet_tp)
+        local target = self:get_player()
+        if target and target:get_id() == owner_id then
+            logger.notice(self.__class, 'on_pet_update', 'check_gambits')
+
+            local gambits = self:get_all_gambits():filter(function(gambit)
+                for condition in gambit:getConditions():it() do
+                    if condition.__type == PetTacticalPointsCondition.__type then
+                        return true
+                    end
+                    return false
+                end
+            end)
+
+            self:check_gambits(L{ target }, gambits, pet_tp)
+        end
+    end)
+
     self.skillchainer:on_skillchain():addAction(function(target_id, skillchain_step)
         local target = self:get_target()
         if target and target:get_id() == target_id then
@@ -111,6 +129,25 @@ function Gambiter:on_add()
             end)
 
             self:check_gambits(L{ target }, gambits, skillchain_step:get_skillchain():get_name())
+        end
+    end)
+
+    -- Trust turns off when zoning, so even if this evaluates to true it never performs the gambit
+    self:get_party():get_player():on_zone_change():addAction(function(p, new_zone_id)
+        local target = self:get_player()
+        if target and target:get_id() == p:get_id() then
+            logger.notice(self.__class, 'on_zone_change', 'check_gambits')
+
+            local gambits = self:get_all_gambits():filter(function(gambit)
+                for condition in gambit:getConditions():it() do
+                    if condition.__type == ZoneChangeCondition.__type then
+                        return true
+                    end
+                    return false
+                end
+            end)
+
+            self:check_gambits(L{ target }, gambits, new_zone_id)
         end
     end)
 end
@@ -182,6 +219,9 @@ function Gambiter:perform_gambit(gambit, target)
 
     local action = gambit:getAbility():to_action(target:get_mob().index, self:get_player())
     if action then
+        if gambit:getTags():contains('reaction') then
+            self.action_queue:clear()
+        end
         action.priority = ActionPriority.highest
         self.action_queue:push_action(action, true)
     end

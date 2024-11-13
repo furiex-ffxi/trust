@@ -8,31 +8,41 @@ local TrustModeSettings = {}
 TrustModeSettings.__index = TrustModeSettings
 TrustModeSettings.__type = "TrustModeSettings"
 
-state.TrustMode = M{['description'] = 'Trust Mode', T{}}
-
 function TrustModeSettings:onSettingsChanged()
     return self.settingsChanged
 end
 
-function TrustModeSettings.new(jobNameShort)
+function TrustModeSettings.new(jobNameShort, playerName, trustMode)
     local self = setmetatable({}, TrustModeSettings)
 
     self.jobNameShort = jobNameShort
+    self.playerName = playerName or windower.ffxi.get_player().name
+    self.trustMode = trustMode or state.TrustMode
     self.settingsChanged = Event.newEvent()
     self.settings = {}
 
     return self
 end
 
+function TrustModeSettings:loadFile(filePath)
+    return coroutine.create(function()
+        local settings
+        local loadSettings, err = loadfile(filePath)
+        if not err then
+            settings = loadSettings()
+        end
+        coroutine.yield(settings, err)
+    end)
+end
+
 function TrustModeSettings:loadSettings()
     local filePath = self:getSettingsFilePath()
     if filePath then
-        local loadModeSettings, err = loadfile(filePath)
+        local success, modeSettings, err = coroutine.resume(self:loadFile(filePath))
         if err then
             error(err)
         else
-            addon_message(207, 'Loaded mode settings from '..filePath)
-            self.settings = loadModeSettings()
+            self.settings = modeSettings
 
             for setName, modeSet in pairs(T(self.settings)) do
                 if setName ~= 'Default' then
@@ -49,13 +59,13 @@ function TrustModeSettings:loadSettings()
                 return modeSet1 < modeSet2
             end)
 
-            state.TrustMode:options(options:unpack())
-            state.TrustMode:reset()
+            self.trustMode:options(options:unpack())
+            self.trustMode:reset()
 
             self:onSettingsChanged():trigger(self:getSettings())
         end
     else
-        addon_message(207, 'Unable to load mode settings for '..self.jobNameShort)
+        addon_message(123, 'Unable to load mode settings for '..self.jobNameShort)
     end
 end
 
@@ -65,8 +75,8 @@ end
 
 function TrustModeSettings:getSettingsFilePath()
     local file_prefix = windower.addon_path..'data/modes/'..self.jobNameShort
-    if windower.file_exists(file_prefix..'_'..windower.ffxi.get_player().name..'.lua') then
-        return file_prefix..'_'..windower.ffxi.get_player().name..'.lua'
+    if windower.file_exists(file_prefix..'_'..self.playerName..'.lua') then
+        return file_prefix..'_'..self.playerName..'.lua'
     elseif windower.file_exists(file_prefix..'.lua') then
         return file_prefix..'.lua'
     end
@@ -74,13 +84,15 @@ function TrustModeSettings:getSettingsFilePath()
     return nil
 end
 
-function TrustModeSettings:saveSettings(setName)
-    local setName = setName or state.TrustMode.value
+function TrustModeSettings:saveSettings(setName, trust_modes, skip_set_mode)
+    local setName = setName or self.trustMode.value
 
-    local trust_modes = {}
-    for state_name, _ in pairs(state) do
-        if state_name ~= 'TrustMode' then
-            trust_modes[state_name:lower()] = state[state_name].value
+    if not trust_modes then
+        trust_modes = {}
+        for state_name, _ in pairs(state) do
+            if state_name ~= 'TrustMode' then
+                trust_modes[state_name:lower()] = state[state_name].value
+            end
         end
     end
 
@@ -94,7 +106,7 @@ function TrustModeSettings:saveSettings(setName)
     end
 
     local file_paths = L{
-        'data/modes/'..player.main_job_name_short ..'_'..windower.ffxi.get_player().name..'.lua',
+        'data/modes/'..self.jobNameShort..'_'..self.playerName..'.lua',
     }
     for file_path in file_paths:it() do
         local trust_modes_file = files.new(file_path)
@@ -112,8 +124,8 @@ function TrustModeSettings:saveSettings(setName)
 
     self:reloadSettings()
 
-    if setName ~= state.TrustMode.value then
-        state.TrustMode:set(setName)
+    if not skip_set_mode and setName ~= self.trustMode.value then
+        self.trustMode:set(setName)
     end
 
     self:onSettingsChanged():trigger(self:getSettings())
@@ -124,7 +136,7 @@ function TrustModeSettings:deleteSettings(setName)
     newSettings[setName] = nil
 
     local file_paths = L{
-        'data/modes/'..player.main_job_name_short ..'_'..windower.ffxi.get_player().name..'.lua',
+        'data/modes/'..self.jobNameShort..'_'..self.playerName..'.lua',
     }
     for file_path in file_paths:it() do
         local trust_modes_file = files.new(file_path)
@@ -140,13 +152,13 @@ function TrustModeSettings:deleteSettings(setName)
 
     self:reloadSettings()
 
-    state.TrustMode:set('Default')
+    self.trustMode:set('Default')
 
     self:onSettingsChanged():trigger(self:getSettings())
 end
 
 function TrustModeSettings:copySettings()
-    local filePath = 'data/modes/'..self.jobNameShort..'_'..windower.ffxi.get_player().name..'.lua'
+    local filePath = 'data/modes/'..self.jobNameShort..'_'..self.playerName..'.lua'
     local playerSettings = FileIO.new(filePath)
     if not playerSettings:exists() then
         local defaultSettings = FileIO.new('data/modes/'..self.jobNameShort..'.lua')
@@ -154,6 +166,11 @@ function TrustModeSettings:copySettings()
 
         addon_message(207, 'Copied mode settings to '..filePath)
     end
+end
+
+function TrustModeSettings:getSetNames()
+    local setNames = list.subtract(L(T(self:getSettings()):keyset()), L{'Version','Migrations'})
+    return setNames
 end
 
 function TrustModeSettings:getSettings()

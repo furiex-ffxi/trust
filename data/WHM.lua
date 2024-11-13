@@ -2,7 +2,6 @@
 return {
     Version = 2,
     Default = {
-        AutoFood = "Tropical Crepe",
         SelfBuffs = L{
             Buff.new("Haste", L{}, L{}, nil, L{}),
             Buff.new("Protectra", L{}, L{}, nil, L{}),
@@ -44,10 +43,14 @@ return {
             Delay = 10,
             MinManaPointsPercent = 60,
             MinNumMobsToCleave = 2,
+            GearswapCommand = "gs c set MagicBurstMode Single",
             Spells = L{
                 Spell.new('Holy II'),
                 Spell.new('Holy'),
                 Spell.new('Banish III'),
+            },
+            JobAbilities = L{
+
             },
             Blacklist = L{
 
@@ -60,14 +63,19 @@ return {
             Abilities = L{
                 Debuff.new('Dia', L{}, L{})
             },
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle",
+            },
             Distance = 20
         },
         GambitSettings = {
             Default = L{
-                Gambit.new("Ally", L{MaxManaPointsPercentCondition.new(20), MaxDistanceCondition.new(10)}, JobAbility.new("Devotion", L{}, L{}), "Ally"),
+                Gambit.new("Ally", L{MaxManaPointsPercentCondition.new(20), MaxDistanceCondition.new(10), JobCondition.new(L{"SCH", "DRK", "WHM", "SMN", "GEO", "PLD", "BLM", "BLU", "RDM", "BRD", "RUN"})}, JobAbility.new("Devotion", L{}, L{}), "Ally", L{}),
             },
             Gambits = L{
-
+                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("WHM")}, UseItem.new("Tropical Crepe", L{ItemCountCondition.new("Tropical Crepe", 1, ">=")}), "Self", L{"food"})
             }
         },
     }

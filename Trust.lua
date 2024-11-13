@@ -1,7 +1,7 @@
 _addon.author = 'Cyrite'
 _addon.commands = {'Trust','trust'}
 _addon.name = 'Trust'
-_addon.version = '10.5.9'
+_addon.version = '12.0.1'
 _addon.release_notes = [[
 This update introduces new menus for Bard, autocomplete for Trust
 commands, new commands and important bug fixes for users running the
@@ -58,12 +58,16 @@ addon_enabled:onValueChanged():addAction(function(_, isEnabled)
 end)
 
 player = {}
+addon_load_time = os.time()
+should_check_version = true
 
-local shortcuts = T{}
+shortcuts = {}
 
 -- States
 
-state.AutoEnableMode = M{['description'] = 'Auto Enable Mode', 'Auto', 'Off'}
+state.TrustMode = M{['description'] = 'Trust Mode', T{}}
+
+state.AutoEnableMode = M{['description'] = 'Auto Enable Mode', 'Off', 'Auto'}
 state.AutoEnableMode:set_description('Auto', "Okay, I'll automatically get to work after the addon loads.")
 
 state.AutoDisableMode = M{['description'] = 'Auto Disable Mode', 'Auto', 'Off'}
@@ -82,9 +86,11 @@ state.AutoEnmityReductionMode:set_description('Auto', "Okay, I'll automatically 
 -- Main
 
 function load_user_files(main_job_id, sub_job_id)
+	local start_time = os.clock()
+
 	load_logger_settings()
 
-	notice('Loaded '.._addon.name..' ('.._addon.version..')')
+	addon_system_message("Loaded Trust v".._addon.version)
 
 	action_queue = ActionQueue.new(nil, true, 5, false, true)
 
@@ -177,6 +183,11 @@ function load_user_files(main_job_id, sub_job_id)
 	migration_manager = MigrationManager.new(main_trust_settings, addon_settings, weapon_skill_settings)
 	migration_manager:perform()
 
+	if player.sub_job_name ~= 'None' then
+		sub_job_migration_manager = MigrationManager.new(sub_trust_settings, addon_settings, nil)
+		sub_job_migration_manager:perform()
+	end
+
 	state.MainTrustSettingsMode:on_state_change():addAction(function(_, new_value)
 		player.trust.main_job:set_trust_settings(player.trust.main_job_settings[new_value])
 	end)
@@ -197,7 +208,6 @@ function load_user_files(main_job_id, sub_job_id)
 
 	player.trust.main_job:add_role(Attacker.new(action_queue))
 	player.trust.main_job:add_role(CombatMode.new(action_queue, addon_settings:getSettings().battle.melee_distance, addon_settings:getSettings().battle.range_distance, addon_enabled))
-	player.trust.main_job:add_role(Eater.new(action_queue, main_job_trust:get_trust_settings().AutoFood))
 	player.trust.main_job:add_role(Follower.new(action_queue, addon_settings:getSettings().follow.distance))
 	player.trust.main_job:add_role(Pather.new(action_queue, 'data/paths/'))
 	player.trust.main_job:add_role(skillchainer)
@@ -214,7 +224,7 @@ function load_user_files(main_job_id, sub_job_id)
 		if pull_abilities == nil or pull_abilities:length() == 0 then
 			pull_abilities = L{ Approach.new() }
 		end
-		player.trust.main_job:add_role(Puller.new(action_queue, addon_settings:getSettings().targets, pull_abilities))
+		player.trust.main_job:add_role(Puller.new(action_queue, player.trust.main_job_settings.Default.PullSettings.Targets, pull_abilities))
 	end
 
 	if player.sub_job_name_short ~= 'NON' then
@@ -239,12 +249,19 @@ function load_user_files(main_job_id, sub_job_id)
 		addon_enabled:setValue(false)
 	end
 
-	check_version()
 	check_files()
+
+	local end_time = os.clock()
+
+	local load_time = math.floor((end_time - start_time) * 1000 + 0.5) / 1000
+
+	addon_system_message("Trust is up to date ("..load_time.."s).")
+
+	logger.notice('performance', 'load_user_files', 'end', load_time)
 end
 
 function load_trust_modes(job_name_short)
-	trust_mode_settings = TrustModeSettings.new(job_name_short)
+	trust_mode_settings = TrustModeSettings.new(job_name_short, windower.ffxi.get_player().name, state.TrustMode)
 	trust_mode_settings:copySettings()
 
 	local function update_for_new_modes(new_modes)
@@ -252,7 +269,11 @@ function load_trust_modes(job_name_short)
 			local state_var = get_state(state_name)
 			if state_var then
 				unregister_help_text(state_name, state_var)
-				state_var:set(value)
+				if S(state_var:options()):contains(value) then
+					state_var:set(value)
+				else
+					addon_system_error(get_state_name(state_name)..' has no value '..value..'. To fix this error, choose a new value and save your profile.')
+				end
 				register_help_text(state_name, state_var)
 			end
 		end
@@ -278,8 +299,6 @@ function load_trust_modes(job_name_short)
 
 	set_help_text_enabled(addon_settings:getSettings().help.mode_text_enabled)
 
-	addon_message(207, 'Trust modes set to '..state.TrustMode.value)
-
 	player.trust.trust_name = job_name_short
 end
 
@@ -292,6 +311,7 @@ function load_trust_commands(job_name_short, main_job_trust, sub_job_trust, acti
 		LoggingCommands.new(main_job_trust, action_queue),
 		MagicBurstCommands.new(main_job_trust, main_trust_settings, action_queue),
 		MenuCommands.new(main_job_trust, action_queue, hud),
+		MountCommands.new(main_job_trust, main_job_trust:role_with_type("follower").walk_action_queue),
 		NukeCommands.new(main_job_trust, main_trust_settings, action_queue),
 		PathCommands.new(main_job_trust, action_queue),
 		PullCommands.new(main_job_trust, action_queue, main_job_trust:role_with_type("puller") or sub_job_trust:role_with_type("puller")),
@@ -302,6 +322,8 @@ function load_trust_commands(job_name_short, main_job_trust, sub_job_trust, acti
 		WidgetCommands.new(main_job_trust, action_queue, addon_settings, hud.widgetManager),
 	}:extend(get_job_commands(job_name_short, main_job_trust, action_queue, main_trust_settings))
 
+	hud:setCommands(common_commands)
+
 	local add_command = function(command)
 		shortcuts[command:get_command_name()] = command
 	end
@@ -310,11 +332,10 @@ function load_trust_commands(job_name_short, main_job_trust, sub_job_trust, acti
 		add_command(command)
 	end
 
-	local FFXIPickerView = require('ui/themes/ffxi/FFXIPickerView')
+	local CommandWidget = require('ui/widgets/CommandWidget')
 
-	command_widget = FFXIPickerView.withItems(L{}, L{}, false, nil, nil, nil, true)
+	command_widget = CommandWidget.new()
 	command_widget:setPosition(16, windower.get_windower_settings().ui_y_res - 233)
-	command_widget:setShouldRequestFocus(false)
 	command_widget:setUserInteractionEnabled(false)
 	command_widget:setVisible(false)
 
@@ -340,6 +361,30 @@ function load_trust_commands(job_name_short, main_job_trust, sub_job_trust, acti
 
 	local ChatAutoCompleter = require('cylibs/ui/input/autocomplete/chat_auto_completer')
 
+	command_widget:getDelegate():didHighlightItemAtIndexPath():addAction(function(indexPath)
+		local term = command_widget:getDataSource():itemAtIndexPath(indexPath)
+		if term and term:getText() then
+			term = "// trust "..term:getText()
+
+			local description
+
+			local args = string.split(term, " ")
+			if args[3] and args[4] and shortcuts[args[3]] and type(shortcuts[args[3]]) ~= 'function' then
+				description = shortcuts[args[3]]:get_description(args[4], true)
+			end
+			if description == nil or description:empty() then
+				description = term
+			end
+
+			if not hud.trustMenu:isVisible() then
+				hud.infoBar:setTitle("Commands")
+				hud.infoBar:setDescription(description or '')
+				hud.infoBar:setVisible(description ~= nil)
+				hud.infoBar:layoutIfNeeded()
+			end
+		end
+	end)
+
 	chat_auto_completer = ChatAutoCompleter.new(all_commands)
 	chat_auto_completer:onAutoCompleteListChange():addAction(function(_, terms)
 		command_widget:getDataSource():removeAllItems()
@@ -348,24 +393,16 @@ function load_trust_commands(job_name_short, main_job_trust, sub_job_trust, acti
 		end
 		if terms:length() > 0 then
 			command_widget:setVisible(true)
-			command_widget:setItems(terms:map(function(term) return term:gsub("^// trust ", "") end), L{})
-			local description
-			if terms:length() == 1 then
-				hud.infoBar:setTitle("Commands")
-				local args = string.split(terms[1], " ")
-				if args[3] and args[4] and shortcuts[args[3]] and type(shortcuts[args[3]]) ~= 'function' then
-					description = shortcuts[args[3]]:get_description(args[4]).."."
-				end
-			end
-			hud.infoBar:setDescription(description or '')
-			hud.infoBar:setVisible(description ~= nil)
-			hud.infoBar:layoutIfNeeded()
+			command_widget:setContentOffset(0, 0)
+			command_widget:setItems(terms:map(function(term) return term:gsub("^//%s*trust ", "") end), L{}, true)
 		else
 			if command_widget:isVisible() then
 				command_widget:setVisible(false)
 				command_widget:setContentOffset(0, 0)
-				hud.infoBar:setVisible(false)
-				hud.infoBar:layoutIfNeeded()
+				if not hud.trustMenu:isVisible() then
+					hud.infoBar:setVisible(false)
+					hud.infoBar:layoutIfNeeded()
+				end
 			end
 		end
 	end)
@@ -479,25 +516,20 @@ function trust_for_job_short(job_name_short, settings, trust_settings, action_qu
 end
 
 function check_version()
-	local version = addon_settings:getSettings().version
-	if version ~= _addon.version then
-		addon_settings:getSettings().version = _addon.version
-		addon_settings:saveSettings()
+	local UrlRequest = require('cylibs/util/network/url_request')
 
-		local Frame = require('cylibs/ui/views/frame')
+	local manifest_url = addon_settings:getSettings().updater.manifest_url or 'https://raw.githubusercontent.com/cyritegamestudios/trust/main/manifest.json'
+	local request = UrlRequest.new('GET', manifest_url, {})
 
-		local updateView = TrustMessageView.new("Version ".._addon.version, "What's new", _addon.release_notes, "Click here for full release notes.", Frame.new(0, 0, 500, 675))
-
-		updateView:getDelegate():didSelectItemAtIndexPath():addAction(function(indexPath)
-			updateView:getDelegate():deselectItemAtIndexPath(indexPath)
-			windower.open_url(_addon.release_url)
-		end)
-		updateView:setDismissCallback(function()
-			hud:getViewStack():dismiss()
-		end)
-
-		hud:getViewStack():present(updateView)
+	local fetch = request:get()
+	local success, response, code, body, status = coroutine.resume(fetch)
+	if success then
+		local version = body.version
+		if version and version ~= _addon.version then
+			return version
+		end
 	end
+	return nil
 end
 
 function check_files()
@@ -514,6 +546,14 @@ function addon_message(color,str)
     windower.add_to_chat(color, _addon.name..': '..str)
 end
 
+function addon_system_message(str)
+	windower.add_to_chat(122, str)
+end
+
+function addon_system_error(str)
+	windower.add_to_chat(123, str)
+end
+
 -- Handlers
 
 function handle_stop()
@@ -521,14 +561,26 @@ function handle_stop()
 end
 
 function handle_tic(old_time, new_time)
+	if should_check_version then
+		if os.time() - addon_load_time > 5 then
+			should_check_version = false
+			local new_version = check_version()
+			if new_version then
+				addon_system_message("A newer version of Trust is available! Use the installer to update to v"..new_version..".")
+			end
+		end
+	end
+
 	if not trust or not windower.ffxi.get_player() or not addon_enabled:getValue() or not player or not player.trust then return end
 
-	action_queue:set_mode(ActionQueue.Mode.Batch)
+	action_queue:set_enabled(addon_enabled:getValue())
+
+	--action_queue:set_mode(ActionQueue.Mode.Batch)
 
 	player.trust.main_job:tic(old_time, new_time)
 	player.trust.sub_job:tic(old_time, new_time)
 
-	action_queue:set_mode(ActionQueue.Mode.Default)
+	--action_queue:set_mode(ActionQueue.Mode.Default)
 end
 
 function handle_status_change(new_status_id, old_status_id)
@@ -552,7 +604,7 @@ end
 
 function handle_zone_change(new_zone_id, old_zone_id)
 	action_queue:clear()
-	player.party:set_assist_target(player.party:get_player())
+	--player.party:set_assist_target(player.party:get_player())
 	if state.AutoDisableMode.value ~= 'Off' then
 		handle_stop()
 	end
@@ -605,6 +657,17 @@ function handle_command(args)
 end
 
 function handle_debug()
+	local UrlRequest = require('cylibs/util/network/url_request')
+
+	local request = UrlRequest.new('GET', 'https://raw.githubusercontent.com/cyritegamestudios/trust/main/manifest.json', {})
+
+	local fetch = request:get()
+	local success, response, code, body, status = coroutine.resume(fetch)
+
+	if success then
+		table.vprint(body)
+	end
+
 	print(num_created)
 	print('images', num_images_created)
 
@@ -642,15 +705,18 @@ commands['debug'] = handle_debug
 commands['tests'] = handle_tests
 commands['help'] = handle_help
 commands['commands'] = handle_command_list
+commands['version'] = function() addon_system_message("Trust v".._addon.version..".") end
 
 local function addon_command(cmd, ...)
     local cmd = cmd or 'help'
+	
+	if hud.trustMenu:isVisible() and not S{ 'assist', 'send', 'sendall'}:contains(cmd) then
+		addon_system_error("Unable to execute commands while the menu is open.")
+		return
+	end
 
-    if commands[cmd] then
-		local msg = nil
-		if not L{'cycle', 'set'}:contains(cmd) then
-			msg = commands[cmd](unpack({...}))
-		end
+    if commands[cmd] and not L{'set','cycle'}:contains(cmd) then
+		local msg = commands[cmd](unpack({...}))
 		if msg then
 			error(msg)
 		end
@@ -663,9 +729,7 @@ local function addon_command(cmd, ...)
 	elseif shortcuts['default']:is_valid_command(cmd, ...) then
 		shortcuts['default']:handle_command(cmd, ...)
 	else
-		if not L{'cycle', 'set', 'help'}:contains(cmd) then
-			error("Unknown command %s":format(cmd))
-		end
+		error("Unknown command %s":format(cmd))
     end
 end
 
@@ -685,7 +749,7 @@ function load_chunk_event()
 end
 
 function unload_chunk_event()
-	for key in L{'up','down','left','right','enter', addon_settings:getSettings().menu_key}:extend(L{'a','w','s','d','f','e','h','i','k','l'}):it() do
+	for key in L{'up','down','left','right','enter','numpadenter', addon_settings:getSettings().menu_key}:extend(L{'a','w','s','d','f','e','h','i','k','l'}):it() do
 		windower.send_command('unbind %s':format(key))
 	end
 	IpcRelay.shared():destroy()

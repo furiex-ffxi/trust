@@ -20,7 +20,7 @@ function NinjaTrust.new(settings, action_queue, battle_settings, trust_settings)
 		Debuffer.new(action_queue, trust_settings.Debuffs or L{}),
 		MagicBurster.new(action_queue, trust_settings.NukeSettings, 0.8, L{ 'Futae' }, job),
 		Nuker.new(action_queue, trust_settings.NukeSettings, 0.8, L{}, job),
-		Puller.new(action_queue, battle_settings.targets, trust_settings.PullSettings.Abilities),
+		Puller.new(action_queue, trust_settings.PullSettings.Targets, trust_settings.PullSettings.Abilities),
 
 	}
 	local self = setmetatable(Trust.new(action_queue, roles, trust_settings, job), NinjaTrust)
@@ -40,6 +40,9 @@ function NinjaTrust:on_init()
 		local buffer = self:role_with_type("buffer")
 		buffer:set_job_abilities(new_trust_settings.JobAbilities)
 		buffer:set_self_spells(new_trust_settings.SelfBuffs)
+
+		local debuffer = self:role_with_type("debuffer")
+		debuffer:set_debuff_spells(new_trust_settings.Debuffs)
 
 		local puller = self:role_with_type("puller")
 		if puller then

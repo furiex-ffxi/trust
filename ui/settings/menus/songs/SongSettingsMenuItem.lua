@@ -6,19 +6,20 @@ local DisposeBag = require('cylibs/events/dispose_bag')
 local FFXIPickerView = require('ui/themes/ffxi/FFXIPickerView')
 local IndexPath = require('cylibs/ui/collection_view/index_path')
 local MenuItem = require('cylibs/ui/menu/menu_item')
-local ModesView = require('ui/settings/editors/config/ModeConfigEditor')
-local SongPickerView = require('ui/settings/pickers/SongPickerView')
+local ModesMenuItem = require('ui/settings/menus/ModesMenuItem')
+local PickerConfigItem = require('ui/settings/editors/config/PickerConfigItem')
+local SongListMenuItem = require('ui/settings/menus/songs/SongListMenuItem')
 local SongSettingsEditor = require('ui/settings/SongSettingsEditor')
 local SongValidator = require('cylibs/entity/jobs/bard/song_validator')
 
 local SongSettingsMenuItem = setmetatable({}, {__index = MenuItem })
 SongSettingsMenuItem.__index = SongSettingsMenuItem
 
-function SongSettingsMenuItem.new(addonSettings, trustSettings, trustSettingsMode, trust)
+function SongSettingsMenuItem.new(addonSettings, trustSettings, trustSettingsMode, trustModeSettings, trust)
     local self = setmetatable(MenuItem.new(L{
-        ButtonItem.default('Edit', 18),
-        ButtonItem.default('Move Up', 18),
-        ButtonItem.default('Move Down', 18),
+        ButtonItem.default('Dummy', 18),
+        ButtonItem.default('Songs', 18),
+        ButtonItem.default('Pianissimo', 18),
         ButtonItem.default('Config', 18),
         ButtonItem.default('Modes', 18),
         ButtonItem.default('Diagnostics', 18),
@@ -27,13 +28,13 @@ function SongSettingsMenuItem.new(addonSettings, trustSettings, trustSettingsMod
     function()
         local songSettingsView = SongSettingsEditor.new(trustSettings, trustSettingsMode, addonSettings:getSettings().help.wiki_base_url..'/Singer')
         songSettingsView:setShouldRequestFocus(true)
-        songSettingsView:setAllowsCursorSelection(true)
         return songSettingsView
     end, "Songs", "Choose songs to sing."), SongSettingsMenuItem)
 
     self.addonSettings = addonSettings
     self.trustSettings = trustSettings
     self.trustSettingsMode = trustSettingsMode
+    self.trustModeSettings = trustModeSettings
     self.songSettings = T(trustSettings:getSettings())[trustSettingsMode.value].SongSettings
     self.songValidator = SongValidator.new(trust:role_with_type("singer"), action_queue)
     self.dispose_bag = DisposeBag.new()
@@ -52,8 +53,9 @@ function SongSettingsMenuItem:destroy()
 end
 
 function SongSettingsMenuItem:reloadSettings()
-    self:setChildMenuItem("Edit", self:getEditMenuItem())
-    --self:setChildMenuItem("Move Up", MenuItem.new(L{}, {}, nil))
+    self:setChildMenuItem("Songs", SongListMenuItem.new(self.trustSettings, self.trustSettingsMode))
+    self:setChildMenuItem("Dummy", self:getEditDummySongsMenuItem())
+    self:setChildMenuItem("Pianissimo", self:getPianissmoSongsMenuItem())
     self:setChildMenuItem("Config", self:getConfigMenuItem())
     self:setChildMenuItem("Modes", self:getModesMenuItem())
     self:setChildMenuItem("Diagnostics", self:getDiagnosticsMenuItem())
@@ -62,54 +64,139 @@ function SongSettingsMenuItem:reloadSettings()
     end))
 end
 
-function SongSettingsMenuItem:getEditMenuItem()
+function SongSettingsMenuItem:getEditSongsMenuItem()
     local editSongsMenuItem = MenuItem.new(L{
         ButtonItem.default('Confirm', 18),
+        ButtonItem.default('Jobs', 18),
     }, {},
-    function(args)
-        local songs = T(self.trustSettings:getSettings())[self.trustSettingsMode.value].SongSettings.Songs
+            function(_, infoView)
+                --local imageItemForText = function(text)
+                --    return AssetManager.imageItemForSpell(text)
+                --end
 
-        local allSongs = spell_util.get_spells(function(spell)
-            return spell.type == 'BardSong' and S{'Self'}:intersection(S(spell.targets)):length() > 0
-        end):map(function(spell) return spell.en  end)
+                local songs = T(self.trustSettings:getSettings())[self.trustSettingsMode.value].SongSettings.Songs
 
-        local chooseSongsView = SongPickerView.new(self.trustSettings, songs, allSongs, function(songNames)
-            return self:validateSongs(songNames)
-        end)
-        chooseSongsView:setTitle("Choose 5 songs to sing.")
-        chooseSongsView:setShouldRequestFocus(true)
-        return chooseSongsView
-    end, "Songs", "Choose 5 songs to sing.")
+                local allSongs = spell_util.get_spells(function(spell)
+                    return spell.type == 'BardSong' and S{'Self'}:intersection(S(spell.targets)):length() > 0
+                end):map(function(spell) return spell.en  end):sort()
 
+                local songSettings = {
+                    Song1 = songs[1]:get_name(),
+                    Song2 = songs[2]:get_name(),
+                    Song3 = songs[3]:get_name(),
+                    Song4 = songs[4]:get_name(),
+                    Song5 = songs[5]:get_name()
+                }
+
+                local configItems = L{
+                    PickerConfigItem.new('Song1', songSettings.Song1, allSongs, nil, "Song 1"),
+                    PickerConfigItem.new('Song2', songSettings.Song2, allSongs, nil, "Song 2"),
+                    PickerConfigItem.new('Song3', songSettings.Song3, allSongs, nil, "Song 3"),
+                    PickerConfigItem.new('Song4', songSettings.Song4, allSongs, nil, "Song 4"),
+                    PickerConfigItem.new('Song5', songSettings.Song5, allSongs, nil, "Song 5"),
+                }
+
+                local songConfigEditor = ConfigEditor.new(nil, songSettings, configItems, infoView, function(newSettings)
+                    local newSongNames = L{}
+                    for _, songName in pairs(newSettings) do
+                        newSongNames:append(songName)
+                    end
+                    if S(newSongNames):length() ~= 5 then
+                        return false
+                    end
+                    return true
+                end)
+
+                songConfigEditor:onConfigChanged():addAction(function(newSettings, oldSettings)
+                    local songs = T(self.trustSettings:getSettings())[self.trustSettingsMode.value].SongSettings.Songs
+                    for i = 1, 5 do
+                        if songs[i]:get_name() ~= newSettings["Song"..i] then
+                            songs[i] = Spell.new(newSettings["Song"..i], L{}, job_util.all_jobs())
+                        end
+                    end
+
+                    self.trustSettings:saveSettings(true)
+
+                    addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my songs!")
+                end)
+
+                songConfigEditor:onConfigValidationError():addAction(function()
+                    addon_system_error("You must choose 5 different songs.")
+                end)
+
+                songConfigEditor:setTitle("Choose 5 songs to sing.")
+                songConfigEditor:setShouldRequestFocus(true)
+
+                return songConfigEditor
+            end, "Songs", "Choose 5 songs to sing.")
+
+    return editSongsMenuItem
+end
+
+function SongSettingsMenuItem:getEditDummySongsMenuItem()
     local editDummySongsMenuItem = MenuItem.new(L{
         ButtonItem.default('Confirm', 18),
     }, {},
-    function(args)
-        local songs = T(self.trustSettings:getSettings())[self.trustSettingsMode.value].SongSettings.DummySongs
+        function(_, infoView)
+            --local imageItemForText = function(text)
+            --    return AssetManager.imageItemForSpell(text)
+            --end
 
-        local allSongs = spell_util.get_spells(function(spell)
-            return spell.type == 'BardSong' and S{'Self'}:intersection(S(spell.targets)):length() > 0
-        end):map(function(spell) return spell.en  end)
+            local songs = T(self.trustSettings:getSettings())[self.trustSettingsMode.value].SongSettings.DummySongs
 
-        local chooseSongsView = SongPickerView.new(self.trustSettings, songs, allSongs, function(songNames)
-            return self:validateDummySongs(songNames)
-        end)
-        chooseSongsView:setTitle("Choose 3 dummy songs to sing.")
-        chooseSongsView:setShouldRequestFocus(true)
-        return chooseSongsView
-    end, "Songs", "Choose 3 dummy songs to sing.")
+            local allSongs = spell_util.get_spells(function(spell)
+                return spell.type == 'BardSong' and S{'Self'}:intersection(S(spell.targets)):length() > 0
+            end):map(function(spell) return spell.en  end):sort()
 
-    local songTypeMenuItem = MenuItem.new(L{
-        ButtonItem.default('Songs', 18),
-        ButtonItem.default('Dummy', 18),
-        ButtonItem.default('Pianissimo', 18),
-    }, {
-        Songs = editSongsMenuItem,
-        Dummy = editDummySongsMenuItem,
-        Pianissimo = self:getPianissmoSongsMenuItem(),
-    }, nil, "Songs", "Choose dummy songs and songs to sing.")
+            local songSettings = {
+                Song1 = songs[1]:get_name(),
+                Song2 = songs[2]:get_name(),
+                Song3 = songs[3]:get_name()
+            }
 
-    return songTypeMenuItem
+            local configItems = L{
+                PickerConfigItem.new('Song1', songSettings.Song1, allSongs, nil, "Dummy Song 1"),
+                PickerConfigItem.new('Song2', songSettings.Song2, allSongs, nil, "Dummy Song 2"),
+                PickerConfigItem.new('Song3', songSettings.Song3, allSongs, nil, "Dummy Song 3"),
+            }
+
+            local songConfigEditor = ConfigEditor.new(nil, songSettings, configItems, infoView, function(newSettings)
+                local newSongNames = L{}
+                for _, songName in pairs(newSettings) do
+                    newSongNames:append(songName)
+                end
+                if S(newSongNames):length() ~= 3 then
+                    return false
+                end
+                return true
+            end)
+
+            songConfigEditor:onConfigChanged():addAction(function(newSettings, oldSettings)
+                local dummySongs = L{
+                    Spell.new(newSettings.Song1),
+                    Spell.new(newSettings.Song2),
+                    Spell.new(newSettings.Song3),
+                }
+
+                local songs = T(self.trustSettings:getSettings())[self.trustSettingsMode.value].SongSettings.DummySongs
+                songs:clear()
+                songs = songs:extend(dummySongs)
+
+                self.trustSettings:saveSettings(true)
+
+                addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my dummy songs!")
+            end)
+
+            songConfigEditor:onConfigValidationError():addAction(function()
+                addon_system_error("You must choose 3 different dummy songs.")
+            end)
+
+            songConfigEditor:setTitle("Choose 3 dummy songs to sing.")
+            songConfigEditor:setShouldRequestFocus(true)
+
+            return songConfigEditor
+        end, "Dummy", "Choose 3 dummy songs to sing.")
+    return editDummySongsMenuItem
 end
 
 function SongSettingsMenuItem:getPianissmoSongsMenuItem()
@@ -132,7 +219,7 @@ function SongSettingsMenuItem:getPianissmoSongsMenuItem()
         self.dispose_bag:add(chooseSongsView:on_pick_items():addAction(function(_, selectedItems)
             if selectedItems:length() > 0 then
                 local newSongs = selectedItems:map(function(item)
-                    return Spell.new(item:getText(), L{ 'Pianissimo' })
+                    return Spell.new(item:getText(), L{ 'Pianissimo' }, L{})
                 end):compact_map()
 
                 local songs = T(self.trustSettings:getSettings())[self.trustSettingsMode.value].SongSettings.PianissimoSongs
@@ -195,7 +282,11 @@ function SongSettingsMenuItem:getPianissmoSongsMenuItem()
             self.selectedPianissimoSongIndex = indexPath.row
             local song = songs[self.selectedPianissimoSongIndex]
             if song then
-                infoView:setDescription("Use when: Ally job is "..localization_util.commas(song:get_job_names(), "or"))
+                if song:get_job_names():length() > 0 then
+                    infoView:setDescription("Use when: Ally job is "..localization_util.commas(song:get_job_names(), "or"))
+                else
+                    infoView:setDescription("Use when: Never (no jobs selected)")
+                end
             end
         end), pianissimoSongsView:getDelegate():didSelectItemAtIndexPath())
 
@@ -231,7 +322,7 @@ function SongSettingsMenuItem:getConfigMenuItem()
     local songConfigMenuItem = MenuItem.new(L{
         ButtonItem.default('Confirm', 18),
     }, {},
-            function()
+            function(_, infoView)
                 local allSettings = T(self.trustSettings:getSettings())[self.trustSettingsMode.value]
 
                 local songSettings = T{
@@ -242,7 +333,7 @@ function SongSettingsMenuItem:getConfigMenuItem()
 
                 local configItems = L{
                     ConfigItem.new('NumSongs', 2, 4, 1, function(value) return value.."" end, "Maximum Number of Songs"),
-                    ConfigItem.new('SongDuration', 120, 400, 10, function(value) return value.."s" end, "Song Duration"),
+                    ConfigItem.new('SongDuration', 120, 400, 10, function(value) return value.."s" end, "Base Song Duration"),
                     ConfigItem.new('SongDelay', 4, 8, 1, function(value) return value.."s" end, "Delay Between Songs")
                 }
 
@@ -259,6 +350,16 @@ function SongSettingsMenuItem:getConfigMenuItem()
                     self.trustSettings:saveSettings(true)
                 end), songConfigEditor:onConfigChanged())
 
+                self.dispose_bag:add(songConfigEditor:getDelegate():didMoveCursorToItemAtIndexPath():addAction(function(indexPath)
+                    if indexPath.section == 1 then
+                        infoView:setDescription("Maximum number of songs without Clarion Call.")
+                    elseif indexPath.section == 2 then
+                        infoView:setDescription("Base song duration with gear but without Troubadour.")
+                    else
+                        infoView:setDescription("Configure general song settings.")
+                    end
+                end), songConfigEditor:getDelegate():didMoveCursorToItemAtIndexPath())
+
                 return songConfigEditor
             end, "Config", "Configure general song settings.")
     return songConfigMenuItem
@@ -271,15 +372,8 @@ function SongSettingsMenuItem:getDiagnosticsMenuItem()
 end
 
 function SongSettingsMenuItem:getModesMenuItem()
-    local songModesMenuItem = MenuItem.new(L{
-        ButtonItem.default('Confirm')
-    }, L{}, function(_, infoView)
-        local modesView = ModesView.new(L{'AutoSongMode', 'AutoClarionCallMode', 'AutoNitroMode', 'AutoPianissimoMode'}, infoView)
-        modesView:setShouldRequestFocus(true)
-        modesView:setTitle("Set modes for singing.")
-        return modesView
-    end, "Modes", "Change singing behavior.")
-    return songModesMenuItem
+    return ModesMenuItem.new(self.trustModeSettings, "Set modes for singing.",
+            L{'AutoSongMode', 'AutoClarionCallMode', 'AutoNitroMode', 'AutoPianissimoMode'})
 end
 
 function SongSettingsMenuItem:validateDummySongs(songNames)

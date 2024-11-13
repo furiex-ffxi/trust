@@ -20,9 +20,9 @@ state.SkillchainPropertyMode:set_description('Off', "Okay, I'll try to make skil
 state.SkillchainPropertyMode:set_description('Light', "Okay, I'll only make Light skillchains unless I have instructions to use certain weapon skills.")
 state.SkillchainPropertyMode:set_description('Darkness', "Okay, I'll only make Darkness skillchains unless I have instructions to use certain weapon skills.")
 
-state.SkillchainDelayMode = M{['description'] = 'Delay Between Weapon Skills', 'Off', 'Maximum'}
+state.SkillchainDelayMode = M{['description'] = 'Prioritze Magic Bursts', 'Off', 'Maximum'}
 state.SkillchainDelayMode:set_description('Off', "Okay, I'll use the next weapon skill as soon as the skillchain window opens.")
-state.SkillchainDelayMode:set_description('Maximum', "Okay, I'll wait until the end of the skillchain window to use my next weapon skill.")
+state.SkillchainDelayMode:set_description('Maximum', "Okay, I'll delay using weapon skills to let my party magic burst.")
 
 state.SkillchainAssistantMode = M{['description'] = 'Show Skillchain Assistant', 'Auto', 'Off'}
 state.SkillchainAssistantMode:set_description('Auto', "Okay, I'll suggest weapon skills you can use to continue the skillchain.")
@@ -49,6 +49,11 @@ function Skillchainer:on_skills_changed()
     return self.skills_changed
 end
 
+-- Event called when the list of abilities have changed.
+function Skillchainer:on_abilities_changed()
+    return self.abilities_changed
+end
+
 function Skillchainer.new(action_queue, weapon_skill_settings)
     local self = setmetatable(Role.new(action_queue), Skillchainer)
 
@@ -65,6 +70,7 @@ function Skillchainer.new(action_queue, weapon_skill_settings)
     self.skillchain = Event.newEvent();
     self.skillchain_ended = Event.newEvent();
     self.skills_changed = Event.newEvent();
+    self.abilities_changed = Event.newEvent();
 
     self.dispose_bag = DisposeBag.new()
 
@@ -80,6 +86,7 @@ function Skillchainer:destroy()
     self:on_skillchain():removeAllActions()
     self:on_skillchain_ended():removeAllActions()
     self:on_skills_changed():removeAllActions()
+    self:on_abilities_changed():removeAllActions()
 
     self.dispose_bag:destroy()
 end
@@ -348,6 +355,7 @@ function Skillchainer:update_abilities()
     self.skillchain_builder:set_abilities(abilities)
 
     self:on_skills_changed():trigger(self, self.active_skills)
+    self:on_abilities_changed():trigger(self, abilities)
 end
 
 function Skillchainer:allows_duplicates()
@@ -373,6 +381,8 @@ end
 function Skillchainer:set_current_settings(current_settings)
     self.current_settings = current_settings
     self.ability_for_step = current_settings.Skillchain
+
+    self:set_job_abilities(current_settings.JobAbilities)
 
     self:update_abilities()
 end

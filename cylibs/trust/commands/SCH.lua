@@ -1,3 +1,4 @@
+local PickerConfigItem = require('ui/settings/editors/config/PickerConfigItem')
 local skillchain_util = require('cylibs/util/skillchain_util')
 
 local TrustCommands = require('cylibs/trust/commands/trust_commands')
@@ -12,15 +13,26 @@ function ScholarTrustCommands.new(trust, action_queue, trust_settings)
     self.trust_settings = trust_settings
     self.action_queue = action_queue
 
-    self:add_command('sc', self.handle_skillchain, 'Make a skillchain using immanence, // trust sch sc skillchain_property')
+    self:add_command('sc', self.handle_skillchain, 'Make a skillchain using immanence', L{
+        PickerConfigItem.new('skillchain_property', skillchain_util.all_skillchain_properties()[1], skillchain_util.all_skillchain_properties(), nil, "Skillchain Property")
+    })
     self:add_command('accession', self.handle_accession, 'Cast a spell with accession, // trust sch accession spell_name')
-    self:add_command('storm', self.handle_storm, 'Set storm element, // trust sch storm element_name')
+
+    local storm_elements = L{ 'fire', 'ice', 'wind', 'earth', 'lightning', 'water', 'light', 'dark' }
+    self:add_command('storm', self.handle_storm, 'Set storm element for self and party', L{
+        PickerConfigItem.new('storm_element_name', storm_elements[1], storm_elements, function(v) return v:gsub("^%l", string.upper) end, "Storm Element"),
+        PickerConfigItem.new('include_party', "false", L{ "false", "true" }, nil, "Include Party")
+    })
 
     return self
 end
 
 function ScholarTrustCommands:get_command_name()
     return 'sch'
+end
+
+function ScholarTrustCommands:get_localized_command_name()
+    return 'Scholar'
 end
 
 function ScholarTrustCommands:get_settings()
@@ -32,6 +44,7 @@ function ScholarTrustCommands:get_job()
 end
 
 function ScholarTrustCommands:get_spells(element)
+    element = element:lower()
     if element == "liquefaction" then
         return "Stone", "Fire"
     elseif element == "scission" then
@@ -158,10 +171,12 @@ function ScholarTrustCommands:handle_accession(_, spell_name)
     return success, message
 end
 
--- // trust sch storm [fire|ice|wind|earth|lightning|water|light|dark]
-function ScholarTrustCommands:handle_storm(_, element)
+-- // trust sch storm [fire|ice|wind|earth|lightning|water|light|dark] [true|false]
+function ScholarTrustCommands:handle_storm(_, element, include_party)
     local success
     local message
+    print(tostring(include_party))
+    include_party = include_party ~= nil and tostring(include_party) == "true"
 
     local storm = self.trust:get_job():get_storm(element:lower())
     if storm then
@@ -170,17 +185,31 @@ function ScholarTrustCommands:handle_storm(_, element)
 
         local current_settings = self:get_settings()
         for arts_name in L{ 'LightArts', 'DarkArts' }:it() do
-            local new_buffs = L{ storm }
 
-            local self_buffs = current_settings[arts_name].SelfBuffs
-            for buff in self_buffs:it() do
-                if not buff:get_spell().en:contains('storm') then
-                    new_buffs:append(buff)
+            local update_storm = function(storm, buffs)
+                local new_buffs = L{ storm }
+
+                for buff in buffs:it() do
+                    if not buff:get_spell().en:contains('storm') then
+                        new_buffs:append(buff)
+                    end
                 end
+
+                buffs:clear()
+                buffs = buffs:extend(new_buffs)
             end
 
-            self_buffs:clear()
-            self_buffs = self_buffs:extend(new_buffs)
+            update_storm(storm, current_settings[arts_name].SelfBuffs)
+
+            if include_party then
+                local party_storm = self.trust:get_job():get_storm(element:lower())
+                party_storm:set_job_names(L{'BLM','SCH','RDM','GEO'})
+                update_storm(party_storm, current_settings[arts_name].PartyBuffs)
+            end
+        end
+
+        if include_party then
+            message = message.." for self and party"
         end
 
         self.trust_settings:saveSettings(true)

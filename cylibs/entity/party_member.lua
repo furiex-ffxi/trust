@@ -10,7 +10,6 @@ local DisposeBag = require('cylibs/events/dispose_bag')
 local Entity = require('cylibs/entity/entity')
 local Event = require('cylibs/events/Luvent')
 local ffxi_util = require('cylibs/util/ffxi_util')
-local packets = require('packets')
 local party_util = require('cylibs/util/party_util')
 local res = require('resources')
 local Weapon = require('cylibs/battle/weapons/weapon')
@@ -79,14 +78,20 @@ function PartyMember:on_pet_change()
     return self.pet_change
 end
 
+-- Event called when a player's spell finishes casting.
+function PartyMember:on_spell_finish()
+    return self.spell_finish
+end
+
 -------
 -- Default initializer for a PartyMember.
 -- @tparam number id Mob id
 -- @treturn PartyMember A party member
-function PartyMember.new(id)
+function PartyMember.new(id, name)
     local self = setmetatable(Entity.new(id), PartyMember)
     self.uuid = os.time()
     self.id = id
+    self.name = name
     self.main_job_short = 'NON'
     self.sub_job_short = 'NON'
     self.hpp = 100
@@ -118,14 +123,15 @@ function PartyMember.new(id)
     self.equipment_change = Event.newEvent()
     self.combat_skills_change = Event.newEvent()
     self.pet_change = Event.newEvent()
+    self.spell_finish = Event.newEvent()
 
     local party_member_info = party_util.get_party_member(id)
     if party_member_info then
         self.hp = party_member_info.hp or 0
         self.hpp = party_member_info.hpp or 100
-        self.mp = party_member_info.mp
-        self.mpp = party_member_info.mpp
-        self.tp = party_member_info.tp
+        self.mp = party_member_info.mp or 0
+        self.mpp = party_member_info.mpp or 100
+        self.tp = party_member_info.tp or 0
         self.zone = party_member_info.zone
         self.name = party_member_info.name
 
@@ -167,6 +173,7 @@ function PartyMember:destroy()
     self.equipment_change:removeAllActions()
     self.combat_skills_change:removeAllActions()
     self.pet_change:removeAllActions()
+    self.spell_finish:removeAllActions()
 end
 
 -------
@@ -183,14 +190,14 @@ function PartyMember:monitor()
     self.dispose_bag:add(WindowerEvents.CharacterUpdate:addAction(function(mob_id, name, hp, hpp, mp, mpp, tp, main_job_id, sub_job_id)
         if self:get_id() == mob_id then
             self.name = name
-            self.mp = mp
-            self.mpp = mpp
-            self.tp = tp
             self.main_job_short = main_job_id and res.jobs[main_job_id]['ens'] or 'NON'
             self.sub_job_short = sub_job_id and res.jobs[sub_job_id]['ens'] or 'NON'
 
             self:set_hp(hp)
             self:set_hpp(hpp)
+            self:set_mp(mp)
+            self:set_mpp(mpp)
+            self:set_tp(tp)
         end
     end), WindowerEvents.CharacterUpdate)
 
@@ -241,6 +248,14 @@ function PartyMember:monitor()
             self:set_zone_id(current_zone_id, zone_line, zone_type)
         end
     end), WindowerEvents.ZoneRequest)
+
+    self.dispose_bag:add(WindowerEvents.Action:addAction(function(action)
+        if action.actor_id ~= self:get_id() then return end
+
+        if action.category == 4 then
+            self:on_spell_finish():trigger(self, action.param, action.targets)
+        end
+    end), WindowerEvents.Action)
 
     self.dispose_bag:add(self:on_target_change():addAction(function(_, _)
         self.battle_stat_tracker:reset()
@@ -443,6 +458,17 @@ end
 -- @treturn number Mana points
 function PartyMember:get_mp()
     return self.mp
+end
+
+-------
+-- Sets the party member's current tactical points.
+-- @tparam number Tactical points
+function PartyMember:set_tp(tp)
+    tp = tp or 0
+    if self.tp == tp then
+        return
+    end
+    self.tp = tp
 end
 
 -------

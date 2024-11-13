@@ -2,7 +2,6 @@
 return {
     Version = 2,
     Default = {
-        AutoFood="Tropical Crepe",
         SelfBuffs = L{
 
         },
@@ -19,6 +18,7 @@ return {
             Delay = 2,
             MinManaPointsPercent = 20,
             MinNumMobsToCleave = 2,
+            GearswapCommand = "gs c set MagicBurstMode Single",
             Spells = L{
                 Spell.new('Thunder VI'),
                 Spell.new('Thunder V'),
@@ -46,6 +46,11 @@ return {
                 Spell.new('Stone IV'),
                 Spell.new('Comet'),
             },
+            JobAbilities = L{
+                JobAbility.new("Ebullience", L{SubJobCondition.new('SCH'), StrategemCountCondition.new(1, ">=")}, L{}),
+                JobAbility.new("Manawell", L{}, L{}),
+                JobAbility.new("Cascade", L{MinManaPointsPercentCondition.new(40), MinTacticalPointsCondition.new(1000)}, L{})
+            },
             Blacklist = L{
 
             },
@@ -54,14 +59,18 @@ return {
             Abilities = L{
                 Spell.new('Burn', L{}, L{})
             },
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle",
+            },
             Distance = 20
         },
         GambitSettings = {
             Default = L{
-                Gambit.new("Self", L{MinManaPointsPercentCondition.new(50), InBattleCondition.new()}, JobAbility.new("Cascade", L{}, L{}), "Self", L{})
             },
             Gambits = L{
-
+                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("BLM")}, UseItem.new("Tropical Crepe", L{ItemCountCondition.new("Tropical Crepe", 1, ">=")}), "Self", L{"food"})
             }
         },
     }

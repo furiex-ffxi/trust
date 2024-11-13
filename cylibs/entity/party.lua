@@ -27,6 +27,11 @@ function Party:on_party_member_removed()
     return self.party_member_removed
 end
 
+-- Event called when a party member is added or removed.
+function Party:on_party_members_changed()
+    return self.party_members_changed
+end
+
 -- Event called when the party's target changes.
 function Party:on_party_target_change()
     return self.target_change
@@ -53,6 +58,7 @@ function Party.new(party_chat)
 
     self.party_member_added = Event.newEvent()
     self.party_member_removed = Event.newEvent()
+    self.party_members_changed = Event.newEvent()
     self.target_change = Event.newEvent()
     self.assist_target_change = Event.newEvent()
 
@@ -76,6 +82,7 @@ function Party:destroy()
 
     self:on_party_member_added():removeAllActions()
     self:on_party_member_removed():removeAllActions()
+    self:on_party_members_changed():removeAllActions()
     self:on_party_target_change():removeAllActions()
     self:on_party_assist_target_change():removeAllActions()
 
@@ -112,7 +119,7 @@ function Party:add_party_member(party_member_id, party_member_name)
     elseif party_member_id == windower.ffxi.get_player().id then
         self.party_members[party_member_id] = Player.new(party_member_id)
     else
-        self.party_members[party_member_id] = PartyMember.new(party_member_id)
+        self.party_members[party_member_id] = PartyMember.new(party_member_id, party_member_name)
     end
 
     local party_member = self.party_members[party_member_id]
@@ -126,6 +133,7 @@ function Party:add_party_member(party_member_id, party_member_name)
     --end)
 
     self:on_party_member_added():trigger(party_member)
+    self:on_party_members_changed():trigger(self:get_party_members(true))
 
     logger.notice(self.__class, "add_party_member", party_member:get_name(), party_member_id)
 
@@ -136,19 +144,21 @@ end
 -- Removes a party member from the party.
 -- @tparam number party_member_id Party member id
 function Party:remove_party_member(party_member_id)
-    local party_member = self.party_members[party_member_id]
-    if party_member then
-        party_member:destroy()
-        self:on_party_member_removed():trigger(party_member)
-    end
-
     if self:get_assist_target() and self:get_assist_target():get_id() == party_member_id then
         self:set_assist_target(self:get_player())
     end
 
-    logger.notice(self.__class, "remove_party_member", party_member:get_name(), party_member_id)
+    local party_member = self.party_members[party_member_id]
+    if party_member then
+        party_member:destroy()
 
-    self.party_members[party_member_id] = nil
+        self.party_members[party_member_id] = nil
+
+        self:on_party_member_removed():trigger(party_member)
+        self:on_party_members_changed():trigger(self:get_party_members(true))
+    end
+
+    logger.notice(self.__class, "remove_party_member", party_member:get_name(), party_member_id)
 end
 
 -------
@@ -156,7 +166,21 @@ end
 -- @tparam number party_member_id Party member id
 -- @treturn boolean True if the player is in the party
 function Party:has_party_member(party_member_id)
+    if party_member_id == nil then
+        return false
+    end
     return self.party_members[party_member_id] ~= nil
+end
+
+-------
+-- Returns whether a player with the given name is in the party.
+-- @tparam string party_member_name Party member name
+-- @treturn boolean True if the player is in the party
+function Party:has_party_member_named(party_member_name)
+    if party_member_name == nil then
+        return false
+    end
+    return self:get_party_member_named(party_member_name, true) ~= nil
 end
 
 -------
@@ -191,10 +215,12 @@ end
 -------
 -- Returns the party member with the given name.
 -- @tparam string mob_name Party member mob name
+-- @tparam boolean ignore_range_check If true, will not require mob to be non-nil
 -- @treturn PartyMember Party member, or nil if none exists
-function Party:get_party_member_named(mob_name)
+function Party:get_party_member_named(mob_name, ignore_range_check)
     for _, party_member in pairs(self.party_members) do
-        if party_member:get_mob() and party_member:get_mob().name == mob_name then
+        if (party_member:get_mob() and party_member:get_mob().name == mob_name)
+                or ignore_range_check and party_member:get_name() == mob_name then
             return party_member
         end
     end
@@ -223,6 +249,7 @@ function Party:prune_party_members()
                 coroutine.schedule(function()
                     self:on_party_member_removed():trigger(party_member)
                     party_member:destroy()
+                    self:on_party_members_changed():trigger(self:get_party_members(true))
                 end, 1)
             end
         end
@@ -266,7 +293,9 @@ function Party:set_assist_target(party_member)
         end
         logger.notice(self.__class, 'set_assist_target', party_member:get_name(), initial_target_index)
 
-        self:add_to_chat(self:get_player(), "Okay, I'll assist "..party_member:get_name().." in battle.")
+        if party_member:get_name() ~= windower.ffxi.get_player().name then
+            self:add_to_chat(self:get_player(), "Okay, I'll assist "..party_member:get_name().." in battle.")
+        end
     end
     self:on_party_assist_target_change():trigger(self, self.assist_target)
 end

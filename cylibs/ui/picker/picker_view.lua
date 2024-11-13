@@ -60,7 +60,6 @@ function PickerView.new(pickerItems, allowsMultipleSelection, cursorImageItem)
         return cell
     end)
 
-
     local self = setmetatable(CollectionView.new(dataSource, VerticalFlowLayout.new(0, Padding.new(8, 16, 8, 0)), nil, cursorImageItem), PickerView)
 
     self.pickerItems = pickerItems
@@ -129,7 +128,7 @@ end
 function PickerView:setItems(texts, selectedTexts, shouldTruncateText)
     selectedTexts = selectedTexts or L{}
     self.pickerItems = L{ texts:map(function(text)
-        local textItem = TextItem.new(text, TextStyle.PickerView.Text)
+        local textItem = TextItem.new(text, TextStyle.Picker.Text)
         textItem:setShouldTruncateText(shouldTruncateText)
         return PickerItem.new(textItem, selectedTexts:contains(text))
     end) }
@@ -151,7 +150,7 @@ end
 --
 function PickerView.withItems(texts, selectedTexts, allowsMultipleSelection, cursorImageItem)
     local pickerItems = texts:map(function(text)
-        return PickerItem.new(TextItem.new(text, TextStyle.PickerView.Text), selectedTexts:contains(text))
+        return PickerItem.new(TextItem.new(text, TextStyle.Picker.Text), selectedTexts:contains(text))
     end)
     return PickerView.new(L{ pickerItems }, allowsMultipleSelection, cursorImageItem)
 end
@@ -169,7 +168,7 @@ function PickerView.withSections(sections, selectedTexts, allowsMultipleSelectio
     local itemsBySection = L{}
     for sectionTexts in sections:it() do
         local pickerItems = sectionTexts:map(function(text)
-            return PickerItem.new(TextItem.new(text, TextStyle.PickerView.Text), selectedTexts:contains(text))
+            return PickerItem.new(TextItem.new(text, TextStyle.Picker.Text), selectedTexts:contains(text))
         end)
         itemsBySection:append(pickerItems)
     end
@@ -186,9 +185,11 @@ function PickerView:onSelectMenuItemAtIndexPath(textItem, _)
         local selectedItems = L(self:getDelegate():getSelectedIndexPaths():map(function(indexPath)
             return self:getDataSource():itemAtIndexPath(indexPath)
         end)):compact_map()
-        if selectedItems:length() > 0 then
+        if selectedItems:length() > 0 or self:getAllowsMultipleSelection() then
             self:on_pick_items():trigger(self, selectedItems, L(self:getDelegate():getSelectedIndexPaths()))
         end
+    elseif L{ 'Clear All' }:contains(textItem:getText()) then
+        self:getDelegate():deselectAllItems()
     end
 end
 
@@ -198,10 +199,8 @@ end
 -- @tparam number section Section to add item to.
 --
 function PickerView:addItem(text, section)
-    local newItem = PickerItem.new(TextItem.new(text, TextStyle.PickerView.Text), false)
-    print(self.pickerItems[section])
+    local newItem = PickerItem.new(TextItem.new(text, TextStyle.Picker.Text), false)
     self.pickerItems[section]:append(newItem)
-    print(self.pickerItems[section])
 
     self:reload()
 end

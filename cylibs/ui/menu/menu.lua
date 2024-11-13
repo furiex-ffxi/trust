@@ -1,4 +1,5 @@
 local DisposeBag = require('cylibs/events/dispose_bag')
+local Keyboard = require('cylibs/ui/input/keyboard')
 local FocusManager = require('cylibs/ui/focus/focus_manager')
 local MenuView = require('cylibs/ui/menu/menu_view')
 
@@ -11,6 +12,7 @@ function Menu.new(contentViewStack, viewStack, infoView)
     local self = setmetatable({}, Menu)
 
     self.buttonHeight = 16
+    self.isChatOpen = false
     self.disposeBag = DisposeBag.new()
     self.menuItemStack = L{}
 
@@ -22,7 +24,7 @@ function Menu.new(contentViewStack, viewStack, infoView)
 
     self.disposeBag:add(viewStack:onStackSizeChanged():addAction(function(stackSize)
         if stackSize > 0 then
-            for key in L{'up','down','left','right','enter'}:it() do
+            for key in L{'up','down','left','right','enter','numpadenter'}:it() do
                 windower.send_command('bind %s block':format(key))
             end
             self.infoView:setVisible(true)
@@ -31,13 +33,34 @@ function Menu.new(contentViewStack, viewStack, infoView)
     end), viewStack:onStackSizeChanged())
 
     self.disposeBag:add(viewStack:onEmpty():addAction(function(_)
-        for key in L{'up','down','left','right','enter'}:it() do
+        for key in L{'up','down','left','right','enter','numpadenter'}:it() do
             windower.send_command('unbind %s':format(key))
         end
         self.infoView:setVisible(false)
         self.infoView:layoutIfNeeded()
     end
     ), viewStack:onEmpty())
+
+    Keyboard.input():on_chat_toggle():addAction(function(_, isChatOpen)
+        if self.isChatOpen == isChatOpen then
+            return
+        end
+        self.isChatOpen = isChatOpen
+
+        if isChatOpen then
+            if self:isVisible() then
+                for key in L{'up','down','left','right','enter','numpadenter'}:it() do
+                    windower.send_command('unbind %s':format(key))
+                end
+            end
+        else
+            if self:isVisible() then
+                for key in L{'up','down','left','right','enter','numpadenter'}:it() do
+                    windower.send_command('bind %s block':format(key))
+                end
+            end
+        end
+    end)
 
     return self
 end
@@ -68,7 +91,11 @@ function Menu:showMenu(menuItem)
             end
 
             local childMenuItem = self.menuView:getItem():getChildMenuItem(textItem:getText())
-            if childMenuItem and childMenuItem:isEnabled() then
+            if childMenuItem then
+                if not childMenuItem:isEnabled() then
+                    addon_system_message("Unable to perform this action.")
+                    return
+                end
                 if type(childMenuItem) == 'function' then
                     childMenuItem()
                     return
@@ -135,7 +162,7 @@ function Menu:onMoveCursorToIndexPath(cursorIndexPath)
 end
 
 function Menu:onKeyboardEvent(key, pressed, flags, blocked)
-    if blocked then
+    if windower.ffxi.get_info().chat_open or blocked then
         return blocked
     end
     if pressed then
@@ -172,12 +199,18 @@ function Menu:onKeyboardEvent(key, pressed, flags, blocked)
 end
 
 function Menu:closeAll()
+    local isMenuShown = self:isVisible()
+
     if self.menuView then
         self.menuView:destroy()
         self.menuView = nil
     end
     self.menuItemStack = L{}
     self.viewStack:dismissAll()
+
+    if isMenuShown then
+        FocusManager.shared():resignAllFocus()
+    end
 end
 
 function Menu:isVisible()

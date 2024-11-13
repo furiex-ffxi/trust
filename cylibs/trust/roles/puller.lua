@@ -27,10 +27,11 @@ function Puller.new(action_queue, target_names, pull_abilities, truster)
     local self = setmetatable(Role.new(action_queue), Puller)
 
     self.action_queue = action_queue
-    self.target_names = target_names
+    self.target_names = target_names or L{}
     self.pull_abilities = pull_abilities
     self.pull_settings = {
-        Abilities = pull_abilities
+        Abilities = pull_abilities,
+        Targets = target_names or L{},
     }
     self.truster = truster
     self.last_pull_time = os.time() - 6
@@ -48,8 +49,13 @@ end
 function Puller:on_add()
     Role.on_add(self)
 
+    if state.AutoPullMode.value ~= 'Off' then
+        windower.send_command('input /autotarget off')
+    end
+
     self.dispose_bag:add(state.AutoPullMode:on_state_change():addAction(function(_, new_value)
         if new_value ~= 'Off' then
+            windower.send_command('input /autotarget off')
             local assist_target = self:get_party():get_assist_target()
             if assist_target:get_id() ~= windower.ffxi.get_player().id then
                 self:get_party():add_to_chat(self:get_party():get_player(), "I can't pull while I'm assisting someone else, so I'm going to stop assisting "..assist_target:get_name()..".")
@@ -179,13 +185,39 @@ function Puller:get_next_target()
             return monster
         end
     else
-        local exclude_targets = self:get_party():get_targets(function(target)
-            return target:is_claimed() and target ~= self:get_target()
-        end):map(function(target) return target:get_mob().index  end)
-        local target = ffxi_util.find_closest_mob(self:get_target_names(), L{}:extend(party_util.party_targets())--[[exclude_targets]], self.blacklist, self.pull_settings.Distance or 20)
-        if target and target.distance:sqrt() < (self.pull_settings.Distance or 20) then
-            local monster = Monster.new(target.id)
+        -- First, check mobs that are aggroed and unclaimed or aggroed and claimed by a party member
+        local nearby_mobs = ffxi_util.find_closest_mobs(L{}, L{}, L{}, 10):filter(function(mob)
+            if res.statuses[mob.status].en == 'Engaged' then
+                if mob.claim_id == 0 then
+                    logger.notice(self.__class, 'get_next_target', 'engaged', 'unclaimed')
+                    return true
+                else
+                    if self:get_party():get_party_member(mob.claim_id) then
+                        logger.notice(self.__class, 'get_next_target', 'engaged', 'claimed')
+                        return true
+                    end
+                end
+            end
+            return false
+        end)
+        if nearby_mobs:length() > 0 then
+            logger.notice(self.__class, 'get_next_target', 'aggroed mob')
+            local monster = Monster.new(nearby_mobs[1].id)
             return monster
+        end
+
+        -- Next, pull idle unclaimed mobs from the pull target whitelist
+        local claimed_party_targets = party_util.party_targets():filter(function(target_index)
+            local target = windower.ffxi.get_mob_by_index(target_index)
+            return target and target.claim_id and target.claim_id ~= 0
+        end)
+        if self:get_target_names():length() > 0 then
+            local target = ffxi_util.find_closest_mob(self:get_target_names(), L{}:extend(claimed_party_targets), self.blacklist, self.pull_settings.Distance or 20)
+            if target and target.distance:sqrt() < (self.pull_settings.Distance or 20) then
+                logger.notice(self.__class, 'get_next_target', 'new mob')
+                local monster = Monster.new(target.id)
+                return monster
+            end
         end
     end
     return nil
@@ -243,7 +275,8 @@ end
 
 function Puller:set_pull_settings(pull_settings)
     self.pull_settings = pull_settings
-    self.pull_abilities = self.pull_settings.Abilities or L{}
+    self.pull_abilities = pull_settings.Abilities or L{}
+    self:set_target_names(pull_settings.Targets or L{})
 end
 
 function Puller:get_pull_abilities()

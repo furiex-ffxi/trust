@@ -52,19 +52,27 @@ function WeaponSkillSettings.new(jobNameShort)
     return self
 end
 
+function WeaponSkillSettings:loadFile(filePath)
+    return coroutine.create(function()
+        local settings
+        local loadSettings, err = loadfile(filePath)
+        if not err then
+            settings = loadSettings()
+        end
+        coroutine.yield(settings, err)
+    end)
+end
+
 function WeaponSkillSettings:loadSettings(verbose)
     local filePath = self:getSettingsFilePath()
     if filePath then
-        local loadJobSettings, err = loadfile(filePath)
+        local success, jobSettings, err = coroutine.resume(self:loadFile(filePath))
         if err then
             error(err)
         else
-            if verbose then
-                addon_message(207, 'Loaded weapon skill settings from '..filePath)
-            end
-            local loadDefaultJobSettings, _ = loadfile(self:getSettingsFilePath(true))
-            self.defaultSettings = loadDefaultJobSettings()
-            self.settings = loadJobSettings()
+            local success, defaultJobSettings, _ = coroutine.resume(self:loadFile(self:getSettingsFilePath(true)))
+            self.defaultSettings = defaultJobSettings
+            self.settings = jobSettings
             self.settingsVersion = self.settings.Version or -1
             if not self:checkSettingsVersion() then
                 error("Weapon skill settings have been upgraded! A new settings file will be generated for", self.jobNameShort)
@@ -75,7 +83,7 @@ function WeaponSkillSettings:loadSettings(verbose)
             return self.settings
         end
     else
-        addon_message(207, 'Unable to load weapon skill settings for '..self.jobNameShort)
+        addon_message(123, 'Unable to load weapon skill settings for '..self.jobNameShort)
     end
     return nil
 end
@@ -112,6 +120,15 @@ function WeaponSkillSettings:saveSettings(saveToFile)
     self:onSettingsChanged():trigger(self.settings)
 end
 
+function WeaponSkillSettings:createSettings(setName, weaponSkillSettings)
+    if setName ~= 'Default' and not self.settings[setName] then
+        self.settings[setName] = weaponSkillSettings or self.settings['Default']
+
+        self:saveSettings(true)
+        self:reloadSettings()
+    end
+end
+
 function WeaponSkillSettings:copySettings(override)
     local filePath = self.settingsFolder..self.jobNameShort..'_'..windower.ffxi.get_player().name..'.lua'
     local playerSettings = FileIO.new(filePath)
@@ -143,6 +160,11 @@ end
 
 function WeaponSkillSettings:getDefaultSettings()
     return self.defaultSettings
+end
+
+function WeaponSkillSettings:getSetNames()
+    local setNames = list.subtract(L(T(self:getSettings()):keyset()), L{'Version','Migrations'})
+    return setNames
 end
 
 function WeaponSkillSettings:getSettings()

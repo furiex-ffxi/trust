@@ -32,6 +32,7 @@ function CollectionViewDelegate.new(collectionView)
     local self = setmetatable({}, { __index = CollectionViewDelegate })
 
     self.collectionView = collectionView
+    self.id = collectionView.__type or 'unknown'
     self.selectedIndexPaths = S{}
     self.highlightedIndexPaths = S{}
 
@@ -45,48 +46,55 @@ function CollectionViewDelegate.new(collectionView)
 
     self.events = L{ self.didSelectItem, self.didDeselectItem, self.didHighlightItem, self.didDehighlightItem, self.didMoveCursorToItem }
 
-    self.disposeBag:add(Mouse.input():onMouseEvent():addAction(function(type, x, y, delta, blocked)
-        local dataSource = collectionView:getDataSource()
-        for section = 1, dataSource:numberOfSections() do
-            local numberOfItems = dataSource:numberOfItemsInSection(section)
-            for row = 1, numberOfItems do
-                local indexPath = IndexPath.new(section, row)
-                local cell = dataSource:cellForItemAtIndexPath(indexPath)
-                if cell:isVisible() and cell:isUserInteractionEnabled() then
-                    if cell:hitTest(x, y) then
-                        if type == Mouse.Event.Click then
-                            if not self.collectionView:hasFocus() then
-                                -- Consider adding this back to get rid of double cursor issue. I think you need to check
-                                -- to see if the focusable is already in the stack. This also causes individual cells to
-                                -- be selected though creating a really odd focus stack
-                                --self.collectionView:requestFocus()
-                            end
+    return self
+end
+
+function CollectionViewDelegate:onMouseEvent(type, x, y, delta)
+    local dataSource = self.collectionView:getDataSource()
+    for section = 1, dataSource:numberOfSections() do
+        local numberOfItems = dataSource:numberOfItemsInSection(section)
+        for row = 1, numberOfItems do
+            local indexPath = IndexPath.new(section, row)
+            local cell = dataSource:cellForItemAtIndexPath(indexPath)
+            if cell:isVisible() and cell:isUserInteractionEnabled() then
+                if cell:hitTest(x, y) then
+                    if type == Mouse.Event.Click then
+                        return true
+                    elseif type == Mouse.Event.ClickRelease then
+                        if not self.collectionView:hasFocus() then
+                            -- Consider adding this back to get rid of double cursor issue. I think you need to check
+                            -- to see if the focusable is already in the stack. This also causes individual cells to
+                            -- be selected though creating a really odd focus stack
+                            --self.collectionView:requestFocus()
+                        end
+                        if not cell:onMouseEvent(type, x, y, delta) then
                             if cell:isSelected() then
                                 self:deselectItemAtIndexPath(indexPath)
                             else
                                 self:selectItemAtIndexPath(indexPath)
                             end
-                        elseif type == Mouse.Event.Move then
-                            if not cell:isHighlighted() then
-                                self:deHighlightAllItems()
-                                self:highlightItemAtIndexPath(indexPath)
-                            end
                         end
                         return true
-                    else
-                        if type == Mouse.Event.Move then
-                            if cell:isHighlighted() then
-                                self:deHighlightItemAtIndexPath(indexPath)
-                            end
+                    elseif type == Mouse.Event.Move then
+                        if not cell:isHighlighted() then
+                            self:deHighlightAllItems()
+                            self:highlightItemAtIndexPath(indexPath)
+                        end
+                    elseif type == Mouse.Event.Wheel then
+                        return cell:onMouseEvent(type, x, y, delta)
+                    end
+                    return false
+                else
+                    if type == Mouse.Event.Move then
+                        if cell:isHighlighted() then
+                            self:deHighlightItemAtIndexPath(indexPath)
                         end
                     end
                 end
             end
         end
-        return false
-    end), Mouse.input():onMouseEvent())
-
-    return self
+    end
+    return false
 end
 
 function CollectionViewDelegate:shouldClipToBounds(collectionView, view)
@@ -107,6 +115,8 @@ end
 -- Destroys the CollectionViewDelegate and cleans up any resources.
 --
 function CollectionViewDelegate:destroy()
+    self.isDestroyed = true
+
     self.disposeBag:destroy()
 
     self.collectionView = nil
@@ -290,6 +300,9 @@ end
 -- @tparam IndexPath indexPath The new value for `cursorIndexPath`
 --
 function CollectionViewDelegate:setCursorIndexPath(indexPath)
+    if indexPath == nil then
+        return
+    end
     local cell = self.collectionView:getDataSource():cellForItemAtIndexPath(indexPath)
     if cell then
         self.cursorIndexPath = indexPath

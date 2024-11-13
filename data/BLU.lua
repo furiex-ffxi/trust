@@ -2,7 +2,6 @@
 return {
     Version = 2,
     Default = {
-        AutoFood="Grape Daifuku",
         JobAbilities = L{
 
         },
@@ -42,6 +41,11 @@ return {
                 Spell.new('Glutinous Dart', L{}, L{}),
                 Approach.new(),
             },
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle",
+            },
             Distance = 20
         },
         BlueMagicSettings = {
@@ -51,7 +55,7 @@ return {
         },
         GambitSettings = {
             Gambits = L{
-
+                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("BLU")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
             }
         },
     }

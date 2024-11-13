@@ -14,7 +14,7 @@ SkillchainBuilder.__class = "SkillchainBuilder"
 -- @tparam list abilities List of all possible SkillchainAbility that can be used to build skillchains
 function SkillchainBuilder.new(abilities)
     local self = setmetatable({
-        abilities = (abilities or L{}):filter(function(ability) return skills[ability.resource][ability.ability_id] ~= nil end);
+        abilities = (abilities or L{}):filter(function(ability) return skills[ability.resource][ability.ability_id] ~= nil end):unique(function(ability) return ability:get_name() end);
         conditions = L{};
         cached_steps = L{};
         include_aeonic = true;
@@ -124,6 +124,9 @@ end
 -- @tparam string skillchain_property Skillchain property (e.g. Fragmentation, Scission)
 -- @treturn list List of SkillchainAbility with a given skillchain property
 function SkillchainBuilder:get_abilities(skillchain_property)
+    if skillchain_property == nil then
+        return self.abilities
+    end
     return self.abilities:filter(function(ability) return ability:get_skillchain_properties(self.include_aeonic):contains(skillchain_property) end):compact_map()
 end
 

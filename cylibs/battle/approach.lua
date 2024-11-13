@@ -17,7 +17,12 @@ function Approach.new(conditions)
     local self = setmetatable({}, Approach)
     self.conditions = conditions or L{}
 
-    self:add_condition(MaxDistanceCondition.new(35))
+    local matches = (conditions or L{}):filter(function(c)
+        return c.__class == MaxDistanceCondition.__class
+    end)
+    if matches:length() == 0 then
+        self:add_condition(MaxDistanceCondition.new(35))
+    end
 
     return self
 end
@@ -45,7 +50,7 @@ end
 -- Returns the maximum approach range in yalms.
 -- @treturn number Range in yalms
 function Approach:get_range()
-    return 35
+    return 50
 end
 
 -------

@@ -47,19 +47,31 @@ function ConditionSettingsMenuItem.new(trustSettings, trustSettingsMode, parentM
         [EnemiesNearbyCondition.__type] = "enemies_nearby",
         [ModeCondition.__type] = "mode",
         [PetHitPointsPercentCondition.__type] = "pet_hpp",
+        [PetTacticalPointsCondition.__type] = "pet_tp",
         [HasPetCondition.__type] = "has_pet",
         [NumResistsCondition.__type] = "num_resists",
         [SkillchainPropertyCondition.__type] = "skillchain_property",
         [HasDazeCondition.__type] = "has_daze",
         [TargetNameCondition.__type] = "target_name",
         [CombatSkillsCondition.__type] = "combat_skills",
+        [StrategemCountCondition.__type] = "strategem_count",
+        [IsAlterEgoCondition.__type] = "is_alter_ego",
+        [ReadyChargesCondition.__type] = "ready_charges",
+        [ItemCountCondition.__type] = "item_count",
+        [SkillchainWindowCondition.__type] = "skillchain_window",
+        [SkillchainStepCondition.__type] = "skillchain_step",
+        [InTownCondition.__type] = "in_town",
     }
     self.conditionPickerItems = L(self.editableConditionClasses:keyset()):filter(function(c)
         local conditionClass = self:getFileForCondition(c)
         return L(self.targetTypes:intersection(conditionClass.valid_targets())):length() > 0
-    end):sort()
+    end):sort(function(c1, c2)
+        c1 = self:getFileForCondition(c1).description()
+        c2 = self:getFileForCondition(c2).description()
+        return c1 < c2
+    end)
 
-    self.contentViewConstructor = function(menuArgs, _)
+    self.contentViewConstructor = function(menuArgs, infoView)
         local conditions = menuArgs and menuArgs['conditions']
         if not conditions then
             conditions = self.conditions
@@ -75,6 +87,10 @@ function ConditionSettingsMenuItem.new(trustSettings, trustSettingsMode, parentM
         self.conditionPickerItems = L(self.editableConditionClasses:keyset()):filter(function(c)
             local conditionClass = self:getFileForCondition(c)
             return L(self.targetTypes:intersection(conditionClass.valid_targets())):length() > 0
+        end):sort(function(c1, c2)
+            c1 = self:getFileForCondition(c1).description()
+            c2 = self:getFileForCondition(c2).description()
+            return c1 < c2
         end)
 
         local editConditionsView = ConditionsSettingsEditor.new(trustSettings, conditions, L(self.editableConditionClasses:keyset()))
@@ -84,6 +100,9 @@ function ConditionSettingsMenuItem.new(trustSettings, trustSettingsMode, parentM
         self.dispose_bag:add(editConditionsView:getDelegate():didSelectItemAtIndexPath():addAction(function(indexPath)
             self.selectedCondition = self.conditions[indexPath.row]
             self.selectedConditionIndex = indexPath.row
+            if self.selectedCondition then
+                infoView:setDescription(self.selectedCondition:tostring())
+            end
         end, editConditionsView:getDelegate():didSelectItemAtIndexPath()))
 
         self.editConditionsView = editConditionsView
@@ -140,14 +159,6 @@ function ConditionSettingsMenuItem:getAddConditionMenuItem(parentMenuItem)
 
             addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I've added a new condition!")
         end)
-        --[[chooseConditionView:getDisposeBag():add(chooseConditionView:getDelegate():didHighlightItemAtIndexPath():addAction(function(indexPath)
-            local conditionClass = self:getFileForCondition(self.conditionPickerItems[indexPath.row])
-            if conditionClass and conditionClass.description then
-                infoView:setDescription(conditionClass.description())
-            else
-                infoView:setDescription("Add a new condition.")
-            end
-        end), chooseConditionView:getDelegate():didHighlightItemAtIndexPath())]]
         return chooseConditionView
     end, "Conditions", "Add a new condition.")
     return addConditionsMenuItem
@@ -191,7 +202,9 @@ function ConditionSettingsMenuItem:getInvertConditionMenuItem()
 
             self.editConditionsView:reloadSettings()
 
-            self.trustSettings:saveSettings(true)
+            if self.trustSettings then
+                self.trustSettings:saveSettings(true)
+            end
 
             addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I've inverted the condition logic!")
         end

@@ -1,7 +1,7 @@
 ---------------------------
 -- Wrapper around a physical blood pact.
 -- @class module
--- @name WeaponSkill
+-- @name BloodPactRage
 
 local res = require('resources')
 local serializer_util = require('cylibs/util/serializer_util')
@@ -14,19 +14,30 @@ BloodPactRage.__class = "BloodPactRage"
 
 -------
 -- Default initializer for a new physical blood pact.
--- @tparam string weapon_skill_name Localized name of the weapon skill (see res/weapon_skills.lua)
--- @treturn WeaponSkill A weapon skill
-function BloodPactRage.new(blood_pact_name)
+-- @tparam string blood_pact_name Localized name of the blood pact (see res/job_abilities.lua)
+-- @treturn BloodPactRage A blood pact rage
+function BloodPactRage.new(blood_pact_name, conditions)
+    conditions = conditions or L{}
     local blood_pact = res.job_abilities:with('en', blood_pact_name)
     if blood_pact == nil then
         return nil
     end
-    local self = setmetatable(SkillchainAbility.new('job_abilities', blood_pact.id), BloodPactRage)
+    local matches = conditions:filter(function(c)
+        return c.__class == JobAbilityRecastReadyCondition.__class
+    end)
+    if matches:length() == 0 then
+        conditions:append(JobAbilityRecastReadyCondition.new(blood_pact.en))
+    end
+    local self = setmetatable(SkillchainAbility.new('job_abilities', blood_pact.id, conditions), BloodPactRage)
     return self
 end
 
 function BloodPactRage:serialize()
-    return "BloodPactRage.new(" .. serializer_util.serialize_args(self:get_name()) .. ")"
+    local conditions_classes_to_serialize = Condition.defaultSerializableConditionClasses()
+    local conditions_to_serialize = self.conditions:filter(function(condition)
+        return conditions_classes_to_serialize:contains(condition.__class)
+    end)
+    return "BloodPactRage.new(" .. serializer_util.serialize_args(self:get_name(), conditions_to_serialize) .. ")"
 end
 
 function BloodPactRage:__eq(otherItem)

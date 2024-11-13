@@ -240,6 +240,35 @@ function player_util.get_current_strategem_count()
 	return math.max(currentCharges, 0)
 end
 
+function player_util.get_ready_charges()
+	if not pet_util.has_pet() then
+		return 0
+	end
+
+	local abil_recasts = windower.ffxi.get_ability_recasts()
+	local readyRecast = abil_recasts[102]
+
+	local maxCharges = 3
+
+	local base_chargetimer = 30
+
+	local job_points = job_util.get_job_points('BST')
+	if job_points > 100 then
+		base_chargetimer = base_chargetimer - 5
+	end
+
+	base_chargetimer = base_chargetimer - (2 * windower.ffxi.get_player().merits.sic_recast)
+
+	local ReadyChargeTimer = base_chargetimer
+
+	-- The *# is your current recharge timer.
+	local fullRechargeTime = 3*ReadyChargeTimer
+
+	local currentCharges = math.floor(maxCharges - maxCharges * readyRecast / fullRechargeTime)
+
+	return currentCharges
+end
+
 -- NOTE:  this currently causes all of the items data to constantly be in memory which
 -- bloats the addon size. Figure out another way to do this with packets.
 function player_util.has_item(item_name, quantity)
@@ -262,6 +291,33 @@ function player_util.get_current_target()
 		return windower.ffxi.get_mob_by_index(target_index)
 	end
 	return nil
+end
+
+function player_util.get_mounts()
+	local possible_mounts = L{}
+	for _, mount in pairs(res.mounts) do
+		possible_mounts:append(mount.name:lower())
+	end
+	local allowed_mounts_set = S{}
+	local kis = windower.ffxi.get_key_items()
+
+	for _, id in ipairs(kis) do
+		local ki = res.key_items[id]
+		if ki ~= nil then
+			if ki.category == 'Mounts' and ki.name ~= "trainer's whistle" then
+				local mount_index = possible_mounts:find(function(possible_mount)
+					return windower.wc_match(ki.name:lower(), '♪' .. possible_mount .. '*')
+				end)
+				local mount = possible_mounts[mount_index]
+				allowed_mounts_set:add(mount)
+			end
+		end
+	end
+	return L(allowed_mounts_set):map(function(mount)
+		return mount:gsub("(%a)(%w*)", function(first, rest)
+			return first:upper() .. rest:lower()
+		end)
+	end)
 end
 
 return player_util

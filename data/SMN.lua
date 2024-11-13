@@ -2,7 +2,6 @@
 return {
     Version = 2,
     Default = {
-        AutoFood = "Grape Daifuku",
         JobAbilities = L{
         },
         SelfBuffs = L{
@@ -19,6 +18,7 @@ return {
             Delay = 2,
             MinManaPointsPercent = 20,
             MinNumMobsToCleave = 2,
+            GearswapCommand = "gs c set MagicBurstMode Single",
             Spells = L{
                 BloodPactMagic.new('Meteorite'),
                 BloodPactMagic.new('Holy Mist'),
@@ -34,6 +34,9 @@ return {
                 BloodPactMagic.new('Level ? Holy'),
                 BloodPactMagic.new('Tornado II'),
             },
+            JobAbilities = L{
+
+            },
             Blacklist = L{
 
             },
@@ -42,11 +45,16 @@ return {
             Abilities = L{
                 Approach.new()
             },
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle",
+            },
             Distance = 20
         },
         GambitSettings = {
             Gambits = L{
-
+                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("SMN")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
             }
         },
     }

@@ -6,6 +6,7 @@ local DisengageAction = require('cylibs/actions/disengage')
 
 local Attacker = setmetatable({}, {__index = Role })
 Attacker.__index = Attacker
+Attacker.__class = "Attacker"
 
 state.AutoEngageMode = M{['description'] = 'Auto Engage Mode', 'Off', 'Always', 'Mirror', 'Assist'}
 state.AutoEngageMode:set_description('Off', "Okay, I won't engage or target mobs our party is fighting.")
@@ -38,6 +39,12 @@ function Attacker:target_change(target_index)
 
     self.target_index = target_index
 
+    if self.target_index == windower.ffxi.get_player().index then
+        self.last_target_self = os.time()
+    else
+        self.last_target_self = nil
+    end
+
     self:tic(os.time() - 3, os.time())
 end
 
@@ -49,6 +56,8 @@ function Attacker:tic(_, _)
 end
 
 function Attacker:check_engage()
+    logger.notice(self.__class, 'check_engage')
+
     local target = windower.ffxi.get_mob_by_index(self.target_index)
     if target == nil or not battle_util.is_valid_target(target.id) or not party_util.party_claimed(target.id) then
         return
@@ -56,6 +65,7 @@ function Attacker:check_engage()
 
     local current_player_status = player.status
     if current_player_status == 'Idle' then
+        logger.notice(self.__class, 'check_engage', 'Idle')
         if state.AutoEngageMode.value == 'Always' then
             self:attack_mob(target)
         elseif state.AutoEngageMode.value == 'Mirror' then
@@ -66,6 +76,7 @@ function Attacker:check_engage()
             self.action_queue:push_action(CommandAction.new(0, 0, 0, '/assist '..self:get_party():get_assist_target():get_name()), true)
         end
     elseif current_player_status == 'Engaged' then
+        logger.notice(self.__class, 'check_engage', 'Engaged')
         if state.AutoEngageMode.value == 'Mirror' then
             if self:get_party():get_assist_target():get_status() == 'Idle' then
                 self.action_queue:push_action(CommandAction.new(0, 0, 0, '/attackoff'), true)
@@ -102,9 +113,12 @@ function Attacker:attack_mob(target)
 end
 
 function Attacker:is_targeting_self()
+    if self.last_target_self == nil then
+        return
+    end
     local current_target_index = windower.ffxi.get_player().target_index
     if current_target_index then
-        if current_target_index == windower.ffxi.get_player().index then
+        if current_target_index == windower.ffxi.get_player().index and (os.time() - self.last_target_self) > 6 then
             return true
         end
     end

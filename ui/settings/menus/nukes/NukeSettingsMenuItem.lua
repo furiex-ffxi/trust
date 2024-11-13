@@ -3,17 +3,20 @@ local ConfigEditor = require('ui/settings/editors/config/ConfigEditor')
 local ConfigItem = require('ui/settings/editors/config/ConfigItem')
 local DisposeBag = require('cylibs/events/dispose_bag')
 local ElementPickerView = require('ui/settings/pickers/ElementPickerView')
+local JobAbilitiesSettingsMenuItem = require('ui/settings/menus/buffs/JobAbilitiesSettingsMenuItem')
 local MenuItem = require('cylibs/ui/menu/menu_item')
-local ModesView = require('ui/settings/editors/config/ModeConfigEditor')
+local ModesMenuItem = require('ui/settings/menus/ModesMenuItem')
 local NukeSettingsEditor = require('ui/settings/NukeSettingsEditor')
 local SpellPickerView = require('ui/settings/pickers/SpellPickerView')
+local TextInputConfigItem = require('ui/settings/editors/config/TextInputConfigItem')
 
 local NukeSettingsMenuItem = setmetatable({}, {__index = MenuItem })
 NukeSettingsMenuItem.__index = NukeSettingsMenuItem
 
-function NukeSettingsMenuItem.new(trust, trustSettings, trustSettingsMode, addonSettings, jobNameShort, viewFactory)
+function NukeSettingsMenuItem.new(trust, trustSettings, trustSettingsMode, trustModeSettings, addonSettings, jobNameShort)
     local self = setmetatable(MenuItem.new(L{
         ButtonItem.default('Edit', 18),
+        ButtonItem.default('Abilities', 18),
         ButtonItem.default('Blacklist', 18),
         ButtonItem.default('Config', 18),
         ButtonItem.default('Modes', 18),
@@ -26,8 +29,8 @@ function NukeSettingsMenuItem.new(trust, trustSettings, trustSettingsMode, addon
 
     self.trustSettings = trustSettings
     self.trustSettingsMode = trustSettingsMode
+    self.trustModeSettings = trustModeSettings
     self.jobNameShort = jobNameShort
-    self.viewFactory = viewFactory
     self.dispose_bag = DisposeBag.new()
 
     self:reloadSettings()
@@ -45,6 +48,7 @@ end
 
 function NukeSettingsMenuItem:reloadSettings()
     self:setChildMenuItem("Edit", self:getNukesMenuItem())
+    self:setChildMenuItem("Abilities", self:getAbilitiesMenuItem())
     self:setChildMenuItem("Blacklist", self:getBlacklistMenuItem())
     self:setChildMenuItem("Config", self:getConfigMenuItem())
     self:setChildMenuItem("Modes", self:getModesMenuItem())
@@ -70,6 +74,13 @@ function NukeSettingsMenuItem:getNukesMenuItem()
             return chooseSpellsView
         end, "Nukes", "Choose which nukes to use when magic bursting or free nuking.")
     return chooseNukesMenuItem
+end
+
+function NukeSettingsMenuItem:getAbilitiesMenuItem()
+    local jobAbilitiesMenuItem = JobAbilitiesSettingsMenuItem.new(self.trustSettings, self.trustSettingsMode, 'NukeSettings')
+    jobAbilitiesMenuItem.titleText = "Nukes"
+    jobAbilitiesMenuItem.descriptionText = "Choose abilities to use before a magic burst or free nuke."
+    return jobAbilitiesMenuItem
 end
 
 function NukeSettingsMenuItem:getBlacklistMenuItem()
@@ -99,13 +110,15 @@ function NukeSettingsMenuItem:getConfigMenuItem()
             local nukeSettings = T{
                 Delay = allSettings.NukeSettings.Delay,
                 MinManaPointsPercent = allSettings.NukeSettings.MinManaPointsPercent,
-                MinNumMobsToCleave = allSettings.NukeSettings.MinNumMobsToCleave
+                MinNumMobsToCleave = allSettings.NukeSettings.MinNumMobsToCleave,
+                GearswapCommand = allSettings.NukeSettings.GearswapCommand or 'gs c set MagicBurstMode Single',
             }
 
             local configItems = L{
                 ConfigItem.new('Delay', 0, 60, 1, function(value) return value.."s" end, "Delay Between Nukes"),
                 ConfigItem.new('MinManaPointsPercent', 0, 100, 1, function(value) return value.." %" end, "Min MP %"),
-                ConfigItem.new('MinNumMobsToCleave', 0, 30, 1, function(value) return value.."" end, "Min Number Mobs to Cleave")
+                ConfigItem.new('MinNumMobsToCleave', 0, 30, 1, function(value) return value.."" end, "Min Number Mobs to Cleave"),
+                TextInputConfigItem.new('GearswapCommand', nukeSettings.GearswapCommand, 'Gearswap Command', function(_) return true  end, 225)
             }
 
             local nukeConfigEditor = ConfigEditor.new(self.trustSettings, nukeSettings, configItems)
@@ -116,6 +129,7 @@ function NukeSettingsMenuItem:getConfigMenuItem()
                 allSettings.NukeSettings.Delay = newSettings.Delay
                 allSettings.NukeSettings.MinManaPointsPercent = newSettings.MinManaPointsPercent
                 allSettings.NukeSettings.MinNumMobsToCleave = newSettings.MinNumMobsToCleave
+                allSettings.NukeSettings.GearswapCommand = (newSettings.GearswapCommand or 'gs c set MagicBurstMode Single'):gsub("^%u", string.lower)
 
                 self.trustSettings:saveSettings(true)
             end), nukeConfigEditor:onConfigChanged())
@@ -126,14 +140,8 @@ function NukeSettingsMenuItem:getConfigMenuItem()
 end
 
 function NukeSettingsMenuItem:getModesMenuItem()
-    local nukeModesMenuItem = MenuItem.new(L{
-        ButtonItem.default('Confirm')
-    }, L{}, function(_, infoView)
-        local modesView = ModesView.new(L{'AutoMagicBurstMode', 'AutoNukeMode', 'MagicBurstTargetMode'}, infoView)
-        modesView:setShouldRequestFocus(true)
-        return modesView
-    end, "Modes", "Change nuking and magic bursting behavior.")
-    return nukeModesMenuItem
+    return ModesMenuItem.new(self.trustModeSettings, "Set modes for nuking and magic bursting.",
+            L{'AutoMagicBurstMode', 'AutoNukeMode', 'MagicBurstTargetMode'})
 end
 
 return NukeSettingsMenuItem

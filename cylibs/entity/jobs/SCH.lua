@@ -21,7 +21,10 @@ local Grimoire = {
 function Scholar.new(trust_settings)
     local self = setmetatable(Job.new(), Scholar)
     self:set_trust_settings(trust_settings)
-    self.allow_sub_job = trust_settings.AllowSubJob or false
+    self.allow_sub_job = trust_settings.AllowSubJob
+    if self.allow_sub_job == nil then
+        self.allow_sub_job = true
+    end
     self.ignore_debuff_ids = self.cure_settings.StatusRemovals.Blacklist:map(function(debuff_name) return res.buffs:with('en', debuff_name).id end)
     return self
 end
@@ -260,6 +263,16 @@ function Scholar:get_storm(element)
         end
     end
     return nil
+end
+
+-------
+-- Returns all storm names (e.g. Hailstorm II).
+-- @treturn list List of storm names.
+function Scholar:get_all_storm_names()
+    return L{
+        'Firestorm II', 'Hailstorm II', 'Windstorm II', 'Sandstorm II',
+        'Thunderstorm II', 'Rainstorm II', 'Aurorastorm II', 'Voidstorm II'
+    }
 end
 
 return Scholar

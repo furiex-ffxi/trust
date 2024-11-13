@@ -10,6 +10,7 @@ local Event = require('cylibs/events/Luvent')
 local res = require('resources')
 local action_message_util = require('cylibs/util/action_message_util')
 local buff_util = require('cylibs/util/buff_util')
+local CumulativeMagicTracker = require('cylibs/battle/trackers/cumulative_magic_tracker')
 local logger = require('cylibs/logger/logger')
 local monster_abilities_ext = require('cylibs/res/monster_abilities')
 local monster_util = require('cylibs/util/monster_util')
@@ -167,12 +168,15 @@ function Monster:monitor()
     self.debuff_tracker = DebuffTracker.new(self:get_id())
     self.debuff_tracker:monitor()
 
+    self.cumulative_magic_tracker = CumulativeMagicTracker.new(self:get_id())
+    self.cumulative_magic_tracker:monitor()
+
     self.step_tracker = StepTracker.new(self:get_id(), self.debuff_tracker)
     self.step_tracker:monitor()
 
     self.resist_tracker = ResistTracker.new(self:get_id(), self:on_spell_resisted())
 
-    self.dispose_bag:addAny(L{ self.debuff_tracker, self.step_tracker, self.resist_tracker })
+    self.dispose_bag:addAny(L{ self.debuff_tracker, self.step_tracker, self.resist_tracker, self.cumulative_magic_tracker })
 
     self.dispose_bag:add(WindowerEvents.Action:addAction(function(act)
         if act.actor_id == self.mob_id then
@@ -312,6 +316,13 @@ function Monster:has_debuff(debuff_id)
 end
 
 -------
+-- Returns the current cumulative magic effect.
+-- @treturn CumulativeMagicEffect Cumulative magic effect, or nil if none
+function Monster:get_cumulative_effect()
+    return self.cumulative_magic_tracker:get_current_effect()
+end
+
+-------
 -- Returns the monster's resist tracker.
 -- @treturn ResistTracker Resist tracker
 function Monster:get_resist_tracker()
@@ -386,9 +397,9 @@ end
 -- Return a description of the monster.
 -- @treturn string Description
 function Monster:description()
-    local result = self:get_name()..' '..self:get_id()..' '..self:get_mob().hpp
+    local result = self:get_name()..', HP: '..self:get_mob().hpp..'%'
     if self:get_mob().claim_id and windower.ffxi.get_mob_by_id(self:get_mob().claim_id) then
-        result = result..' ('..windower.ffxi.get_mob_by_id(self:get_mob().claim_id).name..')'
+        result = result..', Claimed By: '..windower.ffxi.get_mob_by_id(self:get_mob().claim_id).name
     end
     return result
 end

@@ -3,6 +3,7 @@
 -- @class module
 -- @name Alliance
 
+local AllianceMember = require('cylibs/entity/alliance/alliance_member')
 local DisposeBag = require('cylibs/events/dispose_bag')
 local Entity = require('cylibs/entity/entity')
 local Event = require('cylibs/events/Luvent')
@@ -35,6 +36,7 @@ function Alliance.new(party_chat)
     local self = setmetatable(Entity.new(0), Alliance)
 
     self.is_monitoring = false
+    self.events = {}
     self.parties = L{}
     self.alliance_members_list = T{}
     self.pending_party_member_ids = S{}
@@ -48,8 +50,8 @@ function Alliance.new(party_chat)
         self.parties:append(Party.new(party_chat))
     end
 
-    local player = windower.ffxi.get_player()
-    self:get_parties()[1]:add_party_member(player.id, player.name)
+    --local player = windower.ffxi.get_player()
+    --self:get_parties()[1]:add_party_member(player.id, player.name)
 
     self.dispose_bag:addAny(self:get_parties())
 
@@ -59,6 +61,10 @@ end
 -------
 -- Stops tracking the player's actions and disposes of all registered event handlers.
 function Alliance:destroy()
+    for _,event in pairs(self.events) do
+        windower.unregister_event(event)
+    end
+
     self:on_party_added():removeAllActions()
     self:on_party_removed():removeAllActions()
     self:on_alliance_dissolved():removeAllActions()
@@ -84,6 +90,12 @@ function Alliance:monitor()
 
         for alliance_member in alliance_members_list:it() do
             self.alliance_members_list[alliance_member.id] = alliance_member
+            if alliance_member:get_mob() then
+                local party = self:get_parties()[alliance_member:get_party_index()]
+                if party then
+                    party:add_party_member(alliance_member:get_id(), alliance_member:get_name())
+                end
+            end
         end
 
         local new_member_ids = self.alliance_members_list:keyset()
@@ -103,18 +115,32 @@ function Alliance:monitor()
 
     -- Add pending alliance members to their respective parties
     self.dispose_bag:add(WindowerEvents.CharacterUpdate:addAction(function(mob_id, name, hp, hpp, mp, mpp, tp, main_job_id, sub_job_id)
-        local alliance_member_info = self.alliance_members_list[mob_id]
-        if alliance_member_info then
-            local party = self:get_party(name)
+        local alliance_member = self.alliance_members_list[mob_id]
+        if alliance_member then
+            local party = self:get_party(name) or self:get_parties()[alliance_member:get_party_index()]
             if party and not party:has_party_member(mob_id) then
                 logger.notice(self.__class, "character update", "adding", name, "to party at index", self:get_party_index(name))
                 local party_member = party:add_party_member(mob_id, name)
-                party_member:set_zone_id(alliance_member_info.zone_id)
+                party_member:set_zone_id(alliance_member:get_zone_id())
             end
         end
     end), WindowerEvents.CharacterUpdate)
 
-    WindowerEvents.replay_last_events(L{ WindowerEvents.AllianceMemberListUpdate, WindowerEvents.CharacterUpdate })
+    self.events.zone_change = windower.register_event('zone change', function(new_zone_id, old_zone_id)
+        for party in self.parties:it() do
+            local party_members_to_remove = L{}
+            for party_member in party:get_party_members(false):it() do
+                if party_member:is_trust() then
+                    party_members_to_remove:append(party_member)
+                end
+            end
+            for party_member in party_members_to_remove:it() do
+                party:remove_party_member(party_member:get_id())
+            end
+        end
+    end)
+
+    WindowerEvents.replay_last_events(L{ WindowerEvents.AllianceMemberListUpdate })
 end
 
 -------
@@ -131,11 +157,12 @@ end
 -------
 -- Returns a member of the alliance with the given name.
 -- @tparam string alliance_member_name Name of alliance member
+-- @tparam boolean ignore_range_check If true, will not require mob to be non-nil
 -- @treturn PartyMember Party member, or nil if member is not in the alliance
-function Alliance:get_alliance_member_named(alliance_member_name)
+function Alliance:get_alliance_member_named(alliance_member_name, ignore_range_check)
     local party = self:get_party(alliance_member_name)
     if party then
-        return party:get_party_member_named(alliance_member_name)
+        return party:get_party_member_named(alliance_member_name, ignore_range_check)
     end
     return nil
 end

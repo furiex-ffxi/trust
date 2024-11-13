@@ -10,7 +10,7 @@ local Shooter = require('cylibs/trust/roles/shooter')
 function RangerTrust.new(settings, action_queue, battle_settings, trust_settings)
 	local roles = S{
 		Buffer.new(action_queue, trust_settings.JobAbilities, nil, nil),
-		Puller.new(action_queue, battle_settings.targets, L{ RangedAttack.new() }),
+		Puller.new(action_queue, trust_settings.PullSettings.Targets, L{ RangedAttack.new() }),
 		Shooter.new(action_queue, trust_settings.Shooter.Delay or 1.5),
 	}
 	local self = setmetatable(Trust.new(action_queue, roles, trust_settings), RangerTrust)
@@ -29,7 +29,9 @@ function RangerTrust:on_init()
 		buffer:set_job_abilities(new_trust_settings.JobAbilities)
 
 		local shooter = self:role_with_type("shooter")
-		shooter:set_shoot_delay(new_trust_settings.Shooter.Delay)
+		if shooter then
+			shooter:set_shoot_delay(new_trust_settings.Shooter.Delay)
+		end
 
 		local puller = self:role_with_type("puller")
 		if puller then

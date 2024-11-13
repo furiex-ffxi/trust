@@ -35,8 +35,16 @@ function ConfigEditor:onConfigChanged()
     return self.configChanged
 end
 
+function ConfigEditor:onConfigConfirm()
+    return self.configConfirm
+end
 
-function ConfigEditor.new(trustSettings, configSettings, configItems, infoView, validator, showMenu)
+function ConfigEditor:onConfigValidationError()
+    return self.configValidationError
+end
+
+
+function ConfigEditor.new(trustSettings, configSettings, configItems, infoView, validator, showMenu, viewSize)
     local dataSource = CollectionViewDataSource.new(function(item, indexPath)
         if item.__type == SliderItem.__type then
             local cell = SliderCollectionViewCell.new(item)
@@ -71,7 +79,7 @@ function ConfigEditor.new(trustSettings, configSettings, configItems, infoView, 
         return nil
     end)
 
-    local self = setmetatable(FFXIWindow.new(dataSource, VerticalFlowLayout.new(0, FFXIClassicStyle.Padding.ConfigEditor, 10), nil, false, FFXIClassicStyle.WindowSize.Editor.ConfigEditor), ConfigEditor)
+    local self = setmetatable(FFXIWindow.new(dataSource, VerticalFlowLayout.new(0, FFXIClassicStyle.Padding.ConfigEditor, 10), nil, false, viewSize or FFXIClassicStyle.WindowSize.Editor.ConfigEditor), ConfigEditor)
 
     self:setAllowsCursorSelection(false)
     self:setAllowsMultipleSelection(true)
@@ -85,7 +93,10 @@ function ConfigEditor.new(trustSettings, configSettings, configItems, infoView, 
         self:resignFocus()
         showMenu(menuItem)
     end
+    self.valueForCellConfigItem = {}
     self.configChanged = Event.newEvent()
+    self.configValidationError = Event.newEvent()
+    self.configConfirm = Event.newEvent()
 
     self:setConfigItems(configItems)
 
@@ -111,7 +122,7 @@ function ConfigEditor.new(trustSettings, configSettings, configItems, infoView, 
 
     self:getDisposeBag():add(self:getDelegate():didDeselectItemAtIndexPath():addAction(function(indexPath)
         if infoView then
-            infoView:setDescription("Edit the selected condition.")
+            infoView:setDescription("Edit the selected item.")
         end
         local configItem = self.configItems[indexPath.section]
         local item = self:getDataSource():itemAtIndexPath(indexPath)
@@ -135,6 +146,10 @@ end
 
 function ConfigEditor:destroy()
     FFXIWindow.destroy(self)
+
+    self.configChanged:removeAllActions()
+    self.configValidationError:removeAllActions()
+    self.configConfirm:removeAllActions()
 end
 
 function ConfigEditor:setConfigItems(configItems)
@@ -224,7 +239,7 @@ function ConfigEditor:getCellItemForConfigItem(configItem)
         return SliderItem.new(
                 configItem:getMinValue(),
                 configItem:getMaxValue(),
-                self.configSettings[configItem:getKey()],
+                self.configSettings[configItem:getKey()] or configItem:getDefaultValue(),
                 configItem:getInterval(),
                 ImageItem.new(windower.addon_path..'assets/backgrounds/slider_track.png', 166, 16),
                 ImageItem.new(windower.addon_path..'assets/backgrounds/slider_fill.png', 166, 16),
@@ -237,16 +252,23 @@ function ConfigEditor:getCellItemForConfigItem(configItem)
     elseif configItem.__type == PickerConfigItem.__type then
         return PickerItem.new(configItem:getInitialValue(), configItem:getAllValues(), configItem:getTextFormat())
     elseif configItem.__type == MultiPickerConfigItem.__type then
-        local pickerItem = PickerItem.new(configItem:getInitialValues(), configItem:getAllValues(), configItem:getTextFormat(), true)
+        local pickerItem = PickerItem.new(configItem:getInitialValues(), configItem:getAllValues(), configItem:getTextFormat(), true, configItem:getImageItemForText())
+        pickerItem:setShouldTruncateText(true)
+        pickerItem:setPickerTitle(configItem:getPickerTitle())
+        pickerItem:setPickerDescription(configItem:getPickerDescription())
         pickerItem:setShowMenu(self.showMenu)
         pickerItem:setOnPickItems(function(newValue)
             self.configSettings[configItem:getKey()] = newValue
         end)
         return pickerItem
     elseif configItem.__type == TextInputConfigItem.__type then
-        return FFXITextFieldItem.new(configItem:getPlaceholderText(), configItem:getValidator())
+        return FFXITextFieldItem.new(configItem:getPlaceholderText(), configItem:getValidator(), configItem:getWidth())
     end
     return nil
+end
+
+function ConfigEditor:setCellConfigItemOverride(cellConfigItemType, valueForCellConfigItem)
+    self.valueForCellConfigItem[cellConfigItemType] = valueForCellConfigItem
 end
 
 function ConfigEditor:onConfirmClick(skipSave)
@@ -277,22 +299,30 @@ function ConfigEditor:onConfirmClick(skipSave)
             else
                 local cellConfigItem = self:getDataSource():itemAtIndexPath(IndexPath.new(sectionIndex, 1))
 
-                if cellConfigItem.__type == SliderItem.__type then
-                    self.configSettings[configKey] = cellConfigItem:getCurrentValue()
-                elseif cellConfigItem.__type == FFXIToggleButtonItem.__type then
-                    self.configSettings[configKey] = cellConfigItem:getEnabled()
-                elseif cellConfigItem.__type == PickerItem.__type then
-                    self.configSettings[configKey] = cellConfigItem:getCurrentValue()
-                elseif cellConfigItem.__type == TextFieldItem.__type then
-                    self.configSettings[configKey] = cellConfigItem:getTextItem():getText()
+                local valueForCellConfigItem = self.valueForCellConfigItem[cellConfigItem.__type]
+                if valueForCellConfigItem then
+                    self.configSettings[configKey] = valueForCellConfigItem(cellConfigItem)
+                else
+                    if cellConfigItem.__type == SliderItem.__type then
+                        self.configSettings[configKey] = cellConfigItem:getCurrentValue()
+                    elseif cellConfigItem.__type == FFXIToggleButtonItem.__type then
+                        self.configSettings[configKey] = cellConfigItem:getEnabled()
+                    elseif cellConfigItem.__type == PickerItem.__type then
+                        self.configSettings[configKey] = cellConfigItem:getCurrentValue()
+                    elseif cellConfigItem.__type == TextFieldItem.__type then
+                        self.configSettings[configKey] = cellConfigItem:getTextItem():getText()
+                    end
                 end
             end
         end
     end
 
     if not self.validator(self.configSettings) then
+        self:onConfigValidationError():trigger()
         return
     end
+
+    self:onConfigConfirm():trigger(self.configSettings, originalSettings)
 
     if self.configSettings ~= originalSettings then
         self:onConfigChanged():trigger(self.configSettings, originalSettings)
@@ -319,13 +349,19 @@ function ConfigEditor:onSelectMenuItemAtIndexPath(textItem, indexPath)
     end
 end
 
+function ConfigEditor:shouldDeselectOnLoseFocus(section)
+    return true
+end
+
 function ConfigEditor:setHasFocus(focus)
     FFXIWindow.setHasFocus(self, focus)
 
     if focus then
         local sections = S{}
         for i = 1, self.numSections do
-            sections:add(i)
+            if self:shouldDeselectOnLoseFocus(i) then
+                sections:add(i)
+            end
         end
         self:getDelegate():deselectItemsInSections(sections)
     end

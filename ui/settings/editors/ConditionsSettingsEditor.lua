@@ -18,6 +18,7 @@ function ConditionsSettingsEditor.new(trustSettings, conditions, editableConditi
         local cell = TextCollectionViewCell.new(item)
         cell:setClipsToBounds(true)
         cell:setItemSize(16)
+        cell:setUserInteractionEnabled(true)
         return cell
     end)
 
@@ -56,7 +57,9 @@ function ConditionsSettingsEditor:reloadSettings()
 
     local rowIndex = 1
     for condition in self.conditions:it() do
-        items:append(IndexedItem.new(TextItem.new(condition:tostring(), TextStyle.Default.TextSmall), IndexPath.new(1, rowIndex)))
+        local textItem = TextItem.new(condition:tostring(), TextStyle.Default.TextSmall)
+        textItem:setShouldTruncateText(true)
+        items:append(IndexedItem.new(textItem, IndexPath.new(1, rowIndex)))
         rowIndex = rowIndex + 1
     end
 
@@ -87,7 +90,9 @@ function ConditionsSettingsEditor:onRemoveConditionClick()
                 self.conditions:remove(selectedIndexPath.row)
                 self:getDataSource():removeItem(selectedIndexPath)
 
-                self.trustSettings:saveSettings(true)
+                if self.trustSettings then
+                    self.trustSettings:saveSettings(true)
+                end
                 addon_message(207, '('..windower.ffxi.get_player().name..') '.."Alright, I've removed this condition!")
             else
                 addon_message(207, '('..windower.ffxi.get_player().name..') '.."I can't remove this condition!")

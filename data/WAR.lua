@@ -2,7 +2,6 @@
 return {
     Version = 1,
     Default = {
-        AutoFood = "Grape Daifuku",
         SelfBuffs = L{
 
         },
@@ -21,11 +20,19 @@ return {
             Abilities = L{
                 JobAbility.new('Provoke', L{}, L{})
             },
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle",
+            },
             Distance = 20
         },
         GambitSettings = {
-            Gambits = L{
+            Default = L{
 
+            },
+            Gambits = L{
+                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("WAR")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
             }
         },
     }

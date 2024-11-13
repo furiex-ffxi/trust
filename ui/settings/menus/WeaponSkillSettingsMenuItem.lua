@@ -1,16 +1,14 @@
 local ButtonItem = require('cylibs/ui/collection_view/items/button_item')
 local DisposeBag = require('cylibs/events/dispose_bag')
 local MenuItem = require('cylibs/ui/menu/menu_item')
-local ModeConfigEditor = require('ui/settings/editors/config/ModeConfigEditor')
-local SkillchainAbilityPickerView = require('ui/settings/pickers/SkillchainAbilityPickerView')
-local SkillchainSettingsEditor = require('ui/settings/SkillchainSettingsEditor')
+local ModesMenuItem = require('ui/settings/menus/ModesMenuItem')
 local SkillchainSettingsMenuItem = require('ui/settings/menus/SkillchainSettingsMenuItem')
 local SkillSettingsMenuItem = require('ui/settings/menus/SkillSettingsMenuItem')
 
 local WeaponSkillSettingsMenuItem = setmetatable({}, {__index = MenuItem })
 WeaponSkillSettingsMenuItem.__index = WeaponSkillSettingsMenuItem
 
-function WeaponSkillSettingsMenuItem.new(weaponSkillSettings, weaponSkillSettingsMode, trust, viewFactory)
+function WeaponSkillSettingsMenuItem.new(weaponSkillSettings, weaponSkillSettingsMode, trustModeSettings, trust)
     local self = setmetatable(MenuItem.new(L{
         ButtonItem.default('Skillchains', 18),
         ButtonItem.default('Abilities', 18),
@@ -21,7 +19,7 @@ function WeaponSkillSettingsMenuItem.new(weaponSkillSettings, weaponSkillSetting
     self.skillchainer = trust:role_with_type("skillchainer")
     self.weaponSkillSettings = weaponSkillSettings
     self.weaponSkillSettingsMode = weaponSkillSettingsMode
-    self.viewFactory = viewFactory
+    self.trustModeSettings = trustModeSettings
     self.dispose_bag = DisposeBag.new()
 
     local getActiveSkills = function(player)
@@ -52,12 +50,10 @@ function WeaponSkillSettingsMenuItem:destroy()
     MenuItem.destroy(self)
 
     self.dispose_bag:destroy()
-
-    self.viewFactory = nil
 end
 
 function WeaponSkillSettingsMenuItem:reloadSettings(activeSkills)
-    self:setChildMenuItem("Skillchains", SkillchainSettingsMenuItem.new(self.weaponSkillSettings, self.weaponSkillSettingsMode, self.skillchainer, self.viewFactory))
+    self:setChildMenuItem("Skillchains", SkillchainSettingsMenuItem.new(self.weaponSkillSettings, self.weaponSkillSettingsMode, self.skillchainer))
     self:setChildMenuItem("Abilities", self:getAbilitiesMenuItem(activeSkills))
     self:setChildMenuItem("Modes", self:getModesMenuItem(activeSkills))
 end
@@ -67,7 +63,7 @@ function WeaponSkillSettingsMenuItem:getAbilitiesMenuItem(activeSkills)
 
     local childMenuItems = {}
     for skillSettings in activeSkills:it() do
-        childMenuItems[skillSettings:get_name()] = SkillSettingsMenuItem.new(self.weaponSkillSettings, skillSettings, self.viewFactory)
+        childMenuItems[skillSettings:get_name()] = SkillSettingsMenuItem.new(self.weaponSkillSettings, skillSettings)
     end
     local abilitiesMenuItem = MenuItem.new(settings.Skills:map(
             function(skill)
@@ -79,15 +75,8 @@ function WeaponSkillSettingsMenuItem:getAbilitiesMenuItem(activeSkills)
 end
 
 function WeaponSkillSettingsMenuItem:getModesMenuItem()
-    local skillchainModesMenuItem = MenuItem.new(L{
-        ButtonItem.default('Confirm')
-    }, L{}, function(_, infoView)
-        local modesView = ModeConfigEditor.new(L{'AutoSkillchainMode', 'SkillchainAssistantMode', 'SkillchainDelayMode', 'SkillchainPropertyMode', 'WeaponSkillSettingsMode'}, infoView)
-        modesView:setShouldRequestFocus(true)
-        modesView:setTitle("Set modes for weapon skills and skillchains.")
-        return modesView
-    end, "Modes", "Change weapon skill and skillchain behavior.")
-    return skillchainModesMenuItem
+    return ModesMenuItem.new(self.trustModeSettings, "Change weapon skill and skillchain behavior.",
+            L{'AutoSkillchainMode', 'SkillchainPropertyMode', 'SkillchainDelayMode', 'SkillchainAssistantMode', 'WeaponSkillSettingsMode'})
 end
 
 return WeaponSkillSettingsMenuItem

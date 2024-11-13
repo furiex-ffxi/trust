@@ -10,17 +10,22 @@ function TrustCommands.new()
     return self
 end
 
-function TrustCommands:add_command(command_name, handler, description)
+function TrustCommands:add_command(command_name, handler, description, args)
     self.commands[command_name] = {
         callback = function(...)
             return handler(self, T{ ... }:unpack())
         end,
-        description = description or ''
+        description = description or '',
+        args = args or L{},
     }
 end
 
 function TrustCommands:get_command_name()
     return nil
+end
+
+function TrustCommands:get_localized_command_name()
+    return self:get_command_name()
 end
 
 function TrustCommands:is_valid_command(command_name, ...)
@@ -29,8 +34,9 @@ end
 
 function TrustCommands:handle_command(...)
     local cmd = select(1, ...)
+    local full_cmd = table.concat({...}, " ") or ""
 
-    local trust_command = self.commands[cmd] or self.commands['default']
+    local trust_command = self.commands[cmd] or self.commands[full_cmd] or self.commands['default']
     if trust_command then
         local success, message = trust_command.callback(...)
         if success then
@@ -53,13 +59,37 @@ function TrustCommands:description()
     return result
 end
 
-function TrustCommands:get_description(command_name)
+function TrustCommands:get_description(command_name, include_args)
+    command_name = command_name or 'default'
     for name, command in pairs(self.commands) do
         if name == command_name then
-            return command.description
+            local description = command.description
+            if include_args then
+                local args = self:get_args(command_name)
+                if args:length() > 0 then
+                    description = description..', Command: // trust '..self:get_command_name()
+                    if command_name ~= 'default' then
+                        description = description..' '..command_name
+                    end
+                    for arg in args:it() do
+                        description = description..' '..arg.key
+                    end
+                end
+            end
+            return description
         end
     end
     return ""
+end
+
+function TrustCommands:get_args(command_name)
+    command_name = command_name or 'default'
+    for name, command in pairs(self.commands) do
+        if name == command_name then
+            return command.args or L{}
+        end
+    end
+    return L{}
 end
 
 function TrustCommands:get_all_commands()
@@ -69,6 +99,18 @@ function TrustCommands:get_all_commands()
             result:append('// trust '..self:get_command_name())
         else
             result:append('// trust '..self:get_command_name()..' '..command_name)
+        end
+    end
+    return result
+end
+
+function TrustCommands:to_commands()
+    local result = L{}
+    for command_name, command in pairs(self.commands) do
+        if command_name == 'default' then
+            result:append(Command.new('// trust '..self:get_command_name(), L{}, command.description))
+        else
+            result:append(Command.new('// trust '..self:get_command_name()..' '..command_name, L{}, command.description))
         end
     end
     return result

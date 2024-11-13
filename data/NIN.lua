@@ -2,7 +2,6 @@
 return {
     Version = 2,
     Default = {
-        AutoFoodMode="Grape Daifuku",
         SelfBuffs = L{
             Spell.new("Utsusemi: San", L{}, L{}, nil, L{}),
             Spell.new("Utsusemi: Ni", L{}, L{}, nil, L{}),
@@ -20,6 +19,7 @@ return {
             Delay = 2,
             MinManaPointsPercent = 0,
             MinNumMobsToCleave = 2,
+            GearswapCommand = "gs c set MagicBurstMode Single",
             Spells = L{
                 Spell.new('Raiton: San'),
                 Spell.new('Raiton: Ni'),
@@ -34,6 +34,9 @@ return {
                 Spell.new('Doton: San'),
                 Spell.new('Doton: Ni'),
             },
+            JobAbilities = L{
+                JobAbility.new("Futae", L{}, L{}),
+            },
             Blacklist = L{
 
             },
@@ -46,11 +49,16 @@ return {
             Abilities = L{
                 Spell.new("Jubaku: Ni", L{}, L{}),
             },
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle",
+            },
             Distance = 20
         },
         GambitSettings = {
             Gambits = L{
-
+                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("NIN")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
             }
         },
     }

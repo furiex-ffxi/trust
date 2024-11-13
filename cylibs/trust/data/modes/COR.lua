@@ -7,5 +7,6 @@ return {
         ["combatmode"]="Off",
         ["autofoodmode"]="Off",
         ["autotrustsmode"]="Off",
+        ["autoshootmode"]="Off",
     },
 }

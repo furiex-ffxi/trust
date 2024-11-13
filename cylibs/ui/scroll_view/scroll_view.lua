@@ -12,6 +12,7 @@ require('queues')
 
 local ScrollView = setmetatable({}, {__index = View })
 ScrollView.__index = ScrollView
+ScrollView.__type = "ScrollView"
 
 
 function ScrollView.new(frame, style)
@@ -26,6 +27,8 @@ function ScrollView.new(frame, style)
     self.scrollBarSize = 8
     self.scrollDelta = 10
     self.scrollBars = L{}
+    self.scrollCooldown = 0.1
+    self.lastScrollTime = os.clock()
 
     self:addSubview(self.contentView)
 
@@ -49,19 +52,6 @@ function ScrollView:createScrollBars()
         self:getDisposeBag():add(scrollBar:onScrollForwardClick():addAction(function(s)
             self:scrollForward(s)
         end), scrollBar:onScrollForwardClick())
-
-        self:getDisposeBag():add(Mouse.input():onMouseWheel():addAction(function(type, x, y, delta, blocked)
-            if blocked or not self:isVisible() or not self:isScrollEnabled() or self:getContentSize().height <= self:getSize().height then
-                return
-            end
-            if self:hitTest(x, y) then
-                if delta < 0 then
-                    self.verticalScrollBar:onScrollForwardClick():trigger(self.verticalScrollBar)
-                else
-                    self.verticalScrollBar:onScrollBackClick():trigger(self.verticalScrollBar)
-                end
-            end
-        end), Mouse.input():onMouseWheel())
 
         self:addSubview(scrollBar)
 
@@ -211,12 +201,29 @@ function ScrollView:setScrollDelta(delta)
     self.scrollDelta = delta
 end
 
+function ScrollView:canScroll()
+    if os.clock() - self.lastScrollTime < self.scrollCooldown then
+        return false
+    end
+    return true
+end
+
 function ScrollView:scrollUp()
+    if not self:canScroll() then
+        return false
+    end
+    self.lastScrollTime = os.clock()
     self.verticalScrollBar:onScrollBackClick():trigger(self.verticalScrollBar)
+    return true
 end
 
 function ScrollView:scrollDown()
+    if not self:canScroll() then
+        return false
+    end
+    self.lastScrollTime = os.clock()
     self.verticalScrollBar:onScrollForwardClick():trigger(self.verticalScrollBar)
+    return true
 end
 
 ---
@@ -302,6 +309,19 @@ function ScrollView:shouldClipToBounds(view)
     end
 end
 
-
+function ScrollView:onMouseEvent(type, x, y, delta)
+    if not self:isVisible() or not self:isScrollEnabled() or self:getContentSize().height <= self:getSize().height then
+        return false
+    end
+    if type == Mouse.Event.Wheel then
+        if delta < 0 then
+            self.verticalScrollBar:onScrollForwardClick():trigger(self.verticalScrollBar)
+        else
+            self.verticalScrollBar:onScrollBackClick():trigger(self.verticalScrollBar)
+        end
+        return true
+    end
+    return false
+end
 
 return ScrollView

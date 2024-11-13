@@ -1,14 +1,18 @@
+local AllianceMember = require('cylibs/entity/alliance/alliance_member')
 local BuffRecord = require('cylibs/battle/buff_record')
 local Event = require('cylibs/events/Luvent')
 local DisposeBag = require('cylibs/events/dispose_bag')
 local EquipmentChangedMessage = require('cylibs/messages/equipment_changed_message')
 local GainDebuffMessage = require('cylibs/messages/gain_buff_message')
+local inventory_util = require('cylibs/util/inventory_util')
 local IpcRelay = require('cylibs/messages/ipc/ipc_relay')
 local logger = require('cylibs/logger/logger')
 local LoseDebuffMessage = require('cylibs/messages/lose_buff_message')
 local MobUpdateMessage = require('cylibs/messages/mob_update_message')
 local packets = require('packets')
+local Timer = require('cylibs/util/timers/timer')
 local ZoneMessage = require('cylibs/messages/zone_message')
+
 
 ---------------------------
 -- Windower global event handler. Requiring this in your addon will automatically create a global
@@ -47,6 +51,9 @@ WindowerEvents.BlueMagic.SpellsChanged = Event.newEvent()
 WindowerEvents.Ability = {}
 WindowerEvents.Ability.Ready = Event.newEvent()
 WindowerEvents.Ability.Finish = Event.newEvent()
+WindowerEvents.Spell = {}
+WindowerEvents.Spell.Begin = Event.newEvent()
+WindowerEvents.Spell.Finish = Event.newEvent()
 
 local main_weapon_id
 local ranged_weapon_id
@@ -85,7 +92,11 @@ local incoming_event_dispatcher = {
         act.size = data:byte(5)
         WindowerEvents.Action:trigger(act)
 
-        if act.category == 7 then
+        if act.category == 4 then
+            if act.param and res.spells[act.param] then
+                WindowerEvents.Spell.Finish:trigger(act.actor_id, act.param)
+            end
+        elseif act.category == 7 then
             if res.monster_abilities[act.targets[1].actions[1].param] then
                 WindowerEvents.Ability.Ready:trigger(act.actor_id, act.targets[1].actions[1].param)
             end
@@ -131,9 +142,6 @@ local incoming_event_dispatcher = {
         end
 
         if L{ 43, 326, 675 }:contains(message_id) then
-            if windower.ffxi.get_mob_by_id(actor_id).name == 'Locus Ghost Crab' then
-                print(message_id, param_1 or 'nil', param_2 or 'nil')
-            end
             WindowerEvents.Ability.Ready:trigger(target_id, param_1)
         end
     end,
@@ -247,26 +255,27 @@ local incoming_event_dispatcher = {
 
     [0x0C8] = function(data)
         local packet = packets.parse('incoming', data)
+
         local alliance_members = L{}
         for i = 1, 18 do
             local id = packet['ID '..i]
             if id and id ~= 0 then
-                alliance_members:append({id = id, index = packet['Index '..i], zone_id = packet['Zone '..i]})
+                alliance_members:append(AllianceMember.new(id, packet['Index '..i], packet['Zone '..i], math.ceil(i / 6)))
             end
         end
         WindowerEvents.AllianceMemberListUpdate:trigger(alliance_members)
 
-        for _, party_member in pairs(windower.ffxi.get_party()) do
-            if type(party_member) == 'table' then
-                if party_member.mob and party_member.mob.id then
-                    WindowerEvents.CharacterUpdate:trigger(party_member.mob.id, party_member.name, party_member.hp, party_member.hpp,
-                            party_member.mp, party_member.mpp, party_member.tp, nil, nil)
-                end
-            end
-        end
-
+        -- NOTE: this might actually be incorrect if some parties are half full
+        local alliance_index = 1
         for alliance_member in alliance_members:it() do
-            WindowerEvents.ZoneUpdate:trigger(alliance_member.id, alliance_member.zone_id)
+            local party_member_info = party_util.get_party_member_info(alliance_member:get_id())
+            if party_member_info then
+                WindowerEvents.CharacterUpdate:trigger(alliance_member:get_id(), party_member_info.name, party_member_info.hp, party_member_info.hpp,
+                        party_member_info.mp, party_member_info.mpp, party_member_info.tp, nil, nil)
+            end
+            WindowerEvents.ZoneUpdate:trigger(alliance_member:get_id(), alliance_member:get_zone_id())
+
+            alliance_index = alliance_index + 1
         end
     end,
 
@@ -301,6 +310,10 @@ local incoming_event_dispatcher = {
             if main_weapon_id == 65535 then
                 main_weapon_id = nil
             end
+            local weapons = require('cylibs/res/weapons')
+            if main_weapon_id == nil or weapons[main_weapon_id] == nil then
+                return
+            end
             coroutine.schedule(function()
                 WindowerEvents.Equipment.MainWeaponChanged:trigger(windower.ffxi.get_player().id, main_weapon_id)
                 IpcRelay.shared():send_message(EquipmentChangedMessage.new(windower.ffxi.get_player().id, main_weapon_id, ranged_weapon_id))
@@ -310,6 +323,10 @@ local incoming_event_dispatcher = {
             ranged_weapon_id = windower.ffxi.get_items(data:byte(7), data:byte(5)).id
             if ranged_weapon_id == 65535 then
                 ranged_weapon_id = nil
+            end
+            local weapons = require('cylibs/res/weapons')
+            if ranged_weapon_id == nil or weapons[ranged_weapon_id] == nil then
+                return
             end
             coroutine.schedule(function()
                 WindowerEvents.Equipment.RangedWeaponChanged:trigger(windower.ffxi.get_player().id, ranged_weapon_id)
@@ -458,6 +475,12 @@ end
 local IncomingChunkHandler = windower.register_event('incoming chunk', incoming_chunk_handler)
 local OutgoingChunkHandler = windower.register_event('outgoing chunk', outgoing_chunk_handler)
 
+local EventToPackets = {
+    [WindowerEvents.AllianceMemberListUpdate] = L{ 0x0C8 },
+    [WindowerEvents.CharacterUpdate] = L{ 0x0DD, 0x0DF },
+    [WindowerEvents.BuffDurationChanged] = L{ 0x063 },
+}
+
 -- Replay necessary packets
 function WindowerEvents.replay_last_events(events)
     for event in events:it() do
@@ -466,8 +489,17 @@ function WindowerEvents.replay_last_events(events)
         elseif event == WindowerEvents.CharacterUpdate then
             incoming_chunk_handler(0x0DD, windower.packets.last_incoming(0x0DD))
             incoming_chunk_handler(0x0DF, windower.packets.last_incoming(0x0DF))
+        elseif event == WindowerEvents.BuffDurationChanged then
+            incoming_chunk_handler(0x063, windower.packets.last_incoming(0x063))
         end
     end
+end
+
+function WindowerEvents.can_replay_last_event(event)
+    if event == WindowerEvents.BuffDurationChanged then
+        return windower.packets.last_incoming(0x063) ~= nil
+    end
+    return false
 end
 
 function WindowerEvents.replay_last_event(event)
@@ -492,15 +524,25 @@ WindowerEvents.Events.LoseBuff = windower.register_event('lose buff', function(_
     WindowerEvents.DebuffsChanged:trigger(target_id, L(buff_util.debuffs_for_buff_ids(buff_ids)))
 end)
 
+local init_timer = Timer.scheduledTimer(5, 1)
+
+WindowerEvents.DisposeBag:add(init_timer:onTimeChange():addAction(function(_)
+    main_weapon_id = inventory_util.get_main_weapon_id()
+    if main_weapon_id and main_weapon_id ~= 0 then
+        init_timer:destroy()
+        WindowerEvents.Equipment.MainWeaponChanged:trigger(windower.ffxi.get_player().id, main_weapon_id)
+    end
+end), init_timer:onTimeChange())
+
 WindowerEvents.DisposeBag:add(IpcRelay.shared():on_message_received():addAction(function(ipc_message)
     if ipc_message.__class == MobUpdateMessage.__class then
         local mob = windower.ffxi.get_mob_by_name(ipc_message:get_mob_name())
-        --[[if mob == nil then
+        if mob == nil then
             local follower = player.trust.main_job:role_with_type("follower")
             if follower and follower:get_follow_target() and follower:get_follow_target():get_name() == ipc_message:get_mob_name() then
                 mob = follower:get_follow_target()
             end
-        end]]
+        end
         if mob then
             WindowerEvents.PositionChanged:trigger(mob.id, ipc_message:get_position()[1], ipc_message:get_position()[2], ipc_message:get_position()[3])
         end
@@ -511,5 +553,7 @@ WindowerEvents.DisposeBag:add(IpcRelay.shared():on_message_received():addAction(
         WindowerEvents.Equipment.RangedWeaponChanged:trigger(ipc_message:get_mob_id(), ipc_message:get_ranged_weapon_id())
     end
 end), IpcRelay.shared():on_message_received())
+
+init_timer:start()
 
 return WindowerEvents

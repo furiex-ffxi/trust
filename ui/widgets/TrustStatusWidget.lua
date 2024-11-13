@@ -1,19 +1,10 @@
-local ButtonCollectionViewCell = require('cylibs/ui/collection_view/cells/button_collection_view_cell')
-local ButtonItem = require('cylibs/ui/collection_view/items/button_item')
-local CollectionView = require('cylibs/ui/collection_view/collection_view')
 local CollectionViewDataSource = require('cylibs/ui/collection_view/collection_view_data_source')
 local Color = require('cylibs/ui/views/color')
-local FFXIBackgroundView = require('ui/themes/ffxi/FFXIBackgroundView')
-local FFXIWindow = require('ui/themes/ffxi/FFXIWindow')
-local Frame = require('cylibs/ui/views/frame')
 local ImageItem = require('cylibs/ui/collection_view/items/image_item')
 local IndexedItem = require('cylibs/ui/collection_view/indexed_item')
 local IndexPath = require('cylibs/ui/collection_view/index_path')
-local Keyboard = require('cylibs/ui/input/keyboard')
 local MarqueeCollectionViewCell = require('cylibs/ui/collection_view/cells/marquee_collection_view_cell')
-local Mouse = require('cylibs/ui/input/mouse')
 local Padding = require('cylibs/ui/style/padding')
-local ResizableImageItem = require('cylibs/ui/collection_view/items/resizable_image_item')
 local TextCollectionViewCell = require('cylibs/ui/collection_view/cells/text_collection_view_cell')
 local TextItem = require('cylibs/ui/collection_view/items/text_item')
 local TextStyle = require('cylibs/ui/style/text_style')
@@ -123,6 +114,7 @@ function TrustStatusWidget.new(frame, addonSettings, addonEnabled, actionQueue, 
     self:getDataSource():addItem(TextItem.new(state.TrustMode.value, TrustStatusWidget.TextSmall3), IndexPath.new(1, 3))
     self:getDataSource():addItem(TextItem.new('', TrustStatusWidget.Subheadline), IndexPath.new(2, 1))
 
+    self:setUserInteractionEnabled(true)
     self:setVisible(true)
 
     self:setNeedsLayout()
@@ -130,7 +122,8 @@ function TrustStatusWidget.new(frame, addonSettings, addonEnabled, actionQueue, 
 
     for mode in L{ state.TrustMode }:it() do
         self:getDisposeBag():add(mode:on_state_change():addAction(function(_, new_value, old_value)
-            if new_value ~= old_value then
+            local item = self:getDataSource():itemAtIndexPath(IndexPath.new(1, 3))
+            if item and item:getText() and item:getText() ~= new_value then
                 self:getDataSource():updateItem(TextItem.new(state.TrustMode.value, TrustStatusWidget.TextSmall3), IndexPath.new(1, 3))
             end
         end), mode:on_state_change())
@@ -140,7 +133,10 @@ function TrustStatusWidget.new(frame, addonSettings, addonEnabled, actionQueue, 
         self:getDelegate():deselectItemAtIndexPath(indexPath)
         if indexPath.section == 1 then
             if L{ 1, 2 }:contains(indexPath.row) then
-                windower.send_command('trust menu')
+                coroutine.schedule(function()
+                    self:resignFocus()
+                    windower.send_command('trust menu')
+                end, 0.2)
             elseif indexPath.row == 3 then
                 local item = self:getDataSource():itemAtIndexPath(indexPath)
                 if item then
@@ -176,7 +172,6 @@ function TrustStatusWidget.new(frame, addonSettings, addonEnabled, actionQueue, 
         self:setAction('OFF')
     end
 
-
     self.events.zone_change = windower.register_event('zone change', function(new_zone_id, old_zone_id)
         if new_zone_id ~= old_zone_id then
             self:setJobs(mainJobName, subJobName)
@@ -211,6 +206,8 @@ function TrustStatusWidget:setJobs(mainJobName, subJobName)
     end)
 
     self:getDataSource():updateItems(itemsToUpdate)
+
+    self:getDelegate():setCursorIndexPath(IndexPath.new(1, 1))
 end
 
 function TrustStatusWidget:setAction(text)

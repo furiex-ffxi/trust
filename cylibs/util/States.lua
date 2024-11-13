@@ -1,3 +1,5 @@
+require('sets')
+
 ---------------------------
 -- Utility class for representing player states. Requiring this in your addon will automatically create a global
 -- State table and addon commands to retrieve and manipulate state values.
@@ -11,7 +13,29 @@ _libs = _libs or {}
 -- @table State
 state = {}
 
+local modes_locked = false
+local modes_locked_reason
+local modes_whitelist = S{}
+
+function set_modes_locked(locked, reason, whitelist)
+    modes_locked = locked
+    modes_locked_reason = reason
+    if locked then
+        modes_whitelist = S((whitelist or L{}):map(function(mode) return mode:lower() end))
+    else
+        modes_whitelist = S{}
+    end
+end
+
+function is_modes_locked()
+    return modes_locked
+end
+
 function handle_cycle(field)
+    if modes_locked and not modes_whitelist:contains(field:lower()) then
+        addon_message(123, modes_locked_reason or "You cannot changes modes at this time.")
+        return
+    end
     if field == nil then
         addon_message(123,'Cycle parameter failure: field not specified.')
         return
@@ -49,7 +73,20 @@ function get_state(name)
     end
 end
 
+function get_state_name(l_name)
+    for key,var in pairs(state) do
+        if key:lower() == l_name then
+            return key
+        end
+    end
+    return l_name
+end
+
 function handle_set(field, value)
+    if modes_locked and not modes_whitelist:contains(field:lower()) then
+        addon_message(123, modes_locked_reason or "You cannot changes modes at this time.")
+        return
+    end
     if field == nil then
         add_to_chat(123,'Set parameter failure: field not specified.')
         return
@@ -89,24 +126,3 @@ end
 function addon_message(color,str)
     windower.add_to_chat(color, _addon.name..': '..str)
 end
-
----- A list of addon commands to manipulate State values. Syntax: // st field (see below).
--- @table Commands
--- @field cycle Cycles through the values of a State. Usage: // addon_name cycle state_name (e.g. // st cycle AutoTargetMode)
--- @field set Sets the value a State. Usage: // addon_name set state_name value (e.g. // st set AutoTargetMode Off)
-local commands = {}
-commands['cycle'] = handle_cycle
-commands['set'] = handle_set
-
-local function addon_command(cmd, ...)
-    local cmd = cmd or 'help'
-
-    if commands[cmd] then
-        local msg = commands[cmd](unpack({...}))
-        if msg then
-            error(msg)
-        end
-    end
-end
-
-windower.register_event('addon command', addon_command)

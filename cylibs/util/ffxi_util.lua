@@ -93,6 +93,18 @@ function ffxi_util.find_closest_mobs(target_mobs, exclude_target_indices, exclud
 	return closest_mobs
 end
 
+function ffxi_util.find_aggroed_mobs()
+	local player = windower.ffxi.get_mob_by_target('me')
+	local closest_mobs = ffxi_util.find_closest_mobs(L{}, L{}, L{}, 20)
+		:filter(function(mob)
+			if mob and mob.claim_id == player.id or party_util.party_claimed(mob.id) then
+				return true
+			end
+			return false
+		end)
+	return closest_mobs
+end
+
 -- Get all unclaimed engaged mobs from a list
 function ffxi_util.get_engaged_unclaimed_mobs(mob_list)
 	return mob_list:filter(function(t)
@@ -101,7 +113,11 @@ function ffxi_util.get_engaged_unclaimed_mobs(mob_list)
 end
 
 function ffxi_util.find_closest_mob(target_mobs, exclude_target_indices, exclude_names, distance)
-	return ffxi_util.find_closest_mobs(target_mobs, exclude_target_indices, exclude_names, distance)[1]
+	local mobs = ffxi_util.find_closest_mobs(target_mobs, exclude_target_indices, exclude_names, distance)
+	if mobs:length() > 0 then
+		return mobs[1]
+	end
+	return nil
 end
 
 function ffxi_util.mob_id_for_index(index)
