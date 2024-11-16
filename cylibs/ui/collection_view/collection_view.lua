@@ -1,8 +1,10 @@
 local CollectionViewDelegate = require('cylibs/ui/collection_view/collection_view_delegate')
 local ImageCollectionViewCell = require('cylibs/ui/collection_view/cells/image_collection_view_cell')
 local IndexPath = require('cylibs/ui/collection_view/index_path')
+local Keyboard = require('cylibs/ui/input/keyboard')
 local Frame = require('cylibs/ui/views/frame')
 local ScrollView = require('cylibs/ui/scroll_view/scroll_view')
+local SoundTheme = require('cylibs/sounds/sound_theme')
 
 local CollectionView = setmetatable({}, {__index = ScrollView })
 CollectionView.__index = CollectionView
@@ -36,9 +38,11 @@ end
 -- @tparam CollectionViewLayout layout The layout strategy for arranging items in the collection view.
 -- @tparam CollectionViewDelegate delegate (optional) The delegate for interacting with items in the collection view.
 -- @tparam CollectionViewStyle style The style used to render the CollectionView.
+-- @tparam MediaPlayer mediaPlayer The media player.
+-- @tparam SoundTheme soundTheme The sound theme.
 -- @treturn CollectionView The newly created CollectionView instance.
 --
-function CollectionView.new(dataSource, layout, delegate, style)
+function CollectionView.new(dataSource, layout, delegate, style, mediaPlayer, soundTheme)
     style = style or CollectionView.defaultStyle()
 
     local self = setmetatable(ScrollView.new(Frame.zero(), style), CollectionView)
@@ -47,6 +51,8 @@ function CollectionView.new(dataSource, layout, delegate, style)
     self.dataSource = dataSource
     self.delegate = delegate or CollectionViewDelegate.new(self)
     self.style = style
+    self.mediaPlayer = mediaPlayer
+    self.soundTheme = soundTheme
     self.allowsMultipleSelection = false
     self.allowsCursorSelection = false
     self.cursorImageItem = style:getCursorItem()
@@ -58,7 +64,7 @@ function CollectionView.new(dataSource, layout, delegate, style)
 
         self:getDisposeBag():addAny(L{ self.selectionBackground })
 
-        self.selectionBackground:setVisible(self:hasFocus())
+        self.selectionBackground:setVisible(false)
         self.selectionBackground:setNeedsLayout()
         self.selectionBackground:layoutIfNeeded()
 
@@ -80,29 +86,41 @@ function CollectionView.new(dataSource, layout, delegate, style)
         if removedIndexPaths:contains(self:getDelegate():getCursorIndexPath()) then
             if self:getDataSource():numberOfItemsInSection(1) > 0 then
                 self:getDelegate():setCursorIndexPath(IndexPath.new(1, 1))
-            else
-                if self.selectionBackground then
-                    self.selectionBackground:setVisible(false)
-                    self.selectionBackground:setNeedsLayout()
-                    self.selectionBackground:layoutIfNeeded()
-                end
             end
         end
+        self:moveCursorToIndexPath()
     end)
     self:getDisposeBag():add(self.delegate:didMoveCursorToItemAtIndexPath():addAction(function(cursorIndexPath)
-        local cell = self:getDataSource():cellForItemAtIndexPath(cursorIndexPath)
-        if cell then
-            if self.selectionBackground then
-                self.selectionBackground:setPosition(cell:getPosition().x - self.cursorImageItem:getSize().width - 7, cell:getPosition().y + (cell:getSize().height - self.cursorImageItem:getSize().height) / 2)
-                self.selectionBackground:setSize(self.cursorImageItem:getSize().width, self.cursorImageItem:getSize().height)
-                self.selectionBackground:setVisible(self:hasFocus())
-                self.selectionBackground:setNeedsLayout()
-                self.selectionBackground:layoutIfNeeded()
-            end
-        end
+        self:moveCursorToIndexPath(cursorIndexPath)
     end), self.delegate:didMoveCursorToItemAtIndexPath())
 
     return self
+end
+
+---
+-- Moves the cursor to the current cursor index path.
+--
+--  @tparam IndexPath cursorIndexPath Cursor index path, or the current cursor index path if nil
+--
+function CollectionView:moveCursorToIndexPath(cursorIndexPath)
+    if not self.selectionBackground then
+        return
+    end
+    local isCursorVisible = false
+
+    cursorIndexPath = cursorIndexPath or self:getDelegate():getCursorIndexPath()
+    if cursorIndexPath and self:getDataSource():itemAtIndexPath(cursorIndexPath) then
+        local cell = self:getDataSource():cellForItemAtIndexPath(cursorIndexPath)
+        if cell then
+            self.selectionBackground:setPosition(cell:getPosition().x - self.cursorImageItem:getSize().width - 7, cell:getPosition().y + (cell:getSize().height - self.cursorImageItem:getSize().height) / 2)
+            self.selectionBackground:setSize(self.cursorImageItem:getSize().width, self.cursorImageItem:getSize().height)
+            isCursorVisible = self:hasFocus() and self:isCursorEnabled()
+        end
+    end
+
+    self.selectionBackground:setVisible(isCursorVisible)
+    self.selectionBackground:setNeedsLayout()
+    self.selectionBackground:layoutIfNeeded()
 end
 
 ---
@@ -251,6 +269,15 @@ function CollectionView:scrollBack(scrollBar)
 end
 
 ---
+-- Returns whether the cursor is enabled.
+--
+-- @treturn boolean Whether the cursor is enabled.
+--
+function CollectionView:isCursorEnabled()
+    return true
+end
+
+---
 -- Checks if layout updates are needed and triggers layout if necessary.
 -- This function is typically called before rendering to ensure that the View's layout is up to date.
 --
@@ -258,9 +285,9 @@ function CollectionView:layoutIfNeeded()
     ScrollView.layoutIfNeeded(self)
 
     self.layout:layoutSubviews(self)
-    if self.selectionBackground then
-        self.selectionBackground:setVisible(self:hasFocus())
-    end
+
+    self:moveCursorToIndexPath()
+
     return true
 end
 
@@ -271,15 +298,31 @@ function CollectionView:setHasFocus(hasFocus)
     self:layoutIfNeeded()
 end
 
+function CollectionView:playSoundsForKey(keyName)
+    if self.mediaPlayer == nil or self.soundTheme == nil or self.isScrolling then
+        return
+    end
+    if keyName == 'Escape' then
+        self.mediaPlayer:playSound(self.soundTheme:getSoundForAction(SoundTheme.UI.Menu.Escape))
+    elseif S{ 'Up', 'Down', 'Left', 'Right' }:contains(keyName) then
+        self.mediaPlayer:playSound(self.soundTheme:getSoundForAction(SoundTheme.UI.Menu.Cursor))
+    end
+end
+
 function CollectionView:onKeyboardEvent(key, pressed, flags, blocked)
     local blocked = blocked or ScrollView.onKeyboardEvent(self, key, pressed, flags, blocked)
     if not self:isVisible() or blocked or self.destroyed then
         return blocked
     end
     if pressed then
+        local keyName = Keyboard.input():getKey(key, flags)
+        
+        self:playSoundsForKey(keyName)
+
         local currentIndexPath = self:getDelegate():getCursorIndexPath()
         if currentIndexPath then
             if key == 208 then
+                self.isScrolling = true
                 if self:canScroll() then
                     local nextIndexPath = self:getDataSource():getNextIndexPath(currentIndexPath, self.allowsScrollWrap)
                     local cell = self:getDataSource():cellForItemAtIndexPath(nextIndexPath)
@@ -290,6 +333,7 @@ function CollectionView:onKeyboardEvent(key, pressed, flags, blocked)
                 end
                 return true
             elseif key == 200 then
+                self.isScrolling = true
                 if self:canScroll() then
                     local nextIndexPath = self:getDataSource():getPreviousIndexPath(currentIndexPath, self.allowsScrollWrap)
                     local cell = self:getDataSource():cellForItemAtIndexPath(nextIndexPath)
@@ -305,9 +349,16 @@ function CollectionView:onKeyboardEvent(key, pressed, flags, blocked)
                 end
                 return true
             elseif key == 28 then
+                if self.mediaPlayer and self.soundTheme then
+                    if self:getDelegate():shouldSelectItemAtIndexPath(self:getDelegate():getCursorIndexPath()) then
+                        self.mediaPlayer:playSound(self.soundTheme:getSoundForAction(SoundTheme.UI.Menu.Enter))
+                    end
+                end
                 self:getDelegate():selectItemAtIndexPath(self:getDelegate():getCursorIndexPath())
             end
         end
+    else
+        self.isScrolling = false
     end
     return L{200, 208}:contains(key)
 end

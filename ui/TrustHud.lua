@@ -15,12 +15,16 @@ local HealerSettingsMenuItem = require('ui/settings/menus/healing/HealerSettings
 local DebuffSettingsEditor = require('ui/settings/DebuffSettingsEditor')
 local DebugView = require('cylibs/actions/ui/debug_view')
 local FFXIClassicStyle = require('ui/themes/FFXI/FFXIClassicStyle')
+local FFXIPickerView = require('ui/themes/ffxi/FFXIPickerView')
+local FFXISoundTheme = require('sounds/FFXISoundTheme')
+local FFXIWindow = require('ui/themes/ffxi/FFXIWindow')
 local FollowSettingsMenuItem = require('ui/settings/menus/FollowSettingsMenuItem')
 local Frame = require('cylibs/ui/views/frame')
 local GambitSettingsMenuItem = require('ui/settings/menus/gambits/GambitSettingsMenuItem')
 local GameInfo = require('cylibs/util/ffxi/game_info')
 local JobGambitSettingsMenuItem = require('ui/settings/menus/gambits/JobGambitSettingsMenuItem')
 local Keyboard = require('cylibs/ui/input/keyboard')
+local MediaPlayer = require('cylibs/sounds/media_player')
 local MenuItem = require('cylibs/ui/menu/menu_item')
 local ModesMenuItem = require('ui/settings/menus/ModesMenuItem')
 local PullSettingsMenuItem = require('ui/settings/menus/pulling/PullSettingsMenuItem')
@@ -60,24 +64,20 @@ function TrustHud:onEnabledClick()
     return self.enabledClick
 end
 
-TextStyle.TargetView = TextStyle.new(
-        Color.clear,
-        Color.clear,
-        "Arial",
-        12,
-        Color.white,
-        Color.red,
-        2,
-        1,
-        Color.black,
-        true
-)
-
 function TrustHud.new(player, action_queue, addon_settings, trustModeSettings, addon_enabled, menu_width, menu_height)
     local self = setmetatable(View.new(), TrustHud)
 
     CollectionView.setDefaultStyle(FFXIClassicStyle.default())
     CollectionView.setDefaultBackgroundStyle(FFXIClassicStyle.background())
+
+    self.mediaPlayer = MediaPlayer.new(windower.addon_path..'sounds')
+    self.mediaPlayer:setEnabled(not addon_settings:getSettings().sounds.sound_effects.disabled)
+    self.soundTheme = FFXISoundTheme.default()
+
+    FFXIWindow.setDefaultMediaPlayer(self.mediaPlayer)
+    FFXIWindow.setDefaultSoundTheme(self.soundTheme)
+    FFXIPickerView.setDefaultMediaPlayer(self.mediaPlayer)
+    FFXIPickerView.setDefaultSoundTheme(self.soundTheme)
 
     self.lastMenuToggle = os.time()
     self.menuSize = Frame.new(0, 0, menu_width, menu_height)
@@ -104,7 +104,7 @@ function TrustHud.new(player, action_queue, addon_settings, trustModeSettings, a
 
     self:createWidgets(addon_settings, addon_enabled, action_queue, player.party, player.trust.main_job)
 
-    self.trustMenu = Menu.new(self.viewStack, self.menuViewStack, self.infoBar)
+    self.trustMenu = Menu.new(self.viewStack, self.menuViewStack, self.infoBar, self.mediaPlayer, self.soundTheme)
 
     self.tabbed_view = nil
     self.backgroundImageView = self:getBackgroundImageView()
@@ -219,7 +219,7 @@ function TrustHud:createWidgets(addon_settings, addon_enabled, action_queue, par
     local targetWidget = TargetWidget.new(Frame.new(0, 0, 125, 40), addon_settings, party, trust)
     self.widgetManager:addWidget(targetWidget, "target")
 
-    local partyStatusWidget = PartyStatusWidget.new(Frame.new(0, 0, 125, 55), addon_settings, party, trust)
+    local partyStatusWidget = PartyStatusWidget.new(Frame.new(0, 0, 125, 55), addon_settings, party, trust, self.mediaPlayer, self.soundTheme)
     self.widgetManager:addWidget(partyStatusWidget, "party")
 
     local pathWidget = PathWidget.new(Frame.new(0, 0, 125, 57), addon_settings, party:get_player(), self, main_trust_settings, state.MainTrustSettingsMode, trust)
@@ -321,8 +321,10 @@ function TrustHud:getMainMenuItem()
         ButtonItem.default(player.sub_job_name, 18),
         ButtonItem.default('Profiles', 18),
         ButtonItem.default('Commands', 18),
+        ButtonItem.default('Config', 18),
     }, {
         Profiles = LoadSettingsMenuItem.new(self.addon_settings, self.trustModeSettings, main_trust_settings, weapon_skill_settings, sub_trust_settings),
+        Config = ConfigSettingsMenuItem.new(self.addon_settings, self.mediaPlayer),
     }, nil, "Jobs")
 
     self.mainMenuItem = mainMenuItem
@@ -363,10 +365,12 @@ function TrustHud:getSettingsMenuItem(trust, trustSettings, trustSettingsMode, w
         ButtonItem.default('Clear', 18),
     }, {},
             function()
-                local jobId = res.jobs:with('ens', jobNameShort).id
-                local allDebuffs = spell_util.get_spells(function(spell)
-                    return spell.levels[jobId] ~= nil and spell.status ~= nil and L{32, 35, 36, 39, 40, 41, 42}:contains(spell.skill) and spell.targets:contains('Enemy')
-                end):map(function(spell) return spell.en end):sort()
+                local allDebuffs = trust:get_job():get_spells(function(spell_id)
+                    local spell = res.spells[spell_id]
+                    return spell and spell.status ~= nil and L{ 32, 35, 36, 39, 40, 41, 42 }:contains(spell.skill) and spell.targets:contains('Enemy')
+                end):map(function(spell_id)
+                    return res.spells[spell_id].en
+                end):sort()
 
                 local chooseSpellsView = SpellPickerView.new(trustSettings, L(T(trustSettings:getSettings())[trustSettingsMode.value].Debuffs), allDebuffs, L{}, false)
                 return chooseSpellsView
@@ -385,7 +389,7 @@ function TrustHud:getSettingsMenuItem(trust, trustSettings, trustSettingsMode, w
         Modes = debuffModesMenuItem,
     },
     function()
-        local debuffSettingsView = DebuffSettingsEditor.new(trustSettings, trustSettingsMode, self.addon_settings:getSettings().help.wiki_base_url..'/Debuffer')
+        local debuffSettingsView = DebuffSettingsEditor.new(trust, trustSettings, trustSettingsMode, self.addon_settings:getSettings().help.wiki_base_url..'/Debuffer')
         return debuffSettingsView
     end, "Debuffs", "Choose debuffs to use on enemies.")
 
@@ -403,7 +407,7 @@ function TrustHud:getSettingsMenuItem(trust, trustSettings, trustSettingsMode, w
 
     if jobNameShort == 'GEO' then
         menuItems:append(ButtonItem.default('Geomancy', 18))
-        childMenuItems.Geomancy = GeomancySettingsMenuItem.new(trustSettings, self.trustModeSettings, trustSettings:getSettings()[trustSettingsMode.value].Geomancy, trustSettings:getSettings()[trustSettingsMode.value].PartyBuffs, function(view)
+        childMenuItems.Geomancy = GeomancySettingsMenuItem.new(trust, trustSettings, self.trustModeSettings, trustSettings:getSettings()[trustSettingsMode.value].Geomancy, trustSettings:getSettings()[trustSettingsMode.value].PartyBuffs, function(view)
             return setupView(view, viewSize)
         end)
     end
@@ -492,9 +496,9 @@ function TrustHud:getSettingsMenuItem(trust, trustSettings, trustSettingsMode, w
         ButtonItem.default(jobName, 18),
         ButtonItem.default('Reactions', 18),
     }, {
-        Custom = GambitSettingsMenuItem.new(trustSettings, trustSettingsMode, self.trustModeSettings),
-        [jobName] = JobGambitSettingsMenuItem.new(trustSettings, trustSettingsMode, self.trustModeSettings),
-        Reactions = ReactSettingsMenuItem.new(trustSettings, trustSettingsMode, self.trustModeSettings),
+        Custom = GambitSettingsMenuItem.new(trust, trustSettings, trustSettingsMode, self.trustModeSettings),
+        [jobName] = JobGambitSettingsMenuItem.new(trust, trustSettings, trustSettingsMode, self.trustModeSettings),
+        Reactions = ReactSettingsMenuItem.new(trust, trustSettings, trustSettingsMode, self.trustModeSettings),
     }, nil, "Gambits", "Configure Trust behavior.")
 
     local settingsMenuItem = MenuItem.new(menuItems, childMenuItems, nil, "Settings", "Configure Trust settings for skillchains, buffs, debuffs and more.")
@@ -540,13 +544,13 @@ end
 
 function TrustHud:getBufferMenuItem(trust, jobNameShort, trustSettings, trustSettingsMode, trustModeSettings)
     if jobNameShort ~= 'SCH' then
-        local bufferSettingsMenuItem = BufferSettingsMenuItem.new(trustSettings, trustSettingsMode, trustModeSettings, jobNameShort)
+        local bufferSettingsMenuItem = BufferSettingsMenuItem.new(trust, trustSettings, trustSettingsMode, trustModeSettings, jobNameShort)
         return bufferSettingsMenuItem
     else
         local childMenuItems = {}
 
-        childMenuItems["Light Arts"] = BufferSettingsMenuItem.new(trustSettings, trustSettingsMode, trustModeSettings, jobNameShort, 'LightArts')
-        childMenuItems["Dark Arts"] = BufferSettingsMenuItem.new(trustSettings, trustSettingsMode, trustModeSettings, jobNameShort, 'DarkArts')
+        childMenuItems["Light Arts"] = BufferSettingsMenuItem.new(trust, trustSettings, trustSettingsMode, trustModeSettings, jobNameShort, 'LightArts')
+        childMenuItems["Dark Arts"] = BufferSettingsMenuItem.new(trust, trustSettings, trustSettingsMode, trustModeSettings, jobNameShort, 'DarkArts')
 
         local artsSettingsMenuItem = MenuItem.new(L{
             ButtonItem.default('Light Arts', 18),
@@ -679,22 +683,18 @@ function TrustHud:getMenuItems(trust, trustSettings, trustSettingsMode, weaponSk
     nil, "Help", "Get help using Trust.")
 
     -- Config
-    local configSettingsItem = ConfigSettingsMenuItem.new(self.addon_settings, function(view)
-        return setupView(view, viewSize)
-    end)
+    local configSettingsItem = ConfigSettingsMenuItem.new(self.addon_settings, self.mediaPlayer)
 
     -- Main
     local mainMenuItem = MenuItem.new(L{
         ButtonItem.default('Status', 18),
         ButtonItem.default('Settings', 18),
-        ButtonItem.default('Config', 18),
         ButtonItem.default('Help', 18),
         ButtonItem.default('Donate', 18),
         ButtonItem.default('Discord', 18),
     }, {
         Status = statusMenuItem,
         Settings = settingsMenuItem,
-        Config = configSettingsItem,
         Help = helpMenuItem,
         Donate = MenuItem.action(function()
             windower.open_url(self.addon_settings:getSettings().donate.url)

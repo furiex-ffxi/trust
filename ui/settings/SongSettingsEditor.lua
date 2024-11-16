@@ -48,10 +48,6 @@ function SongSettingsEditor.new(trustSettings, settingsMode, helpUrl)
     self.settingsMode = settingsMode
     self.menuArgs = {}
 
-    self.allSongs = spell_util.get_spells(function(spell)
-        return spell.type == 'BardSong'
-    end)
-
     self:reloadSettings()
 
     self:setNeedsLayout()
@@ -66,14 +62,6 @@ end
 
 function SongSettingsEditor:destroy()
     CollectionView.destroy(self)
-end
-
-function SongSettingsEditor:layoutIfNeeded()
-    if not CollectionView.layoutIfNeeded(self) then
-        return false
-    end
-
-    self:setTitle("Edit songs on the player and party.")
 end
 
 function SongSettingsEditor:onSelectMenuItemAtIndexPath(textItem, indexPath)
@@ -236,6 +224,8 @@ function SongSettingsEditor:reloadSettings()
     if self:getDataSource():numberOfItemsInSection(1) > 0 then
         self:getDelegate():setCursorIndexPath(IndexPath.new(1, 1))
     end
+
+    self:layoutIfNeeded()
 end
 
 return SongSettingsEditor

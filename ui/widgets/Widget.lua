@@ -7,9 +7,6 @@ local Frame = require('cylibs/ui/views/frame')
 local FFXIBackgroundView = require('ui/themes/ffxi/FFXIBackgroundView')
 local IndexPath = require('cylibs/ui/collection_view/index_path')
 local Keyboard = require('cylibs/ui/input/keyboard')
-local TextCollectionViewCell = require('cylibs/ui/collection_view/cells/text_collection_view_cell')
-local TextItem = require('cylibs/ui/collection_view/items/text_item')
-local TextStyle = require('cylibs/ui/style/text_style')
 local Mouse = require('cylibs/ui/input/mouse')
 
 local Widget = setmetatable({}, {__index = CollectionView })
@@ -77,8 +74,8 @@ function Widget.new(frame, title, addonSettings, dataSource, layout, titleWidth,
     local shortcutSettings = self.addonSettings:getSettings().shortcuts.widgets[title:lower()]
     if shortcutSettings and shortcutSettings.enabled then
         Keyboard.input():registerKeybind(shortcutSettings.key, shortcutSettings.flags, function(_, _)
-            self:getDelegate():setCursorIndexPath(IndexPath.new(1, 1))
             self:requestFocus()
+            self:getDelegate():setCursorIndexPath(IndexPath.new(1, 1))
         end)
     end
 
@@ -176,6 +173,10 @@ function Widget:setHasFocus(hasFocus)
             windower.send_command('unbind %s':format(key))
         end
     end
+end
+
+function Widget:isCursorEnabled()
+    return self:hasFocus()
 end
 
 function Widget:onMouseEvent(type, x, y, delta)
