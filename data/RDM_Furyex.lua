@@ -1,28 +1,6 @@
 -- Settings file for RDM
 return {
     Subjob = {
-        Debuffs = L{
-            Debuff.new("Dia", L{}, L{}),
-            Debuff.new("Distract", L{}, L{}),
-            Debuff.new("Slow", L{}, L{}),
-            Debuff.new("Paralyze", L{}, L{}),
-            Debuff.new("Frazzle", L{}, L{})
-        },
-        GambitSettings = {
-            Default = L{
-                Gambit.new("Self", L{MaxManaPointsPercentCondition.new(20), ModeCondition.new("AutoConvertMode", "Auto")}, JobAbility.new("Convert", L{}, L{}), "Self", L{}),
-                Gambit.new("Enemy", L{MeleeAccuracyCondition.new(75, "<="), MainJobCondition.new("RDM"), NumResistsCondition.new("Distract", "<", 3), NumResistsCondition.new("Distract II", "<", 3), NumResistsCondition.new("Distract III", "<", 3)}, Debuff.new("Distract", L{}, L{}), "Self", L{})
-            },
-            Gambits = L{
-
-            }
-        },
-        JobAbilities = L{
-            JobAbility.new("Composure", L{}, L{})
-        },
-        PartyBuffs = L{
-            Buff.new("Haste", L{}, L{"SAM", "SCH", "RUN", "WAR", "BST", "COR", "PLD", "RNG", "DRG", "DNC", "PUP", "BRD", "RDM", "DRK", "BLU", "THF", "BLM", "SMN", "WHM", "GEO", "MNK", "NIN"}, nil, L{InBattleCondition.new()})
-        },
         CureSettings = {
             Thresholds = {
                 ["Cure IV"] = 700,
@@ -33,9 +11,32 @@ return {
             },
             Delay = 2
         },
-        AutoFood = "Grape Daifuku",
+        Debuffs = L{
+            Debuff.new("Dia", L{}, L{}),
+            Debuff.new("Distract", L{}, L{}),
+            Debuff.new("Slow", L{}, L{}),
+            Debuff.new("Paralyze", L{}, L{}),
+            Debuff.new("Frazzle", L{}, L{})
+        },
+        GambitSettings = {
+            Default = L{
+                Gambit.new("Self", L{MaxManaPointsPercentCondition.new(20), ModeCondition.new("AutoConvertMode", "Auto")}, JobAbility.new("Convert", L{}, L{}), "Self", L{})
+            },
+            Gambits = L{
+                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("RDM")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
+            }
+        },
+        JobAbilities = L{
+            JobAbility.new("Composure", L{}, L{})
+        },
+        PartyBuffs = L{
+            Buff.new("Haste", L{}, L{"SAM", "SCH", "RUN", "WAR", "BST", "COR", "PLD", "RNG", "DRG", "DNC", "PUP", "BRD", "RDM", "DRK", "BLU", "THF", "BLM", "SMN", "WHM", "GEO", "MNK", "NIN"}, nil, L{InBattleCondition.new()})
+        },
         NukeSettings = {
             MinNumMobsToCleave = 2,
+            JobAbilities = L{
+
+            },
             Blacklist = L{
 
             },
@@ -67,13 +68,28 @@ return {
             Buff.new("Haste", L{}, L{"GEO", "THF", "BRD", "RUN", "DRG", "DNC", "BLM", "COR", "DRK", "WAR", "SAM", "WHM", "BST", "PLD", "MNK", "RDM", "NIN", "SCH", "RNG", "SMN", "BLU", "PUP"}, nil, L{})
         },
         PullSettings = {
+            Distance = 20,
             Abilities = L{
                 Debuff.new("Dia", L{}, L{})
             },
-            Distance = 20
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle"
+            }
         }
     },
     Odin = {
+        CureSettings = {
+            Thresholds = {
+                ["Cure IV"] = 700,
+                Emergency = 35,
+                Default = 78,
+                ["Cure II"] = 0,
+                ["Cure III"] = 400
+            },
+            Delay = 2
+        },
         Debuffs = L{
             Debuff.new("Blind", L{}, L{}),
             Debuff.new("Distract", L{}, L{}),
@@ -85,11 +101,10 @@ return {
         },
         GambitSettings = {
             Default = L{
-                Gambit.new("Self", L{MaxManaPointsPercentCondition.new(20), ModeCondition.new("AutoConvertMode", "Auto")}, JobAbility.new("Convert", L{}, L{}), "Self", L{}),
-                Gambit.new("Enemy", L{MeleeAccuracyCondition.new(75, "<="), MainJobCondition.new("RDM"), NumResistsCondition.new("Distract", "<", 3), NumResistsCondition.new("Distract II", "<", 3), NumResistsCondition.new("Distract III", "<", 3)}, Debuff.new("Distract", L{}, L{}), "Self", L{})
+                Gambit.new("Self", L{MaxManaPointsPercentCondition.new(20), ModeCondition.new("AutoConvertMode", "Auto")}, JobAbility.new("Convert", L{}, L{}), "Self", L{})
             },
             Gambits = L{
-
+                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("RDM")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
             }
         },
         JobAbilities = L{
@@ -99,19 +114,11 @@ return {
             Buff.new("Refresh", L{}, L{"DRK", "PUP", "PLD", "BLU", "BLM", "BRD", "GEO", "SMN", "WHM", "RUN"}, nil, L{}),
             Buff.new("Haste", L{}, L{"SAM", "SCH", "RUN", "WAR", "BST", "COR", "PLD", "RNG", "DRG", "DNC", "PUP", "BRD", "RDM", "DRK", "BLU", "THF", "BLM", "SMN", "WHM", "GEO", "MNK", "NIN"}, nil, L{})
         },
-        CureSettings = {
-            Thresholds = {
-                ["Cure IV"] = 700,
-                Emergency = 35,
-                Default = 78,
-                ["Cure II"] = 0,
-                ["Cure III"] = 400
-            },
-            Delay = 2
-        },
-        AutoFood = "Grape Daifuku",
         NukeSettings = {
             MinNumMobsToCleave = 2,
+            JobAbilities = L{
+
+            },
             Blacklist = L{
 
             },
@@ -148,34 +155,26 @@ return {
             Buff.new("Stoneskin", L{}, L{}, nil, L{})
         },
         PullSettings = {
+            Distance = 20,
             Abilities = L{
                 Debuff.new("Dia", L{}, L{})
             },
-            Distance = 20
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle"
+            }
         }
+    },
+    Migrations = L{
+        "Migration_v10",
+        "UpdateDefaultGambitsMigration",
+        "Migration_v6",
+        "Migration_v8",
+        "Migration_v7"
     },
     Version = 2,
     Default = {
-        Debuffs = L{
-            Debuff.new("Dia", L{}, L{}),
-            Debuff.new("Distract", L{}, L{})
-        },
-        GambitSettings = {
-            Default = L{
-                Gambit.new("Self", L{MaxManaPointsPercentCondition.new(20), ModeCondition.new("AutoConvertMode", "Auto")}, JobAbility.new("Convert", L{}, L{}), "Self", L{}),
-                Gambit.new("Enemy", L{MeleeAccuracyCondition.new(75, "<="), MainJobCondition.new("RDM"), NumResistsCondition.new("Distract", "<", 3), NumResistsCondition.new("Distract II", "<", 3), NumResistsCondition.new("Distract III", "<", 3)}, Debuff.new("Distract", L{}, L{}), "Self", L{})
-            },
-            Gambits = L{
-
-            }
-        },
-        JobAbilities = L{
-            JobAbility.new("Composure", L{}, L{})
-        },
-        PartyBuffs = L{
-            Buff.new("Haste", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-            Buff.new("Refresh", L{}, L{"WHM", "RUN", "RDM", "SMN", "BLU", "SCH", "BLM", "PLD", "GEO"}, nil, L{})
-        },
         CureSettings = {
             Thresholds = {
                 ["Cure IV"] = 800,
@@ -186,9 +185,30 @@ return {
             },
             Delay = 2
         },
-        AutoFood = "Grape Daifuku",
+        Debuffs = L{
+            Debuff.new("Dia", L{}, L{}),
+            Debuff.new("Distract", L{}, L{})
+        },
+        GambitSettings = {
+            Default = L{
+                Gambit.new("Self", L{MaxManaPointsPercentCondition.new(20), ModeCondition.new("AutoConvertMode", "Auto")}, JobAbility.new("Convert", L{}, L{}), "Self", L{})
+            },
+            Gambits = L{
+                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("RDM")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
+            }
+        },
+        JobAbilities = L{
+            JobAbility.new("Composure", L{}, L{})
+        },
+        PartyBuffs = L{
+            Buff.new("Haste", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Buff.new("Refresh", L{}, L{"WHM", "RUN", "RDM", "SMN", "BLU", "SCH", "BLM", "PLD", "GEO"}, nil, L{})
+        },
         NukeSettings = {
             MinNumMobsToCleave = 2,
+            JobAbilities = L{
+
+            },
             Blacklist = L{
 
             },
@@ -224,33 +244,18 @@ return {
             Buff.new("Temper", L{}, L{}, nil, L{})
         },
         PullSettings = {
+            Distance = 20,
             Abilities = L{
                 Debuff.new("Dia", L{}, L{})
             },
-            Distance = 20
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle"
+            }
         }
     },
     Melee = {
-        Debuffs = L{
-            Debuff.new("Dia", L{}, L{}),
-            Debuff.new("Distract", L{}, L{})
-        },
-        GambitSettings = {
-            Default = L{
-                Gambit.new("Self", L{MaxManaPointsPercentCondition.new(20), ModeCondition.new("AutoConvertMode", "Auto")}, JobAbility.new("Convert", L{}, L{}), "Self", L{}),
-                Gambit.new("Enemy", L{MeleeAccuracyCondition.new(75, "<="), MainJobCondition.new("RDM"), NumResistsCondition.new("Distract", "<", 3), NumResistsCondition.new("Distract II", "<", 3), NumResistsCondition.new("Distract III", "<", 3)}, Debuff.new("Distract", L{}, L{}), "Self", L{})
-            },
-            Gambits = L{
-
-            }
-        },
-        JobAbilities = L{
-            JobAbility.new("Composure", L{}, L{})
-        },
-        PartyBuffs = L{
-            Buff.new("Haste", L{}, L{"SCH", "WAR", "BST", "DNC", "BRD", "RUN", "MNK", "WHM", "BLU", "PUP", "DRK", "PLD", "RDM", "COR", "GEO", "THF", "BLM", "RNG", "DRG", "NIN", "SAM"}, nil, L{}),
-            Buff.new("Refresh", L{}, L{"WHM", "BLU", "DRK", "SMN", "RUN", "PLD", "GEO", "BLM"}, nil, L{})
-        },
         CureSettings = {
             Thresholds = {
                 ["Cure IV"] = 1000,
@@ -261,9 +266,30 @@ return {
             },
             Delay = 2
         },
-        AutoFood = "Grape Daifuku",
+        Debuffs = L{
+            Debuff.new("Dia", L{}, L{}),
+            Debuff.new("Distract", L{}, L{})
+        },
+        GambitSettings = {
+            Default = L{
+                Gambit.new("Self", L{MaxManaPointsPercentCondition.new(20), ModeCondition.new("AutoConvertMode", "Auto")}, JobAbility.new("Convert", L{}, L{}), "Self", L{})
+            },
+            Gambits = L{
+                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("RDM")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
+            }
+        },
+        JobAbilities = L{
+            JobAbility.new("Composure", L{}, L{})
+        },
+        PartyBuffs = L{
+            Buff.new("Haste", L{}, L{"SCH", "WAR", "BST", "DNC", "BRD", "RUN", "MNK", "WHM", "BLU", "PUP", "DRK", "PLD", "RDM", "COR", "GEO", "THF", "BLM", "RNG", "DRG", "NIN", "SAM"}, nil, L{}),
+            Buff.new("Refresh", L{}, L{"WHM", "BLU", "DRK", "SMN", "RUN", "PLD", "GEO", "BLM"}, nil, L{})
+        },
         NukeSettings = {
             MinNumMobsToCleave = 2,
+            JobAbilities = L{
+
+            },
             Blacklist = L{
 
             },
@@ -299,10 +325,15 @@ return {
             Buff.new("Temper", L{}, L{}, nil, L{})
         },
         PullSettings = {
+            Distance = 21,
             Abilities = L{
                 Debuff.new("Dia", L{}, L{})
             },
-            Distance = 21
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle"
+            }
         }
     }
 }

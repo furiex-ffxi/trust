@@ -28,7 +28,7 @@ return {
         },
         GambitSettings = {
             Default = L{
-                Gambit.new("Ally", L{MaxManaPointsPercentCondition.new(20), MaxDistanceCondition.new(10)}, JobAbility.new("Devotion", L{}, L{}), "Ally", L{})
+                Gambit.new("Ally", L{MaxManaPointsPercentCondition.new(20), MaxDistanceCondition.new(10), JobCondition.new(L{"SCH", "DRK", "WHM", "SMN", "GEO", "PLD", "BLM", "BLU", "RDM", "BRD", "RUN"})}, JobAbility.new("Devotion", L{}, L{}), "Ally", L{})
             },
             Gambits = L{
 
@@ -41,6 +41,9 @@ return {
         },
         NukeSettings = {
             MinNumMobsToCleave = 2,
+            JobAbilities = L{
+
+            },
             Blacklist = L{
 
             },
@@ -56,10 +59,15 @@ return {
             Spell.new("Dia II", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
         },
         PullSettings = {
+            Distance = 20,
             Abilities = L{
                 Debuff.new("Dia", L{}, L{})
             },
-            Distance = 20
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle"
+            }
         }
     },
     Version = 2,
@@ -69,7 +77,7 @@ return {
         },
         GambitSettings = {
             Default = L{
-                Gambit.new("Ally", L{MaxManaPointsPercentCondition.new(20), MaxDistanceCondition.new(10)}, JobAbility.new("Devotion", L{}, L{}), "Ally", L{})
+                Gambit.new("Ally", L{MaxManaPointsPercentCondition.new(20), MaxDistanceCondition.new(10), JobCondition.new(L{"SCH", "DRK", "WHM", "SMN", "GEO", "PLD", "BLM", "BLU", "RDM", "BRD", "RUN"})}, JobAbility.new("Devotion", L{}, L{}), "Ally", L{})
             },
             Gambits = L{
 
@@ -126,6 +134,9 @@ return {
         },
         NukeSettings = {
             MinNumMobsToCleave = 2,
+            JobAbilities = L{
+
+            },
             Blacklist = L{
 
             },
@@ -146,10 +157,15 @@ return {
             Buff.new("Aquaveil", L{}, L{}, nil, L{})
         },
         PullSettings = {
+            Distance = 20,
             Abilities = L{
                 Debuff.new("Dia", L{}, L{})
             },
-            Distance = 20
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle"
+            }
         }
     },
     CureOnly = {
@@ -158,7 +174,7 @@ return {
         },
         GambitSettings = {
             Default = L{
-                Gambit.new("Ally", L{MaxManaPointsPercentCondition.new(20), MaxDistanceCondition.new(10)}, JobAbility.new("Devotion", L{}, L{}), "Ally", L{})
+                Gambit.new("Ally", L{MaxManaPointsPercentCondition.new(20), MaxDistanceCondition.new(10), JobCondition.new(L{"SCH", "DRK", "WHM", "SMN", "GEO", "PLD", "BLM", "BLU", "RDM", "BRD", "RUN"})}, JobAbility.new("Devotion", L{}, L{}), "Ally", L{})
             },
             Gambits = L{
 
@@ -215,6 +231,9 @@ return {
         },
         NukeSettings = {
             MinNumMobsToCleave = 2,
+            JobAbilities = L{
+
+            },
             Blacklist = L{
 
             },
@@ -231,10 +250,15 @@ return {
             Buff.new("Reraise", L{}, L{}, nil, L{})
         },
         PullSettings = {
+            Distance = 20,
             Abilities = L{
                 Debuff.new("Dia", L{}, L{})
             },
-            Distance = 20
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle"
+            }
         }
     },
     Default = {
@@ -243,7 +267,7 @@ return {
         },
         GambitSettings = {
             Default = L{
-                Gambit.new("Ally", L{MaxManaPointsPercentCondition.new(20), MaxDistanceCondition.new(10)}, JobAbility.new("Devotion", L{}, L{}), "Ally", L{})
+                Gambit.new("Ally", L{MaxManaPointsPercentCondition.new(20), MaxDistanceCondition.new(10), JobCondition.new(L{"SCH", "DRK", "WHM", "SMN", "GEO", "PLD", "BLM", "BLU", "RDM", "BRD", "RUN"})}, JobAbility.new("Devotion", L{}, L{}), "Ally", L{})
             },
             Gambits = L{
 
@@ -300,6 +324,9 @@ return {
         },
         NukeSettings = {
             MinNumMobsToCleave = 2,
+            JobAbilities = L{
+
+            },
             Blacklist = L{
 
             },
@@ -312,20 +339,32 @@ return {
             MinManaPointsPercent = 60
         },
         SelfBuffs = L{
-            Buff.new("Aquaveil", L{"Accession"}, L{}, nil, L{}),
+            Buff.new("Aquaveil", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(1, ">=")}),
             Buff.new("Auspice", L{}, L{}, nil, L{}),
             Buff.new("Boost-STR", L{}, L{}, nil, L{}),
             Buff.new("Haste", L{}, L{}, nil, L{}),
             Buff.new("Protectra", L{}, L{}, nil, L{}),
-            Buff.new("Regen", L{"Accession"}, L{}, nil, L{}),
+            Buff.new("Regen", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(1, ">=")}),
             Buff.new("Reraise", L{}, L{}, nil, L{}),
             Buff.new("Shellra", L{}, L{}, nil, L{})
         },
         PullSettings = {
+            Distance = 21,
             Abilities = L{
                 Debuff.new("Dia", L{}, L{})
             },
-            Distance = 21
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle"
+            }
         }
+    },
+    Migrations = L{
+        "Migration_v10",
+        "UpdateDefaultGambitsMigration",
+        "Migration_v6",
+        "Migration_v8",
+        "Migration_v7"
     }
 }

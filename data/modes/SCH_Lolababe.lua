@@ -2,28 +2,28 @@
 return {
     ["Default"]={
         ["magicbursttargetmode"]="Single", 
-        ["maintrustsettingsmode"]="Default", 
-        ["skillchainassistantmode"]="Off", 
+        ["autoskillchainmode"]="Off", 
+        ["autodisablemode"]="Auto", 
         ["autotargetmode"]="Off", 
         ["autobuffmode"]="Auto", 
-        ["weaponskillsettingsmode"]="Default", 
+        ["autofacemobmode"]="Auto", 
         ["autotrustsmode"]="Off", 
-        ["autounloadondeathmode"]="Auto", 
+        ["autoconvertmode"]="Off", 
         ["autofollowmode"]="Always", 
-        ["autofoodmode"]="Off", 
+        ["skillchainassistantmode"]="Off", 
         ["autogambitmode"]="Auto", 
         ["autoassistantmode"]="Off", 
-        ["autoconvertmode"]="Off", 
+        ["autounloadondeathmode"]="Auto", 
         ["autodetectauramode"]="Auto", 
-        ["automagicburstmode"]="Ice", 
+        ["autopullmode"]="Off", 
         ["autosilencemode"]="Off", 
-        ["autoskillchainmode"]="Off", 
+        ["maintrustsettingsmode"]="Default", 
         ["approachpullmode"]="Off", 
         ["subtrustsettingsmode"]="Default", 
-        ["autodisablemode"]="Auto", 
+        ["autofoodmode"]="Off", 
         ["autoengagemode"]="Always", 
-        ["autofacemobmode"]="Auto", 
-        ["autopullmode"]="Off", 
+        ["weaponskillsettingsmode"]="Default", 
+        ["automagicburstmode"]="Ice", 
         ["skillchainpropertymode"]="Off", 
         ["ipcmode"]="All", 
         ["partychatmode"]="Private", 
@@ -45,6 +45,8 @@ return {
         ["actionbatchingmode"]="Off"
     }, 
     ["Ep"]={
+        ["autoenablemode"]="Off", 
         ["autoartsmode"]="LightArts", 
+        ["autocampmode"]="Off"
     }
 }

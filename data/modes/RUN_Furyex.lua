@@ -1,27 +1,36 @@
 -- Modes file for RUN
 return {
+    ["Sortie"]={
+        ["maintrustsettingsmode"]="Sortie", 
+        ["autofacemobmode"]="Off", 
+        ["autorunemode"]="Off", 
+        ["autoskillchainmode"]="Off", 
+        ["autofollowmode"]="Always", 
+        ["autopullmode"]="Off", 
+        ["weaponskillsettingsmode"]="Sortie"
+    }, 
     ["Default"]={
         ["magicbursttargetmode"]="Single", 
         ["autotankmode"]="Auto", 
         ["autotargetmode"]="Off", 
-        ["maintrustsettingsmode"]="Default", 
-        ["autogambitmode"]="Auto", 
-        ["autofoodmode"]="Off", 
-        ["autodisablemode"]="Auto", 
         ["autofacemobmode"]="Auto", 
+        ["autogambitmode"]="Auto", 
+        ["maintrustsettingsmode"]="Default", 
+        ["skillchainassistantmode"]="Off", 
+        ["weaponskillsettingsmode"]="Default", 
         ["autotrustsmode"]="Off", 
-        ["autofollowmode"]="Off", 
-        ["autosilencemode"]="Off", 
         ["autocampmode"]="Off", 
-        ["autodetectauramode"]="Off", 
+        ["autosilencemode"]="Off", 
         ["autoskillchainmode"]="Spam", 
-        ["autoassistantmode"]="Off", 
+        ["autodetectauramode"]="Off", 
         ["automagicburstmode"]="Off", 
-        ["subtrustsettingsmode"]="Default", 
+        ["autoassistantmode"]="Off", 
         ["autohealmode"]="Emergency", 
+        ["subtrustsettingsmode"]="Default", 
+        ["autodisablemode"]="Auto", 
         ["approachpullmode"]="Off", 
         ["autoengagemode"]="Always", 
-        ["weaponskillsettingsmode"]="Default", 
+        ["autofoodmode"]="Off", 
         ["autoenablemode"]="Off", 
         ["skillchainpropertymode"]="Off", 
         ["ipcmode"]="All", 
@@ -41,9 +50,7 @@ return {
         ["flankmode"]="Off", 
         ["autostatusremovalmode"]="Auto", 
         ["autonukemode"]="Off", 
-        ["skillchainassistantmode"]="Off"
+        ["autofollowmode"]="Off"
     }, 
-    ["Ep"]={
-        ["autogambitmode"]="Auto"
-    }
+    ["Ep"]={}
 }

@@ -1,33 +1,37 @@
 -- Modes file for GEO
 return {
+    ["Odin"]={
+        ["autofacemobmode"]="Off", 
+        ["autotankmode"]="Off"
+    }, 
     ["Default"]={
         ["autoindimode"]="Auto", 
-        ["skillchainassistantmode"]="Off", 
-        ["weaponskillsettingsmode"]="Default", 
+        ["autofoodmode"]="Off", 
+        ["autohealmode"]="Emergency", 
         ["autotargetmode"]="Off", 
         ["autofacemobmode"]="Auto", 
-        ["maintrustsettingsmode"]="Default", 
-        ["autotrustsmode"]="Auto", 
-        ["autounloadondeathmode"]="Auto", 
-        ["autofollowmode"]="Always", 
-        ["autofoodmode"]="Off", 
-        ["autogeomode"]="Auto", 
-        ["autoassistantmode"]="Off", 
-        ["autoconvertmode"]="Off", 
-        ["autoblazeofglorymode"]="Off", 
-        ["autogambitmode"]="Auto", 
-        ["autosilencemode"]="Off", 
         ["autoskillchainmode"]="Spam", 
+        ["autotrustsmode"]="Auto", 
+        ["autoconvertmode"]="Off", 
+        ["autofollowmode"]="Always", 
+        ["skillchainassistantmode"]="Off", 
+        ["partychatmode"]="Private", 
+        ["autoassistantmode"]="Off", 
+        ["autounloadondeathmode"]="Auto", 
+        ["autoenmityreductionmode"]="Off", 
+        ["autodispelmode"]="Auto", 
+        ["autosilencemode"]="Off", 
+        ["maintrustsettingsmode"]="Default", 
         ["approachpullmode"]="Off", 
         ["subtrustsettingsmode"]="Default", 
-        ["automagicburstmode"]="Off", 
-        ["autoengagemode"]="Always", 
-        ["autohealmode"]="Emergency", 
         ["autopullmode"]="Off", 
+        ["autoengagemode"]="Always", 
+        ["weaponskillsettingsmode"]="Default", 
+        ["automagicburstmode"]="Off", 
         ["combatmode"]="Off", 
         ["skillchainpropertymode"]="Off", 
         ["ipcmode"]="All", 
-        ["partychatmode"]="Private", 
+        ["autogeomode"]="Auto", 
         ["engagemode"]="None", 
         ["autobuffmode"]="Off", 
         ["autorestoremanamode"]="Auto", 
@@ -36,8 +40,8 @@ return {
         ["skillchaindelaymode"]="Off", 
         ["autodebuffmode"]="Off", 
         ["flankmode"]="Off", 
-        ["autoenmityreductionmode"]="Off", 
-        ["autodispelmode"]="Auto", 
+        ["autoblazeofglorymode"]="Off", 
+        ["autogambitmode"]="Auto", 
         ["autoaftermathmode"]="Off", 
         ["autoentrustmode"]="Auto", 
         ["actionbatchingmode"]="Off", 
@@ -45,13 +49,15 @@ return {
         ["autoraisemode"]="Off", 
         ["autodisablemode"]="Auto"
     }, 
-    ["Odin"]={
-        ["autofacemobmode"]="Off", 
-        ["autotankmode"]="Off"
+    ["Sortie"]={
+        ["maintrustsettingsmode"]="Sortie", 
+        ["autoentrustmode"]="Off", 
+        ["autocampmode"]="Off", 
+        ["weaponskillsettingsmode"]="Sortie"
     }, 
     ["Ep"]={
         ["autocampmode"]="Off", 
-        ["autoblazeofglorymode"]="Auto", 
-        ["autobuffmode"]="Auto"
+        ["autobuffmode"]="Auto", 
+        ["autoblazeofglorymode"]="Auto"
     }
 }

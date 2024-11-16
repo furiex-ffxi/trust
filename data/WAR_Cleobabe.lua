@@ -1,13 +1,31 @@
 -- Settings file for WAR
 return {
-    Melee = {
+    Migrations = L{
+        "Migration_v6",
+        "Migration_v10",
+        "UpdateDefaultGambitsMigration"
+    },
+    Default = {
+        PullSettings = {
+            Distance = 20,
+            Abilities = L{
+                JobAbility.new("Provoke", L{}, L{})
+            },
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle"
+            }
+        },
         Debuffs = L{
 
         },
         GambitSettings = {
+            Default = L{
+
+            },
             Gambits = L{
-                Gambit.new("Enemy", L{NotCondition.new(L{HasBuffCondition.new("Defense Down")})}, WeaponSkill.new("Full Break"), "Enemy", L{}),
-                Gambit.new("Enemy", L{MinTacticalPointsCondition.new(1000)}, WeaponSkill.new("Upheaval"), "Self", L{})
+                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("WAR")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
             }
         },
         JobAbilities = L{
@@ -17,24 +35,32 @@ return {
             JobAbility.new("Restraint", L{InBattleCondition.new()}, L{}),
             JobAbility.new("Blood Rage", L{InBattleCondition.new()}, L{}),
             JobAbility.new("Retaliation", L{InBattleCondition.new()}, L{})
-        },
-        AutoFood = "Grape Daifuku",
+        }
+    },
+    Melee = {
         PullSettings = {
+            Distance = 20,
             Abilities = L{
                 JobAbility.new("Provoke", L{}, L{}),
                 JobAbility.new("Tomahawk", L{}, L{})
             },
-            Distance = 20
-        }
-    },
-    Version = 1,
-    Default = {
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle"
+            }
+        },
         Debuffs = L{
 
         },
         GambitSettings = {
-            Gambits = L{
+            Default = L{
 
+            },
+            Gambits = L{
+                Gambit.new("Enemy", L{NotCondition.new(L{HasBuffCondition.new("Defense Down")})}, WeaponSkill.new("Full Break", L{MinTacticalPointsCondition.new(1000)}), "Enemy", L{}),
+                Gambit.new("Enemy", L{MinTacticalPointsCondition.new(1000)}, WeaponSkill.new("Upheaval", L{MinTacticalPointsCondition.new(1000)}), "Self", L{}),
+                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("WAR")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
             }
         },
         JobAbilities = L{
@@ -44,13 +70,7 @@ return {
             JobAbility.new("Restraint", L{InBattleCondition.new()}, L{}),
             JobAbility.new("Blood Rage", L{InBattleCondition.new()}, L{}),
             JobAbility.new("Retaliation", L{InBattleCondition.new()}, L{})
-        },
-        AutoFood = "Grape Daifuku",
-        PullSettings = {
-            Abilities = L{
-                JobAbility.new("Provoke", L{}, L{})
-            },
-            Distance = 20
         }
-    }
+    },
+    Version = 1
 }

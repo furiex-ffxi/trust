@@ -1,6 +1,15 @@
 -- Weapon skill settings file for DRK
 return {
+    Version = 1,
     SortieLight = {
+        Skillchain = L{
+            SkillchainAbility.skip(),
+            SkillchainAbility.skip(),
+            WeaponSkill.new("Torcleaver", L{MinTacticalPointsCondition.new(1000)}),
+            SkillchainAbility.skip(),
+            SkillchainAbility.skip(),
+            SkillchainAbility.skip()
+        },
         Skills = L{
             CombatSkillSettings.new("Dagger", L{}, ""),
             CombatSkillSettings.new("Sword", L{}, ""),
@@ -11,19 +20,22 @@ return {
             CombatSkillSettings.new("Club", L{}, ""),
             CombatSkillSettings.new("Marksmanship", L{}, "")
         },
-        Skillchain = L{
-            SkillchainAbility.skip(),
-            SkillchainAbility.skip(),
-            WeaponSkill.new("Torcleaver"),
-            SkillchainAbility.skip(),
-            SkillchainAbility.skip(),
-            SkillchainAbility.skip()
-        },
         Blacklist = L{
+
+        },
+        JobAbilities = L{
 
         }
     },
     Default = {
+        Skillchain = L{
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto()
+        },
         Skills = L{
             CombatSkillSettings.new("Dagger", L{}, ""),
             CombatSkillSettings.new("Sword", L{}, ""),
@@ -34,17 +46,11 @@ return {
             CombatSkillSettings.new("Club", L{}, ""),
             CombatSkillSettings.new("Marksmanship", L{}, "")
         },
-        Skillchain = L{
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto()
-        },
         Blacklist = L{
 
+        },
+        JobAbilities = L{
+
         }
-    },
-    Version = 1
+    }
 }

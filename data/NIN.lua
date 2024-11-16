@@ -3,9 +3,6 @@ return {
     Version = 2,
     Default = {
         SelfBuffs = L{
-            Spell.new("Utsusemi: San", L{}, L{}, nil, L{}),
-            Spell.new("Utsusemi: Ni", L{}, L{}, nil, L{}),
-            Spell.new("Utsusemi: Ichi", L{}, L{}, nil, L{}),
             Spell.new("Kakka: Ichi", L{}, L{}, nil, L{}),
             Spell.new("Myoshu: Ichi", L{}, L{}, nil, L{}),
         },
