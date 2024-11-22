@@ -240,6 +240,12 @@ function TrustHud:createWidgets(addon_settings, addon_enabled, action_queue, par
         self.widgetManager:addWidget(blackMageWidget, "black_mage")
     end
 
+    if player.main_job_name_short == 'RUN' then
+        local RuneFencerWidget = require('ui/widgets/RuneFencerWidget')
+        local runeFencerWidget = RuneFencerWidget.new(Frame.new(0, 0, 125, 57), addon_settings, trust)
+        self.widgetManager:addWidget(runeFencerWidget, "rune_fencer")
+    end
+
     --if player.main_job_name_short == 'SCH' then
     --    local scholarWidget = ScholarWidget.new(Frame.new(0, 0, 125, 57), addon_settings, party:get_player(), trust)
     --    self.widgetManager:addWidget(scholarWidget, "scholar")
@@ -407,7 +413,7 @@ function TrustHud:getSettingsMenuItem(trust, trustSettings, trustSettingsMode, w
 
     if jobNameShort == 'GEO' then
         menuItems:append(ButtonItem.default('Geomancy', 18))
-        childMenuItems.Geomancy = GeomancySettingsMenuItem.new(trust, trustSettings, self.trustModeSettings, trustSettings:getSettings()[trustSettingsMode.value].Geomancy, trustSettings:getSettings()[trustSettingsMode.value].PartyBuffs, function(view)
+        childMenuItems.Geomancy = GeomancySettingsMenuItem.new(trust, trustSettings, trustSettingsMode, self.trustModeSettings, trustSettings:getSettings()[trustSettingsMode.value].Geomancy, trustSettings:getSettings()[trustSettingsMode.value].PartyBuffs, function(view)
             return setupView(view, viewSize)
         end)
     end

@@ -1,76 +1,83 @@
-require('actions')
-require('vectors')
-require('math')
-require('logger')
-require('lists')
+---------------------------
+-- Action representing the player following a target until a condition is met.
+-- @class module
+-- @name FollowAction
 
-local packets = require('packets')
+local alter_ego_util = require('cylibs/util/alter_ego_util')
 
 local Action = require('cylibs/actions/action')
 local FollowAction = setmetatable({}, {__index = Action })
 FollowAction.__index = FollowAction
 
-function FollowAction.new(target_id)
-	local self = setmetatable(Action.new(0, 0, 0), FollowAction)
-	self.target_id = target_id
-	self.retry_count = 0
- 	return self
+function FollowAction.new(target_index, complete_conditions)
+    local conditions = L{
+        ValidTargetCondition.new(alter_ego_util.untargetable_alter_egos()),
+    }
+    local self = setmetatable(Action.new(0, 0, 0, target_index, conditions), FollowAction)
+    self.complete_conditions = complete_conditions or L{ MaxDistanceCondition.new(3, target_index) }
+    return self
 end
 
-function FollowAction:can_perform()
-	if self:is_cancelled() then
-		return false
-	end
-	local mob = windower.ffxi.get_mob_by_id(self:gettargetid())
-	if not mob or mob.hpp <= 0 or not mob.valid_target then
-		return false
-	end
-	if mob.claim_id ~= 0 then
-		local claimed_by = windower.ffxi.get_mob_by_id(mob.claim_id)
-		if claimed_by ~= nil and not (claimed_by.in_party or claimed_by.in_alliance) then
-			return false
-		end
-	end
-	return true
+function FollowAction:complete(success)
+    windower.ffxi.follow()
+    Action.complete(self, success)
 end
 
 function FollowAction:perform()
-	self:follow_target(self:gettargetid())
+    local target = windower.ffxi.get_mob_by_target('t')
+    if target then
+        self:check_follow(0)
+    else
+        self:complete(false)
+    end
 end
 
-function FollowAction:follow_target(target_id)
-	if self:is_cancelled() or self:is_completed() then
-		return
-	end		
+function FollowAction:check_follow(retry_count)
+    if Condition.check_conditions(self.complete_conditions, self.target_index) then
+        windower.ffxi.follow()
+        self:complete(true)
+    elseif retry_count > 100 then
+        windower.ffxi.follow()
+        self:complete(false)
+    else
+        if not self:is_following() then
+            windower.send_command('input /follow <t>')
+        end
 
-	local mob = windower.ffxi.get_mob_by_id(target_id)
-	
-	local player = windower.ffxi.get_player()
-	if player.follow_index ~= mob.index then
-		windower.ffxi.follow(mob.index)
-		windower.ffxi.run()
-	end
-	
-	self:complete(true)
+        local walk_time = 0.2
+
+        coroutine.schedule(function()
+            self:check_follow(retry_count + 1)
+        end, walk_time)
+    end
 end
 
-function FollowAction:gettargetid()
-	return self.target_id
+function FollowAction:is_following()
+    local player = windower.ffxi.get_player()
+    return player and player.follow_index == self.target_index
 end
 
 function FollowAction:gettype()
-	return "followaction"
+    return "runtoaction"
 end
 
 function FollowAction:getrawdata()
-	local res = {}
-	res.followaction = {}
-	return res
+    local res = {}
+
+    res.followaction = {}
+    res.followaction.x = self.x
+    res.followaction.y = self.y
+    res.followaction.z = self.z
+
+    return res
+end
+
+function FollowAction:copy()
+    return FollowAction.new(self:get_position()[1], self:get_position()[2], self:get_position()[3])
 end
 
 function FollowAction:tostring()
-	local mob = windower.ffxi.get_mob_by_id(self:gettargetid())
-    return "FollowAction: %s (%d)":format(mob.name, mob.id)
+    return "FollowAction: (%d, %d, %d)":format(self.x, self.y, self.z)
 end
 
 return FollowAction

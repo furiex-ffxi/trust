@@ -4,7 +4,7 @@ return {
     Default = {
         SelfBuffs = L{
             Spell.new("Kakka: Ichi", L{}, L{}, nil, L{}),
-            Spell.new("Myoshu: Ichi", L{}, L{}, nil, L{}),
+            Spell.new("Myoshu: Ichi", L{}, L{}, nil, L{})
         },
         PartyBuffs = L{
 

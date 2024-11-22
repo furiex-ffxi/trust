@@ -23,7 +23,6 @@ local TextInputConfigItem = require('ui/settings/editors/config/TextInputConfigI
 local TextItem = require('cylibs/ui/collection_view/items/text_item')
 local TextStyle = require('cylibs/ui/style/text_style')
 local ToggleButtonCollectionViewCell = require('cylibs/ui/collection_view/cells/toggle_button_collection_view_cell')
-local ToggleButtonItem = require('cylibs/ui/collection_view/items/toggle_button_item')
 local VerticalFlowLayout = require('cylibs/ui/collection_view/layouts/vertical_flow_layout')
 
 local FFXIWindow = require('ui/themes/ffxi/FFXIWindow')
@@ -129,7 +128,7 @@ function ConfigEditor.new(trustSettings, configSettings, configItems, infoView, 
         if (item.getCurrentValue and configItem.getInitialValue) and item:getCurrentValue() ~= configItem:getInitialValue() then
             for dependency in configItem:getDependencies():it() do
                 if dependency.onReload then
-                    local allValues = dependency.onReload(configItem:getKey(), item:getCurrentValue())
+                    local allValues = dependency.onReload(configItem:getKey(), item:getCurrentValue(), configItem)
                     dependency:setAllValues(allValues)
 
                     self:reloadConfigItem(dependency)
