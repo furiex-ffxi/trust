@@ -270,7 +270,7 @@ return {
             }
         }
     },
-    Odin = {
+    Default = {
         Debuffs = L{
 
         },
@@ -283,6 +283,8 @@ return {
                 Gambit.new("Self", L{ModeCondition.new("AutoShootMode", "Auto")}, JobAbility.new("Triple Shot", L{}, L{}), "Self", L{})
             },
             Gambits = L{
+                Gambit.new("Self", L{InBattleCondition.new()}, JobAbility.new("Triple Shot", L{}, L{}), "Self", L{}),
+                Gambit.new("Enemy", L{HasBuffCondition.new("Triple Shot"), NotCondition.new(L{MinTacticalPointsCondition.new(1500)})}, RangedAttack.new(L{MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20)}), "Self", L{}),
                 Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("COR")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
             }
         },
@@ -292,7 +294,7 @@ return {
         Roll2 = Roll.new("Samurai Roll", false),
         Roll1 = Roll.new("Chaos Roll", true),
         PullSettings = {
-            Distance = 20,
+            Distance = 21,
             Abilities = L{
                 RangedAttack.new(L{MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20)})
             },
@@ -336,7 +338,8 @@ return {
             }
         }
     },
-    Default = {
+    Version = 2,
+    Odin = {
         Debuffs = L{
 
         },
@@ -349,8 +352,6 @@ return {
                 Gambit.new("Self", L{ModeCondition.new("AutoShootMode", "Auto")}, JobAbility.new("Triple Shot", L{}, L{}), "Self", L{})
             },
             Gambits = L{
-                Gambit.new("Self", L{InBattleCondition.new()}, JobAbility.new("Triple Shot", L{}, L{}), "Self", L{}),
-                Gambit.new("Enemy", L{HasBuffCondition.new("Triple Shot"), NotCondition.new(L{MinTacticalPointsCondition.new(1500)})}, RangedAttack.new(L{MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20)}), "Self", L{}),
                 Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("COR")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
             }
         },
@@ -360,7 +361,7 @@ return {
         Roll2 = Roll.new("Samurai Roll", false),
         Roll1 = Roll.new("Chaos Roll", true),
         PullSettings = {
-            Distance = 21,
+            Distance = 20,
             Abilities = L{
                 RangedAttack.new(L{MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20)})
             },
@@ -371,7 +372,6 @@ return {
             }
         }
     },
-    Version = 2,
     Subtle = {
         Debuffs = L{
 

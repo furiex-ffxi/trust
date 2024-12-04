@@ -1,6 +1,11 @@
 -- Settings file for BST
 return {
-    Version = 1,
+    Migrations = L{
+        "Migration_v6",
+        "Migration_v8",
+        "Migration_v4",
+        "Migration_v10"
+    },
     Default = {
         SelfBuffs = L{
             {
@@ -11,7 +16,7 @@ return {
         },
         GambitSettings = {
             Gambits = L{
-
+                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("BST")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
             }
         },
         JobAbilities = L{
@@ -24,14 +29,19 @@ return {
         Debuffs = L{
 
         },
-        AutoFood = "Grape Daifuku",
         PullSettings = {
+            Distance = 20,
             Abilities = L{
 
             },
-            Distance = 20
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle"
+            }
         }
     },
+    Version = 1,
     Ep = {
         SelfBuffs = L{
             {
@@ -42,7 +52,7 @@ return {
         },
         GambitSettings = {
             Gambits = L{
-
+                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("BST")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
             }
         },
         JobAbilities = L{
@@ -55,12 +65,16 @@ return {
         Debuffs = L{
 
         },
-        AutoFood = "Grape Daifuku",
         PullSettings = {
+            Distance = 20,
             Abilities = L{
 
             },
-            Distance = 20
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle"
+            }
         }
     }
 }

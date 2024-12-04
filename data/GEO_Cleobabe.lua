@@ -1,10 +1,10 @@
 -- Settings file for GEO
 return {
     Sortie = {
-        Debuffs = L{
+        SelfBuffs = L{
 
         },
-        SelfBuffs = L{
+        Debuffs = L{
 
         },
         GambitSettings = {
@@ -28,7 +28,9 @@ return {
             JobAbilities = L{
                 JobAbility.new("Theurgic Focus", L{}, L{})
             },
-            MinManaPointsPercent = 40,
+            Blacklist = L{
+
+            },
             Spells = L{
                 Spell.new("Blizzard V", L{}, L{}, nil, L{}),
                 Spell.new("Blizzard IV", L{}, L{}, nil, L{}),
@@ -38,9 +40,7 @@ return {
                 Spell.new("Aera III", L{}, L{}, nil, L{})
             },
             Delay = 4,
-            Blacklist = L{
-
-            }
+            MinManaPointsPercent = 40
         },
         Geomancy = {
             Indi = Spell.new("Indi-INT", L{}, L{}, "me", L{}),
@@ -59,19 +59,15 @@ return {
         }
     },
     Default = {
-        Debuffs = L{
+        SelfBuffs = L{
 
         },
-        SelfBuffs = L{
+        Debuffs = L{
 
         },
         GambitSettings = {
             Gambits = L{
-                Gambit.new("Self", L{MaxHitPointsPercentCondition.new(70), InBattleCondition.new()}, Spell.new("Cure IV", L{}, L{}, nil, L{}), "Self", L{}),
-                Gambit.new("Ally", L{MaxHitPointsPercentCondition.new(70), InBattleCondition.new()}, Spell.new("Cure IV", L{}, L{}, nil, L{}), "Ally", L{}),
-                Gambit.new("Self", L{MinTacticalPointsCondition.new(1000), MaxManaPointsPercentCondition.new(80)}, WeaponSkill.new("Starlight", L{MinTacticalPointsCondition.new(1000)}), "Self", L{}),
-                Gambit.new("Enemy", L{MaxManaPointsPercentCondition.new(80), InBattleCondition.new()}, Spell.new("Aspir III", L{}, L{}, nil, L{}), "Self", L{}),
-                Gambit.new("Enemy", L{MaxManaPointsPercentCondition.new(80), InBattleCondition.new()}, Spell.new("Aspir II", L{}, L{}, nil, L{}), "Self", L{}),
+                Gambit.new("Enemy", L{MaxManaPointsPercentCondition.new(40), InBattleCondition.new()}, Spell.new("Aspir III", L{}, L{}, nil, L{}), "Self", L{}),
                 Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("GEO")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
             }
         },
@@ -79,14 +75,16 @@ return {
 
         },
         PartyBuffs = L{
-            Spell.new("Indi-Acumen", L{"Entrust"}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+            Spell.new("Indi-Precision", L{"Entrust"}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
         },
         NukeSettings = {
             MinNumMobsToCleave = 2,
             JobAbilities = L{
                 JobAbility.new("Theurgic Focus", L{}, L{})
             },
-            MinManaPointsPercent = 40,
+            Blacklist = L{
+
+            },
             Spells = L{
                 Spell.new("Blizzard V", L{}, L{}, nil, L{}),
                 Spell.new("Blizzard IV", L{}, L{}, nil, L{}),
@@ -96,13 +94,11 @@ return {
                 Spell.new("Aera III", L{}, L{}, nil, L{})
             },
             Delay = 4,
-            Blacklist = L{
-
-            }
+            MinManaPointsPercent = 40
         },
         Geomancy = {
-            Indi = Spell.new("Indi-INT", L{}, L{}, "me", L{}),
-            Geo = Spell.new("Geo-Malaise", L{}, L{}, "bt", L{})
+            Indi = Spell.new("Indi-Fury", L{}, L{}, nil, L{}),
+            Geo = Spell.new("Geo-Frailty", L{}, L{}, "bt", L{})
         },
         PullSettings = {
             Distance = 20,
@@ -122,11 +118,12 @@ return {
         "Migration_v10",
         "Migration_v6"
     },
+    Version = 2,
     Odin = {
-        Debuffs = L{
+        SelfBuffs = L{
 
         },
-        SelfBuffs = L{
+        Debuffs = L{
 
         },
         GambitSettings = {
@@ -145,7 +142,9 @@ return {
             JobAbilities = L{
                 JobAbility.new("Theurgic Focus", L{}, L{})
             },
-            MinManaPointsPercent = 40,
+            Blacklist = L{
+
+            },
             Spells = L{
                 Spell.new("Blizzard V", L{"Theurgic Focus"}, L{}, nil, L{}),
                 Spell.new("Blizzard IV", L{}, L{}, nil, L{}),
@@ -155,9 +154,7 @@ return {
                 Spell.new("Aera III", L{}, L{}, nil, L{})
             },
             Delay = 4,
-            Blacklist = L{
-
-            }
+            MinManaPointsPercent = 40
         },
         Geomancy = {
             Indi = Spell.new("Indi-Barrier", L{}, L{}, "me", L{}),
@@ -174,6 +171,5 @@ return {
                 "Locus Armet Beetle"
             }
         }
-    },
-    Version = 2
+    }
 }

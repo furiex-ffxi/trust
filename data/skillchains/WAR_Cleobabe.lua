@@ -2,6 +2,9 @@
 return {
     Version = 1,
     Default = {
+        Blacklist = L{
+
+        },
         Skills = L{
             CombatSkillSettings.new("Great Axe", L{"Shield Break", "Iron Tempest", "Weapon Break", "Keen Edge", "Sturmwind", "Raging Rush"}, "Upheaval"),
             CombatSkillSettings.new("Axe", L{}, ""),
@@ -16,16 +19,16 @@ return {
             CombatSkillSettings.new("Archery", L{}, ""),
             CombatSkillSettings.new("Marksmanship", L{}, "")
         },
-        Blacklist = L{
-
-        },
         Skillchain = L{
             SkillchainAbility.skip(),
-            WeaponSkill.new("Upheaval"),
+            WeaponSkill.new("Upheaval", L{MinTacticalPointsCondition.new(1000)}),
             SkillchainAbility.skip(),
             SkillchainAbility.skip(),
             SkillchainAbility.skip(),
             SkillchainAbility.skip()
+        },
+        JobAbilities = L{
+
         }
     }
 }

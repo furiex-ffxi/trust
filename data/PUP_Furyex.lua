@@ -1,28 +1,32 @@
 -- Settings file for PUP
 return {
-    Version = 2,
+    Migrations = L{
+        "Migration_v6",
+        "Migration_v8",
+        "Migration_v10",
+        "UpdateDefaultGambitsMigration"
+    },
     Default = {
-        SelfBuffs = L{
-
-        },
         Debuffs = L{
 
         },
         GambitSettings = {
             Default = L{
-                Gambit.new("Self", L{NotCondition.new(L{HasPetCondition.new(L{})}), ModeCondition.new("AutoPetMode", "Auto")}, JobAbility.new("Activate", L{}, L{}), "Self", L{}),
-                Gambit.new("Self", L{NotCondition.new(L{HasPetCondition.new(L{})}), ModeCondition.new("AutoPetMode", "Auto")}, JobAbility.new("Deus Ex Automata", L{}, L{}), "Self", L{}),
+                Gambit.new("Self", L{NotCondition.new(L{HasPetCondition.new(L{})}), ModeCondition.new("AutoPetMode", "Auto"), NotCondition.new(L{InTownCondition.new()})}, JobAbility.new("Activate", L{}, L{}), "Self", L{}),
+                Gambit.new("Self", L{NotCondition.new(L{HasPetCondition.new(L{})}), ModeCondition.new("AutoPetMode", "Auto"), NotCondition.new(L{InTownCondition.new()})}, JobAbility.new("Deus Ex Automata", L{}, L{}), "Self", L{}),
                 Gambit.new("Self", L{HasPetCondition.new(L{}), PetHitPointsPercentCondition.new(20, "<="), ModeCondition.new("AutoRepairMode", "Auto")}, JobAbility.new("Repair", L{}, L{}), "Self", L{}),
                 Gambit.new("Self", L{HasBuffCondition.new("Overload")}, JobAbility.new("Cooldown", L{}, L{}), "Self", L{})
             },
             Gambits = L{
-
+                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("PUP")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
             }
         },
         JobAbilities = L{
 
         },
-        AutoFood = "Grape Daifuku",
+        PartyBuffs = L{
+
+        },
         AutomatonSettings = {
             AttachmentSettings = {
                 Overdrive = {
@@ -68,14 +72,20 @@ return {
                 }
             }
         },
-        PartyBuffs = L{
+        SelfBuffs = L{
 
         },
         PullSettings = {
+            Distance = 20,
             Abilities = L{
 
             },
-            Distance = 20
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle"
+            }
         }
-    }
+    },
+    Version = 2
 }

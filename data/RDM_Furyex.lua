@@ -236,7 +236,6 @@ return {
             MinManaPointsPercent = 40
         },
         SelfBuffs = L{
-            Buff.new("Enfire", L{}, L{}, nil, L{}),
             Buff.new("Gain-STR", L{}, L{}, nil, L{}),
             Buff.new("Haste", L{}, L{}, nil, L{}),
             Spell.new("Phalanx", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
@@ -244,13 +243,15 @@ return {
             Buff.new("Temper", L{}, L{}, nil, L{})
         },
         PullSettings = {
-            Distance = 20,
+            Distance = 21,
             Abilities = L{
-                Debuff.new("Dia", L{}, L{})
+                Spell.new("Dia III", L{}, L{}, nil, L{})
             },
             Targets = L{
-                "Locus Ghost Crab",
+                "Squib",
                 "Locus Dire Bat",
+                "Heqet",
+                "Locus Ghost Crab",
                 "Locus Armet Beetle"
             }
         }
@@ -262,7 +263,7 @@ return {
                 Emergency = 50,
                 Default = 78,
                 ["Cure II"] = 0,
-                ["Cure III"] = 500
+                ["Cure III"] = 700
             },
             Delay = 2
         },
@@ -317,21 +318,24 @@ return {
             MinManaPointsPercent = 40
         },
         SelfBuffs = L{
-            Buff.new("Enblizzard", L{}, L{}, nil, L{}),
+            Buff.new("Enblizzard", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(1, ">=")}),
             Buff.new("Gain-STR", L{}, L{}, nil, L{}),
             Buff.new("Haste", L{}, L{}, nil, L{}),
-            Buff.new("Phalanx", L{}, L{}, nil, L{}),
+            Buff.new("Phalanx", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(1, ">=")}),
+            Buff.new("Protect", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(1, ">=")}),
             Buff.new("Refresh", L{}, L{}, nil, L{}),
+            Buff.new("Shell", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(1, ">=")}),
             Buff.new("Temper", L{}, L{}, nil, L{})
         },
         PullSettings = {
-            Distance = 21,
+            Distance = 20,
             Abilities = L{
                 Debuff.new("Dia", L{}, L{})
             },
             Targets = L{
-                "Locus Ghost Crab",
                 "Locus Dire Bat",
+                "Limestone Hare",
+                "Locus Ghost Crab",
                 "Locus Armet Beetle"
             }
         }

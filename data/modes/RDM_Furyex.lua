@@ -28,7 +28,7 @@ return {
         ["autoaftermathmode"]="Off", 
         ["autofollowmode"]="Always", 
         ["autoconvertmode"]="Off", 
-        ["autoskillchainmode"]="Auto", 
+        ["autoskillchainmode"]="Spam", 
         ["subtrustsettingsmode"]="Default", 
         ["autodetectauramode"]="Off", 
         ["autohealmode"]="Emergency", 

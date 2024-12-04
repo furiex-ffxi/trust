@@ -134,6 +134,7 @@ function ScholarTrust:update_for_arts(new_arts_mode)
         self.arts_roles = S{
             Buffer.new(self.action_queue, self:get_job():get_dark_arts_job_abilities(), self:get_job():get_dark_arts_self_buffs(), self:get_job():get_dark_arts_party_buffs()),
             Debuffer.new(self.action_queue),
+            Healer.new(self.action_queue, self:get_job()),
             Dispeler.new(self.action_queue, L{ Spell.new('Dispel', L{'Addendum: Black'}) }, L{}, true),
             MagicBurster.new(self.action_queue, self:get_trust_settings().NukeSettings, 0.8, L{ 'Ebullience' }, self:get_job()),
             ManaRestorer.new(self.action_queue, L{'Myrkr', 'Spirit Taker'}, L{}, 40),

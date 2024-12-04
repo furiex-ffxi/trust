@@ -2,10 +2,16 @@
 return {
     Version = 1,
     Default = {
+        JobAbilities = L{
+
+        },
         Skills = L{
             CombatSkillSettings.new("Marksmanship", L{}, "Leaden Salute"),
             CombatSkillSettings.new("Dagger", L{}, ""),
             CombatSkillSettings.new("Sword", L{"Flat Blade", "Circle Blade", "Burning Blade", "Requiescat", "Fast Blade", "Shining Blade"}, "Savage Blade")
+        },
+        Blacklist = L{
+
         },
         Skillchain = L{
             SkillchainAbility.auto(),
@@ -14,9 +20,6 @@ return {
             SkillchainAbility.auto(),
             SkillchainAbility.auto(),
             SkillchainAbility.auto()
-        },
-        Blacklist = L{
-
         }
     }
 }

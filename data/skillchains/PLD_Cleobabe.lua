@@ -2,7 +2,7 @@
 return {
     Version = 1,
     Default = {
-        Blacklist = L{
+        JobAbilities = L{
 
         },
         Skills = L{
@@ -21,7 +21,7 @@ return {
             SkillchainAbility.auto(),
             SkillchainAbility.auto()
         },
-        JobAbilities = L{
+        Blacklist = L{
 
         }
     }

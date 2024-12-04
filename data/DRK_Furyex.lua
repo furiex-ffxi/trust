@@ -93,14 +93,16 @@ return {
             JobAbility.new("Scarlet Delirium", L{InBattleCondition.new()})
         },
         SelfBuffs = L{
-
+            Spell.new("Absorb-ACC", L{}, L{}, "bt", L{}),
+            Spell.new("Absorb-DEX", L{}, L{}, "bt", L{}),
+            Spell.new("Absorb-STR", L{}, L{}, "bt", L{}),
+            Spell.new("Absorb-VIT", L{}, L{}, "bt", L{}),
+            Buff.new("Endark", L{}, L{}, nil, L{})
         },
         PullSettings = {
             Distance = 20,
             Abilities = L{
-                Spell.new("Absorb-VIT", L{}, L{}, nil, L{}),
-                Spell.new("Absorb-DEX", L{}, L{}, nil, L{}),
-                Spell.new("Absorb-STR", L{}, L{}, nil, L{})
+                Spell.new("Fire", L{}, L{}, nil, L{})
             },
             Targets = L{
                 "Locus Ghost Crab",

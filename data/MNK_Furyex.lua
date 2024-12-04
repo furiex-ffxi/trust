@@ -1,17 +1,22 @@
 -- Settings file for MNK
 return {
-    Version = 1,
+    Migrations = L{
+        "Migration_v6",
+        "Migration_v8",
+        "Migration_v10",
+        "UpdateDefaultGambitsMigration"
+    },
     Default = {
         SelfBuffs = L{
 
         },
         GambitSettings = {
             Default = L{
-                Gambit.new("Self", L{MeleeAccuracyCondition.new(75, "<=")}, JobAbility.new("Focus", L{}), "Self"),
-                Gambit.new("Self", L{MaxHitPointsPercentCondition.new(25)}, JobAbility.new("Chakra", L{}, L{}), "Self")
+                Gambit.new("Self", L{MeleeAccuracyCondition.new(75, "<=")}, JobAbility.new("Focus", L{}), "Self", L{}),
+                Gambit.new("Self", L{MaxHitPointsPercentCondition.new(25)}, JobAbility.new("Chakra", L{}, L{}), "Self", L{})
             },
             Gambits = L{
-
+                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("MNK")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
             }
         },
         JobAbilities = L{
@@ -25,12 +30,17 @@ return {
         Debuffs = L{
 
         },
-        AutoFood = "Grape Daifuku",
         PullSettings = {
+            Distance = 20,
             Abilities = L{
                 JobAbility.new("Chi Blast", L{}, L{})
             },
-            Distance = 20
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle"
+            }
         }
-    }
+    },
+    Version = 1
 }

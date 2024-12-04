@@ -10,6 +10,11 @@
             <targets>Warder of Prudence,Eschan Hpemde,Warder of Hope,Eschan Phuabo,Warder of Love,Eschan Yovra,Warder of Justice,Eschan Xzomit,Warder of Faith,Eschan Euvhi,Armet Beetle,Locus Colibri,Locus Dire Bat,Locus Ghost Crab,Locus Camelopard,Apex Dragonfly,Locus Dragonfly,Apex Blazer Elytra</targets>
             <trusts>Sylvie (UC),Cherukiki,Koru-Moru,Qultada,Brygid</trusts>
         </battle>
+        <black_mage_widget>
+            <visible>false</visible>
+            <x>4</x>
+            <y>244</y>
+        </black_mage_widget>
         <chat>
             <ipc_enabled>true</ipc_enabled>
         </chat>
@@ -69,6 +74,16 @@
         <remote_commands>
             <whitelist>Furyex,Mailman,Lolababe,Cleobabe</whitelist>
         </remote_commands>
+        <rune_fencer_widget>
+            <visible>false</visible>
+            <x>4</x>
+            <y>244</y>
+        </rune_fencer_widget>
+        <scholar_widget>
+            <visible>false</visible>
+            <x>4</x>
+            <y>244</y>
+        </scholar_widget>
         <settings_widget>
             <visible>true</visible>
             <x>8</x>
@@ -105,6 +120,11 @@
                 </trust>
             </widgets>
         </shortcuts>
+        <sounds>
+            <sound_effects>
+                <disabled>true</disabled>
+            </sound_effects>
+        </sounds>
         <target_widget>
             <detailed>true</detailed>
             <visible>true</visible>
@@ -116,6 +136,9 @@
             <x>1670</x>
             <y>46</y>
         </trust_widget>
+        <updater>
+            <manifest_url>https://raw.githubusercontent.com/cyritegamestudios/trust/main/manifest.json</manifest_url>
+        </updater>
         <verbose>true</verbose>
         <version>1.0.0</version>
     </global>
@@ -127,6 +150,11 @@
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
+        <sounds>
+            <sound_effects>
+                <disabled>true</disabled>
+            </sound_effects>
+        </sounds>
         <version>10.5.9</version>
     </cleobabe>
     <furyex>
@@ -137,6 +165,9 @@
         <flags>
             <show_death_warning>false</show_death_warning>
         </flags>
+        <party_widget>
+            <visible>false</visible>
+        </party_widget>
         <version>10.5.9</version>
     </furyex>
     <lolababe>

@@ -158,9 +158,9 @@ return {
             Songs = L{
                 Spell.new("Honor March", L{"Marcato"}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
                 Spell.new("Blade Madrigal", L{}, L{"WAR", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "DRK"}, nil, L{}),
-                Spell.new("Valor Minuet V", L{}, L{"WAR", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "DRK"}, nil, L{}),
-                Spell.new("Valor Minuet IV", L{}, L{"WAR", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "DRK"}, nil, L{}),
-                Spell.new("Aria of Passion", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+                Spell.new("Valor Minuet V", L{}, L{"PUP", "DRK", "SMN", "RDM", "BLU", "SAM", "BST", "WAR", "MNK", "NIN", "BRD", "THF", "RNG", "COR", "DRG", "DNC"}, nil, L{}),
+                Spell.new("Valor Minuet IV", L{}, L{"DNC", "PUP", "DRG", "THF", "BLU", "NIN", "RDM", "WAR", "MNK", "BST", "SAM", "RNG", "SMN", "DRK", "BRD", "COR"}, nil, L{}),
+                Spell.new("Aria of Passion", L{}, L{"SAM", "NIN", "DRK", "WAR", "SMN", "BST", "BLU", "RNG", "DRG", "SCH", "COR", "THF", "DNC", "GEO", "RUN", "PLD", "RDM", "BRD", "MNK", "PUP"}, nil, L{})
             },
             PianissimoSongs = L{
                 Spell.new("Mage's Ballad III", L{"Pianissimo"}, L{"BLM", "SMN", "WHM", "SCH", "PLD"}, nil, L{}),
@@ -298,7 +298,7 @@ return {
                 Spell.new("Honor March", L{"Marcato"}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "COR", "RNG", "WHM"}, nil, L{}),
                 Spell.new("Blade Madrigal", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "COR", "RNG"}, nil, L{}),
                 Spell.new("Valor Minuet V", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "COR", "RNG"}, nil, L{}),
-                Spell.new("Valor Minuet IV", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "COR", "RNG"}, nil, L{}),
+                Spell.new("Valor Minuet IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
                 Spell.new("Aria of Passion", L{}, L{"WAR", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "RUN", "MNK", "THF", "BST", "NIN", "DNC", "DRK", "COR", "RNG"}, nil, L{})
             },
             PianissimoSongs = L{

@@ -2,32 +2,11 @@
 return {
     Migrations = L{
         "Migration_v6",
+        "Migration_v8",
         "Migration_v10",
         "UpdateDefaultGambitsMigration"
     },
-    Default = {
-        PullSettings = {
-            Distance = 20,
-            Abilities = L{
-                JobAbility.new("Provoke", L{}, L{})
-            },
-            Targets = L{
-                "Locus Ghost Crab",
-                "Locus Dire Bat",
-                "Locus Armet Beetle"
-            }
-        },
-        Debuffs = L{
-
-        },
-        GambitSettings = {
-            Default = L{
-
-            },
-            Gambits = L{
-                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("WAR")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
-            }
-        },
+    Melee = {
         JobAbilities = L{
             JobAbility.new("Berserk", L{InBattleCondition.new()}, L{}),
             JobAbility.new("Aggressor", L{InBattleCondition.new()}, L{}),
@@ -35,20 +14,6 @@ return {
             JobAbility.new("Restraint", L{InBattleCondition.new()}, L{}),
             JobAbility.new("Blood Rage", L{InBattleCondition.new()}, L{}),
             JobAbility.new("Retaliation", L{InBattleCondition.new()}, L{})
-        }
-    },
-    Melee = {
-        PullSettings = {
-            Distance = 20,
-            Abilities = L{
-                JobAbility.new("Provoke", L{}, L{}),
-                JobAbility.new("Tomahawk", L{}, L{})
-            },
-            Targets = L{
-                "Locus Ghost Crab",
-                "Locus Dire Bat",
-                "Locus Armet Beetle"
-            }
         },
         Debuffs = L{
 
@@ -63,6 +28,21 @@ return {
                 Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("WAR")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
             }
         },
+        PullSettings = {
+            Distance = 20,
+            Abilities = L{
+                JobAbility.new("Provoke", L{}, L{}),
+                JobAbility.new("Tomahawk", L{}, L{})
+            },
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle"
+            }
+        }
+    },
+    Version = 1,
+    Default = {
         JobAbilities = L{
             JobAbility.new("Berserk", L{InBattleCondition.new()}, L{}),
             JobAbility.new("Aggressor", L{InBattleCondition.new()}, L{}),
@@ -70,7 +50,28 @@ return {
             JobAbility.new("Restraint", L{InBattleCondition.new()}, L{}),
             JobAbility.new("Blood Rage", L{InBattleCondition.new()}, L{}),
             JobAbility.new("Retaliation", L{InBattleCondition.new()}, L{})
+        },
+        Debuffs = L{
+
+        },
+        GambitSettings = {
+            Default = L{
+
+            },
+            Gambits = L{
+                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("WAR")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
+            }
+        },
+        PullSettings = {
+            Distance = 20,
+            Abilities = L{
+                JobAbility.new("Provoke", L{}, L{})
+            },
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle"
+            }
         }
-    },
-    Version = 1
+    }
 }
