@@ -36,7 +36,6 @@ return {
 
         },
         JobAbilities = L{
-            JobAbility.new('Velocity Shot', L{InBattleCondition.new()}),
         }
     }
 }

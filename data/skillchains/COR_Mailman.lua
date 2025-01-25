@@ -2,13 +2,8 @@
 return {
     Version = 1,
     Default = {
-        Skillchain = L{
-            WeaponSkill.new("Leaden Salute", L{MinTacticalPointsCondition.new(1000)}),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto()
+        JobAbilities = L{
+
         },
         Skills = L{
             CombatSkillSettings.new("Marksmanship", L{}, "Leaden Salute"),
@@ -18,8 +13,13 @@ return {
         Blacklist = L{
 
         },
-        JobAbilities = L{
-
+        Skillchain = L{
+            WeaponSkill.new("Leaden Salute", L{MinTacticalPointsCondition.new(1000)}),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto()
         }
     }
 }

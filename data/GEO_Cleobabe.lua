@@ -1,10 +1,10 @@
 -- Settings file for GEO
 return {
     Sortie = {
-        SelfBuffs = L{
+        Debuffs = L{
 
         },
-        Debuffs = L{
+        SelfBuffs = L{
 
         },
         GambitSettings = {
@@ -28,9 +28,7 @@ return {
             JobAbilities = L{
                 JobAbility.new("Theurgic Focus", L{}, L{})
             },
-            Blacklist = L{
-
-            },
+            MinManaPointsPercent = 40,
             Spells = L{
                 Spell.new("Blizzard V", L{}, L{}, nil, L{}),
                 Spell.new("Blizzard IV", L{}, L{}, nil, L{}),
@@ -40,7 +38,9 @@ return {
                 Spell.new("Aera III", L{}, L{}, nil, L{})
             },
             Delay = 4,
-            MinManaPointsPercent = 40
+            Blacklist = L{
+
+            }
         },
         Geomancy = {
             Indi = Spell.new("Indi-INT", L{}, L{}, "me", L{}),
@@ -59,15 +59,16 @@ return {
         }
     },
     Default = {
-        SelfBuffs = L{
+        Debuffs = L{
 
         },
-        Debuffs = L{
+        SelfBuffs = L{
 
         },
         GambitSettings = {
             Gambits = L{
-                Gambit.new("Enemy", L{MaxManaPointsPercentCondition.new(40), InBattleCondition.new()}, Spell.new("Aspir III", L{}, L{}, nil, L{}), "Self", L{}),
+                Gambit.new("Enemy", L{MaxManaPointsPercentCondition.new(40)}, Spell.new("Aspir III", L{}, L{}, nil, L{}), "Self", L{}),
+                Gambit.new("Enemy", L{MaxManaPointsPercentCondition.new(40)}, Spell.new("Aspir II", L{}, L{}, nil, L{}), "Self", L{}),
                 Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("GEO")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
             }
         },
@@ -75,16 +76,14 @@ return {
 
         },
         PartyBuffs = L{
-            Spell.new("Indi-Precision", L{"Entrust"}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+            Spell.new("Indi-STR", L{"Entrust"}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
         },
         NukeSettings = {
             MinNumMobsToCleave = 2,
             JobAbilities = L{
                 JobAbility.new("Theurgic Focus", L{}, L{})
             },
-            Blacklist = L{
-
-            },
+            MinManaPointsPercent = 40,
             Spells = L{
                 Spell.new("Blizzard V", L{}, L{}, nil, L{}),
                 Spell.new("Blizzard IV", L{}, L{}, nil, L{}),
@@ -94,7 +93,9 @@ return {
                 Spell.new("Aera III", L{}, L{}, nil, L{})
             },
             Delay = 4,
-            MinManaPointsPercent = 40
+            Blacklist = L{
+
+            }
         },
         Geomancy = {
             Indi = Spell.new("Indi-Fury", L{}, L{}, nil, L{}),
@@ -118,12 +119,11 @@ return {
         "Migration_v10",
         "Migration_v6"
     },
-    Version = 2,
     Odin = {
-        SelfBuffs = L{
+        Debuffs = L{
 
         },
-        Debuffs = L{
+        SelfBuffs = L{
 
         },
         GambitSettings = {
@@ -142,9 +142,7 @@ return {
             JobAbilities = L{
                 JobAbility.new("Theurgic Focus", L{}, L{})
             },
-            Blacklist = L{
-
-            },
+            MinManaPointsPercent = 40,
             Spells = L{
                 Spell.new("Blizzard V", L{"Theurgic Focus"}, L{}, nil, L{}),
                 Spell.new("Blizzard IV", L{}, L{}, nil, L{}),
@@ -154,7 +152,9 @@ return {
                 Spell.new("Aera III", L{}, L{}, nil, L{})
             },
             Delay = 4,
-            MinManaPointsPercent = 40
+            Blacklist = L{
+
+            }
         },
         Geomancy = {
             Indi = Spell.new("Indi-Barrier", L{}, L{}, "me", L{}),
@@ -171,5 +171,6 @@ return {
                 "Locus Armet Beetle"
             }
         }
-    }
+    },
+    Version = 2
 }

@@ -1,6 +1,21 @@
 -- Settings file for RDM
 return {
     Subjob = {
+        GambitSettings = {
+            Default = L{
+                Gambit.new("Self", L{MaxManaPointsPercentCondition.new(20), ModeCondition.new("AutoConvertMode", "Auto")}, JobAbility.new("Convert", L{}, L{}), "Self", L{})
+            },
+            Gambits = L{
+                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("RDM")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
+            }
+        },
+        Debuffs = L{
+            Debuff.new("Dia", L{}, L{}),
+            Debuff.new("Distract", L{}, L{}),
+            Debuff.new("Slow", L{}, L{}),
+            Debuff.new("Paralyze", L{}, L{}),
+            Debuff.new("Frazzle", L{}, L{})
+        },
         CureSettings = {
             Thresholds = {
                 ["Cure IV"] = 700,
@@ -10,21 +25,6 @@ return {
                 ["Cure III"] = 400
             },
             Delay = 2
-        },
-        Debuffs = L{
-            Debuff.new("Dia", L{}, L{}),
-            Debuff.new("Distract", L{}, L{}),
-            Debuff.new("Slow", L{}, L{}),
-            Debuff.new("Paralyze", L{}, L{}),
-            Debuff.new("Frazzle", L{}, L{})
-        },
-        GambitSettings = {
-            Default = L{
-                Gambit.new("Self", L{MaxManaPointsPercentCondition.new(20), ModeCondition.new("AutoConvertMode", "Auto")}, JobAbility.new("Convert", L{}, L{}), "Self", L{})
-            },
-            Gambits = L{
-                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("RDM")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
-            }
         },
         JobAbilities = L{
             JobAbility.new("Composure", L{}, L{})
@@ -37,9 +37,7 @@ return {
             JobAbilities = L{
 
             },
-            Blacklist = L{
-
-            },
+            MinManaPointsPercent = 40,
             Spells = L{
                 Spell.new("Thunder V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
                 Spell.new("Thunder IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
@@ -61,7 +59,9 @@ return {
                 Spell.new("Stone III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
             },
             Delay = 4,
-            MinManaPointsPercent = 40
+            Blacklist = L{
+
+            }
         },
         SelfBuffs = L{
             Buff.new("Refresh", L{}, L{}, nil, L{}),
@@ -80,15 +80,13 @@ return {
         }
     },
     Odin = {
-        CureSettings = {
-            Thresholds = {
-                ["Cure IV"] = 700,
-                Emergency = 35,
-                Default = 78,
-                ["Cure II"] = 0,
-                ["Cure III"] = 400
+        GambitSettings = {
+            Default = L{
+                Gambit.new("Self", L{MaxManaPointsPercentCondition.new(20), ModeCondition.new("AutoConvertMode", "Auto")}, JobAbility.new("Convert", L{}, L{}), "Self", L{})
             },
-            Delay = 2
+            Gambits = L{
+                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("RDM")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
+            }
         },
         Debuffs = L{
             Debuff.new("Blind", L{}, L{}),
@@ -99,13 +97,15 @@ return {
             Debuff.new("Silence", L{}, L{}),
             Debuff.new("Slow", L{}, L{})
         },
-        GambitSettings = {
-            Default = L{
-                Gambit.new("Self", L{MaxManaPointsPercentCondition.new(20), ModeCondition.new("AutoConvertMode", "Auto")}, JobAbility.new("Convert", L{}, L{}), "Self", L{})
+        CureSettings = {
+            Thresholds = {
+                ["Cure IV"] = 700,
+                Emergency = 35,
+                Default = 78,
+                ["Cure II"] = 0,
+                ["Cure III"] = 400
             },
-            Gambits = L{
-                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("RDM")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
-            }
+            Delay = 2
         },
         JobAbilities = L{
             JobAbility.new("Composure", L{}, L{})
@@ -119,9 +119,7 @@ return {
             JobAbilities = L{
 
             },
-            Blacklist = L{
-
-            },
+            MinManaPointsPercent = 40,
             Spells = L{
                 Spell.new("Thunder V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
                 Spell.new("Thunder IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
@@ -143,7 +141,9 @@ return {
                 Spell.new("Stone III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
             },
             Delay = 4,
-            MinManaPointsPercent = 40
+            Blacklist = L{
+
+            }
         },
         SelfBuffs = L{
             Buff.new("Aquaveil", L{}, L{}, nil, L{}),
@@ -173,22 +173,7 @@ return {
         "Migration_v8",
         "Migration_v7"
     },
-    Version = 2,
-    Default = {
-        CureSettings = {
-            Thresholds = {
-                ["Cure IV"] = 800,
-                Emergency = 35,
-                Default = 78,
-                ["Cure II"] = 0,
-                ["Cure III"] = 400
-            },
-            Delay = 2
-        },
-        Debuffs = L{
-            Debuff.new("Dia", L{}, L{}),
-            Debuff.new("Distract", L{}, L{})
-        },
+    Melee = {
         GambitSettings = {
             Default = L{
                 Gambit.new("Self", L{MaxManaPointsPercentCondition.new(20), ModeCondition.new("AutoConvertMode", "Auto")}, JobAbility.new("Convert", L{}, L{}), "Self", L{})
@@ -197,66 +182,10 @@ return {
                 Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("RDM")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
             }
         },
-        JobAbilities = L{
-            JobAbility.new("Composure", L{}, L{})
+        Debuffs = L{
+            Debuff.new("Dia", L{}, L{}),
+            Debuff.new("Distract", L{}, L{})
         },
-        PartyBuffs = L{
-            Buff.new("Haste", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-            Buff.new("Refresh", L{}, L{"WHM", "RUN", "RDM", "SMN", "BLU", "SCH", "BLM", "PLD", "GEO"}, nil, L{})
-        },
-        NukeSettings = {
-            MinNumMobsToCleave = 2,
-            JobAbilities = L{
-
-            },
-            Blacklist = L{
-
-            },
-            Spells = L{
-                Spell.new("Thunder V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-                Spell.new("Thunder IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-                Spell.new("Thunder III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-                Spell.new("Blizzard V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-                Spell.new("Blizzard IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-                Spell.new("Blizzard III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-                Spell.new("Fire V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-                Spell.new("Fire IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-                Spell.new("Fire III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-                Spell.new("Aero V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-                Spell.new("Aero IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-                Spell.new("Aero III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-                Spell.new("Water V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-                Spell.new("Water IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-                Spell.new("Water III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-                Spell.new("Stone V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-                Spell.new("Stone IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-                Spell.new("Stone III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
-            },
-            Delay = 4,
-            MinManaPointsPercent = 40
-        },
-        SelfBuffs = L{
-            Buff.new("Gain-STR", L{}, L{}, nil, L{}),
-            Buff.new("Haste", L{}, L{}, nil, L{}),
-            Spell.new("Phalanx", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-            Buff.new("Refresh", L{}, L{}, nil, L{}),
-            Buff.new("Temper", L{}, L{}, nil, L{})
-        },
-        PullSettings = {
-            Distance = 21,
-            Abilities = L{
-                Spell.new("Dia III", L{}, L{}, nil, L{})
-            },
-            Targets = L{
-                "Squib",
-                "Locus Dire Bat",
-                "Heqet",
-                "Locus Ghost Crab",
-                "Locus Armet Beetle"
-            }
-        }
-    },
-    Melee = {
         CureSettings = {
             Thresholds = {
                 ["Cure IV"] = 1000,
@@ -266,18 +195,6 @@ return {
                 ["Cure III"] = 700
             },
             Delay = 2
-        },
-        Debuffs = L{
-            Debuff.new("Dia", L{}, L{}),
-            Debuff.new("Distract", L{}, L{})
-        },
-        GambitSettings = {
-            Default = L{
-                Gambit.new("Self", L{MaxManaPointsPercentCondition.new(20), ModeCondition.new("AutoConvertMode", "Auto")}, JobAbility.new("Convert", L{}, L{}), "Self", L{})
-            },
-            Gambits = L{
-                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("RDM")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
-            }
         },
         JobAbilities = L{
             JobAbility.new("Composure", L{}, L{})
@@ -291,9 +208,7 @@ return {
             JobAbilities = L{
 
             },
-            Blacklist = L{
-
-            },
+            MinManaPointsPercent = 40,
             Spells = L{
                 Spell.new("Thunder V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
                 Spell.new("Thunder IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
@@ -315,7 +230,9 @@ return {
                 Spell.new("Stone III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
             },
             Delay = 4,
-            MinManaPointsPercent = 40
+            Blacklist = L{
+
+            }
         },
         SelfBuffs = L{
             Buff.new("Enblizzard", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(1, ">=")}),
@@ -339,5 +256,86 @@ return {
                 "Locus Armet Beetle"
             }
         }
-    }
+    },
+    Default = {
+        GambitSettings = {
+            Default = L{
+                Gambit.new("Self", L{MaxManaPointsPercentCondition.new(20), ModeCondition.new("AutoConvertMode", "Auto")}, JobAbility.new("Convert", L{}, L{}), "Self", L{})
+            },
+            Gambits = L{
+                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("RDM")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
+            }
+        },
+        Debuffs = L{
+            Debuff.new("Dia", L{}, L{}),
+            Debuff.new("Distract", L{}, L{})
+        },
+        CureSettings = {
+            Thresholds = {
+                ["Cure IV"] = 800,
+                Emergency = 35,
+                Default = 78,
+                ["Cure II"] = 0,
+                ["Cure III"] = 400
+            },
+            Delay = 2
+        },
+        JobAbilities = L{
+            JobAbility.new("Composure", L{}, L{})
+        },
+        PartyBuffs = L{
+            Buff.new("Haste", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+            Spell.new("Phalanx II", L{}, L{"PLD", "RUN"}, nil, L{}),
+            Buff.new("Refresh", L{}, L{"SMN", "RDM", "RUN", "DRK", "GEO", "PLD", "WHM", "BLU", "BLM"}, nil, L{})
+        },
+        NukeSettings = {
+            MinNumMobsToCleave = 2,
+            JobAbilities = L{
+
+            },
+            MinManaPointsPercent = 40,
+            Spells = L{
+                Spell.new("Thunder V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Thunder IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Thunder III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Blizzard V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Blizzard IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Blizzard III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Fire V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Fire IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Fire III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Aero V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Aero IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Aero III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Water V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Water IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Water III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Stone V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Stone IV", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
+                Spell.new("Stone III", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+            },
+            Delay = 4,
+            Blacklist = L{
+
+            }
+        },
+        SelfBuffs = L{
+            Buff.new("Gain-STR", L{}, L{}, nil, L{}),
+            Buff.new("Haste", L{}, L{}, nil, L{}),
+            Buff.new("Refresh", L{}, L{}, nil, L{}),
+            Buff.new("Temper", L{}, L{}, nil, L{})
+        },
+        PullSettings = {
+            Distance = 21,
+            Abilities = L{
+                Spell.new("Dia II", L{}, L{}, nil, L{})
+            },
+            Targets = L{
+                "Locus Dire Bat",
+                "Locus Ghost Crab",
+                "Locus Armet Beetle"
+            }
+        }
+    },
+    Version = 2
 }

@@ -1,7 +1,7 @@
 -- Weapon skill settings file for RUN
 return {
     Sortie = {
-        JobAbilities = L{
+        Blacklist = L{
 
         },
         Skills = L{
@@ -19,16 +19,16 @@ return {
             SkillchainAbility.auto(),
             SkillchainAbility.auto()
         },
-        Blacklist = L{
+        JobAbilities = L{
 
         }
     },
     Default = {
-        JobAbilities = L{
+        Blacklist = L{
 
         },
         Skills = L{
-            CombatSkillSettings.new("Great Sword", L{}, "Dimidiation"),
+            CombatSkillSettings.new("Great Sword", L{}, "Hard Slash"),
             CombatSkillSettings.new("Sword", L{}, ""),
             CombatSkillSettings.new("Great Axe", L{}, "Full Break"),
             CombatSkillSettings.new("Axe", L{}, "Ruinator"),
@@ -42,7 +42,7 @@ return {
             SkillchainAbility.auto(),
             SkillchainAbility.auto()
         },
-        Blacklist = L{
+        JobAbilities = L{
 
         }
     },

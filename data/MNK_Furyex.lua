@@ -20,8 +20,8 @@ return {
             }
         },
         JobAbilities = L{
-            JobAbility.new("Impetus", L{InBattleCondition.new()}),
-            JobAbility.new("Footwork", L{InBattleCondition.new()}),
+            JobAbility.new("Impetus", L{InBattleCondition.new(), NotCondition.new(L{HasBuffCondition.new("Footwork")})}),
+            JobAbility.new("Footwork", L{InBattleCondition.new(), NotCondition.new(L{HasBuffCondition.new("Impetus")})}),
             JobAbility.new("Mantra", L{InBattleCondition.new()})
         },
         PartyBuffs = L{
@@ -36,8 +36,10 @@ return {
                 JobAbility.new("Chi Blast", L{}, L{})
             },
             Targets = L{
-                "Locus Ghost Crab",
                 "Locus Dire Bat",
+                "Goobbue Gardener",
+                "Keeper of Halidom",
+                "Locus Ghost Crab",
                 "Locus Armet Beetle"
             }
         }

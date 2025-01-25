@@ -12,8 +12,8 @@ return {
                 Emergency = 40,
                 Default = 78,
                 ["Cure III"] = 400,
-                ["Curaga III"] = 600,
                 ["Cure II"] = 0,
+                ["Curaga III"] = 600,
                 ["Curaga II"] = 400,
                 Curaga = 0
             },
@@ -97,8 +97,8 @@ return {
                 Emergency = 40,
                 Default = 78,
                 ["Cure III"] = 700,
-                ["Curaga III"] = 1000,
                 ["Cure II"] = 0,
+                ["Curaga III"] = 1000,
                 ["Curaga II"] = 600,
                 Curaga = 0
             },
@@ -194,8 +194,8 @@ return {
                 Emergency = 40,
                 Default = 78,
                 ["Cure III"] = 700,
-                ["Curaga III"] = 1000,
                 ["Cure II"] = 0,
+                ["Curaga III"] = 1000,
                 ["Curaga II"] = 600,
                 Curaga = 0
             },
@@ -284,17 +284,18 @@ return {
             JobAbility.new("Afflatus Solace", L{}, L{IdleCondition.new()})
         },
         PartyBuffs = L{
+            Buff.new("Haste", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
             Buff.new("Protect", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
             Buff.new("Shell", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
         },
         CureSettings = {
             Thresholds = {
-                ["Cure IV"] = 1300,
+                ["Cure IV"] = 800,
                 Emergency = 40,
                 Default = 78,
-                ["Cure III"] = 700,
-                ["Curaga III"] = 1000,
+                ["Cure III"] = 400,
                 ["Cure II"] = 0,
+                ["Curaga III"] = 600,
                 ["Curaga II"] = 600,
                 Curaga = 0
             },
@@ -345,9 +346,9 @@ return {
             }
         },
         SelfBuffs = L{
-            Buff.new("Aquaveil", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(1, ">=")}),
             Buff.new("Auspice", L{}, L{}, nil, L{}),
             Buff.new("Boost-STR", L{}, L{}, nil, L{}),
+            Buff.new("Haste", L{}, L{}, nil, L{}),
             Buff.new("Protectra", L{}, L{}, nil, L{}),
             Buff.new("Regen", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(1, ">=")}),
             Buff.new("Reraise", L{}, L{}, nil, L{}),

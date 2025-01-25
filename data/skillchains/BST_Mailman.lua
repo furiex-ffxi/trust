@@ -2,14 +2,14 @@
 return {
     Version = 1,
     Default = {
-        JobAbilities = L{
+        Blacklist = L{
 
         },
         Skills = L{
-            ReadyMoveSkillSettings.new(L{}, ""),
+            ReadyMoveSkillSettings.new(L{}, "Burning Strike"),
             CombatSkillSettings.new("Dagger", L{}, ""),
-            CombatSkillSettings.new("Sword", L{}, ""),
-            CombatSkillSettings.new("Axe", L{}, ""),
+            CombatSkillSettings.new("Sword", L{}, "Flat Blade"),
+            CombatSkillSettings.new("Axe", L{}, "Gale Axe"),
             CombatSkillSettings.new("Scythe", L{}, ""),
             CombatSkillSettings.new("Club", L{}, "")
         },
@@ -21,7 +21,7 @@ return {
             SkillchainAbility.auto(),
             SkillchainAbility.auto()
         },
-        Blacklist = L{
+        JobAbilities = L{
 
         }
     }

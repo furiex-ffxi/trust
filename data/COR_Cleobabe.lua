@@ -1,8 +1,16 @@
 -- Settings file for COR
 return {
     Fighters = {
-        Shooter = {
-            Delay = 1.5
+        PullSettings = {
+            Distance = 20,
+            Abilities = L{
+                RangedAttack.new(L{MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20)})
+            },
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle"
+            }
         },
         SelfBuffs = L{
 
@@ -19,14 +27,20 @@ return {
                 Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("COR")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
             }
         },
-        Debuffs = L{
-
-        },
+        Roll2 = Roll.new("Fighter's Roll", false),
         PartyBuffs = L{
 
         },
         Roll1 = Roll.new("Chaos Roll", true),
-        Roll2 = Roll.new("Fighter's Roll", false),
+        Debuffs = L{
+
+        },
+        Shooter = {
+            Delay = 1.5
+        }
+    },
+    Version = 2,
+    Ep = {
         PullSettings = {
             Distance = 20,
             Abilities = L{
@@ -37,12 +51,6 @@ return {
                 "Locus Dire Bat",
                 "Locus Armet Beetle"
             }
-        }
-    },
-    Version = 2,
-    Ep = {
-        Shooter = {
-            Delay = 1.5
         },
         SelfBuffs = L{
 
@@ -59,24 +67,16 @@ return {
                 Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("COR")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
             }
         },
-        Debuffs = L{
-
-        },
+        Roll2 = Roll.new("Samurai Roll", false),
         PartyBuffs = L{
 
         },
         Roll1 = Roll.new("Corsair's Roll", true),
-        Roll2 = Roll.new("Samurai Roll", false),
-        PullSettings = {
-            Distance = 20,
-            Abilities = L{
-                RangedAttack.new(L{MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20)})
-            },
-            Targets = L{
-                "Locus Ghost Crab",
-                "Locus Dire Bat",
-                "Locus Armet Beetle"
-            }
+        Debuffs = L{
+
+        },
+        Shooter = {
+            Delay = 1.5
         }
     },
     Migrations = L{
@@ -86,8 +86,16 @@ return {
         "UpdateDefaultGambitsMigration"
     },
     Default = {
-        Shooter = {
-            Delay = 1.5
+        PullSettings = {
+            Distance = 20,
+            Abilities = L{
+                RangedAttack.new(L{MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20)})
+            },
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle"
+            }
         },
         SelfBuffs = L{
 
@@ -104,24 +112,16 @@ return {
                 Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("COR")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
             }
         },
-        Debuffs = L{
-
-        },
+        Roll2 = Roll.new("Miser's Roll", false),
         PartyBuffs = L{
 
         },
-        Roll1 = Roll.new("Chaos Roll", true),
-        Roll2 = Roll.new("Samurai Roll", false),
-        PullSettings = {
-            Distance = 20,
-            Abilities = L{
-                RangedAttack.new(L{MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20)})
-            },
-            Targets = L{
-                "Locus Ghost Crab",
-                "Locus Dire Bat",
-                "Locus Armet Beetle"
-            }
+        Roll1 = Roll.new("Fighter's Roll", true),
+        Debuffs = L{
+
+        },
+        Shooter = {
+            Delay = 1.5
         }
     }
 }

@@ -7,16 +7,15 @@ return {
         "Migration_v6"
     },
     Default = {
-        SelfBuffs = L{
+        Debuffs = L{
 
         },
-        Debuffs = L{
+        SelfBuffs = L{
 
         },
         GambitSettings = {
             Gambits = L{
-                Gambit.new("Enemy", L{MaxManaPointsPercentCondition.new(80), InBattleCondition.new()}, Spell.new("Aspir III", L{}, L{}, nil, L{}), "Self", L{}),
-                Gambit.new("Enemy", L{MaxManaPointsPercentCondition.new(80), InBattleCondition.new()}, Spell.new("Aspir II", L{}, L{}, nil, L{}), "Self", L{}),
+                Gambit.new("Enemy", L{MaxManaPointsPercentCondition.new(40), InBattleCondition.new()}, Spell.new("Aspir III", L{}, L{}, nil, L{}), "Self", L{}),
                 Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("GEO")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
             }
         },
@@ -31,16 +30,16 @@ return {
             JobAbilities = L{
                 JobAbility.new("Theurgic Focus", L{}, L{})
             },
-            Blacklist = L{
-
-            },
+            MinManaPointsPercent = 40,
             Spells = L{
                 Spell.new("Fire V", L{}, L{}, nil, L{}),
                 Spell.new("Fire IV", L{}, L{}, nil, L{}),
                 Spell.new("Fire III", L{}, L{}, nil, L{})
             },
             Delay = 4,
-            MinManaPointsPercent = 40
+            Blacklist = L{
+
+            }
         },
         Geomancy = {
             Indi = Spell.new("Indi-Fury", L{}, L{}, nil, L{}),

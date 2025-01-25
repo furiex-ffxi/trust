@@ -3,18 +3,14 @@ return {
     ["Sortie"]={
         ["maintrustsettingsmode"]="Melee"
     }, 
-    ["Magic"]={
-        ["maintrustsettingsmode"]="Magic", 
-        ["autostatusremovalmode"]="Auto", 
-        ["autoengagemode"]="Mirror"
-    }, 
     ["Ep"]={
         ["autogambitmode"]="Auto", 
         ["autobuffmode"]="Auto", 
         ["autoclarioncallmode"]="Auto", 
         ["autotargetmode"]="Party", 
         ["autocampmode"]="Off", 
-        ["combatmode"]="Melee"
+        ["combatmode"]="Melee",
+        ["autopianissimomode"]="Merged",
     }, 
     ["Default"]={
         ["autobuffmode"]="Off", 

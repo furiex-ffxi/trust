@@ -2,8 +2,13 @@
 return {
     Version = 1,
     Default = {
-        JobAbilities = L{
-
+        Skillchain = L{
+            SkillchainAbility.skip(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto()
         },
         Skills = L{
             CombatSkillSettings.new("Hand-to-Hand", L{}, ""),
@@ -18,13 +23,8 @@ return {
         Blacklist = L{
 
         },
-        Skillchain = L{
-            SkillchainAbility.skip(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto()
+        JobAbilities = L{
+
         }
     }
 }
