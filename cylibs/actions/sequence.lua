@@ -6,6 +6,7 @@
 local Action = require('cylibs/actions/action')
 local SequenceAction = setmetatable({}, {__index = Action })
 SequenceAction.__index = SequenceAction
+SequenceAction.__type = "SequenceAction"
 
 function SequenceAction.new(actions, identifier, allows_partial_failure)
 	local self = setmetatable(Action.new(0, 0, 0), SequenceAction)
@@ -49,6 +50,9 @@ function SequenceAction:destroy()
 end
 
 function SequenceAction:can_perform()
+	if not Action.can_perform(self) then
+		return
+	end
 	if not self.allows_partial_failure then
 		for action in self.queue:it() do
 			if not action:can_perform() then

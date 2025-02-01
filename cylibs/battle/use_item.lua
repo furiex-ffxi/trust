@@ -64,6 +64,13 @@ function UseItem:get_name()
 end
 
 -------
+-- Returns the localized name for the action.
+-- @treturn string Localized name
+function UseItem:get_localized_name()
+    return 'Use Item'
+end
+
+-------
 -- Returns the display name.
 -- @treturn string Display name
 function UseItem:get_display_name()
@@ -112,7 +119,11 @@ end
 -- Return the Action to use this action on a target.
 -- @treturn Action Action to use ability
 function UseItem:to_action(target_index, _)
-    return CommandAction.new(0, 0, 0, '/item \"'..self.item_name..'\" <me>')
+    return BlockAction.new(function()
+        local UseItemCommand = require('cylibs/ui/input/chat/commands/use_item')
+        local command = UseItemCommand.new(self:get_item_name(), windower.ffxi.get_player().id)
+        command:run(true)
+    end, self.__class..'_'..self:get_item_name(), self:get_item_name())
 end
 
 function UseItem:serialize()
@@ -142,6 +153,10 @@ function UseItem:copy()
     end
 
     return _copy(original)
+end
+
+function UseItem:is_valid()
+    return true
 end
 
 function UseItem:__eq(otherItem)

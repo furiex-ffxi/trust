@@ -4,8 +4,9 @@
 -- @name GainDebuffCondition
 
 local buff_util = require('cylibs/util/buff_util')
-local serializer_util = require('cylibs/util/serializer_util')
 local PickerConfigItem = require('ui/settings/editors/config/PickerConfigItem')
+local serializer_util = require('cylibs/util/serializer_util')
+local StatusAilment = require('cylibs/battle/status_ailment')
 
 local Condition = require('cylibs/conditions/condition')
 local GainDebuffCondition = setmetatable({}, { __index = Condition })
@@ -25,25 +26,22 @@ function GainDebuffCondition:is_satisfied(target_index, debuff_name)
 end
 
 function GainDebuffCondition:get_config_items()
-    local all_debuffs = S(buff_util.get_all_debuff_ids():map(function(debuff_id)
-        local debuff = res.buffs[debuff_id]
-        if debuff then
-            return debuff.en
+    local all_debuffs = L(S(L(buff_util.get_all_debuff_ids()):map(function(debuff_id)
+        if res.buffs[debuff_id] then
+            return res.buffs[debuff_id].en
         end
         return nil
-    end):compact_map())
-    all_debuffs = L(all_debuffs)
-    all_debuffs:sort()
-
+    end):compact_map()))
     return L{
         PickerConfigItem.new('debuff_name', self.debuff_name, all_debuffs, function(debuff_name)
-            return debuff_name:gsub("^%l", string.upper)
+            local status_ailment = StatusAilment.new(debuff_name)
+            return status_ailment:get_localized_name()
         end, "Status Ailment")
     }
 end
 
 function GainDebuffCondition:tostring()
-    return "Is now "..res.buffs:with('en', self.debuff_name).enl
+    return "Is now "..i18n.resource_long('buffs', 'en', self.debuff_name)
 end
 
 function GainDebuffCondition.description()

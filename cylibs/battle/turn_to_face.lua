@@ -52,6 +52,13 @@ function TurnToFace:get_name()
 end
 
 -------
+-- Returns the localized name for the action.
+-- @treturn string Localized name
+function TurnToFace:get_localized_name()
+    return 'Turn to Face'
+end
+
+-------
 -- Return the Action to use this action on a target.
 -- @treturn Action Action to use ability
 function TurnToFace:to_action(target_index, _)
@@ -66,6 +73,17 @@ function TurnToFace:serialize()
         return conditions_classes_to_serialize:contains(condition.__class)
     end)
     return "TurnToFace.new(" .. serializer_util.serialize_args(conditions_to_serialize) .. ")"
+end
+
+function TurnToFace:is_valid()
+    return true
+end
+
+function TurnToFace:__eq(otherItem)
+    if otherItem.__type == self.__type then
+        return true
+    end
+    return false
 end
 
 return TurnToFace

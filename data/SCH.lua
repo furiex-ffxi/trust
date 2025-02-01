@@ -2,20 +2,15 @@
 return {
     Version = 2,
     Default = {
-        LightArts = {
-            JobAbilities = L{
-                JobAbility.new('Light Arts', L{}, L{}, nil),
-            },
-            PartyBuffs = L{
-                Spell.new("Adloquium", L{}, L{"WAR", "DRK", "DRG"}, nil, L{})
-            },
-            SelfBuffs = L{
-                Buff.new("Protect", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(1, ">="), MainJobCondition.new("SCH")}),
-                Buff.new("Shell", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(1, ">="), MainJobCondition.new("SCH")}),
-                Buff.new("Regen", L{"Accession", "Perpetuance"}, L{}, nil, L{StrategemCountCondition.new(2, ">="), MainJobCondition.new("SCH")}),
-                Spell.new("Phalanx", L{"Accession", "Perpetuance"}, nil, nil, L{StrategemCountCondition.new(2, ">="), MainJobCondition.new("SCH")}),
-                Buff.new("Aurorastorm", L{}, L{}, nil, L{NotCondition.new(L{MainJobCondition.new("SCH")})}),
-                Spell.new("Aurorastorm II", L{}, L{}, nil, L{}),
+        BuffSettings = {
+            Gambits = L{
+                Gambit.new("Self", L{}, Buff.new("Reraise", L{}, L{}, nil, L{}), "Self", L{"Buffs"}),
+                Gambit.new("Self", L{StrategemCountCondition.new(1, ">="), MainJobCondition.new("SCH")}, Buff.new("Protect", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(1, ">=")}), "Self", L{"Buffs"}),
+                Gambit.new("Self", L{StrategemCountCondition.new(1, ">="), MainJobCondition.new("SCH")}, Buff.new("Shell", L{"Accession"}, L{}, nil, L{StrategemCountCondition.new(1, ">=")}), "Self", L{"Buffs"}),
+                Gambit.new("Self", L{StrategemCountCondition.new(2, ">="), MainJobCondition.new("SCH")}, Buff.new("Regen", L{"Accession", "Perpetuance"}, L{}, nil, L{StrategemCountCondition.new(2, ">=")}), "Self", L{"Buffs"}),
+                Gambit.new("Self", L{StrategemCountCondition.new(1, ">="), HasBuffsCondition.new(L{ 'Dark Arts', 'Addendum: Black' }, 1)}, Spell.new("Klimaform", L{}, L{}, nil, L{}), "Self", L{"Buffs"}),
+                Gambit.new("Self", L{HasBuffsCondition.new(L{ 'Light Arts', 'Addendum: White' }, 1)}, Spell.new("Aurorastorm II", L{}, L{}, nil, L{}), "Self", L{"Buffs"}),
+                Gambit.new("Ally", L{JobCondition.new(L{"BLM", "RDM", "GEO"}), NotCondition.new(L{IsAlterEgoCondition.new()})}, Spell.new("Thunderstorm II", L{}, L{}, nil, L{}), "Ally", L{"Buffs"}),
             }
         },
         StrategemCooldown = 33,
@@ -42,36 +37,50 @@ return {
             MinNumMobsToCleave = 2,
             GearswapCommand = "gs c set MagicBurstMode Single",
             JobAbilities = L{
-                JobAbility.new('Ebullience', L{StrategemCountCondition.new(1, ">=")}),
             },
-            Spells = L{
-                Spell.new('Thunder V'),
-                Spell.new('Thunder IV'),
-                Spell.new('Blizzard V'),
-                Spell.new('Blizzard IV'),
-                Spell.new('Fire V'),
-                Spell.new('Fire IV'),
-                Spell.new('Aero V'),
-                Spell.new('Aero IV'),
-                Spell.new('Water V'),
-                Spell.new('Water IV'),
-                Spell.new('Stone V'),
-                Spell.new('Stone IV'),
+            Gambits = L{
+                Gambit.new("Enemy", L{}, Spell.new("Thunder V", L{"Ebullience"}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Thunder IV", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Blizzard V", L{"Ebullience"}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Blizzard IV", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Fire V", L{"Ebullience"}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Fire IV", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Aero V", L{"Ebullience"}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Aero IV", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Water V", L{"Ebullience"}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Water IV", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Stone V", L{"Ebullience"}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Stone IV", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Thunder III", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Blizzard III", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Fire III", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Aero III", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Water III", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Stone III", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
             },
             Blacklist = L{
 
             },
         },
+        DebuffSettings = {
+            Gambits = L{
+                Gambit.new("Enemy", L{}, Debuff.new("Dia", L{}, L{}, L{}), "Enemy", L{"Debuffs"})
+            }
+        },
         PullSettings = {
-            Abilities = L{
-                Spell.new('Stone', L{}, L{})
+            Gambits = L{
+                Gambit.new("Enemy", L{}, Spell.new("Stone", L{}, L{}), "Enemy", L{"Pulling"}),
             },
             Targets = L{
                 "Locus Ghost Crab",
                 "Locus Dire Bat",
                 "Locus Armet Beetle",
             },
-            Distance = 20
+            Distance = 20,
+            MaxNumTargets = 1,
+        },
+        TargetSettings = {
+            Retry = false
         },
         GambitSettings = {
             Default = L{
@@ -80,22 +89,24 @@ return {
                 Gambit.new("Self", L{ModeCondition.new("AutoArtsMode", "DarkArts"), NotCondition.new(L{HasBuffsCondition.new(L{"Dark Arts", "Addendum: Black"}, 1)})}, JobAbility.new("Dark Arts", L{}, L{}), "Self", L{}),
                 Gambit.new("Self", L{ModeCondition.new("AutoArtsMode", "LightArts"), NotCondition.new(L{HasBuffsCondition.new(L{"Light Arts", "Addendum: White"}, 1)})}, JobAbility.new("Light Arts", L{}, L{}), "Self", L{}),
                 Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Addendum: Black")}), HasBuffCondition.new("Dark Arts"), StrategemCountCondition.new(1, ">=")}, JobAbility.new("Addendum: Black", L{}, L{}), "Self", L{}),
-                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Addendum: White")}), HasBuffCondition.new("Light Arts"), StrategemCountCondition.new(1, ">=")}, JobAbility.new("Addendum: White", L{}, L{}), "Self", L{})
+                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Addendum: White")}), HasBuffCondition.new("Light Arts"), StrategemCountCondition.new(1, ">=")}, JobAbility.new("Addendum: White", L{}, L{}), "Self", L{}),
+                Gambit.new("Self", L{CombatSkillsCondition.new(L{"Staff"}), MaxManaPointsPercentCondition.new(40), MinTacticalPointsCondition.new(1000), ModeCondition.new("AutoRestoreManaMode", "Auto")}, WeaponSkill.new("Myrkr", L{MinTacticalPointsCondition.new(1000)}), "Self", L{"Weaponskill"}),
+                Gambit.new("Self", L{CombatSkillsCondition.new(L{"Staff"}), MaxManaPointsPercentCondition.new(40), MinTacticalPointsCondition.new(1000), StatusCondition.new("Engaged", 2, ">="), ModeCondition.new("AutoRestoreManaMode", "Auto")}, WeaponSkill.new("Spirit Taker", L{MinTacticalPointsCondition.new(1000)}), "Self", L{"Weaponskill"})
             },
             Gambits = L{
-                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("SCH")}, UseItem.new("Tropical Crepe", L{ItemCountCondition.new("Tropical Crepe", 1, ">=")}), "Self", L{"food"})
+                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("SCH")}, UseItem.new("Tropical Crepe", L{ItemCountCondition.new("Tropical Crepe", 1, ">=")}), "Self", L{"Food"})
             },
         },
         DarkArts = {
-            JobAbilities = L{
-                JobAbility.new('Dark Arts', L{}, L{}, nil),
-            },
-            PartyBuffs = L{
+            BuffSettings = {
+                Gambits = L{
 
-            },
-            SelfBuffs = L{
-                Spell.new("Klimaform", L{}, nil, nil, L{})
-            },
-        }
+
+                }
+            }
+        },
+        GearSwapSettings = {
+            Enabled = true
+        },
     }
 }

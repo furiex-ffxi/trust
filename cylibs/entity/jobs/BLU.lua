@@ -7,6 +7,7 @@ local buff_util = require('cylibs/util/buff_util')
 local cure_util = require('cylibs/util/cure_util')
 local DisposeBag = require('cylibs/events/dispose_bag')
 local EquipSpellAction = require('cylibs/actions/equip_spell')
+local StatusRemoval = require('cylibs/battle/healing/status_removal')
 
 local Job = require('cylibs/entity/jobs/job')
 local BlueMage = setmetatable({}, {__index = Job })
@@ -46,6 +47,33 @@ function BlueMage:get_spells(filter)
         end
         return filter(spell_id)
     end)
+end
+
+-------
+-- Returns all AOE spells.
+-- @treturn list List of AOE spell names
+function BlueMage:get_aoe_spells()
+    return L{
+        'Searing Tempest', 'Blinding Fulgor', 'Spectral Floe', 'Scouring Spate',
+        'Anvil Lightning', 'Silent Storm', 'Entomb', 'Tenebral Crush',
+    }
+end
+
+-------
+-- Returns a list of conditions for a spell.
+-- @tparam Spell spell The spell
+-- @treturn list List of conditions
+function BlueMage:get_conditions_for_spell(spell)
+    local magicalSpells = S(self:get_spells(function(spell_id)
+        local spell = res.spells[spell_id]
+        return spell and S{ 'BlueMagic' }:contains(spell.type) and S{ 'Enemy' }:intersection(S(spell.targets)):length() > 0 and spell.element ~= 15
+    end):map(function(spell_id)
+        return res.spells[spell_id].en
+    end))
+    if magicalSpells:contains(spell:get_spell().en) then
+        return spell:get_conditions() + L{JobAbilityRecastReadyCondition.new('Burst Affinity')}
+    end
+    return spell:get_conditions()
 end
 
 -------
@@ -141,7 +169,7 @@ function BlueMage:get_status_removal_spell(debuff_id, num_targets)
     local spell_id = cure_util.spell_id_for_debuff_id(debuff_id)
     if spell_id then
         if spell_util.spell_name(spell_id) == 'Erase' then
-            return Spell.new('Winds of Promy.')
+            return StatusRemoval.new('Winds of Promy.', L{}, debuff_id)
         end
     end
     return nil
@@ -189,17 +217,12 @@ function BlueMage:set_cure_settings(cure_settings)
 end
 
 function BlueMage:create_spell_set()
-    local mjob_data = windower.ffxi.get_mjob_data()
-    if mjob_data == nil or mjob_data.spells == nil then
+    local equipped_spells = L(self:get_equipped_spells())
+    if equipped_spells:length() == 0 then
         return
     end
 
-    local spell_ids = L{}
-    for _, spell_id in pairs(mjob_data.spells) do
-        spell_ids:append(spell_id)
-    end
-
-    local spell_names = spell_ids:map(function(spell_id)
+    local spell_names = equipped_spells:map(function(spell_id)
         return res.spells[spell_id].en
     end)
 
@@ -247,6 +270,32 @@ function BlueMage:equip_spells(spell_names)
     addon_message(207, '('..windower.ffxi.get_player().name..') '.."Give me a sec, I'm updating my spells...")
 
     self.spells_action_queue:push_action(equip_action, true)
+end
+
+-------
+-- Returns a list of spells only usable under the effects of Unbridled Learning
+-- or Unbridled Wisdom.
+-- @treturn list List of spell names
+function BlueMage:get_unbridled_spells()
+    return L{
+        'Thunderbolt', 'Harden Shell', 'Absolute Terror', 'Gates of Hades',
+        'Tourbillion', 'Pyric Bulwark', 'Bilgestorm', 'Bloodrake',
+        'Droning Whirlwind', 'Carcharian Verve', 'Blistering Roar',
+        'Uproot', 'Crashing Thunder', 'Polar Roar', 'Mighty Guard',
+        'Cruel Joke', 'Cesspool', 'Tearing Gust',
+    }
+end
+
+-------
+-- Returns a list of conditions for an ability.
+-- @tparam Spell|JobAbility ability The ability
+-- @treturn list List of conditions
+function BlueMage:get_conditions_for_ability(ability)
+    local conditions = Job.get_conditions_for_ability(self, ability)
+    if self:get_unbridled_spells():contains(ability:get_name()) then
+        conditions:append(JobAbilityRecastReadyCondition.new('Unbridled Learning'))
+    end
+    return conditions
 end
 
 return BlueMage

@@ -138,10 +138,13 @@ function TrustStatusWidget.new(frame, addonSettings, addonEnabled, actionQueue, 
                     windower.send_command('trust menu')
                 end, 0.2)
             elseif indexPath.row == 3 then
-                local item = self:getDataSource():itemAtIndexPath(indexPath)
-                if item then
-                    handle_cycle('TrustMode')
-                end
+                coroutine.schedule(function()
+                    self:resignFocus()
+                    local profilesMenuItem = hud:getMainMenuItem():getChildMenuItem("Profiles")
+                    if profilesMenuItem then
+                        hud:openMenu(profilesMenuItem)
+                    end
+                end, 0.2)
             end
         elseif indexPath.section == 2 then
             windower.send_command('trust toggle')
@@ -167,6 +170,10 @@ function TrustStatusWidget.new(frame, addonSettings, addonEnabled, actionQueue, 
     self:getDisposeBag():add(player:on_level_change():addAction(function(_, _)
         self:setJobs(mainJobName, subJobName)
     end), player:on_level_change())
+
+    self:getDisposeBag():add(i18n.onLocaleChanged():addAction(function(_)
+        self:setJobs(mainJobName, subJobName)
+    end), i18n.onLocaleChanged())
 
     if not addonEnabled:getValue() then
         self:setAction('OFF')
@@ -197,9 +204,15 @@ end
 function TrustStatusWidget:setJobs(mainJobName, subJobName)
     local rowIndex = 0
 
+    local mainJobTextItem = TextItem.new(mainJobName, TrustStatusWidget.TextSmall2)
+    mainJobTextItem:setLocalizedText("Lv"..windower.ffxi.get_player().main_job_level.." "..i18n.resource('jobs', 'en', mainJobName))
+
+    local subJobTextItem = TextItem.new(subJobName, TrustStatusWidget.TextSmall)
+    subJobTextItem:setLocalizedText("Lv"..(windower.ffxi.get_player().sub_job_level or 0).." "..i18n.resource('jobs', 'en', subJobName))
+
     local itemsToUpdate = L{
-        TextItem.new("Lv"..windower.ffxi.get_player().main_job_level.." "..mainJobName, TrustStatusWidget.TextSmall2),
-        TextItem.new("Lv"..(windower.ffxi.get_player().sub_job_level or 0).." "..subJobName, TrustStatusWidget.TextSmall)
+        mainJobTextItem,
+        subJobTextItem,
     }:map(function(item)
         rowIndex = rowIndex + 1
         return IndexedItem.new(item, IndexPath.new(1, rowIndex))

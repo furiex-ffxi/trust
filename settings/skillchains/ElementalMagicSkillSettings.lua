@@ -15,11 +15,6 @@ ElementalMagicSkillSettings.__type = "ElementalMagicSkillSettings"
 function ElementalMagicSkillSettings.new(blacklist, defaultSpellName)
     local self = setmetatable({}, ElementalMagicSkillSettings)
     self.blacklist = blacklist
-    self.known_spells = spell_util.get_spells(function(spell)
-        return skills.spells[spell.id] ~= nil and spell.type == 'BlackMagic'
-    end):map(function(spell)
-        return Spell.new(spell.en)
-    end)
     self.defaultSpellName = defaultSpellName
     self.defaultSpellId = defaultSpellName and spell_util.spell_id(defaultSpellName)
     return self
@@ -38,12 +33,23 @@ end
 -- not check conditions for whether an ability can be performed.
 -- @treturn list A list of SkillchainAbility
 function ElementalMagicSkillSettings:get_abilities()
+    if self.known_spells == nil then
+        self.known_spells = spell_util.get_spells(function(spell)
+            return skills.spells[spell.id] ~= nil and spell.type == 'BlackMagic'
+        end):map(function(spell)
+            return spell.id
+        end)
+    end
     local spells = self.known_spells:filter(
-            function(spell)
-                return not self.blacklist:contains(spell:get_name())
+            function(spell_id)
+                local spell_name = spell_util.spell_name(spell_id)
+                if spell_name then
+                    return not self.blacklist:contains(spell_util.spell_name(spell_id))
+                end
+                return false
             end):map(
-            function(spell)
-                return SkillchainAbility.new('spells', spell:get_spell().id, L{ JobAbilityRecastReadyCondition.new('Immanence') })
+            function(spell_id)
+                return SkillchainAbility.new('spells', spell_id, L{ JobAbilityRecastReadyCondition.new('Immanence') })
             end)
     return spells
 end
@@ -58,6 +64,10 @@ function ElementalMagicSkillSettings:get_default_ability()
     return nil
 end
 
+function ElementalMagicSkillSettings:get_default_conditions(_)
+    return L{ JobAbilityRecastReadyCondition.new('Immanence') }
+end
+
 function ElementalMagicSkillSettings:set_default_ability(ability_name)
     local ability = self:get_ability(ability_name)
     if ability then
@@ -70,7 +80,7 @@ function ElementalMagicSkillSettings:set_default_ability(ability_name)
 end
 
 function ElementalMagicSkillSettings:get_id()
-    return nil
+    return 36
 end
 
 function ElementalMagicSkillSettings:get_name()

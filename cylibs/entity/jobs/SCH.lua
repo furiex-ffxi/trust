@@ -4,6 +4,8 @@
 -- @name Scholar
 
 local cure_util = require('cylibs/util/cure_util')
+local SpellList = require('cylibs/util/spell_list')
+local StatusRemoval = require('cylibs/battle/healing/status_removal')
 
 local Job = require('cylibs/entity/jobs/job')
 local Scholar = setmetatable({}, {__index = Job })
@@ -26,7 +28,24 @@ function Scholar.new(trust_settings)
         self.allow_sub_job = true
     end
     self.ignore_debuff_ids = self.cure_settings.StatusRemovals.Blacklist:map(function(debuff_name) return res.buffs:with('en', debuff_name).id end)
+    self.sub_job_spell_list = SpellList.new(windower.ffxi.get_player().sub_job_id, windower.ffxi.get_player().sub_job_level, L{})
     return self
+end
+
+-------
+-- Returns a list of known spell ids. For SCH only, sub job spells are returned as well.
+-- @tparam function filter Optional filter function
+-- @treturn list List of known spell ids
+function Scholar:get_spells(filter)
+    filter = filter or function(_) return true end
+    local spells = Job.get_spells(self, filter)
+    if self:isMainJob() then
+        self.sub_job_spell_list.jobLevel = windower.ffxi.get_player().sub_job_level
+        spells = spells + self.sub_job_spell_list:getKnownSpellIds():filter(function(spell_id)
+            return filter(spell_id)
+        end)
+    end
+    return spells
 end
 
 -------
@@ -75,9 +94,14 @@ end
 
 -------
 -- Returns the delay between cures.
+-- @tparam boolean is_backup_healer Whether the player is the backup healer
 -- @treturn number Delay between cures in seconds
-function Scholar:get_cure_delay()
-    return self.cure_settings.Delay or 2
+function Scholar:get_cure_delay(is_backup_healer)
+    if is_backup_healer then
+        return self.cure_settings.Delay or 2
+    else
+        return 0
+    end
 end
 
 -------
@@ -97,9 +121,9 @@ function Scholar:get_status_removal_spell(debuff_id, num_targets)
             job_abilities:append('Addendum: White')
         end
         if num_targets > 1 then
-            return Spell.new(res.spells:with('id', spell_id).en, job_abilities:extend(L{'Accession'}))
+            return StatusRemoval.new(res.spells:with('id', spell_id).en, job_abilities:extend(L{'Accession'}), debuff_id)
         else
-            return Spell.new(res.spells:with('id', spell_id).en, job_abilities)
+            return StatusRemoval.new(res.spells:with('id', spell_id).en, job_abilities, debuff_id)
         end
     end
     return nil
@@ -155,53 +179,18 @@ function Scholar:is_addendum_black_active()
 end
 
 -------
--- Returns the list of job abilities to use while in Light Arts.
--- @treturn list List of job abilities
-function Scholar:get_light_arts_job_abilities()
-    return self.trust_settings.LightArts.JobAbilities or L{ 'Light Arts' }
-end
-
--------
 -- Returns the list of buffs to cast on party members while in Light Arts.
 -- @treturn list List of party buffs
-function Scholar:get_light_arts_party_buffs()
-    return self.trust_settings.LightArts.PartyBuffs
+function Scholar:get_light_arts_buffs()
+    return self.trust_settings.LightArts.BuffSettings
 end
 
--------
--- Returns the list of buffs to cast on the player while in Light Arts.
--- @treturn list List of party buffs
-function Scholar:get_light_arts_self_buffs()
-    if player_util.get_player_main_job_name_short() == 'SCH' or self.allow_sub_job then
-        return self.trust_settings.LightArts.SelfBuffs
-    else
-        return S{}
-    end
-end
-
--------
--- Returns the list of job abilities to use while in Dark Arts.
--- @treturn list List of job abilities
-function Scholar:get_dark_arts_job_abilities()
-    return self.trust_settings.DarkArts.JobAbilities or L{ 'Dark Arts' }
-end
 
 -------
 -- Returns the list of buffs to cast on party members while in Dark Arts.
 -- @treturn list List of party buffs
-function Scholar:get_dark_arts_party_buffs()
-    return self.trust_settings.DarkArts.PartyBuffs
-end
-
--------
--- Returns the list of buffs to cast on the player while in Dark Arts.
--- @treturn list List of party buffs
-function Scholar:get_dark_arts_self_buffs()
-    if player_util.get_player_main_job_name_short() == 'SCH' or self.allow_sub_job then
-        return self.trust_settings.DarkArts.SelfBuffs
-    else
-        return S{}
-    end
+function Scholar:get_dark_arts_buffs()
+    return self.trust_settings.DarkArts.BuffSettings
 end
 
 -------
@@ -273,6 +262,56 @@ function Scholar:get_all_storm_names()
         'Firestorm II', 'Hailstorm II', 'Windstorm II', 'Sandstorm II',
         'Thunderstorm II', 'Rainstorm II', 'Aurorastorm II', 'Voidstorm II'
     }
+end
+
+-------
+-- Returns spells only available with Addendum: White.
+-- @treturn list List of spell names.
+function Scholar:get_addendum_white_spells()
+    return L{
+        'Poisona', 'Paralyna', 'Blindna', 'Silena', 'Cursna', 'Reraise',
+        'Erase', 'Viruna', 'Stona', 'Raise II', 'Reraise II', 'Raise III',
+        'Reraise III',
+    }
+end
+
+-------
+-- Returns spells only available with Addendum: Black.
+-- @treturn list List of spell names.
+function Scholar:get_addendum_black_spells()
+    return L{
+        'Sleep', 'Dispel', 'Sleep II', 'Stone IV', 'Water IV', 'Aero IV',
+        'Fire IV', 'Blizzard IV', 'Thunder IV', 'Stone V', 'Water V', 'Aero V',
+        'Break', 'Fire V', 'Blizzard V', 'Thunder V',
+    }
+end
+
+-------
+-- Returns a list of conditions for an ability.
+-- @tparam Spell|JobAbility ability The ability
+-- @treturn list List of conditions
+function Scholar:get_conditions_for_ability(ability)
+    local conditions = L{} + ability:get_conditions()
+    if ability.requires_all_job_abilities ~= nil and ability:requires_all_job_abilities() then
+        local strategem_count = 0
+        for job_ability_name in ability:get_job_abilities():it() do
+            local job_ability = JobAbility.new(job_ability_name)
+            if job_ability:get_job_ability().type == 'Scholar' then
+                strategem_count = strategem_count + 1
+            else
+                conditions = conditions + job_ability:get_conditions()
+            end
+        end
+        if strategem_count > 0 then
+            conditions:append(StrategemCountCondition.new(strategem_count, Condition.Operator.GreaterThanOrEqualTo))
+        end
+    end
+    if self:get_addendum_white_spells():contains(ability:get_name()) then
+        conditions:append(HasBuffCondition.new('Addendum: White', windower.ffxi.get_player().index))
+    elseif self:get_addendum_black_spells():contains(ability:get_name()) then
+        conditions:append(HasBuffCondition.new('Addendum: Black', windower.ffxi.get_player().index))
+    end
+    return conditions
 end
 
 return Scholar

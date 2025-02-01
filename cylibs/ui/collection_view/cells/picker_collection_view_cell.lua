@@ -1,15 +1,8 @@
-local ImageView = require('cylibs/ui/image_view')
-
-local CollectionView = require('cylibs/ui/collection_view/collection_view')
 local CollectionViewCell = require('cylibs/ui/collection_view/collection_view_cell')
-local CollectionViewDataSource = require('cylibs/ui/collection_view/collection_view_data_source')
-local Color = require('cylibs/ui/views/color')
-local ImageCollectionViewCell = require('cylibs/ui/collection_view/cells/image_collection_view_cell')
-local ImageItem = require('cylibs/ui/collection_view/items/image_item')
 local Keyboard = require('cylibs/ui/input/keyboard')
 local list_ext = require('cylibs/util/extensions/lists')
 local Mouse = require('cylibs/ui/input/mouse')
-local PickerItem = require('cylibs/ui/collection_view/items/picker_item')
+local MultiPickerConfigItem = require('ui/settings/editors/config/MultiPickerConfigItem')
 local TextCollectionViewCell = require('cylibs/ui/collection_view/cells/text_collection_view_cell')
 local TextItem = require('cylibs/ui/collection_view/items/text_item')
 local TextStyle = require('cylibs/ui/style/text_style')
@@ -27,7 +20,11 @@ function PickerCollectionViewCell.new(item, textStyle)
 
     local self = setmetatable(CollectionViewCell.new(item), PickerCollectionViewCell)
 
-    local textItem = TextItem.new(item:getTextFormat()(item:getCurrentValue()), textStyle)
+    self.textStyle = textStyle
+
+    local text = item:getTextFormat()(item:getCurrentValue())
+
+    local textItem = TextItem.new(text, textStyle)
     textItem:setShouldTruncateText(item:getShouldTruncateText())
 
     self.textView = TextCollectionViewCell.new(textItem)
@@ -66,7 +63,12 @@ end
 function PickerCollectionViewCell:setItem(item)
     CollectionViewCell.setItem(self, item)
 
-    self.textView:setItem(TextItem.new(item:getTextFormat()(item:getCurrentValue()), TextStyle.Picker.TextSmall))
+    local text = item:getTextFormat()(item:getCurrentValue())
+
+    local textItem = TextItem.new(text, self.textStyle)
+    textItem:setShouldTruncateText(item:getShouldTruncateText())
+
+    self.textView:setItem(textItem)
 
     self:setNeedsLayout()
     self:layoutIfNeeded()
@@ -98,15 +100,22 @@ function PickerCollectionViewCell:showPickerView()
             ButtonItem.default('Confirm'),
             ButtonItem.default('Clear All'),
         }, {}, function(_, _)
-            local pickerView = FFXIPickerView.withItems(item:getAllValues(), item:getCurrentValue(), true, nil, item:getImageItemForText())
+            local initialValue = item:getCurrentValue()
+            if class(initialValue) ~= 'List' then
+                initialValue = L{ initialValue }
+            end
+            local configItem = MultiPickerConfigItem.new("Items", initialValue, item:getAllValues(), function(value)
+                return item:getPickerTextFormat()(value)
+            end, nil, nil, item:getImageItemForText())
+
+            local pickerView = FFXIPickerView.withConfig(configItem, true)
             pickerView:setShouldRequestFocus(true)
             pickerView:on_pick_items():addAction(function(pickerView, selectedItems)
-                self:getItem():setCurrentValue(selectedItems:map(function(item) return item:getText() end))
+                self:getItem():setCurrentValue(selectedItems:map(function(item) return item end))
                 self:setItem(self:getItem())
 
                 self:getItem():getOnPickItems()(self:getItem():getCurrentValue())
             end)
-            pickerView:setShouldRequestFocus(true)
             return pickerView
         end, item:getPickerTitle() or "Choose", item:getPickerDescription() or "Choose one or more values.")
 

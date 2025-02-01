@@ -9,6 +9,7 @@ local GroupConfigItem = require('ui/settings/editors/config/GroupConfigItem')
 local ImageItem = require('cylibs/ui/collection_view/items/image_item')
 local IndexedItem = require('cylibs/ui/collection_view/indexed_item')
 local IndexPath = require('cylibs/ui/collection_view/index_path')
+local MarqueeCollectionViewCell = require('cylibs/ui/collection_view/cells/marquee_collection_view_cell')
 local MultiPickerConfigItem = require('ui/settings/editors/config/MultiPickerConfigItem')
 local PickerCollectionViewCell = require('cylibs/ui/collection_view/cells/picker_collection_view_cell')
 local PickerConfigItem = require('ui/settings/editors/config/PickerConfigItem')
@@ -16,7 +17,7 @@ local PickerItem = require('cylibs/ui/collection_view/items/picker_item')
 local SectionHeaderItem = require('cylibs/ui/collection_view/items/section_header_item')
 local SliderCollectionViewCell = require('cylibs/ui/collection_view/cells/slider_collection_view_cell')
 local SliderItem = require('cylibs/ui/collection_view/items/slider_item')
-local TextCollectionViewCell = require('cylibs/ui/collection_view/cells/text_collection_view_cell')
+local TextConfigItem = require('ui/settings/editors/config/TextConfigItem')
 local TextFieldCollectionViewCell = require('cylibs/ui/collection_view/cells/text_field_collection_view_cell')
 local TextFieldItem = require('cylibs/ui/collection_view/items/text_field_item')
 local TextInputConfigItem = require('ui/settings/editors/config/TextInputConfigItem')
@@ -32,6 +33,10 @@ ConfigEditor.__type = "ConfigEditor"
 
 function ConfigEditor:onConfigChanged()
     return self.configChanged
+end
+
+function ConfigEditor:onConfigItemChanged()
+    return self.configItemChanged
 end
 
 function ConfigEditor:onConfigConfirm()
@@ -51,7 +56,7 @@ function ConfigEditor.new(trustSettings, configSettings, configItems, infoView, 
             cell:setItemSize(16)
             return cell
         elseif item.__type == TextItem.__type then
-            local cell = TextCollectionViewCell.new(item)
+            local cell = MarqueeCollectionViewCell.new(item, 0.9)
             cell:setUserInteractionEnabled(true)
             cell:setIsSelectable(true)
             cell:setItemSize(16)
@@ -94,6 +99,7 @@ function ConfigEditor.new(trustSettings, configSettings, configItems, infoView, 
     end
     self.valueForCellConfigItem = {}
     self.configChanged = Event.newEvent()
+    self.configItemChanged = Event.newEvent()
     self.configValidationError = Event.newEvent()
     self.configConfirm = Event.newEvent()
 
@@ -116,6 +122,10 @@ function ConfigEditor.new(trustSettings, configSettings, configItems, infoView, 
                     self:getDelegate():deselectItemAtIndexPath(indexPath)
                 end
             end
+            if item.__type == TextItem.__type then
+                -- NOTE: this breaks skillchain finder
+                --self:getDelegate():deselectItemAtIndexPath(indexPath)
+            end
         end
     end), self:getDelegate():didSelectItemAtIndexPath())
 
@@ -125,13 +135,16 @@ function ConfigEditor.new(trustSettings, configSettings, configItems, infoView, 
         end
         local configItem = self.configItems[indexPath.section]
         local item = self:getDataSource():itemAtIndexPath(indexPath)
-        if (item.getCurrentValue and configItem.getInitialValue) and item:getCurrentValue() ~= configItem:getInitialValue() then
-            for dependency in configItem:getDependencies():it() do
-                if dependency.onReload then
-                    local allValues = dependency.onReload(configItem:getKey(), item:getCurrentValue(), configItem)
-                    dependency:setAllValues(allValues)
+        if (item.getCurrentValue and configItem.getInitialValue) then
+            self:onConfigItemChanged():trigger(configItem:getKey(), item:getCurrentValue(), configItem:getInitialValue())
+            if item:getCurrentValue() ~= configItem:getInitialValue() then
+                for dependency in configItem:getDependencies():it() do
+                    if dependency.onReload then
+                        local allValues = dependency.onReload(configItem:getKey(), item:getCurrentValue(), configItem)
+                        dependency:setAllValues(allValues)
 
-                    self:reloadConfigItem(dependency)
+                        self:reloadConfigItem(dependency)
+                    end
                 end
             end
         end
@@ -147,6 +160,7 @@ function ConfigEditor:destroy()
     FFXIWindow.destroy(self)
 
     self.configChanged:removeAllActions()
+    self.configItemChanged:removeAllActions()
     self.configValidationError:removeAllActions()
     self.configConfirm:removeAllActions()
 end
@@ -191,6 +205,8 @@ function ConfigEditor:reloadConfigItem(configItem)
 end
 
 function ConfigEditor:reloadSettings()
+    local previousCursorIndexPath = self:getDelegate():getCursorIndexPath()
+
     self:getDataSource():removeAllItems()
 
     local items = L{}
@@ -228,7 +244,9 @@ function ConfigEditor:reloadSettings()
 
     self:getDataSource():addItems(items)
 
-    if self:getDataSource():numberOfItemsInSection(1) > 0 then
+    if previousCursorIndexPath and self:getDataSource():itemAtIndexPath(previousCursorIndexPath) then
+        self:getDelegate():setCursorIndexPath(previousCursorIndexPath)
+    elseif self:getDataSource():numberOfItemsInSection(1) > 0 then
         self:getDelegate():setCursorIndexPath(IndexPath.new(1, 1))
     end
 end
@@ -249,15 +267,33 @@ function ConfigEditor:getCellItemForConfigItem(configItem)
         defaultItem:setEnabled(self.configSettings[configItem:getKey()])
         return defaultItem
     elseif configItem.__type == PickerConfigItem.__type then
-        return PickerItem.new(configItem:getInitialValue(), configItem:getAllValues(), configItem:getTextFormat())
+        local pickerItem = PickerItem.new(configItem:getInitialValue(), configItem:getAllValues(), configItem:getTextFormat())
+        pickerItem:setShouldTruncateText(configItem:getShouldTruncateText())
+        return pickerItem
+    elseif configItem.__type == TextConfigItem.__type then
+        local textItem = TextItem.new(configItem:getText(), TextStyle.Default.TextSmall)
+        --textItem:setShouldTruncateText(true)
+        return textItem
     elseif configItem.__type == MultiPickerConfigItem.__type then
-        local pickerItem = PickerItem.new(configItem:getInitialValues(), configItem:getAllValues(), configItem:getTextFormat(), true, configItem:getImageItemForText())
+        local pickerItem = PickerItem.new(configItem:getInitialValues(), configItem:getAllValues(), configItem:getTextFormat(), configItem:isEnabled(), configItem:getImageItem())
         pickerItem:setShouldTruncateText(true)
         pickerItem:setPickerTitle(configItem:getPickerTitle())
         pickerItem:setPickerDescription(configItem:getPickerDescription())
+        pickerItem:setPickerTextFormat(configItem:getPickerTextFormat())
         pickerItem:setShowMenu(self.showMenu)
         pickerItem:setOnPickItems(function(newValue)
-            self.configSettings[configItem:getKey()] = newValue
+            if class(newValue) == 'List' then
+                self.configSettings[configItem:getKey()]:clear()
+                for value in newValue:it() do
+                    self.configSettings[configItem:getKey()]:append(value)
+                end
+            else
+                self.configSettings[configItem:getKey()] = newValue
+            end
+            addon_system_message("Your choices have been updated.")
+            if configItem:getAutoSave() then
+                self:onConfirmClick()
+            end
         end)
         return pickerItem
     elseif configItem.__type == TextInputConfigItem.__type then
@@ -270,13 +306,27 @@ function ConfigEditor:setCellConfigItemOverride(cellConfigItemType, valueForCell
     self.valueForCellConfigItem[cellConfigItemType] = valueForCellConfigItem
 end
 
+function ConfigEditor:sectionForConfigKey(key)
+    local section = 1
+    for configItem in self.configItems:it() do
+        if configItem:getKey() == key then
+            return section
+        end
+        section = section + 1
+    end
+    return nil
+end
+
 function ConfigEditor:onConfirmClick(skipSave)
+    self:resignFirstResponder()
+
     local originalSettings
     if self.configSettings.copy then
         originalSettings = self.configSettings:copy()
     else
         originalSettings = T(self.configSettings):copy(true)
     end
+
     for sectionIndex = 1, self:getDataSource():numberOfSections(), 1 do
         local configItem = self.configItems[sectionIndex]
         if configItem then
@@ -310,6 +360,8 @@ function ConfigEditor:onConfirmClick(skipSave)
                         self.configSettings[configKey] = cellConfigItem:getCurrentValue()
                     elseif cellConfigItem.__type == TextFieldItem.__type then
                         self.configSettings[configKey] = cellConfigItem:getTextItem():getText()
+                    elseif cellConfigItem.__type == TextItem.__type then
+                        self.configSettings[configKey] = configItem:getInitialValues()
                     end
                 end
             end
@@ -363,6 +415,17 @@ function ConfigEditor:setHasFocus(focus)
             end
         end
         self:getDelegate():deselectItemsInSections(sections)
+    end
+end
+
+function ConfigEditor:resignFirstResponder()
+    local cursorIndexPath = self:getDelegate():getCursorIndexPath()
+    if cursorIndexPath then
+        local cell = self:getDataSource():cellForItemAtIndexPath(cursorIndexPath)
+        if cell and cell:hasFocus() then
+            cell:setShouldResignFocus(true)
+            cell:resignFocus()
+        end
     end
 end
 

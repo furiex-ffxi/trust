@@ -7,6 +7,7 @@ local buff_util = require('cylibs/util/buff_util')
 local party_util = require('cylibs/util/party_util')
 local serializer_util = require('cylibs/util/serializer_util')
 local PickerConfigItem = require('ui/settings/editors/config/PickerConfigItem')
+local StatusAilment = require('cylibs/battle/status_ailment')
 
 local Condition = require('cylibs/conditions/condition')
 local HasDebuffCondition = setmetatable({}, { __index = Condition })
@@ -24,30 +25,30 @@ end
 function HasDebuffCondition:is_satisfied(target_index)
     local target = windower.ffxi.get_mob_by_index(self:get_target_index() or target_index)
     if target then
-        local monster = player.party:get_target(target.id)
+        local monster = player.alliance:get_target_by_index(target.index)
         if monster then
             return monster:has_debuff(self.debuff_id)
         else
-            return L(party_util.get_buffs(target.id)):contains(self.debuff_id)
+            local party_member = player.alliance:get_alliance_member_named(target.name)
+            if party_member then
+                return S(party_member:get_debuff_ids()):contains(self.debuff_id)
+            end
         end
     end
     return false
 end
 
 function HasDebuffCondition:get_config_items()
-    local all_debuffs = S(buff_util.get_all_debuff_ids():map(function(debuff_id)
-        local debuff = res.buffs[debuff_id]
-        if debuff then
-            return debuff.en
+    local all_debuffs = L(S(L(buff_util.get_all_debuff_ids()):map(function(debuff_id)
+        if res.buffs[debuff_id] then
+            return res.buffs[debuff_id].en
         end
         return nil
-    end):compact_map())
-    all_debuffs = L(all_debuffs)
-    all_debuffs:sort()
-
+    end):compact_map()))
     return L{
         PickerConfigItem.new('debuff_name', self.debuff_name, all_debuffs, function(debuff_name)
-            return debuff_name:gsub("^%l", string.upper)
+            local status_ailment = StatusAilment.new(debuff_name)
+            return status_ailment:get_localized_name()
         end, "Status Ailment")
     }
 end
@@ -66,6 +67,11 @@ end
 
 function HasDebuffCondition:serialize()
     return "HasDebuffCondition.new(" .. serializer_util.serialize_args(self.debuff_name) .. ")"
+end
+
+function HasDebuffCondition:__eq(otherItem)
+    return otherItem.__class == HasDebuffCondition.__class
+            and otherItem.debuff_name == self.debuff_name
 end
 
 return HasDebuffCondition

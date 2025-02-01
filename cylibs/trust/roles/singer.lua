@@ -43,13 +43,38 @@ function Singer.new(action_queue, dummy_songs, songs, pianissimo_songs, brd_job,
 end
 
 function Singer:validate_songs(dummy_songs, songs)
+    for song in songs:it() do
+        if song:get_job_names():empty() then
+            addon_system_error(song:get_name()..' does not have any job names selected.')
+            return false
+        end
+    end
+
+    -- 1. Player knows all songs
+    local unknown_songs = (dummy_songs + songs):filter(function(song)
+        return not spell_util.knows_spell(song:get_spell().id)
+    end):map(function(song) return song:get_name() end)
+    if unknown_songs:length() > 0 then
+        addon_system_error("Unknown songs: "..localization_util.commas(unknown_songs))
+        return false
+    end
+
+    -- 2. Dummy songs and songs don't overlap
     local buffs_for_dummy_songs = S(dummy_songs:map(function(spell) return buff_util.buff_for_spell(spell:get_spell().id).id  end))
     local buffs_for_songs = S(songs:map(function(spell) return buff_util.buff_for_spell(spell:get_spell().id).id  end))
 
     if set.intersection(buffs_for_dummy_songs, buffs_for_songs):length() > 0 then
-        error("Dummy songs cannot give the same status effects as real songs.")
+        addon_system_error("Dummy songs cannot give the same status effects as real songs.")
+        return false
     end
-    assert(set.intersection(buffs_for_dummy_songs, buffs_for_songs):length() == 0, "Dummy songs cannot give the same status effects as real songs.")
+
+    -- 3. There are 3 dummy songs and 5 songs
+    if dummy_songs:length() < 3 or songs:length() < 5 then
+        addon_system_error("You must choose 3 valid dummy songs and 5 songs.")
+        return false
+    end
+
+    return true
 end
 
 
@@ -82,10 +107,6 @@ function Singer:on_add()
         end), self.song_tracker:on_song_added())
 
     self.dispose_bag:addAny(L{ self.song_tracker })
-end
-
-function Singer:target_change(target_index)
-    Role.target_change(self, target_index)
 end
 
 function Singer:set_is_singing(is_singing)
@@ -140,6 +161,11 @@ function Singer:check_songs()
         return
     end
 
+    if not self:validate_songs(self.dummy_songs, self.songs) then
+        self:get_party():add_to_chat(self:get_party(), "I can't sing until you fix these issues!", self.__class..'_validate', 10)
+        return
+    end
+
     local player = self:get_party():get_player()
     local has_more_songs = false
 
@@ -185,6 +211,10 @@ function Singer:check_songs()
 end
 
 function Singer:get_next_song(party_member, dummy_songs, songs)
+    if party_member:get_mob() == nil then
+        return nil
+    end
+
     local song_target_id = party_member:get_mob().id
     local buff_ids = L(party_member:get_buff_ids())
 
@@ -230,13 +260,21 @@ function Singer:sing_song(song, target_index, should_nitro, allow_self_pianissim
         local conditions = L{}
         local extra_duration = 0
 
+        if self:get_player():is_moving() then
+            actions:append(BlockAction.new(function()
+                windower.ffxi.run(false)
+            end), 'stop_moving')
+            actions:append(WaitAction.new(0, 0, 0, 0.5))
+        end
+
         self.last_sing_time = self:get_last_tic_time()
 
         local job_abilities = L{}
         if should_nitro then
             self.song_tracker:set_all_expiring_soon()
             job_abilities = self:get_nitro_abilities()
-            extra_duration = extra_duration + 4
+            extra_duration = extra_duration + 5.5
+            actions:append(WaitAction.new(0, 0, 0, 1.5))
         end
 
         local job_abilities = job_abilities:extend(song:get_job_abilities():copy())
@@ -439,7 +477,7 @@ function Singer:get_merged_songs(party_member, max_num_songs)
         logger.error(self.__class, "get_merged_songs", "no valid songs found for", party_member:get_name())
     end
 
-    return all_songs
+    return all_songs or L{}
 end
 
 function Singer:set_dummy_songs(dummy_songs)

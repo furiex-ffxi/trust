@@ -15,12 +15,11 @@ local Puller = require('cylibs/trust/roles/puller')
 function NinjaTrust.new(settings, action_queue, battle_settings, trust_settings)
 	local job = Ninja.new()
 	local roles = S{
-		Buffer.new(action_queue, trust_settings.JobAbilities, trust_settings.SelfBuffs),
-		Tank.new(action_queue, L{}, L{  Spell.new('Sheep Song'), Spell.new('Geist Wall') }),
-		Debuffer.new(action_queue, trust_settings.Debuffs or L{}),
-		MagicBurster.new(action_queue, trust_settings.NukeSettings, 0.8, L{ 'Futae' }, job),
+		Buffer.new(action_queue, trust_settings.BuffSettings, state.AutoBuffMode, job),
+		Debuffer.new(action_queue, trust_settings.DebuffSettings, job),
+		MagicBurster.new(action_queue, trust_settings.NukeSettings, 0.8, L{ 'Futae' }, job, false),
 		Nuker.new(action_queue, trust_settings.NukeSettings, 0.8, L{}, job),
-		Puller.new(action_queue, trust_settings.PullSettings.Targets, trust_settings.PullSettings.Abilities),
+		Puller.new(action_queue, trust_settings.PullSettings),
 
 	}
 	local self = setmetatable(Trust.new(action_queue, roles, trust_settings, job), NinjaTrust)
@@ -37,16 +36,12 @@ function NinjaTrust:on_init()
 	Trust.on_init(self)
 
 	self:on_trust_settings_changed():addAction(function(_, new_trust_settings)
-		local buffer = self:role_with_type("buffer")
-		buffer:set_job_abilities(new_trust_settings.JobAbilities)
-		buffer:set_self_spells(new_trust_settings.SelfBuffs)
-
 		local debuffer = self:role_with_type("debuffer")
-		debuffer:set_debuff_spells(new_trust_settings.Debuffs)
+		debuffer:set_debuff_settings(new_trust_settings.DebuffSettings)
 
-		local puller = self:role_with_type("puller")
-		if puller then
-			puller:set_pull_settings(new_trust_settings.PullSettings)
+		local nuker_roles = self:roles_with_types(L{ "nuker", "magicburster" })
+		for role in nuker_roles:it() do
+			role:set_nuke_settings(new_trust_settings.NukeSettings)
 		end
 	end)
 

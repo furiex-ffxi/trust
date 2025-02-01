@@ -1,6 +1,5 @@
 local buff_util = require('cylibs/util/buff_util')
 local DisposeBag = require('cylibs/events/dispose_bag')
-local party_util = require('cylibs/util/party_util')
 local job_util = require('cylibs/util/job_util')
 local monster_util = require('cylibs/util/monster_util')
 local JobAbilityAction = require('cylibs/actions/job_ability')
@@ -79,7 +78,6 @@ function Dispeler:tic(_, _)
         return
     end
     self.last_check_buffs_time = os.time()
-
     self:check_buffs()
 end
 
@@ -95,7 +93,7 @@ end
 function Dispeler:dispel(target_index)
     logger.notice("Dispelling", self.battle_target:get_name())
 
-    if not party_util.party_claimed(self.battle_target:get_id()) then
+    if not self.battle_target:is_claimed_by(self:get_alliance()) then
         return
     end
 
@@ -166,6 +164,10 @@ end
 
 function Dispeler:get_type()
     return "dispeler"
+end
+
+function Dispeler:allows_duplicates()
+    return true
 end
 
 return Dispeler

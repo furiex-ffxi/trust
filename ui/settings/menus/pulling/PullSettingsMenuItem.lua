@@ -1,3 +1,4 @@
+local BooleanConfigItem = require('ui/settings/editors/config/BooleanConfigItem')
 local ButtonItem = require('cylibs/ui/collection_view/items/button_item')
 local ConfigEditor = require('ui/settings/editors/config/ConfigEditor')
 local ConfigItem = require('ui/settings/editors/config/ConfigItem')
@@ -6,10 +7,18 @@ local FFXIClassicStyle = require('ui/themes/FFXI/FFXIClassicStyle')
 local FFXIPickerView = require('ui/themes/ffxi/FFXIPickerView')
 local MenuItem = require('cylibs/ui/menu/menu_item')
 local ModesMenuItem = require('ui/settings/menus/ModesMenuItem')
+local MultiPickerConfigItem = require('ui/settings/editors/config/MultiPickerConfigItem')
 local PullActionMenuItem = require('ui/settings/menus/pulling/PullActionMenuItem')
 
 local PullSettingsMenuItem = setmetatable({}, {__index = MenuItem })
 PullSettingsMenuItem.__index = PullSettingsMenuItem
+
+function PullSettingsMenuItem.disabled(error_message)
+    return MenuItem.action(function() end, "Pulling", "Configure settings to pull monsters.", false, function()
+        addon_system_error(error_message)
+        return false
+    end)
+end
 
 function PullSettingsMenuItem.new(abilities, trust, job_name_short, trust_settings, trust_settings_mode, trust_mode_settings)
     local self = setmetatable(MenuItem.new(L{
@@ -24,7 +33,6 @@ function PullSettingsMenuItem.new(abilities, trust, job_name_short, trust_settin
     self.abilities = abilities
     self.trust = trust
     self.puller = trust:role_with_type("puller")
-    self.puller_settings = self.puller:get_pull_settings()
     self.job_name_short = job_name_short
     self.trust_settings = trust_settings
     self.trust_settings_mode = trust_settings_mode
@@ -57,7 +65,7 @@ function PullSettingsMenuItem:getTargetsMenuItem()
         Clear = MenuItem.action(nil, "Targets", "Clear selected targets."),
     },
     function()
-        local currentTargets = self.trust_settings:getSettings()[self.trust_settings_mode.value].PullSettings.Targets
+        local pullSettings = self.trust_settings:getSettings()[self.trust_settings_mode.value].PullSettings
 
         local allMobs = S{}
         local nearbyMobs = windower.ffxi.get_mob_array()
@@ -67,18 +75,18 @@ function PullSettingsMenuItem:getTargetsMenuItem()
             end
         end
 
-        local targetPickerView = FFXIPickerView.withItems(L(allMobs), L{}, true)
+        local configItem = MultiPickerConfigItem.new("Targets", L{}, L(allMobs), function(mobName)
+            return mobName
+        end)
 
-        self.dispose_bag:add(targetPickerView:on_pick_items():addAction(function(_, selectedItems)
+        local targetPickerView = FFXIPickerView.withConfig(configItem, true)
+
+        self.dispose_bag:add(targetPickerView:on_pick_items():addAction(function(_, newTargetNames)
             targetPickerView:getDelegate():deselectAllItems()
 
-            local targetNames = selectedItems:map(function(item)
-                return item:getText()
-            end)
-            if targetNames:length() > 0 then
-                local newTargets = S(currentTargets:extend(targetNames))
+            if newTargetNames:length() > 0 then
+                pullSettings.Targets = L(S(pullSettings.Targets + newTargetNames))
 
-                self.trust_settings:getSettings()[self.trust_settings_mode.value].PullSettings.Targets = L(newTargets)
                 self.trust_settings:saveSettings(true)
 
                 addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my list of enemies to pull!")
@@ -114,7 +122,11 @@ function PullSettingsMenuItem:getTargetsMenuItem()
     function()
         local currentTargets = self.trust_settings:getSettings()[self.trust_settings_mode.value].PullSettings.Targets
 
-        self.pullTargetsEditor = FFXIPickerView.withItems(currentTargets, L{}, false, nil, nil, FFXIClassicStyle.WindowSize.Editor.ConfigEditor)
+        local configItem = MultiPickerConfigItem.new("Targets", L{}, currentTargets, function(targetName)
+            return targetName
+        end)
+
+        self.pullTargetsEditor = FFXIPickerView.new(L{ configItem }, false, FFXIClassicStyle.WindowSize.Editor.ConfigEditor)
         self.pullTargetsEditor:setAllowsCursorSelection(true)
 
         return self.pullTargetsEditor
@@ -135,21 +147,32 @@ end
 function PullSettingsMenuItem:getConfigMenuItem()
     return MenuItem.new(L{
         ButtonItem.default('Save')
-    }, L{}, function(_, _)
+    }, L{}, function(_, infoView)
         local allSettings = self.trust_settings:getSettings()[self.trust_settings_mode.value]
 
         local pullSettings = T{
             Distance = allSettings.PullSettings.Distance,
         }
+        local maxNumTargets = allSettings.PullSettings.MaxNumTargets or 1
+        if maxNumTargets > 1 then
+            pullSettings.RandomizeTarget = true
+        else
+            pullSettings.RandomizeTarget = false
+        end
 
         local configItems = L{
-            ConfigItem.new('Distance', 0, 50, 1, function(value) return value.." yalms" end, "Target Distance"),
+            ConfigItem.new('Distance', 0, 50, 1, function(value) return value.." yalms" end, "Detection Distance"),
+            BooleanConfigItem.new('RandomizeTarget', "Randomize Target"),
         }
-        local pullConfigEditor = ConfigEditor.new(self.trust_settings, pullSettings, configItems)
+        local pullConfigEditor = ConfigEditor.new(self.trust_settings, pullSettings, configItems, infoView)
 
         self.dispose_bag:add(pullConfigEditor:onConfigChanged():addAction(function(newSettings, _)
             allSettings.PullSettings.Distance = newSettings.Distance
-
+            if newSettings.RandomizeTarget then
+                allSettings.PullSettings.MaxNumTargets = 6
+            else
+                allSettings.PullSettings.MaxNumTargets = 1
+            end
             self.trust_settings:saveSettings(true)
         end), pullConfigEditor:onConfigChanged())
 

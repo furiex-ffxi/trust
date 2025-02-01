@@ -16,7 +16,7 @@ local avatar_to_blood_pacts = T{
     Titan = L{ 'Earthen Ward', 'Earthen Armor' },
     Ramuh = L{ 'Rolling Thunder', 'Lightning Armor' },
     Leviathan = L{ 'Soothing Current' },
-    Fenrir = L{ 'Ecliptic Growl', 'Ecliptic Howl', 'Heavanward Howl' },
+    Fenrir = L{ 'Ecliptic Growl', 'Ecliptic Howl', 'Heavenward Howl' },
     Diabolos = L{ 'Noctoshield', 'Dream Shroud' },
     Siren = L { 'Katabatic Blades', 'Chinook', "Wind's Blessing" },
     Atomos = L{},
@@ -29,7 +29,6 @@ local avatar_to_blood_pacts = T{
 -- @treturn SMN A Summoner
 function Summoner.new()
     local self = setmetatable(Job.new('SMN', L{ 'Dispelga', 'Impact' }), Summoner)
-
     return self
 end
 
@@ -37,6 +36,17 @@ end
 -- Destroy function for a Summoner.
 function Summoner:destroy()
     Job.destroy(self)
+end
+
+-------
+-- Returns a list of known job abilities.
+-- @tparam function filter Optional filter function
+-- @treturn list List of known job ability ids
+function Summoner:get_job_abilities(filter)
+    filter = filter or function(_) return true end
+    local job_abilities = Job.get_job_abilities(self, filter)
+    job_abilities = (job_abilities + self:get_blood_pact_wards():map(function(buff) return buff:get_ability_id() end):filter(filter)):unique(function(job_ability_id) return job_ability_id end)
+    return job_abilities
 end
 
 -------

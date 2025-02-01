@@ -6,12 +6,16 @@ local Buffer = require('cylibs/trust/roles/buffer')
 local Dancer = require('cylibs/entity/jobs/DNC')
 local DisposeBag = require('cylibs/events/dispose_bag')
 local Healer = require('cylibs/trust/roles/healer')
+local Puller = require('cylibs/trust/roles/puller')
+local StatusRemover = require('cylibs/trust/roles/status_remover')
 
 function DancerTrust.new(settings, action_queue, battle_settings, trust_settings)
 	local job = Dancer.new(trust_settings.CureSettings)
 	local roles = S{
-		Buffer.new(action_queue, trust_settings.JobAbilities),
+		Buffer.new(action_queue, trust_settings.BuffSettings, state.AutoBuffMode, job),
 		Healer.new(action_queue, job),
+		Puller.new(action_queue, trust_settings.PullSettings),
+		StatusRemover.new(action_queue, job),
 	}
 	local self = setmetatable(Trust.new(action_queue, roles, trust_settings, job), DancerTrust)
 
@@ -33,27 +37,16 @@ function DancerTrust:on_init()
 
 	self:on_trust_settings_changed():addAction(function(_, new_trust_settings)
 		self:get_job():set_cure_settings(new_trust_settings.CureSettings)
+	end)
 
-		local buffer = self:role_with_type("buffer")
-		if buffer then
-			buffer:set_job_abilities(new_trust_settings.JobAbilities)
-		end
-
-		local puller = self:role_with_type("puller")
-		if puller then
-			puller:set_pull_settings(new_trust_settings.PullSettings)
+	self:get_party():get_player():on_gain_buff():addAction(function(_, buff_id)
+		local buff_name = buff_util.buff_name(buff_id)
+		if buff_name == 'Saber Dance' then
+			if state.AutoHealMode.value ~= 'Off' or state.AutoStatusRemovalMode.value ~= 'Off' then
+				addon_system_error("Unable to use waltzes while Saber Dance is active.")
+			end
 		end
 	end)
-end
-
-function DancerTrust:on_role_added(role)
-	if L{"skillchainer", "spammer"}:contains(role:get_type()) then
-		role:set_job_abilities(L{ JobAbility.new('Climactic Flourish') })
-	end
-end
-
-function DancerTrust:job_target_change(target_index)
-	Trust.job_target_change(self, target_index)
 end
 
 function DancerTrust:tic(old_time, new_time)

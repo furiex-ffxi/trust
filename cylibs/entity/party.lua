@@ -135,6 +135,8 @@ function Party:add_party_member(party_member_id, party_member_name)
     self:on_party_member_added():trigger(party_member)
     self:on_party_members_changed():trigger(self:get_party_members(true))
 
+    self.target_tracker:add_mob_by_index(party_member:get_target_index())
+
     logger.notice(self.__class, "add_party_member", party_member:get_name(), party_member_id)
 
     return party_member
@@ -286,7 +288,6 @@ function Party:set_assist_target(party_member)
         end), party_member:on_target_change())
 
         local party_targets = self.target_tracker:get_targets():filter(function(m) return m:is_claimed() end)
-
         local initial_target_index = party_member:get_target_index() or party_targets:length() > 0 and party_targets[1]:get_mob().index
         if initial_target_index then
             self:on_party_target_change():trigger(self, initial_target_index, nil)
@@ -305,6 +306,20 @@ end
 -- @treturn PartyMember Assist target
 function Party:get_assist_target()
     return self.assist_target or self:get_party_member(windower.ffxi.get_player().id)
+end
+
+-------
+-- Returns the current party target.
+-- @treturn Monster Current party target, or nil if none.
+function Party:get_current_party_target()
+    local assist_target = self:get_assist_target()
+    if assist_target and assist_target:is_valid() and assist_target:get_target_index() then
+        local current_target = self.target_tracker:get_mob(monster_util.id_for_index(assist_target:get_target_index()))
+        if current_target then
+            return current_target
+        end
+    end
+    return nil
 end
 
 -------
@@ -330,6 +345,14 @@ end
 function Party:get_targets(filter)
     filter = filter or function(t) return true  end
     return self.target_tracker:get_targets():filter(function(t) return filter(t) end)
+end
+
+-------
+-- Returns all party targets.
+-- @tparam function filter (optional) Function to filter targets
+-- @treturn list List of Monsters
+function Party:get_target_tracker()
+    return self.target_tracker
 end
 
 -------

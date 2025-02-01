@@ -3,11 +3,9 @@
 -- @class module
 -- @name Alliance
 
-local AllianceMember = require('cylibs/entity/alliance/alliance_member')
 local DisposeBag = require('cylibs/events/dispose_bag')
 local Entity = require('cylibs/entity/entity')
 local Event = require('cylibs/events/Luvent')
-local list_ext = require('cylibs/util/extensions/lists')
 local Party = require('cylibs/entity/party')
 
 local Alliance = setmetatable({}, {__index = Entity })
@@ -15,17 +13,22 @@ Alliance.__index = Alliance
 Alliance.__class = "Alliance"
 
 -- Event called when a party is added to the alliance.
-function Party:on_party_added()
+function Alliance:on_party_added()
     return self.party_added
 end
 
 -- Event called when a party is removed from the alliance.
-function Party:on_party_removed()
+function Alliance:on_party_removed()
     return self.party_removed
 end
 
+-- Event called when the alliance is updated
+function Alliance:on_alliance_updated()
+    return self.alliance_updated
+end
+
 -- Event called when the alliance is dissolved.
-function Party:on_alliance_dissolved()
+function Alliance:on_alliance_dissolved()
     return self.alliance_dissolved
 end
 
@@ -44,6 +47,7 @@ function Alliance.new(party_chat)
 
     self.party_added = Event.newEvent()
     self.party_removed = Event.newEvent()
+    self.alliance_updated = Event.newEvent()
     self.alliance_dissolved = Event.newEvent()
 
     for _ = 1, 3 do
@@ -67,6 +71,7 @@ function Alliance:destroy()
 
     self:on_party_added():removeAllActions()
     self:on_party_removed():removeAllActions()
+    self:on_alliance_updated():removeAllActions()
     self:on_alliance_dissolved():removeAllActions()
 
     self.dispose_bag:destroy()
@@ -86,14 +91,17 @@ function Alliance:monitor()
 
     -- Add placeholders for alliance members until id can be mapped to name
     self.dispose_bag:add(WindowerEvents.AllianceMemberListUpdate:addAction(function(alliance_members_list)
+        self.should_check_parties = true
+
         self.alliance_members_list = T{}
 
         for alliance_member in alliance_members_list:it() do
             self.alliance_members_list[alliance_member.id] = alliance_member
-            if alliance_member:get_mob() then
-                local party = self:get_parties()[alliance_member:get_party_index()]
+            local alliance_member_name = alliance_member:get_name()
+            if alliance_member_name then
+                local party = self:get_party(alliance_member_name)
                 if party then
-                    party:add_party_member(alliance_member:get_id(), alliance_member:get_name())
+                    party:add_party_member(alliance_member:get_id(), alliance_member_name)
                 end
             end
         end
@@ -117,7 +125,7 @@ function Alliance:monitor()
     self.dispose_bag:add(WindowerEvents.CharacterUpdate:addAction(function(mob_id, name, hp, hpp, mp, mpp, tp, main_job_id, sub_job_id)
         local alliance_member = self.alliance_members_list[mob_id]
         if alliance_member then
-            local party = self:get_party(name) or self:get_parties()[alliance_member:get_party_index()]
+            local party = self:get_party(name)
             if party and not party:has_party_member(mob_id) then
                 logger.notice(self.__class, "character update", "adding", name, "to party at index", self:get_party_index(name))
                 local party_member = party:add_party_member(mob_id, name)
@@ -143,13 +151,85 @@ function Alliance:monitor()
     WindowerEvents.replay_last_events(L{ WindowerEvents.AllianceMemberListUpdate })
 end
 
+function Alliance:tic(_, _)
+    self:check_parties()
+end
+
+-------
+-- Validates that each alliance member is in the right party, swapping between parties if there
+-- is a mismatch.
+function Alliance:check_parties()
+    --if not self.should_check_parties then
+    --    return
+    --end
+
+    local should_check_parties = false
+    for key, _ in pairs(windower.ffxi.get_party()) do
+        if string.match(key, "a[10-15]") or string.match(key, "a[20-25]") then
+            should_check_parties = true
+            break
+        end
+    end
+
+    if not should_check_parties then
+        return
+    end
+
+    local num_validated_party_members = 0
+    for alliance_member_id, alliance_member in pairs(self.alliance_members_list) do
+        local party = self:get_parties():firstWhere(function(p)
+            return p:has_party_member(alliance_member_id)
+        end)
+        if party then
+            local current_party_index = self:get_index_of_party(party)
+            if current_party_index ~= self:get_party_index(alliance_member:get_name()) then
+                if self:move_alliance_member(alliance_member, self:get_party_index(alliance_member:get_name())) then
+                    num_validated_party_members = num_validated_party_members + 1
+                end
+            else
+                num_validated_party_members = num_validated_party_members + 1
+            end
+        end
+    end
+
+    self:on_alliance_updated():trigger(self)
+
+    if num_validated_party_members == self.alliance_members_list:length() then
+        self.should_check_parties = false
+    end
+end
+
+-------
+-- Moves an alliance member from one party to another party.
+-- @tparam string alliance_member_name Name of alliance member
+-- @tparam number from_party_index Index of current party
+-- @tparam number to_party_index Index of new party
+function Alliance:move_alliance_member(alliance_member, to_party_index)
+    if not alliance_member:get_name() or to_party_index == nil then
+        return false
+    end
+    logger.notice(self.__class, 'move_alliance_member', alliance_member:get_name(), to_party_index)
+
+    for party in self:get_parties():it() do
+        if party:has_party_member(alliance_member:get_id()) then
+            party:remove_party_member(alliance_member:get_id())
+        end
+    end
+
+    local to_party = self:get_parties()[to_party_index]
+    if not to_party:has_party_member(alliance_member:get_id()) then
+        to_party:add_party_member(alliance_member:get_id(), alliance_member:get_name())
+    end
+    return true
+end
+
 -------
 -- Returns all members in the alliance.
 -- @treturn list List of all PartyMember in the alliance
-function Alliance:get_alliance_members()
+function Alliance:get_alliance_members(exclude_player, distance)
     local alliance_members = L{}
     for party in self.parties:it() do
-        alliance_members = alliance_members:extend(party:get_party_members(true))
+        alliance_members = alliance_members + party:get_party_members(not exclude_player, distance)
     end
     return alliance_members
 end
@@ -205,10 +285,63 @@ function Alliance:get_party_index(alliance_member_name)
 end
 
 -------
+-- Returns the index of the party in the alliance.
+-- @treturn number Index of Party (see party.lua)
+function Alliance:get_index_of_party(party)
+    local party_index = 1
+    for p in self:get_parties():it() do
+        if p == party then
+            return party_index
+        end
+        party_index = party_index + 1
+    end
+    return party_index
+end
+
+-------
 -- Returns the list of parties in the alliance.
 -- @treturn list List of Party (see party.lua)
 function Alliance:get_parties()
     return self.parties
+end
+
+-------
+-- Returns the list of alliance member ids.
+-- @treturn list List of mob ids
+function Alliance:get_alliance_member_ids()
+    return self:get_alliance_members():map(function(alliance_member)
+        return alliance_member:get_id()
+    end):compact_map()
+end
+
+-------
+-- Returns whether the target is claimed by an alliance member.
+-- @tparam number target_index Target index
+-- @treturn Monster Monster targeted by the alliance, or nil if not alliance targeted
+function Alliance:get_target_by_index(target_index)
+    for party in self:get_parties():it() do
+        local target = party:get_target_by_index(target_index)
+        if target then
+            return target
+        end
+    end
+    return nil
+end
+
+-------
+-- Returns whether the target is claimed by an alliance member.
+-- @tparam number target_index Target index
+-- @treturn boolean True if the target is claimed by an alliance member
+function Alliance:is_claimed(target_id)
+    local target = windower.ffxi.get_mob_by_id(target_id)
+    if target and target.claim_id then
+        for party in self:get_parties():it() do
+            if party:get_party_member(target.claim_id) then
+                return true
+            end
+        end
+    end
+    return false
 end
 
 return Alliance

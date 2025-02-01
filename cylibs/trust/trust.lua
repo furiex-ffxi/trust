@@ -13,6 +13,11 @@ function Trust:on_trust_settings_changed()
 	return self.trust_settings_changed
 end
 
+-- Event called when trust roles are changed.
+function Trust:on_trust_roles_changed()
+	return self.trust_roles_changed
+end
+
 function Trust.new(action_queue, roles, trust_settings, job)
 	local self = setmetatable({
 		action_queue = action_queue;
@@ -24,6 +29,7 @@ function Trust.new(action_queue, roles, trust_settings, job)
 		role_blacklist = S{};
 		gambits = L{};
 		trust_settings_changed = Event.newEvent();
+		trust_roles_changed = Event.newEvent();
 		trust_modes_override = Event.newEvent();
 		trust_modes_reset = Event.newEvent();
 	}, Trust)
@@ -37,16 +43,44 @@ function Trust:init()
 	for role in self.roles:it() do
 		self:add_role(role)
 	end
-	self:on_init()
 
-	self:on_trust_settings_changed():addAction(function(_, new_trust_settings)
+	local on_trust_settings_changed = function(new_trust_settings)
 		local gambiter = self:role_with_type("gambiter")
 		if gambiter then
 			gambiter:set_gambit_settings(new_trust_settings.GambitSettings)
 		end
+		local targeter = self:role_with_type("targeter")
+		if targeter then
+			targeter:set_target_settings(new_trust_settings.TargetSettings)
+		end
+		local buffer = self:role_with_type("buffer")
+		if buffer then
+			buffer:set_buff_settings(new_trust_settings.BuffSettings, self:get_job())
+		end
+
+		local puller = self:role_with_type("puller")
+		if puller then
+			puller:set_pull_settings(new_trust_settings.PullSettings)
+		end
 
 		self.gambits = new_trust_settings.GambitSettings.Default or L{}
+	end
+
+	self:on_trust_settings_changed():addAction(function(_, new_trust_settings)
+		on_trust_settings_changed(new_trust_settings)
 	end)
+
+	-- NOTE: this is necessary because some gambits add conditions that reference the player's index,
+	-- which changes when you zone.
+	self:get_party():get_player():on_zone_change():addAction(function(p, new_zone_id)
+		if p:get_mob() == nil then
+			return
+		end
+		self:set_trust_settings(self.trust_settings)
+	end)
+
+	-- NOTE: this must come after so on_trust_settings_changed gets called in parent class first
+	self:on_init()
 
 	self.on_party_target_change_id = self.party:on_party_target_change():addAction(
 			function(_, new_target_index, old_target_index)
@@ -59,6 +93,12 @@ function Trust:init()
 				self.target_index = new_target_index
 				self:job_target_change(new_target_index, old_target_index)
 			end)
+
+	local party_target = self.party:get_current_party_target()
+	if party_target and party_target:get_mob() then
+		self.target_index = party_target:get_mob().index
+		self:job_target_change(self.target_index, nil)
+	end
 end
 
 function Trust:destroy()
@@ -68,10 +108,12 @@ function Trust:destroy()
 			role:set_player(nil)
 			role:set_alliance(nil)
 			role:set_party(nil)
+			role:set_job(nil)
 		end
 	end
 
 	self.trust_settings_changed:removeAllActions()
+	self.trust_roles_changed:removeAllActions()
 	self.trust_modes_override:removeAllActions()
 	self.trust_modes_reset:removeAllActions()
 
@@ -82,6 +124,26 @@ function Trust:destroy()
 end
 
 function Trust:on_init()
+	for party in self:get_alliance():get_parties():it() do
+		if party:get_player() == nil then
+			party:on_party_member_added():addAction(function(p)
+				for role in self.roles:it() do
+					if role.get_party_member_blacklist then
+						role:get_party_member_blacklist():append(p:get_name())
+					end
+				end
+			end)
+			party:on_party_member_removed():addAction(function(p)
+				for role in self.roles:it() do
+					if role.get_party_member_blacklist then
+						role:set_party_member_blacklist(role:get_party_member_blacklist():filter(function(party_member_name)
+							return party_member_name ~= p:get_name()
+						end))
+					end
+				end
+			end)
+		end
+	end
 end
 
 function Trust:on_deinit()
@@ -100,12 +162,14 @@ function Trust:add_role(role)
 		role:set_player(self.player)
 		role:set_alliance(self.alliance)
 		role:set_party(self.party)
+		role:set_job(self.job)
 		role:on_add()
 		if role.target_change then
 			role:target_change(self.target_index)
 		end
 		self:on_role_added(role)
 	end
+	self:on_trust_roles_changed():trigger(self, L{ role })
 end
 
 function Trust:remove_role(role)
@@ -113,6 +177,7 @@ function Trust:remove_role(role)
 		role:destroy()
 		role:set_player(nil)
 		role:set_party(nil)
+		role:set_job(nil)
 	end
 	self.roles = self.roles:filter(function(r) return r:get_type() ~= role:get_type() end)
 end
@@ -250,6 +315,10 @@ end
 
 function Trust:get_trust_settings()
 	return self.trust_settings
+end
+
+function Trust:get_widget()
+	return nil, nil
 end
 
 return Trust

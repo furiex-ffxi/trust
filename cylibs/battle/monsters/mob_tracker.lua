@@ -19,6 +19,11 @@ function MobTracker:on_mob_ko()
     return self.mob_ko
 end
 
+-- Event called when targets are added or removed.
+function MobTracker:on_targets_changed()
+    return self.targets_changed
+end
+
 function MobTracker.new(on_party_member_added, on_party_member_removed)
     local self = setmetatable({
         player_ids = S{};
@@ -28,6 +33,7 @@ function MobTracker.new(on_party_member_added, on_party_member_removed)
     }, MobTracker)
 
     self.mob_ko = Event.newEvent()
+    self.targets_changed = Event.newEvent()
 
     self.dispose_bag:add(on_party_member_added:addAction(function(t)
         self.dispose_bag:add(t:on_target_change():addAction(function(_, new_target_index, _)
@@ -35,6 +41,7 @@ function MobTracker.new(on_party_member_added, on_party_member_removed)
             self:prune_mobs()
         end), t:on_target_change())
         self:add_player(t:get_id())
+        self:add_mob_by_index(t:get_target_index())
     end), on_party_member_added)
 
     self.dispose_bag:add(on_party_member_removed:addAction(function(t)
@@ -55,6 +62,7 @@ function MobTracker:destroy()
     self.mobs = {}
 
     self.mob_ko:removeAllActions()
+    self.targets_changed:removeAllActions()
 
     self.dispose_bag:destroy()
 end
@@ -132,6 +140,8 @@ function MobTracker:add_mob(target_id)
 
     self.mobs[target_id] = mob
 
+    self:on_targets_changed():trigger(self, L{ mob }, L{})
+
     logger.notice("Started tracking", mob:get_name(), mob:get_id(), target_id)
 end
 
@@ -154,6 +164,8 @@ function MobTracker:remove_mob(target_id)
 
     self.mobs[target_id] = nil
 
+    self:on_targets_changed():trigger(self, L{}, L{ mob })
+
     logger.notice("Stopped tracking", mob:get_name(), mob:get_id())
 end
 
@@ -162,7 +174,7 @@ end
 function MobTracker:prune_mobs()
     local mob_ids_to_remove = L{}
     for id, mob in pairs(self.mobs) do
-        if not battle_util.is_valid_target(id) or party_util.not_party_claimed(id) or L{ 'Idle' }:contains(mob:get_status()) and mob:get_distance():sqrt() > 50 then
+        if not battle_util.is_valid_target(id) or (mob:get_mob().claim_id ~= nil and mob:get_mob().claim_id ~= 0 and not self.player_ids:contains(mob:get_mob().claim_id)) or L{ 'Idle' }:contains(mob:get_status()) or mob:get_distance():sqrt() > 50 then
             mob_ids_to_remove:append(id)
         end
     end

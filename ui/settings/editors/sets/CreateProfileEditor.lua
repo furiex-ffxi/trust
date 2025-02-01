@@ -7,27 +7,36 @@ CreateProfileEditor.__index = CreateProfileEditor
 CreateProfileEditor.__type = "CreateProfileEditor"
 
 -- Settings keys
-CreateProfileEditor.SettinsgKeys = {}
-CreateProfileEditor.SettinsgKeys.SetName = 'set_name'
-CreateProfileEditor.SettinsgKeys.JobSettings = 'create_job_settings'
-CreateProfileEditor.SettinsgKeys.WeaponSkillSettings = 'create_weapon_skill_settings'
+CreateProfileEditor.SettingsKeys = {}
+CreateProfileEditor.SettingsKeys.SetName = 'set_name'
+CreateProfileEditor.SettingsKeys.JobSettings = 'create_job_settings'
+CreateProfileEditor.SettingsKeys.SubJobSettings = 'create_sub_job_settings'
+CreateProfileEditor.SettingsKeys.WeaponSkillSettings = 'create_weapon_skill_settings'
 
-function CreateProfileEditor.new(trustModeSettings, jobSettings, weaponSkillSettings, infoView)
+function CreateProfileEditor.new(trustModeSettings, jobSettings, subJobSettings, weaponSkillSettings, infoView)
     local newSetSettings = {}
 
-    newSetSettings[CreateProfileEditor.SettinsgKeys.SetName] = 'NewProfile'
-    newSetSettings[CreateProfileEditor.SettinsgKeys.JobSettings] = true
-    newSetSettings[CreateProfileEditor.SettinsgKeys.WeaponSkillSettings] = true
+    newSetSettings[CreateProfileEditor.SettingsKeys.SetName] = 'NewProfile'
+    newSetSettings[CreateProfileEditor.SettingsKeys.JobSettings] = true
+    newSetSettings[CreateProfileEditor.SettingsKeys.SubJobSettings] = true
+    newSetSettings[CreateProfileEditor.SettingsKeys.WeaponSkillSettings] = true
 
     local configItems = L{
-        TextInputConfigItem.new(CreateProfileEditor.SettinsgKeys.SetName, newSetSettings[CreateProfileEditor.SettinsgKeys.SetName], 'Profile Name', function(text)
+        TextInputConfigItem.new(CreateProfileEditor.SettingsKeys.SetName, newSetSettings[CreateProfileEditor.SettingsKeys.SetName], 'Profile Name', function(text)
             return true
         end),
-        BooleanConfigItem.new(CreateProfileEditor.SettinsgKeys.JobSettings, 'Create new job settings'),
-        BooleanConfigItem.new(CreateProfileEditor.SettinsgKeys.WeaponSkillSettings, 'Create new weapon skill settings'),
+        BooleanConfigItem.new(CreateProfileEditor.SettingsKeys.JobSettings, 'Create new job settings'),
+        BooleanConfigItem.new(CreateProfileEditor.SettingsKeys.SubJobSettings, 'Create new sub job settings'),
+        BooleanConfigItem.new(CreateProfileEditor.SettingsKeys.WeaponSkillSettings, 'Create new weapon skill settings'),
     }
 
-    local self = setmetatable(ConfigEditor.new(nil, newSetSettings, configItems, nil, function(_) return true end), CreateProfileEditor)
+    local self = setmetatable(ConfigEditor.new(nil, newSetSettings, configItems, nil, function(newSettings)
+        local profileName = newSettings[CreateProfileEditor.SettingsKeys.SetName]
+        if profileName and profileName:match("^[a-zA-Z]+$") ~= nil then
+            return true
+        end
+        return false
+    end), CreateProfileEditor)
 
     self.newSetSettings = newSetSettings
     self.trustModeSettings = trustModeSettings
@@ -37,7 +46,7 @@ function CreateProfileEditor.new(trustModeSettings, jobSettings, weaponSkillSett
     self:setShouldRequestFocus(true)
 
     self:getDisposeBag():add(self:onConfigChanged():addAction(function(newConfigSettings, _)
-        local setName = newConfigSettings[CreateProfileEditor.SettinsgKeys.SetName]
+        local setName = newConfigSettings[CreateProfileEditor.SettingsKeys.SetName]:gsub("|", "")
         if self.trustModeSettings:getSetNames():contains(setName) then
             addon_message(123, "A profile with this name already exists.")
             return
@@ -53,13 +62,19 @@ function CreateProfileEditor.new(trustModeSettings, jobSettings, weaponSkillSett
             end
         end
 
-        local shouldCreateJobSettings = newConfigSettings[CreateProfileEditor.SettinsgKeys.JobSettings]
+        local shouldCreateJobSettings = newConfigSettings[CreateProfileEditor.SettingsKeys.JobSettings]
         if shouldCreateJobSettings then
             trust_modes['maintrustsettingsmode'] = setName
             jobSettings:createSettings(setName)
         end
 
-        local shouldCreateWeaponSkillSettings = newConfigSettings[CreateProfileEditor.SettinsgKeys.WeaponSkillSettings]
+        local shouldCreateSubJobSettings = newConfigSettings[CreateProfileEditor.SettingsKeys.SubJobSettings]
+        if shouldCreateSubJobSettings then
+            trust_modes['subtrustsettingsmode'] = setName
+            subJobSettings:createSettings(setName)
+        end
+
+        local shouldCreateWeaponSkillSettings = newConfigSettings[CreateProfileEditor.SettingsKeys.WeaponSkillSettings]
         if shouldCreateWeaponSkillSettings then
             trust_modes['weaponskillsettingsmode'] = setName
             weaponSkillSettings:createSettings(setName)
@@ -67,6 +82,10 @@ function CreateProfileEditor.new(trustModeSettings, jobSettings, weaponSkillSett
 
         trustModeSettings:saveSettings(setName, trust_modes)
     end), self:onConfigChanged())
+
+    self:onConfigValidationError():addAction(function()
+        addon_system_error("Profile names can only contain the characters a-z and A-Z.")
+    end)
 
     return self
 end

@@ -24,15 +24,16 @@ end
 function Role:tic(new_time, old_time)
 end
 
-function Role:check_debuffs()
-end
-
 function Role:allows_duplicates()
     return false
 end
 
 function Role:get_type()
     return "role"
+end
+
+function Role:get_localized_name()
+    return self:get_type()
 end
 
 function Role:set_player(player)
@@ -59,9 +60,17 @@ function Role:get_party()
     return self.party
 end
 
+function Role:set_job(job)
+    self.job = job
+end
+
+function Role:get_job()
+    return self.job
+end
+
 function Role:get_target()
     if self.target_index then
-        return self:get_party():get_target_by_index(self.target_index)
+        return self:get_alliance():get_target_by_index(self.target_index)
     end
     return nil
 end

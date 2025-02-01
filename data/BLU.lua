@@ -2,19 +2,16 @@
 return {
     Version = 2,
     Default = {
-        JobAbilities = L{
-
-        },
-        SelfBuffs = L{
-            Spell.new("Erratic Flutter", L{}, L{}, nil, L{SpellRecastReadyCondition.new(710)}),
-            Spell.new("Cocoon", L{}, L{}, nil, L{SpellRecastReadyCondition.new(547)}),
-            Spell.new("Barrier Tusk", L{}, L{}, nil, L{SpellRecastReadyCondition.new(685)}),
-            Spell.new("Nat. Meditation", L{}, L{}, nil, L{SpellRecastReadyCondition.new(700)}),
-            Spell.new("Occultation", L{}, L{}, nil, L{SpellRecastReadyCondition.new(679)}),
-            Spell.new("Mighty Guard", L{"Unbridled Learning"}, L{}, nil, L{SpellRecastReadyCondition.new(750)}),
-        },
-        PartyBuffs = L{
-
+        BuffSettings = {
+            Gambits = L{
+                Gambit.new("Self", L{}, Spell.new("Barrier Tusk", L{}, L{}, nil, L{}), "Self", L{"Buffs"}),
+                Gambit.new("Self", L{}, Buff.new("Cocoon", L{}, L{}, nil, L{}), "Self", L{"Buffs"}),
+                Gambit.new("Self", L{}, Spell.new("Erratic Flutter", L{}, L{}, nil, L{}), "Self", L{"Buffs"}),
+                Gambit.new("Self", L{}, Buff.new("Mighty Guard", L{"Unbridled Learning", "Diffusion"}, L{}, nil, L{}), "Self", L{}),
+                Gambit.new("Self", L{}, Buff.new("Mighty Guard", L{"Unbridled Learning"}, L{}, nil, L{}), "Self", L{}),
+                Gambit.new("Self", L{}, Spell.new("Nat. Meditation", L{}, L{}, nil, L{}), "Self", L{"Buffs"}),
+                Gambit.new("Self", L{}, Spell.new("Occultation", L{}, L{}, nil, L{}), "Self", L{"Buffs"})
+            }
         },
         CureSettings = {
             Thresholds = {
@@ -36,27 +33,59 @@ return {
                 }
             }
         },
+        DebuffSettings = {
+            Gambits = L{
+            }
+        },
         PullSettings = {
-            Abilities = L{
-                Spell.new('Glutinous Dart', L{}, L{}),
-                Approach.new(),
+            Gambits = L{
+                Gambit.new("Enemy", L{}, Spell.new("Glutinous Dart", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Pulling"}),
+                Gambit.new("Enemy", L{}, Approach.new(), "Enemy", L{"Pulling"}),
             },
             Targets = L{
                 "Locus Ghost Crab",
                 "Locus Dire Bat",
                 "Locus Armet Beetle",
             },
-            Distance = 20
+            Distance = 20,
+            MaxNumTargets = 1,
+        },
+        TargetSettings = {
+            Retry = false
         },
         BlueMagicSettings = {
             SpellSets = {
                 Default = BlueMagicSet.new(L{"White Wind", "Molting Plumage", "Thrashing Assault", "Fantod", "Erratic Flutter", "Tail Slap", "Paralyzing Triad", "Metallic Body", "Diffusion Ray", "Magic Fruit", "Embalming Earth", "Sudden Lunge", "Sinker Drill", "Cocoon", "Occultation", "Heavy Strike", "Nat. Meditation", "Empty Thrash", "Sickle Slash"})
             }
         },
+        NukeSettings = {
+            Delay = 10,
+            MinManaPointsPercent = 30,
+            MinNumMobsToCleave = 2,
+            GearswapCommand = "gs c set MagicBurstMode Single",
+            Gambits = L{
+                Gambit.new("Enemy", L{}, Spell.new("Anvil Lightning", L{"Burst Affinity"}, L{}, nil, L{}, nil, true), "Enemy", L{}),
+                Gambit.new("Enemy", L{}, Spell.new("Spectral Floe", L{"Burst Affinity"}, L{}, nil, L{}, nil, true), "Enemy", L{}),
+                Gambit.new("Enemy", L{}, Spell.new("Searing Tempest", L{"Burst Affinity"}, L{}, nil, L{}, nil, true), "Enemy", L{}),
+                Gambit.new("Enemy", L{}, Spell.new("Silent Storm", L{"Burst Affinity"}, L{}, nil, L{}, nil, true), "Enemy", L{}),
+                Gambit.new("Enemy", L{}, Spell.new("Scouring Spate", L{"Burst Affinity"}, L{}, nil, L{}, nil, true), "Enemy", L{}),
+                Gambit.new("Enemy", L{}, Spell.new("Entomb", L{"Burst Affinity"}, L{}, nil, L{}, nil, true), "Enemy", L{}),
+                Gambit.new("Enemy", L{}, Spell.new("Tenebral Crush", L{"Burst Affinity"}, L{}, nil, L{}, nil, true), "Enemy", L{}),
+                Gambit.new("Enemy", L{}, Spell.new("Blinding Fulgor", L{"Burst Affinity"}, L{}, nil, L{}, nil, true), "Enemy", L{}),
+            },
+            JobAbilities = L{
+            },
+            Blacklist = L{
+
+            },
+        },
         GambitSettings = {
             Gambits = L{
-                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("BLU")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
+                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("BLU")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"Food"})
             }
+        },
+        GearSwapSettings = {
+            Enabled = true
         },
     }
 }

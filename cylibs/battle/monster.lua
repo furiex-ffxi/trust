@@ -185,6 +185,16 @@ function Monster:monitor()
             self:handle_action_on_monster(act)
         end
     end), WindowerEvents.Action)
+
+    self.dispose_bag:add(WindowerEvents.Ability.Finish:addAction(function(target_id, ability_id)
+        if not ability_id then
+            return
+        end
+        local ability = monster_abilities_ext[ability_id]
+        if ability then
+            self:handle_gain_buff(ability.status)
+        end
+    end), WindowerEvents.Ability.Finish)
 end
 
 function Monster:handle_action_by_monster(act)
@@ -218,11 +228,6 @@ function Monster:handle_action_by_monster(act)
             self:handle_gain_buff(action.param)
         elseif action_message_util.is_spell_finish_message(action.message, act.param) then
             self:on_spell_finish():trigger(self, target.index, act.param)
-        elseif monster_abilities_ext:with('id', action.param) then
-            local buff = res.buffs:with('id', action.param)
-            if buff then
-                self:handle_gain_buff(buff.id)
-            end
         end
     end
 end
@@ -303,7 +308,7 @@ end
 -- @treturn List of localized buff names (see buffs.lua)
 function Monster:get_buffs()
     return L(self.buff_ids:map(function(buff_id)
-        return res.buffs:with('id', buff_id).enl
+        return res.buffs[buff_id].enl
     end))
 end
 
@@ -348,6 +353,14 @@ end
 -- @treturn boolean True if the monster is party claimed
 function Monster:is_claimed()
     return party_util.party_claimed(self:get_id())
+end
+
+-------
+-- Returns whether the monster is claimed by any member in an alliance.
+-- @tparam Alliance alliance The alliance
+-- @treturn boolean True if the monster is alliance claimed
+function Monster:is_claimed_by(alliance)
+    return alliance:is_claimed(self:get_id())
 end
 
 -------

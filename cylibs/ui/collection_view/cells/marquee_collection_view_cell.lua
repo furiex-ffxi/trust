@@ -1,4 +1,3 @@
-local Alignment = require('cylibs/ui/layout/alignment')
 local DisposeBag = require('cylibs/events/dispose_bag')
 local texts = require('texts')
 local Timer = require('cylibs/util/timers/timer')
@@ -23,7 +22,6 @@ function MarqueeCollectionViewCell.new(item, multiplier)
     self.numCharacters = 10
     self.currentText = self:getItem():getText()
     self.timer = Timer.scheduledTimer(0.125, 0.5)
-    self.disposeBag = DisposeBag.new()
 
     self.disposeBag:add(self.timer:onTimeChange():addAction(function(_)
         self:nextFrame()
@@ -32,12 +30,6 @@ function MarqueeCollectionViewCell.new(item, multiplier)
     self.disposeBag:addAny(L{ self.timer })
 
     return self
-end
-
-function MarqueeCollectionViewCell:destroy()
-    TextCollectionViewCell.destroy(self)
-
-    self.disposeBag:destroy()
 end
 
 ---
@@ -110,6 +102,8 @@ function MarqueeCollectionViewCell:layoutIfNeeded()
 
     self.textView:visible(self:getAbsoluteVisibility() and self:isVisible())
 
+    self:setAnimated(self:isVisible())
+
     return true
 end
 
@@ -125,7 +119,7 @@ function MarqueeCollectionViewCell:setAnimated(animated)
 end
 
 function MarqueeCollectionViewCell:updateText()
-    local text = self:getItem():getText()
+    local text = self:getItem():getLocalizedText()
     if text:length() > self.numCharacters then
         if text:length() >= self.currentIndex + self.numCharacters then
             local next = text:slice(self.currentIndex, math.min(self.currentIndex + self.numCharacters + 3, text:length()))

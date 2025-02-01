@@ -22,9 +22,9 @@ function MainJobCondition:is_satisfied(target_index)
     if target then
         local party = player.party
         if party then
-           local party_member = party:get_party_member(target.id)
-            if party_member then
-                return party_member:get_main_job_short() == self.job_name_short
+            local player = party:get_player()
+            if player then
+                return player:get_main_job_short() == self.job_name_short
             end
         end
     end
@@ -38,21 +38,21 @@ function MainJobCondition:get_config_items()
     end
     return L{
         PickerConfigItem.new('job_name_short', self.job_name_short, all_job_name_shorts, function(job_name_short)
-            return res.jobs:with('ens', job_name_short).en
+            return i18n.resource('jobs', 'ens', job_name_short)
         end, "Main Job")
     }
 end
 
 function MainJobCondition:tostring()
-    return "Main job is "..res.jobs:with('ens', self.job_name_short).en
+    return "Player main job is "..i18n.resource('jobs', 'ens', self.job_name_short)
 end
 
 function MainJobCondition.description()
-    return "Main job is X."
+    return "Player main job is X."
 end
 
 function MainJobCondition.valid_targets()
-    return S{ Condition.TargetType.Self, Condition.TargetType.Ally }
+    return S{ Condition.TargetType.Self }
 end
 
 function MainJobCondition:serialize()

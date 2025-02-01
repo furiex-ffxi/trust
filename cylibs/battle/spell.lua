@@ -7,10 +7,11 @@ require('tables')
 require('lists')
 require('logger')
 
+local AssetManager = require('ui/themes/ffxi/FFXIAssetManager')
+local MultiPickerConfigItem = require('ui/settings/editors/config/MultiPickerConfigItem')
 local serializer_util = require('cylibs/util/serializer_util')
 
 local res = require('resources')
-local StrategemCountCondition = require('cylibs/conditions/strategem_count')
 
 local Spell = {}
 Spell.__index = Spell
@@ -35,24 +36,17 @@ function Spell.new(spell_name, job_abilities, job_names, target, conditions, con
         consumable = consumable;
         conditions = conditions or L{};
         enabled = true;
+        requires_job_abilities = true;
     }, Spell)
 
     if S(res.spells:with('en', spell_name)):contains('Party') then
         job_names = job_names or job_util.all_jobs()
     end
 
-    self:add_condition(SpellRecastReadyCondition.new(res.spells:with('en', spell_name).id))
+    local recast_ready_condition = SpellRecastReadyCondition.new(res.spells:with('en', spell_name).id)
+    recast_ready_condition.editable = false
 
-    local strategem_count = self.job_abilities:filter(function(job_ability_name)
-        local job_ability = res.job_abilities:with('en', job_ability_name)
-        return job_ability.type == 'Scholar'
-    end):length()
-    if strategem_count > 0 then
-        local strategem_condition = (conditions or L{}):filter(function(condition) return condition.__type == StrategemCountCondition.__type end)
-        if strategem_condition:length() == 0 then
-            self:add_condition(StrategemCountCondition.new(strategem_count))
-        end
-    end
+    self:add_condition(recast_ready_condition)
 
     return self
 end
@@ -85,6 +79,24 @@ end
 --
 function Spell:set_job_abilities(job_ability_names)
     self.job_abilities = job_ability_names
+end
+
+---
+-- Returns whether all job abilities are required to perform this action.
+--
+-- @treturn boolean Whether job abilities are required
+--
+function Spell:requires_all_job_abilities()
+    return self.requires_job_abilities
+end
+
+---
+-- Sets whether job abilities are required.
+--
+-- @tparam boolean requires_job_abilities Whether job abilities are required
+--
+function Spell:set_requires_all_job_abilities(requires_job_abilities)
+    self.requires_job_abilities = requires_job_abilities
 end
 
 -------
@@ -156,16 +168,7 @@ end
 -- @treturn list Valid spell targets (e.g. bt, p1, p2)
 function Spell:get_valid_targets()
     local spell = self:get_spell()
-    return L(spell.targets):map(function(target)
-        if target == 'Self' then
-            return 'me'
-        elseif target == 'Party' then
-            return L{ 'p0', 'p1', 'p2', 'p3', 'p4', 'p5' }
-        elseif target == 'Enemy' then
-            return 'bt'
-        end
-        return nil
-    end):compact_map():flatten(true)
+    return L(spell.targets)
 end
 
 -------
@@ -185,6 +188,13 @@ end
 -- @treturn string Name of the consumable (e.g. Shihei), or nil if none is required
 function Spell:get_consumable()
     return self.consumable
+end
+
+-------
+-- Returns the buff/debuff for the spell.
+-- @treturn Buff/debuff metadata (see buffs.lua)
+function Spell:get_status()
+    return buff_util.buff_for_spell(self:get_spell().id)
 end
 
 -------
@@ -211,11 +221,51 @@ function Spell:get_conditions()
 end
 
 -------
+-- Returns the config items that will be used when creating the config editor
+-- to edit this ability.
+-- @treturn list List of ConfigItem
+function Spell:get_config_items(trust)
+    local allJobAbilities = (trust and L(trust:get_job():get_job_abilities(function(jobAbilityId)
+        return true
+    end):map(function(jobAbilityId)
+        return res.job_abilities[jobAbilityId].en
+    end)) or L{}):sort()
+
+    local configItem = MultiPickerConfigItem.new("job_abilities", self.job_abilities, allJobAbilities, function(jobAbilityNames)
+        local summary = localization_util.commas(jobAbilityNames:map(function(jobAbilityName) return i18n.resource('job_abilities', 'en', jobAbilityName) end), 'and')
+        if summary:length() == 0 then
+            summary = "None"
+        end
+        return summary
+    end, "Job Abilities", nil, function(jobAbilityName)
+        return AssetManager.imageItemForJobAbility(jobAbilityName)
+    end)
+    configItem:setPickerTitle("Job Abilities")
+    configItem:setPickerDescription("Choose one or more job abilities to use with this spell.")
+    return L{
+        configItem,
+    }
+end
+
+-------
+-- Called when the ability is updated via get_config_items.
+-- @tparam Spell Old spell
+function Spell:on_config_changed(old_spell)
+end
+
+-------
 -- Return the Action to cast this spell on a target. Optionally first uses job abilities where conditions are satisfied.
 -- @tparam number target_index Target for the spell
 -- @treturn Action Action to cast the spell
 function Spell:to_action(target_index, player, job_abilities)
     local actions = L{}
+
+    if player:is_moving() then
+        actions:append(BlockAction.new(function()
+            windower.ffxi.run(false)
+        end), 'stop_moving')
+        actions:append(WaitAction.new(0, 0, 0, 0.5))
+    end
 
     local job_abilities = (job_abilities or self:get_job_abilities()):map(function(job_ability_name)
         local conditions = L{}
@@ -228,6 +278,9 @@ function Spell:to_action(target_index, player, job_abilities)
     end):filter(function(job_ability)
         return Condition.check_conditions(job_ability:get_conditions(), player:get_mob().index)
     end)
+    if not self:requires_all_job_abilities() and job_abilities:length() > 0 then
+        job_abilities = L{ job_abilities[1] }
+    end
 
     for job_ability in job_abilities:it() do
         if job_ability.type == 'Scholar' then
@@ -237,6 +290,10 @@ function Spell:to_action(target_index, player, job_abilities)
             actions:append(JobAbilityAction.new(0, 0, 0, job_ability:get_job_ability_name()))
             actions:append(WaitAction.new(0, 0, 0, 1))
         end
+    end
+
+    if self:get_target() and windower.ffxi.get_mob_by_target(self:get_target()) then
+        target_index = windower.ffxi.get_mob_by_target(self:get_target()).index
     end
 
     actions:append(SpellAction.new(0, 0, 0, self:get_spell().id, target_index, player))
@@ -282,6 +339,18 @@ function Spell:get_name()
     return self.spell_name
 end
 
+function Spell:get_localized_name()
+    return i18n.resource('spells', 'en', self:get_name())
+end
+
+function Spell:get_localized_description()
+    local buff = buff_util.buff_for_spell(self:get_spell().id)
+    if buff then
+        return i18n.resource('buffs', 'en', buff.en)
+    end
+    return nil
+end
+
 function Spell:serialize()
     local conditions_classes_to_serialize = Condition.defaultSerializableConditionClasses()
     local conditions_to_serialize = self.conditions:filter(function(condition)
@@ -299,6 +368,14 @@ end
 
 function Spell:__tostring()
     return self:description()
+end
+
+function Spell:copy()
+    local conditions = L{}
+    for condition in self:get_conditions():it() do
+        conditions:append(condition:copy())
+    end
+    return Spell.new(self.spell_name, self.job_abilities, self.job_names, self.target, conditions, self.consumable )
 end
 
 return Spell

@@ -50,6 +50,7 @@ function SkillchainAbility.auto()
     local self = setmetatable({
         ability_id = SkillchainAbility.Auto;
         name = "Auto";
+        conditions = L{};
     }, SkillchainAbility)
     return self
 end
@@ -58,6 +59,7 @@ function SkillchainAbility.none()
     local self = setmetatable({
         ability_id = SkillchainAbility.None;
         name = "None";
+        conditions = L{};
     }, SkillchainAbility)
     return self
 end
@@ -70,6 +72,16 @@ end
 -- @treturn string Name of ability (e.g. `Fire VI`, `Catastrophe`)
 function SkillchainAbility:get_name()
     return self.name
+end
+
+-------
+-- Returns the localized name of the ability.
+-- @treturn string Localized name of ability (e.g. `Fire VI`, `Catastrophe`)
+function SkillchainAbility:get_localized_name()
+    if S{ SkillchainAbility.Auto, SkillchainAbility.Skip, SkillchainAbility.None }:contains(self:get_name()) then
+        return self:get_name()
+    end
+    return i18n.resource(self.resource, 'en', self:get_name())
 end
 
 -------
@@ -110,6 +122,15 @@ function SkillchainAbility:get_conditions()
         end
     end
     return conditions
+end
+
+-------
+-- Adds a condition to the list of conditions.
+-- @tparam Condition condition Condition to add
+function SkillchainAbility:add_condition(condition)
+    if not self:get_conditions():contains(condition) then
+        self.conditions:append(condition)
+    end
 end
 
 -- Returns the amount of time this ability extends the skillchain window by.
@@ -202,7 +223,7 @@ function SkillchainAbility:to_action(target_index, player, job_abilities)
         actions:append(SpellAction.new(0, 0, 0, self:get_ability_id(), target_index, player))
     end
 
-    actions:append(WaitAction.new(0, 0, 0, 2))
+    actions:append(WaitAction.new(0, 0, 0, 3))
 
     return SequenceAction.new(actions, 'skillchain_ability_sc', false)
 end

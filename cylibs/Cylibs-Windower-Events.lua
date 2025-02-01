@@ -1,13 +1,11 @@
+local action_message_util = require('cylibs/util/action_message_util')
 local AllianceMember = require('cylibs/entity/alliance/alliance_member')
 local BuffRecord = require('cylibs/battle/buff_record')
 local Event = require('cylibs/events/Luvent')
 local DisposeBag = require('cylibs/events/dispose_bag')
 local EquipmentChangedMessage = require('cylibs/messages/equipment_changed_message')
-local GainDebuffMessage = require('cylibs/messages/gain_buff_message')
 local inventory_util = require('cylibs/util/inventory_util')
 local IpcRelay = require('cylibs/messages/ipc/ipc_relay')
-local logger = require('cylibs/logger/logger')
-local LoseDebuffMessage = require('cylibs/messages/lose_buff_message')
 local MobUpdateMessage = require('cylibs/messages/mob_update_message')
 local packets = require('packets')
 local Timer = require('cylibs/util/timers/timer')
@@ -54,6 +52,12 @@ WindowerEvents.Ability.Finish = Event.newEvent()
 WindowerEvents.Spell = {}
 WindowerEvents.Spell.Begin = Event.newEvent()
 WindowerEvents.Spell.Finish = Event.newEvent()
+WindowerEvents.StatusRemoval = {}
+WindowerEvents.StatusRemoval.NoEffect = Event.newEvent()
+WindowerEvents.StatusChanged = Event.newEvent()
+WindowerEvents.Skillchain = {}
+WindowerEvents.Skillchain.Begin = Event.newEvent()
+WindowerEvents.Skillchain.End = Event.newEvent()
 
 local main_weapon_id
 local ranged_weapon_id
@@ -90,7 +94,6 @@ local incoming_event_dispatcher = {
     [0x028] = function(data)
         local act = windower.packets.parse_action(data)
         act.size = data:byte(5)
-        WindowerEvents.Action:trigger(act)
 
         if act.category == 4 then
             if act.param and res.spells[act.param] then
@@ -99,6 +102,13 @@ local incoming_event_dispatcher = {
         elseif act.category == 7 then
             if res.monster_abilities[act.targets[1].actions[1].param] then
                 WindowerEvents.Ability.Ready:trigger(act.actor_id, act.targets[1].actions[1].param)
+            end
+        elseif act.category == 8 then
+            if act.targets[1] and act.targets[1].actions[1] then
+                local spell_id = act.targets[1].actions[1].param
+                if res.spells[spell_id] then
+                    WindowerEvents.Spell.Begin:trigger(act.actor_id, spell_id)
+                end
             end
         elseif act.category == 11 then
             if res.monster_abilities[act.param] then
@@ -115,8 +125,26 @@ local incoming_event_dispatcher = {
                         WindowerEvents.GainDebuff:trigger(target.id, debuff.id)
                     end
                 end
+                -- Dia
+                if act.param and S{23, 24, 25}:contains(act.param) and S{252}:contains(action.message) then
+                    local debuff = buff_util.debuff_for_spell(act.param)
+                    if debuff then
+                        WindowerEvents.GainDebuff:trigger(target.id, debuff.id)
+                    end
+                end
+                -- Bio
+                if act.param and S{230, 231, 232, 233, 234}:contains(act.param) and S{252}:contains(action.message) then
+                    local debuff = buff_util.debuff_for_spell(act.param)
+                    if debuff then
+                        WindowerEvents.GainDebuff:trigger(target.id, debuff.id)
+                    end
+                end
             end
         end
+
+        -- NOTE: for some reason, if this triggers before individual events above there
+        -- is a delay between when the event is received and processed
+        WindowerEvents.Action:trigger(act)
     end,
 
     [0x029] = function(data)
@@ -218,6 +246,14 @@ local incoming_event_dispatcher = {
             end
             WindowerEvents.TargetIndexChanged:trigger(target_id, packet['Target Index'])
         end
+
+        -- packet['Status'] doesn't always match mob.status and packet['Update Status'] doesn't work for 0x00D
+        if packet['Status'] then
+            local target = windower.ffxi.get_mob_by_id(target_id)
+            if target then
+                WindowerEvents.StatusChanged:trigger(target_id, target.status)
+            end
+        end
     end,
 
     -- 0x00E
@@ -260,23 +296,25 @@ local incoming_event_dispatcher = {
         for i = 1, 18 do
             local id = packet['ID '..i]
             if id and id ~= 0 then
-                alliance_members:append(AllianceMember.new(id, packet['Index '..i], packet['Zone '..i], math.ceil(i / 6)))
+                alliance_members:append(AllianceMember.new(id, packet['Index '..i], packet['Zone '..i]))
             end
         end
-        WindowerEvents.AllianceMemberListUpdate:trigger(alliance_members)
 
-        -- NOTE: this might actually be incorrect if some parties are half full
-        local alliance_index = 1
-        for alliance_member in alliance_members:it() do
-            local party_member_info = party_util.get_party_member_info(alliance_member:get_id())
-            if party_member_info then
-                WindowerEvents.CharacterUpdate:trigger(alliance_member:get_id(), party_member_info.name, party_member_info.hp, party_member_info.hpp,
-                        party_member_info.mp, party_member_info.mpp, party_member_info.tp, nil, nil)
+        coroutine.schedule(function()
+            WindowerEvents.AllianceMemberListUpdate:trigger(alliance_members)
+
+            local alliance_index = 1
+            for alliance_member in alliance_members:it() do
+                local party_member_info = party_util.get_party_member_info(alliance_member:get_id())
+                if party_member_info then
+                    WindowerEvents.CharacterUpdate:trigger(alliance_member:get_id(), party_member_info.name, party_member_info.hp, party_member_info.hpp,
+                            party_member_info.mp, party_member_info.mpp, party_member_info.tp, nil, nil)
+                end
+                WindowerEvents.ZoneUpdate:trigger(alliance_member:get_id(), alliance_member:get_zone_id())
+
+                alliance_index = alliance_index + 1
             end
-            WindowerEvents.ZoneUpdate:trigger(alliance_member:get_id(), alliance_member:get_zone_id())
-
-            alliance_index = alliance_index + 1
-        end
+        end, 0.2)
     end,
 
     [0x037] = function(data)
@@ -288,6 +326,10 @@ local incoming_event_dispatcher = {
             if mob then
                 WindowerEvents.PetUpdate:trigger(windower.ffxi.get_player().id, mob.id, mob.index, mob.name, mob.hpp, mob.mpp, mob.tp)
             end
+        end
+
+        if packet['Status'] then
+            WindowerEvents.StatusChanged:trigger(windower.ffxi.get_player().id, packet['Status'])
         end
     end,
 

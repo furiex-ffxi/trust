@@ -23,6 +23,11 @@ function PartyMember:on_target_change()
     return self.target_change
 end
 
+-- Event called when the party member's status changes.
+function PartyMember:on_status_change()
+    return self.status_change
+end
+
 -- Event called when a party member gains a debuff.
 function PartyMember:on_gain_debuff()
     return self.gain_debuff
@@ -105,10 +110,12 @@ function PartyMember.new(id, name)
     self.debuff_ids = L{}
     self.buff_ids = L{}
     self.combat_skill_ids = S{}
+    self.status_id = 0
     self.battle_stat_tracker = BattleStatTracker.new(id)
     self.is_monitoring = false
     self.last_zone_time = os.time()
     self.heartbeat_time = os.time()
+    self.status_change_time = os.time()
     self.dispose_bag = DisposeBag.new()
 
     self.target_change = Event.newEvent()
@@ -124,8 +131,9 @@ function PartyMember.new(id, name)
     self.combat_skills_change = Event.newEvent()
     self.pet_change = Event.newEvent()
     self.spell_finish = Event.newEvent()
-
-    local party_member_info = party_util.get_party_member(id)
+    self.status_change = Event.newEvent()
+    
+    local party_member_info = party_util.get_party_member_info(id)
     if party_member_info then
         self.hp = party_member_info.hp or 0
         self.hpp = party_member_info.hpp or 100
@@ -139,6 +147,7 @@ function PartyMember.new(id, name)
             self.target_index = party_member_info.mob.target_index
             self:set_position(party_member_info.mob.x, party_member_info.mob.y, party_member_info.mob.z)
             self:set_zone_id(windower.ffxi.get_info().zone)
+            self:set_status(party_member_info.mob.status or 0)
         end
     end
 
@@ -174,6 +183,7 @@ function PartyMember:destroy()
     self.combat_skills_change:removeAllActions()
     self.pet_change:removeAllActions()
     self.spell_finish:removeAllActions()
+    self.status_change:removeAllActions()
 end
 
 -------
@@ -212,6 +222,12 @@ function PartyMember:monitor()
             self:set_target_index(target_index)
         end
     end), WindowerEvents.TargetIndexChanged)
+
+    self.dispose_bag:add(WindowerEvents.StatusChanged:addAction(function(mob_id, status_id)
+        if self:get_id() == mob_id then
+            self:set_status(status_id)
+        end
+    end), WindowerEvents.StatusChanged)
 
     self.dispose_bag:add(WindowerEvents.Equipment.MainWeaponChanged:addAction(function(mob_id, main_weapon_id)
         if self:get_id() == mob_id then
@@ -278,7 +294,7 @@ function PartyMember:set_debuff_ids(debuff_ids)
 
     local delta = list.diff(debuff_ids, self.debuff_ids)
     for debuff_id in delta:it() do
-        if debuff_ids:contains(buff_id) then
+        if debuff_ids:contains(debuff_id) then
             self:on_gain_debuff():trigger(self, debuff_id)
         else
             self:on_lose_debuff():trigger(self, debuff_id)
@@ -493,6 +509,13 @@ function PartyMember:is_trust()
 end
 
 -------
+-- Returns whether this party member is the player.
+-- @treturn Boolean True if the party member is the player, and false otherwise
+function PartyMember:is_player()
+    return self:get_id() == windower.ffxi.get_player().id
+end
+
+-------
 -- Sets the target index for the party member.
 -- @tparam number Index of the current target, or nil if none.
 function PartyMember:set_target_index(target_index)
@@ -501,7 +524,6 @@ function PartyMember:set_target_index(target_index)
         if target_index and target_index ~= 0 and battle_util.is_valid_monster_target(ffxi_util.mob_id_for_index(target_index)) then
             local target = windower.ffxi.get_mob_by_index(target_index)
             if target then
-                --if target and party_util.party_claimed(target.id) then
                 self.target_index = target.index
                 if old_target_index ~= target.index then
                     self:on_target_change():trigger(self, self.target_index, old_target_index)
@@ -524,14 +546,32 @@ function PartyMember:get_target_index()
 end
 
 -------
+-- Returns the time in the current status.
+-- @treturn number Number of seconds
+function PartyMember:get_status_duration()
+    return math.max(os.time() - self.status_change_time, 0)
+end
+
+-------
 -- Returns the localized status of the party member.
 -- @treturn string Status of the party member (see res/statuses.lua)
 function PartyMember:get_status()
-    local mob = self:get_mob()
-    if mob then
-        return res.statuses[mob.status].en
+    return res.statuses[self.status_id].en
+end
+
+-------
+-- Sets the party member's status.
+-- @tparam number status_id Status id (see res/statuses.lua)
+function PartyMember:set_status(status_id)
+    if self.status_id == status_id then
+        return
     end
-    return 'Idle'
+    local old_status_id = self.status_id
+
+    self.status_id = status_id
+    self.status_change_time = os.time()
+
+    self:on_status_change():trigger(self, res.statuses[self.status_id].en, (old_status_id and res.statuses[old_status_id].en) or 'Idle')
 end
 
 -------

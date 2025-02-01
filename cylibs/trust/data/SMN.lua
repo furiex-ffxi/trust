@@ -1,7 +1,3 @@
-require('tables')
-require('lists')
-require('logger')
-
 Summoner = require('cylibs/entity/jobs/SMN')
 
 local SummonerTrust = setmetatable({}, {__index = Trust })
@@ -12,21 +8,29 @@ local Avatar = require('cylibs/entity/avatar')
 local MagicBurster = require('cylibs/trust/roles/magic_burster')
 local ManaRestorer = require('cylibs/trust/roles/mana_restorer')
 local Summoner = require('cylibs/entity/jobs/SMN')
+local Buffer = require('cylibs/trust/roles/buffer')
+local Frame = require('cylibs/ui/views/frame')
+local Puller = require('cylibs/trust/roles/puller')
+--local Nuker = require('cylibs/trust/roles/nuker')
 
 state.AutoAssaultMode = M{['description'] = 'Auto Assault Mode', 'Off', 'Auto'}
 state.AutoAvatarMode = M{['description'] = 'Avatar Mode', 'Off', 'Ifrit', 'Ramuh', 'Shiva', 'Garuda', 'Leviathan', 'Titan', 'Carbuncle', 'Diabolos', 'Fenrir', 'Siren', 'Cait Sith'}
 
 function SummonerTrust.new(settings, action_queue, battle_settings, trust_settings)
+	local job = Summoner.new()
 	local roles = S{
-		MagicBurster.new(action_queue, trust_settings.NukeSettings, 0.8, L{}, Summoner.new(), true),
+		Buffer.new(action_queue, trust_settings.BuffSettings, state.AutoBuffMode, job),
+		MagicBurster.new(action_queue, trust_settings.NukeSettings, 0.8, L{}, job, true),
+		--Nuker.new(action_queue, trust_settings.NukeSettings, 0.8, L{}, job),
 		ManaRestorer.new(action_queue, L{'Myrkr', 'Spirit Taker'}, L{}, 40),
+		Puller.new(action_queue, trust_settings.PullSettings),
 	}
 
-	local self = setmetatable(Trust.new(action_queue, roles, trust_settings, Summoner.new()), SummonerTrust)
+	local self = setmetatable(Trust.new(action_queue, roles, trust_settings, job), SummonerTrust)
 
 	self.settings = settings
 	self.action_queue = action_queue
-	self.party_buffs = trust_settings.PartyBuffs or L{}
+	self.party_buffs = trust_settings.BuffSettings.Gambits or L{}
 	self.last_buff_time = os.time()
 	self.last_avatar_check_time = os.time()
 	self.is_auto_avatar_enabled = true
@@ -47,32 +51,17 @@ function SummonerTrust:on_init()
 			end)
 
 	self:on_trust_settings_changed():addAction(function(_, new_trust_settings)
-		self.party_buffs = new_trust_settings.PartyBuffs or L{}
-
-		local puller = self:role_with_type("puller")
-		if puller then
-			puller:set_pull_settings(new_trust_settings.PullSettings)
-		end
+		self.party_buffs = new_trust_settings.BuffSettings.Gambits or L{}
 	end)
-end
-
-function SummonerTrust:job_target_change(target_index)
-	Trust.job_target_change(self, target_index)
-
-	self.target_index = target_index
 end
 
 function SummonerTrust:tic(old_time, new_time)
 	Trust.tic(self, old_time, new_time)
 
 	self:check_avatar()
-	self:check_buffs()
 	self:check_mp()
 
 	if self.avatar then
-		if not buff_util.is_buff_active(buff_util.buff_id("Avatar's Favor")) then
-			self.action_queue:push_action(JobAbilityAction.new(0, 0, 0, "Avatar's Favor"))
-		end
 		local target = self:get_target()
 		if state.AutoAssaultMode.value ~= 'Off' and pet_util.pet_idle() and target and target:is_claimed() then
 			self.action_queue:push_action(JobAbilityAction.new(0, 0, 0, 'Assault', self.target_index))
@@ -112,43 +101,9 @@ function SummonerTrust:check_avatar()
 end
 
 function SummonerTrust:get_inactive_buffs()
-	return self.party_buffs:filter(function(buff)
-		return not buff_util.is_buff_active(buff_util.buff_for_job_ability(buff:get_job_ability_id()).id)
+	return self.party_buffs:filter(function(gambit)
+		return not buff_util.is_buff_active(buff_util.buff_for_job_ability(gambit:getAbility():get_job_ability_id()).id)
 	end)
-end
-
-function SummonerTrust:check_buffs()
-	if state.AutoBuffMode.value == 'Off'
-			or (os.time() - self.last_buff_time) < 8 then
-		return
-	end
-
-	for buff in self:get_inactive_buffs():it() do
-		local recast_id = res.job_abilities:with('en', "Blood Pact: Ward").recast_id
-		if windower.ffxi.get_ability_recasts()[recast_id] == 0 then
-			local actions = L{}
-
-			local avatar = self:get_job():get_avatar_name(buff:get_name())
-			if pet_util.pet_name() ~= avatar then
-				if pet_util.pet_name() ~= nil then
-					actions:append(JobAbilityAction.new(0, 0, 0, 'Release'), true)
-					actions:append(WaitAction.new(0, 0, 0, 1))
-				end
-				actions:append(SpellAction.new(0, 0, 0, spell_util.spell_id(avatar), nil, self:get_player()), true)
-			end
-			actions:append(WaitAction.new(0, 0, 0, 2))
-			actions:append(BloodPactWardAction.new(0, 0, 0, buff:get_name()))
-			actions:append(WaitAction.new(0, 0, 0, 2))
-
-			local wardAction = SequenceAction.new(actions, 'blood_pact_ward')
-			wardAction.max_duration = 15
-			self.action_queue:push_action(wardAction, true)
-
-			self.last_buff_time = os.time()
-			self.is_auto_avatar_enabled = false
-			return
-		end
-	end
 end
 
 function SummonerTrust:check_mp()
@@ -187,6 +142,19 @@ function SummonerTrust:update_avatar(pet_id, pet_name)
 	if skillchainer then
 		skillchainer:update_abilities()
 	end
+end
+
+function SummonerTrust:get_widget()
+	local AvatarStatusWidget = require('ui/widgets/AvatarStatusWidget')
+	local petStatusWidget = AvatarStatusWidget.new(
+			Frame.new(0, 0, 125, 57),
+			windower.trust.settings.get_addon_settings(),
+			self:get_party():get_player(),
+			windower.trust.ui.get_hud(),
+			windower.trust.settings.get_job_settings('SMN'),
+			state.MainTrustSettingsMode
+	)
+	return petStatusWidget, "pet"
 end
 
 return SummonerTrust

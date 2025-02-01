@@ -15,6 +15,10 @@ Condition.Operator.GreaterThanOrEqualTo = ">="
 Condition.Operator.LessThan = "<"
 Condition.Operator.LessThanOrEqualTo = "<="
 
+Condition.LogicalOperator = {}
+Condition.LogicalOperator.And = "and"
+Condition.LogicalOperator.Or = "or"
+
 Condition.TargetType = {}
 Condition.TargetType.Self = "Self"
 Condition.TargetType.Ally = "Ally"
@@ -28,6 +32,8 @@ Condition.TargetType.AllTargets = S{ Condition.TargetType.Self, Condition.Target
 function Condition.new(target_index)
     local self = setmetatable({
         target_index = target_index;
+        editable = true;
+        inverted = false;
     }, Condition)
 
     return self
@@ -70,6 +76,22 @@ end
 
 function Condition:serialize()
     return "Condition.new(" .. serializer_util.serialize_args() .. ")"
+end
+
+function Condition:should_serialize()
+    return Condition.defaultSerializableConditionClasses():contains(self.__class) and self:is_editable()
+end
+
+function Condition:is_editable()
+    return self.editable
+end
+
+function Condition:is_inverted()
+    return self.inverted
+end
+
+function Condition:get_config_items()
+    return L{}
 end
 
 function Condition.defaultSerializableConditionClasses()
@@ -115,6 +137,10 @@ function Condition.defaultSerializableConditionClasses()
         SkillchainStepCondition.__class,
         InTownCondition.__class,
         ZoneChangeCondition.__class,
+        BeginCastCondition.__class,
+        HasCumulativeMagicEffectCondition.__class,
+        StatusCondition.__class,
+        TargetNameCondition.__class,
     }
 end
 
@@ -124,7 +150,11 @@ function Condition.check_conditions(conditions, param, ...)
         if target_index == nil then
             target_index = param
         end
-        if not condition:is_satisfied(target_index, ...) then
+        local is_satisfied = condition:is_satisfied(target_index, ...)
+        if condition:is_inverted() then
+            is_satisfied = not is_satisfied
+        end
+        if not is_satisfied then
             logger.error(condition.__class, "Failed", condition:tostring())
             return false
         end

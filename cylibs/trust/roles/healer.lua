@@ -1,10 +1,6 @@
 local cure_util = require('cylibs/util/cure_util')
 local DisposeBag = require('cylibs/events/dispose_bag')
-local CureAction = require('cylibs/actions/cure')
 local HealerTracker = require('cylibs/analytics/trackers/healer_tracker')
-local WaitAction = require('cylibs/actions/wait')
-local SequenceAction = require('cylibs/actions/sequence')
-local SpellAction = require('cylibs/actions/spell')
 
 local Healer = setmetatable({}, {__index = Role })
 Healer.__index = Healer
@@ -24,7 +20,6 @@ function Healer.new(action_queue, main_job)
 
     self.main_job = main_job
     self.last_cure_time = os.time()
-    self.cure_delay = main_job:get_cure_delay()
     self.party_member_blacklist = L{}
 
     self.dispose_bag = DisposeBag.new()
@@ -45,10 +40,12 @@ function Healer:on_add()
                 return
             end
             if hpp > 0 then
-                if hpp < 25 then
+                local emergency_hpp = self:get_job():get_cure_threshold(true)
+                if hpp < emergency_hpp then
                     if p:get_mob() and p:get_mob().distance:sqrt() < 21 then
                         logger.notice(self.__class, 'on_hp_change', p:get_name(), hpp)
-                        self:check_party_hp(self:get_job():get_cure_threshold(true))
+                        local threshold = (emergency_hpp + self:get_job():get_cure_threshold(false)) / 2
+                        self:check_party_hp(threshold, true)
                     end
                 else
                     logger.notice(self.__class, 'on_hp_change', 'check_party_hp', hpp)
@@ -76,7 +73,7 @@ end
 
 function Healer:tic(old_time, new_time)
     if state.AutoHealMode.value == 'Off'
-            or (os.time() - self.last_cure_time) < self.cure_delay
+            or (os.time() - self.last_cure_time) < self:get_cure_delay()
             or self:get_party() == nil then
         return
     end
@@ -87,7 +84,7 @@ end
 -------
 -- Checks the hp of party members and cures if needed.
 -- @tparam number cure_threshold (optional) Cure threshold, defaults to self:get_cure_threshold()
-function Healer:check_party_hp(cure_threshold)
+function Healer:check_party_hp(cure_threshold, ignore_delay)
     cure_threshold = cure_threshold or self:get_cure_threshold()
 
     logger.notice(self.__class, 'check_party_hp', cure_threshold)
@@ -100,10 +97,10 @@ function Healer:check_party_hp(cure_threshold)
     party_members = self:get_cure_cluster(party_members)
 
     if #party_members >= self:get_job():get_aoe_threshold() then
-        self:cure_party_members(party_members)
+        self:cure_party_members(party_members, ignore_delay)
     else
         for party_member in party_members:it() do
-            self:cure_party_member(party_member)
+            self:cure_party_member(party_member, ignore_delay)
         end
     end
 end
@@ -132,8 +129,8 @@ end
 -- @tparam function Filter to use on party members (optional)
 -- @treturn list List of party members
 function Healer:get_valid_cure_targets(filter)
-    local party_members = self:get_party():get_party_members(true, 21):filter(function(party_member)
-        return self:is_valid_cure_target(party_member) and filter(party_member)
+    local party_members = self:get_alliance():get_alliance_members(false, 21):filter(function(alliance_member)
+        return self:is_valid_cure_target(alliance_member) and filter(alliance_member)
     end)
     return party_members
 end
@@ -150,13 +147,12 @@ end
 -- Cures a party member. Cures may take higher priority than other actions depending upon how much hp is missing.
 -- AutoHealMode must be set to Auto.
 -- @tparam PartyMember party_member Party member to cure
-function Healer:cure_party_member(party_member)
+function Healer:cure_party_member(party_member, ignore_delay)
     if state.AutoHealMode.value == 'Off'
-            or (os.time() - self.last_cure_time) < self.cure_delay
+            or ((os.time() - self.last_cure_time < self:get_cure_delay()) and not ignore_delay)
             or not party_member:is_alive() then
         return
     end
-
     logger.notice(self.__class, 'cure_party_member', party_member:get_name())
 
     local missing_hp = party_member:get_max_hp() - party_member:get_hp()
@@ -179,9 +175,9 @@ end
 -- Cures multiple party members with an aoe cure. Cures may take higher priority than other actions depending upon how
 -- much hp is missing. AutoHealMode must be set to Auto.
 -- @tparam list party_members List of party members to cure
-function Healer:cure_party_members(party_members)
+function Healer:cure_party_members(party_members, ignore_delay)
     if state.AutoHealMode.value == 'Off'
-            or (os.time() - self.last_cure_time) < self.cure_delay then
+            or ((os.time() - self.last_cure_time < self:get_cure_delay()) and not ignore_delay) then
         return
     end
 
@@ -243,12 +239,24 @@ function Healer:get_cure_threshold()
     end
 end
 
+function Healer:get_cure_delay()
+    if state.AutoHealMode.value == 'Emergency' then
+        return self.main_job:get_cure_delay(true)
+    else
+        return self.main_job:get_cure_delay(false)
+    end
+end
+
 function Healer:allows_duplicates()
     return false
 end
 
 function Healer:get_type()
     return "healer"
+end
+
+function Healer:get_localized_name()
+    return "Healing"
 end
 
 function Healer:get_job()

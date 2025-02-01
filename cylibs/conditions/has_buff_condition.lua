@@ -7,6 +7,7 @@ local buff_util = require('cylibs/util/buff_util')
 local party_util = require('cylibs/util/party_util')
 local serializer_util = require('cylibs/util/serializer_util')
 local PickerConfigItem = require('ui/settings/editors/config/PickerConfigItem')
+local StatusAilment = require('cylibs/battle/status_ailment')
 
 local Condition = require('cylibs/conditions/condition')
 local HasBuffCondition = setmetatable({}, { __index = Condition })
@@ -24,38 +25,51 @@ end
 function HasBuffCondition:is_satisfied(target_index)
     local target = windower.ffxi.get_mob_by_index(self:get_target_index() or target_index)
     if target then
-        local buff_id = buff_util.buff_id(self.buff_name)
+        local all_buff_ids = buff_util.all_buff_ids(self.buff_name)
         local monster = player.party:get_target(target.id)
         if monster then
-            return monster:has_debuff(buff_id)
+            for buff_id in all_buff_ids:it() do
+                if monster:has_debuff(buff_id) then
+                    return true
+                end
+            end
+            return false
         else
-            return L(party_util.get_buffs(target.id)):contains(buff_id)
+            local party_member = player.alliance:get_alliance_member_named(target.name)
+            if party_member then
+                if party_member:is_trust() then
+                    return S(party_member:get_buff_ids()):intersection(S(all_buff_ids)):length() > 0
+                else
+                    -- need to make sure all debuff ids are added to buff_util before using this
+                    --local party_member = player.alliance:get_alliance_member_named(target.name)
+                    --return S(party_member:get_buff_ids()):contains(buff_id)
+                    return S(all_buff_ids):intersection(S(party_util.get_buffs(target.id))):length() > 0
+                end
+            end
         end
     end
     return false
 end
 
 function HasBuffCondition:get_config_items()
-    local all_buffs = S(buff_util.get_all_buff_ids(true):map(function(buff_id)
+    local all_buffs = L(S(L(buff_util.get_all_buff_ids(true):map(function(buff_id)
         local buff = res.buffs[buff_id]
         if buff then
             return buff.en
         end
         return nil
-    end):compact_map())
-    all_buffs = L(all_buffs)
-    all_buffs:append("Triple Shot")
-    all_buffs:sort()
+    end)):compact_map())):sort()
 
     return L{
         PickerConfigItem.new('buff_name', self.buff_name, all_buffs, function(buff_name)
-            return buff_name:gsub("^%l", string.upper)
+            local buff = StatusAilment.new(buff_name)
+            return buff:get_localized_name()
         end, "Buff Name")
     }
 end
 
 function HasBuffCondition:tostring()
-    return "Is "..res.buffs:with('en', self.buff_name).enl:gsub("^%l", string.upper)
+    return "Is "..i18n.resource_long('buffs', 'en', self.buff_name)
 end
 
 function HasBuffCondition.description()

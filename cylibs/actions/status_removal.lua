@@ -5,6 +5,8 @@
 
 local DisposeBag = require('cylibs/events/dispose_bag')
 local Event = require('cylibs/events/Luvent')
+local IsStandingCondition = require('cylibs/conditions/is_standing')
+local SpellCommand = require('cylibs/ui/input/chat/commands/spell')
 
 local Action = require('cylibs/actions/action')
 local StatusRemovalAction = setmetatable({}, {__index = Action })
@@ -12,7 +14,7 @@ StatusRemovalAction.__index = StatusRemovalAction
 
 -- Called when a status removal has no effect
 function StatusRemovalAction:on_status_removal_no_effect()
-	return self.status_removal_no_effect
+	return WindowerEvents.StatusRemoval.NoEffect
 end
 
 -- Called when a status effect is removed successfully
@@ -22,10 +24,12 @@ end
 
 function StatusRemovalAction.new(x, y, z, spell_id, target_index, debuff_id, player)
 	local conditions = L{
+		IsStandingCondition.new(0.5, ">="),
+		NotCondition.new(L{ StatusCondition.new("Mount") }),
 		NotCondition.new(L{InMogHouseCondition.new()}),
 		MaxDistanceCondition.new(20),
-		NotCondition.new(L{HasBuffsCondition.new(L{'sleep', 'petrification', 'charm', 'terror', 'mute'}, 1)}, windower.ffxi.get_player().index),
-		HasBuffCondition.new(buff_util.buff_name(debuff_id)),
+		NotCondition.new(L{HasBuffsCondition.new(L{'sleep', 'petrification', 'charm', 'terror', 'mute', 'stun'}, 1)}, windower.ffxi.get_player().index),
+		HasDebuffCondition.new(buff_util.buff_name(debuff_id)),
 		MinManaPointsCondition.new(res.spells[spell_id].mp_cost or 0, windower.ffxi.get_player().index),
 		SpellRecastReadyCondition.new(spell_id),
 		ValidTargetCondition.new(alter_ego_util.untargetable_alter_egos()),
@@ -39,7 +43,6 @@ function StatusRemovalAction.new(x, y, z, spell_id, target_index, debuff_id, pla
 	self.player = player
 	self.user_events = {}
 
-	self.status_removal_no_effect = Event.newEvent()
 	self.status_removed = Event.newEvent()
 
 	self:debug_log_create(self:gettype())
@@ -56,7 +59,6 @@ function StatusRemovalAction:destroy()
 
 	self.dispose_bag:destroy()
 
-	self.status_removal_no_effect:removeAllActions()
 	self.status_removed:removeAllActions()
 
 	self.player = nil
@@ -76,7 +78,7 @@ function StatusRemovalAction:perform()
 						for _,target in pairs(targets) do
 							for _,action in pairs(target.actions) do
 								if L{75, 283}:contains(action.message) then
-									self:on_status_removal_no_effect():trigger(self, self.spell_id, target.id, self.debuff_id)
+									self:on_status_removal_no_effect():trigger(self.spell_id, target.id, self.debuff_id)
 								else
 									self:on_status_removed():trigger(self, self.spell_id, target.id, self.debuff_id)
 								end
@@ -96,9 +98,10 @@ function StatusRemovalAction:perform()
 				end
 			end), self.player:on_spell_interrupted())
 
-	local target = windower.ffxi.get_mob_by_index(self.target_index)
+	local target = windower.ffxi.get_mob_by_index(self.target_index or windower.ffxi.get_player().index)
 
-	windower.send_command('@input /ma "'..res.spells[self.spell_id].en..'" '..target.id)
+	local spell = SpellCommand.new(spell_util.spell_name(self.spell_id), target.id)
+	spell:run(true)
 end
 
 function StatusRemovalAction:getspellid()

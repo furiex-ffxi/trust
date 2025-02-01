@@ -16,15 +16,18 @@ state.AutoFollowMode = M{['description'] = 'Follow', 'Off', 'Always'}
 state.AutoFollowMode:set_description('Off', "Okay, I'll no longer follow anyone.")
 state.AutoFollowMode:set_description('Always', "Okay, I'll follow when not in battle.")
 
-function Follower.new(action_queue, follow_distance)
+function Follower.new(action_queue, follow_distance, addon_settings)
     local self = setmetatable(Role.new(action_queue), Follower)
 
     self.action_queue = action_queue
+    self.addon_settings = addon_settings
     self.walk_action_queue = ActionQueue.new(nil, false, 100, false, false)
     self.action_events = {}
     self.distance = follow_distance or 1
+    self.auto_pause = addon_settings:getSettings().follow.auto_pause or false
     self.maxfollowdistance = 35
     self.maxfollowpoints = 100
+    self.following = false
     self.max_zone_distance = 1
     self.zone_cooldown = 5
     self.last_position = vector.zero(3)
@@ -54,6 +57,18 @@ function Follower:on_add()
         ValidTargetCondition.new(),
     }
 
+    self.dispose_bag:add(state.AutoFollowMode:on_state_change():addAction(function(_, new_value)
+        if state.AutoFollowMode.value == 'Off' then
+            self:stop_following()
+        end
+    end), state.AutoTargetMode:on_state_change())
+
+    self.dispose_bag:add(self:get_party():get_player():on_status_change():addAction(function(_, new_status, old_status)
+        if new_status == 'Idle' and old_status == 'Engaged' then
+            self:start_following(true)
+        end
+    end), self:get_party():get_player():on_status_change())
+
     self.dispose_bag:add(self:get_party():on_party_assist_target_change():addAction(function(_, assist_target)
         if self:get_follow_target() == nil and assist_target then
             self:follow_target_named(assist_target:get_name())
@@ -64,8 +79,29 @@ function Follower:on_add()
         self:start_following()
     end), self:get_party():get_player():on_zone_change())
 
+    self.dispose_bag:add(self.addon_settings:onSettingsChanged():addAction(function(settings)
+        self.distance = settings.follow.distance or 1
+        self.auto_pause = settings.follow.auto_pause or false
+    end, self.addon_settings:onSettingsChanged()))
+
     self.action_events.status = windower.register_event('status change', function(new_status_id, old_status_id)
         self:on_player_status_change(new_status_id, old_status_id)
+    end)
+
+    self.dispose_bag:add(self.action_queue:on_action_start():addAction(function(_, action)
+        if self.auto_pause then
+            self:stop_following()
+        end
+    end), self.action_queue:on_action_end())
+
+    self.dispose_bag:add(self.action_queue:on_action_end():addAction(function(a, success)
+        if self.auto_pause then
+            self:start_following()
+        end
+    end), self.action_queue:on_action_end())
+
+    self.action_events.zone_change = windower.register_event('zone change', function(_, _)
+        self.walk_action_queue:clear()
     end)
 end
 
@@ -88,14 +124,21 @@ function Follower:follow_target_named(target_name)
     self:get_party():add_to_chat(self:get_party():get_player(), "Okay, I'll follow "..target_name.." when I'm not in battle.")
 end
 
-function Follower:start_following()
+function Follower:start_following(override)
+    if not override and S{ 'Dead', 'Engaged', 'Resting' }:contains(self:get_party():get_player():get_status()) then
+        return
+    end
     self.walk_action_queue:clear()
     self.walk_action_queue:enable()
     windower.ffxi.run(false)
+
+    self:check_distance()
 end
 
-function Follower:stop_following()
-    self.walk_action_queue:clear()
+function Follower:stop_following(keep_queue)
+    if not keep_queue then
+        self.walk_action_queue:clear()
+    end
     self.walk_action_queue:disable()
     windower.ffxi.run(false)
 end
@@ -106,7 +149,7 @@ end
 -- @treturn boolean True if the target can be followed
 function Follower:is_valid_target(target_name)
     local target = self:get_alliance():get_alliance_member_named(target_name, true)
-    if target == nil or target:get_name() == windower.ffxi.get_player().name or target:get_zone_id() ~= windower.ffxi.get_info().zone then
+    if target == nil or target:get_mob() == nil or target:get_name() == windower.ffxi.get_player().name or target:get_zone_id() ~= windower.ffxi.get_info().zone then
         return false
     end
     if not IpcRelay.shared():is_connected(target_name) then

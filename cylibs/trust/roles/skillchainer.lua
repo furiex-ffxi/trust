@@ -4,6 +4,8 @@ Skillchainer.__class = "Skillchainer"
 
 local DisposeBag = require('cylibs/events/dispose_bag')
 local Event = require('cylibs/events/Luvent')
+local Gambit = require('cylibs/gambits/gambit')
+local GambitTarget = require('cylibs/gambits/gambit_target')
 local renderer = require('cylibs/ui/views/render')
 local SkillchainAbility = require('cylibs/battle/skillchains/abilities/skillchain_ability')
 local SkillchainBuilder = require('cylibs/battle/skillchains/skillchain_builder')
@@ -118,6 +120,8 @@ function Skillchainer:on_add()
 
                 self:show_next_skillchain_info()
                 self:on_skillchain():trigger(mob_id, step)
+
+                WindowerEvents.Skillchain.Begin:trigger(mob_id, step)
             end
         end
     end)
@@ -196,7 +200,7 @@ function Skillchainer:check_skillchain()
 
     local next_ability
     local step = self.skillchain_builder:get_current_step()
-    if step and not step:is_expired() then
+    if step and not step:is_expired() and not step:is_closed() then
         if step:is_window_open() then
             logger.notice(self.__class, 'check_skillchain', 'get_next_steps')
             if state.SkillchainDelayMode.value ~= 'Off' then
@@ -380,11 +384,32 @@ end
 
 function Skillchainer:set_current_settings(current_settings)
     self.current_settings = current_settings
+
     self.ability_for_step = current_settings.Skillchain
+    for ability in self.ability_for_step:it() do
+        ability.conditions = (ability.conditions or L{}):filter(function(condition)
+            return condition:is_editable()
+        end)
+        local conditions = self:get_default_conditions(Gambit.new(GambitTarget.TargetType.Enemy, L{}, ability, GambitTarget.TargetType.Self))
+        for condition in conditions:it() do
+            condition.editable = false
+            ability:add_condition(condition)
+        end
+    end
 
     self:set_job_abilities(current_settings.JobAbilities)
 
     self:update_abilities()
+end
+
+function Skillchainer:get_default_conditions(gambit)
+    local conditions = L{}
+    for skill in self.current_settings.Skills:it() do
+        if skill:get_ability(gambit:getAbility():get_name()) then
+            conditions = conditions + skill:get_default_conditions()
+        end
+    end
+    return conditions
 end
 
 return Skillchainer

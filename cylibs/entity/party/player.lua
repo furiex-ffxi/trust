@@ -18,7 +18,7 @@ end
 -- @tparam number id Mob id
 -- @treturn Player A player
 function Player.new(id)
-    local self = setmetatable(PartyMember.new(id), Player)
+    local self = setmetatable(PartyMember.new(id, windower.ffxi.get_player().name), Player)
 
     self:set_zone_id(windower.ffxi.get_info().zone)
     local main_weapon_id = inventory_util.get_main_weapon_id()
@@ -29,6 +29,8 @@ function Player.new(id)
     if ranged_weapon_id and ranged_weapon_id ~= 0 then
         self:set_ranged_weapon_id(ranged_weapon_id)
     end
+
+    self:set_target_index(windower.ffxi.get_player().target_index)
 
     self.events = {}
     self.level_change = Event.newEvent()
@@ -87,7 +89,8 @@ end
 -- Sets the target index of the player.
 -- @tparam number target_index Target index
 function Player:set_target_index(_)
-    PartyMember.set_target_index(self, windower.ffxi.get_player().target_index)
+    local target = windower.ffxi.get_mob_by_target('t')
+    PartyMember.set_target_index(self, target and target.index or windower.ffxi.get_player().target_index)
 end
 
 -------
@@ -97,6 +100,17 @@ end
 -- @tparam number zone_type (optional) Zone type
 function Player:set_zone_id(zone_id, zone_line, zone_type)
     PartyMember.set_zone_id(self, windower.ffxi.get_info().zone, zone_line, zone_type)
+end
+
+-------
+-- Returns the localized status of the player.
+-- @treturn string Status of the player (see res/statuses.lua)
+function Player:get_status()
+    local mob = self:get_mob()
+    if mob then
+        return res.statuses[mob.status].en
+    end
+    return 'Idle'
 end
 
 -------
@@ -160,6 +174,20 @@ function Player:update_combat_skills()
     self.combat_skill_ids = combat_skill_ids
 
     self:on_combat_skills_change():trigger(self, self.combat_skill_ids)
+end
+
+-------
+-- Returns the main job short (e.g. BLU, RDM, WAR)
+-- @treturn string Main job short, or nil if unknown
+function Player:get_main_job_short()
+    return player.main_job_name_short
+end
+
+-------
+-- Returns the sub job short (e.g. BLU, RDM, WAR)
+-- @treturn string Sub job short, or nil if unknown
+function Player:get_sub_job_short()
+    return player.sub_job_name_short
 end
 
 return Player

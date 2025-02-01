@@ -1,7 +1,6 @@
 local AutomatonSettingsMenuItem = require('ui/settings/menus/attachments/AutomatonSettingsMenuItem')
 local CollectionViewDataSource = require('cylibs/ui/collection_view/collection_view_data_source')
 local Color = require('cylibs/ui/views/color')
-local DisposeBag = require('cylibs/events/dispose_bag')
 local IndexPath = require('cylibs/ui/collection_view/index_path')
 local Padding = require('cylibs/ui/style/padding')
 local TextCollectionViewCell = require('cylibs/ui/collection_view/cells/text_collection_view_cell')
@@ -59,7 +58,7 @@ PathWidget.Subheadline = TextStyle.new(
 
 PathWidget.hasMp = true
 
-function PathWidget.new(frame, addonSettings, player, trustHud, trustSettings, trustSettingsMode, trust)
+function PathWidget.new(frame, addonSettings, player, trust)
     local dataSource = CollectionViewDataSource.new(function(item, indexPath)
         local cell = TextCollectionViewCell.new(item)
         cell:setItemSize(14)
@@ -98,7 +97,7 @@ function PathWidget.new(frame, addonSettings, player, trustHud, trustSettings, t
     end), self:getDelegate():didSelectItemAtIndexPath())
 
     self:getDisposeBag():add(self.pather:get_path_recorder():on_path_record_start():addAction(function(r)
-        trustHud:closeAllMenus()
+        windower.trust.ui.get_hud():closeAllMenus()
 
         self:setStatus("Recording...")
 
@@ -112,7 +111,7 @@ function PathWidget.new(frame, addonSettings, player, trustHud, trustSettings, t
     end), self.pather:get_path_recorder():on_path_record_stop())
 
     self:getDisposeBag():add(self.pather:on_path_replay_start():addAction(function(p, path)
-        trustHud:closeAllMenus()
+        windower.trust.ui.get_hud():closeAllMenus()
 
         self:setStatus("Replaying...")
 

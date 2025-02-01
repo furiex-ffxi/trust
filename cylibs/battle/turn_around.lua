@@ -52,6 +52,13 @@ function TurnAround:get_name()
 end
 
 -------
+-- Returns the localized name for the action.
+-- @treturn string Localized name
+function TurnAround:get_localized_name()
+    return 'Turn Around'
+end
+
+-------
 -- Return the Action to use this action on a target.
 -- @treturn Action Action to use ability
 function TurnAround:to_action(target_index, _)
@@ -67,6 +74,17 @@ function TurnAround:serialize()
         return conditions_classes_to_serialize:contains(condition.__class)
     end)
     return "TurnAround.new(" .. serializer_util.serialize_args(conditions_to_serialize) .. ")"
+end
+
+function TurnAround:is_valid()
+    return true
+end
+
+function TurnAround:__eq(otherItem)
+    if otherItem.__type == self.__type then
+        return true
+    end
+    return false
 end
 
 return TurnAround

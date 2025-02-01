@@ -1,17 +1,12 @@
 local ActionQueue = require('cylibs/actions/action_queue')
 local AssetManager = require('ui/themes/ffxi/FFXIAssetManager')
-local ButtonCollectionViewCell = require('cylibs/ui/collection_view/cells/button_collection_view_cell')
-local ButtonItem = require('cylibs/ui/collection_view/items/button_item')
 local CollectionView = require('cylibs/ui/collection_view/collection_view')
 local CollectionViewDataSource = require('cylibs/ui/collection_view/collection_view_data_source')
 local CollectionViewStyle = require('cylibs/ui/collection_view/collection_view_style')
 local Color = require('cylibs/ui/views/color')
 local ContainerCollectionViewCell = require('cylibs/ui/collection_view/cells/container_collection_view_cell')
 local DisposeBag = require('cylibs/events/dispose_bag')
-local FFXIBackgroundView = require('ui/themes/ffxi/FFXIBackgroundView')
 local FFXIClassicStyle = require('ui/themes/FFXI/FFXIClassicStyle')
-local FFXIWindow = require('ui/themes/ffxi/FFXIWindow')
-local Frame = require('cylibs/ui/views/frame')
 local GridLayout = require('cylibs/ui/collection_view/layouts/grid_layout')
 local HorizontalFlowLayout = require('cylibs/ui/collection_view/layouts/horizontal_flow_layout')
 local ImageCollectionViewCell = require('cylibs/ui/collection_view/cells/image_collection_view_cell')
@@ -22,10 +17,7 @@ local IndexedItem = require('cylibs/ui/collection_view/indexed_item')
 local IndexPath = require('cylibs/ui/collection_view/index_path')
 local MarqueeCollectionViewCell = require('cylibs/ui/collection_view/cells/marquee_collection_view_cell')
 local monster_util = require('cylibs/util/monster_util')
-local Mouse = require('cylibs/ui/input/mouse')
 local Padding = require('cylibs/ui/style/padding')
-local ResizableImageItem = require('cylibs/ui/collection_view/items/resizable_image_item')
-local skillchain_util = require('cylibs/util/skillchain_util')
 local TextCollectionViewCell = require('cylibs/ui/collection_view/cells/text_collection_view_cell')
 local TextItem = require('cylibs/ui/collection_view/items/text_item')
 local TextStyle = require('cylibs/ui/style/text_style')
@@ -97,6 +89,7 @@ function TargetWidget.new(frame, addonSettings, party, trust)
     self.actionQueue = ActionQueue.new(nil, false, 5, false, true)
     self.actionDisposeBag = DisposeBag.new()
     self.party = party
+    self.alliance = player.alliance
     self.debuffsView = self:createDebuffsView()
     self.maxNumDebuffs = 7
     self.infoViewIconSize = 8
@@ -123,12 +116,25 @@ function TargetWidget.new(frame, addonSettings, party, trust)
         self:setAction('')
     end), self.actionQueue:on_action_end())
 
+    self:getDisposeBag():add(party.target_tracker:on_targets_changed():addAction(function(t, targets_added, targets_removed)
+        if self.target_index and targets_added:map(function(t)
+            return t:get_index()
+        end):contains(self.target_index) then
+            self:setTarget(self.target_index)
+        end
+    end), party.target_tracker:on_targets_changed())
+
     self:getDisposeBag():add(party:on_party_target_change():addAction(function(_, target_index, _)
         self:setAction('')
         self:setTarget(target_index)
     end, party:on_party_target_change()))
 
-    self:setTarget(nil)
+    local current_target = party:get_current_party_target()
+    if current_target then
+        self:setTarget(current_target:get_mob().index)
+    else
+        self:setTarget(nil)
+    end
     self:setAction(nil)
 
     local skillchainer = trust:role_with_type("skillchainer")
@@ -186,12 +192,12 @@ function TargetWidget:setTarget(target_index)
     self.targetDisposeBag:dispose()
 
     local targetText = ""
-    if target_index ~= nil then
-        local target = self.party:get_target_by_index(target_index)
+    if target_index ~= nil and target_index ~= 0 then
+        local target = self.alliance:get_target_by_index(target_index)
         if target then
-            self.targetDisposeBag:add(target.debuff_tracker:on_gain_debuff():addAction(function(_, debuff_id)
+            self.targetDisposeBag:add(target:on_gain_debuff():addAction(function(_, debuff_id)
                 self:updateDebuffs()
-            end, target.debuff_tracker:on_gain_debuff()))
+            end, target:on_gain_debuff()))
 
             self.targetDisposeBag:add(target.debuff_tracker:on_lose_debuff():addAction(function(_, debuff_id)
                 self:updateDebuffs()
@@ -208,6 +214,10 @@ function TargetWidget:setTarget(target_index)
             end), target:on_tp_move_finish())
 
             self:updateDebuffs()
+        else
+            target = Monster.new(monster_util.id_for_index(target_index))
+
+            self.targetDisposeBag:addAny(L{ target })
         end
         targetText = localization_util.truncate(target and target.name or "", 18)
     end
@@ -239,7 +249,7 @@ function TargetWidget:setVisible(visible)
 end
 
 function TargetWidget:setExpanded(expanded)
-    local target = self.party:get_target_by_index(self.target_index)
+    local target = self.alliance:get_target_by_index(self.target_index)
     if not target then
         expanded = false
     end
@@ -283,7 +293,7 @@ function TargetWidget:setExpanded(expanded)
 end
 
 function TargetWidget:shouldExpand()
-    local target = self.party:get_target_by_index(self.target_index)
+    local target = self.alliance:get_target_by_index(self.target_index)
     if not target then
         return false
     end
@@ -309,16 +319,19 @@ function TargetWidget:createDebuffsView(target)
 end
 
 function TargetWidget:updateDebuffs()
-    local target = self.party:get_target_by_index(self.target_index)
+    local target = self.alliance:get_target_by_index(self.target_index)
     if not target then
         return
     end
-
     local itemsToUpdate = L{}
 
     local allDebuffIds = L(target.debuff_tracker:get_debuff_ids())
     for i = 1, self.maxNumDebuffs do
         local debuffId = allDebuffIds[i]
+        -- Sluggish Daze Lv.6-10
+        if S{700,701,702,703,704}:contains(debuffId) then
+            debuffId = 395 -- Sluggish Daze Lv.5
+        end
         if debuffId then
             itemsToUpdate:append(IndexedItem.new(ImageItem.new(windower.addon_path..'assets/buffs/'..debuffId..'.png', 14, 14), IndexPath.new(1, i)))
         else

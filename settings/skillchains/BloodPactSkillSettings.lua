@@ -1,4 +1,3 @@
-local pet_util = require('cylibs/util/pet_util')
 local serializer_util = require('cylibs/util/serializer_util')
 local SkillchainAbility = require('cylibs/battle/skillchains/abilities/skillchain_ability')
 
@@ -55,6 +54,10 @@ function BloodPactSkillSettings:get_default_ability()
         end
     end
     return nil
+end
+
+function BloodPactSkillSettings:get_default_conditions(ability)
+    return L{ JobAbilityRecastReadyCondition.new(ability:get_name()) }
 end
 
 function BloodPactSkillSettings:set_default_ability(ability_name)

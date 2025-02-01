@@ -5,6 +5,8 @@
 
 local DisposeBag = require('cylibs/events/dispose_bag')
 
+local IsStandingCondition = require('cylibs/conditions/is_standing')
+local SpellCommand = require('cylibs/ui/input/chat/commands/spell')
 local spell_util = require('cylibs/util/spell_util')
 
 local Action = require('cylibs/actions/action')
@@ -13,9 +15,11 @@ CureAction.__index = CureAction
 
 function CureAction.new(x, y, z, party_member, cure_threshold, mp_cost, healer_job, player, party)
     local conditions = L{
+        IsStandingCondition.new(0.5, ">="),
+        NotCondition.new(L{ StatusCondition.new("Mount") }),
         HitPointsPercentRangeCondition.new(1, cure_threshold, party_member:get_mob().index),
         MaxDistanceCondition.new(20),
-        NotCondition.new(L{HasBuffsCondition.new(L{'sleep', 'petrification', 'charm', 'terror', 'mute'}, 1)}, windower.ffxi.get_player().index),
+        NotCondition.new(L{HasBuffsCondition.new(L{'sleep', 'petrification', 'charm', 'terror', 'mute', 'stun'}, 1)}, windower.ffxi.get_player().index),
         MinManaPointsCondition.new(mp_cost, windower.ffxi.get_player().index),
         ValidTargetCondition.new(alter_ego_util.untargetable_alter_egos()),
     }
@@ -89,25 +93,10 @@ function CureAction:perform()
                 end
             end), self.player:on_spell_interrupted())
 
-    windower.chat.input(self:localize(cure_spell:get_spell().id))
-end
-
-function CureAction:localize(spell_id)
     local target = self.party_member:get_mob()
 
-    local spell = res.spells[spell_id]
-    if spell then
-        local spell_name = spell.en
-        if localization_util.should_use_client_locale() then
-            spell_name = localization_util.encode(spell.name, windower.ffxi.get_info().language:lower())
-        end
-        if windower.ffxi.get_info().language:lower() == 'japanese' then
-            return "/ma %s ":format(spell_name)..target.id
-        else
-            return '/ma "%s" ':format(spell_name)..target.id
-        end
-    end
-    return ""
+    local spell = SpellCommand.new(spell_util.spell_name(cure_spell:get_spell().id), target.id)
+    spell:run(true)
 end
 
 function CureAction:getspellid()

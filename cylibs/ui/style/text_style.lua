@@ -1,4 +1,5 @@
 local Color = require('cylibs/ui/views/color')
+local i18n = require('cylibs/i18n/i18n')
 
 ---
 -- @module TextStyle
@@ -68,7 +69,7 @@ end
 -- @treturn string The font name.
 --
 function TextStyle:getFontName()
-    return self.fontName
+    return i18n.font_for_locale(i18n.current_locale()) or self.fontName
 end
 
 ---

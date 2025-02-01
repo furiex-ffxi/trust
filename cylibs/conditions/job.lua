@@ -34,8 +34,16 @@ function JobCondition:get_config_items()
     for i = 1, 22 do
         all_job_name_shorts:append(res.jobs[i].ens)
     end
+    local jobPickerConfigItem = MultiPickerConfigItem.new('job_name_shorts', self.job_name_shorts, all_job_name_shorts, function(job_names)
+        return localization_util.commas(job_names:map(function(job_name_short) return i18n.resource('jobs', 'ens', job_name_short) end), 'or')
+    end, "Target's Job")
+    jobPickerConfigItem:setPickerTitle("Jobs")
+    jobPickerConfigItem:setPickerDescription("Choose one or more jobs.")
+    jobPickerConfigItem:setPickerTextFormat(function(job_name_short)
+        return i18n.resource('jobs', 'ens', job_name_short)
+    end)
     return L{
-        MultiPickerConfigItem.new('job_name_shorts', self.job_name_shorts, all_job_name_shorts, nil, "Target's Job")
+        jobPickerConfigItem
     }
 end
 
@@ -45,9 +53,13 @@ function JobCondition:tostring()
     else
         if self.job_name_shorts:length() > 15 then
             local excluded_job_name_shorts = list.diff(self.job_name_shorts, job_util.all_jobs())
-            return "Target is any job except "..localization_util.commas(excluded_job_name_shorts, 'or')
+            return "Target is any job except "..localization_util.commas(excluded_job_name_shorts:map(function(job_name_short)
+                return i18n.resource('jobs', 'ens', job_name_short)
+            end), 'or')
         end
-        return "Target job is "..localization_util.commas(self.job_name_shorts, 'or')
+        return "Target job is "..localization_util.commas(self.job_name_shorts:map(function(job_name_short)
+            return i18n.resource('jobs', 'ens', job_name_short)
+        end), 'or')
     end
 end
 

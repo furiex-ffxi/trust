@@ -8,9 +8,9 @@ local serializer_util = require('cylibs/util/serializer_util')
 
 local Condition = require('cylibs/conditions/condition')
 local ConfigItem = require('ui/settings/editors/config/ConfigItem')
-local GroupConfigItem = require('ui/settings/editors/config/GroupConfigItem')
 local localization_util = require('cylibs/util/localization_util')
-local PickerConfigItem = require('ui/settings/editors/config/PickerConfigItem')
+local MultiPickerConfigItem = require('ui/settings/editors/config/MultiPickerConfigItem')
+local StatusAilment = require('cylibs/battle/status_ailment')
 local HasBuffsCondition = setmetatable({}, { __index = Condition })
 HasBuffsCondition.__index = HasBuffsCondition
 HasBuffsCondition.__type = "HasBuffsCondition"
@@ -65,33 +65,25 @@ function HasBuffsCondition:get_config_items()
         return nil
     end):compact_map())
     all_buffs = L(all_buffs)
-    all_buffs:append('None')
     all_buffs:sort()
+    local buffPickerConfigItem = MultiPickerConfigItem.new('buff_names', self.buff_names, all_buffs, function(buff_names)
+        local text = localization_util.commas(buff_names:map(function(buff_name) return StatusAilment.new(buff_name):get_localized_name() end))
+        return text
+    end, "Buff Names")
+    buffPickerConfigItem:setPickerTitle("Buffs")
+    buffPickerConfigItem:setPickerDescription("Choose one or more buffs")
+    buffPickerConfigItem:setPickerTextFormat(function(buff_name)
+        return i18n.resource('buffs', 'en', buff_name)
+    end)
     return L{
-        GroupConfigItem.new('buff_names', L{
-            PickerConfigItem.new('buff_name_1', self.buff_names[1] or 'None', all_buffs, function(buff_name)
-                return buff_name:gsub("^%l", string.upper)
-            end, "Buff 1"),
-            PickerConfigItem.new('buff_name_2', self.buff_names[2] or 'None', all_buffs, function(buff_name)
-                if buff_name then
-                    return buff_name:gsub("^%l", string.upper)
-                end
-                return 'None'
-            end, "Buff 2"),
-            PickerConfigItem.new('buff_name_3', self.buff_names[3] or 'None', all_buffs, function(buff_name)
-                if buff_name then
-                    return buff_name:gsub("^%l", string.upper)
-                end
-                return 'None'
-            end, "Buff 3")
-        }, nil, "Buff Names"),
-        ConfigItem.new('num_required', 1, 3, 1, nil, "Number Required")
+        buffPickerConfigItem,
+        ConfigItem.new('num_required', 1, 10, 1, nil, "Number Required"),
     }
 end
 
 function HasBuffsCondition:tostring()
     local buff_names = L((self.buff_names or L{}):map(function(buff_name)
-        return buff_name:gsub("^%l", string.upper)
+        return i18n.resource('buffs', 'en', buff_name)
     end))
     if buff_names:length() == self.num_required then
         return "Has "..localization_util.commas(buff_names)

@@ -2,8 +2,11 @@ local Approach = require('cylibs/battle/approach')
 local ClaimedCondition = require('cylibs/conditions/claimed')
 local DisposeBag = require('cylibs/events/dispose_bag')
 local ffxi_util = require('cylibs/util/ffxi_util')
+local Gambit = require('cylibs/gambits/gambit')
+local GambitTarget = require('cylibs/gambits/gambit_target')
 local RunToLocationAction = require('cylibs/actions/runtolocation')
 local SwitchTargetAction = require('cylibs/actions/switch_target')
+local Timer = require('cylibs/util/timers/timer')
 
 local Puller = setmetatable({}, {__index = Role })
 Puller.__index = Puller
@@ -23,19 +26,15 @@ state.ApproachPullMode = M{['description'] = 'Force Pull with Approach', 'Off', 
 state.ApproachPullMode:set_description('Auto', "Okay, I'll pull by engaging and approaching instead.")
 
 
-function Puller.new(action_queue, target_names, pull_abilities, truster)
+function Puller.new(action_queue, pull_settings)
     local self = setmetatable(Role.new(action_queue), Puller)
 
-    self.action_queue = action_queue
-    self.target_names = target_names or L{}
-    self.pull_abilities = pull_abilities
-    self.pull_settings = {
-        Abilities = pull_abilities,
-        Targets = target_names or L{},
-    }
-    self.truster = truster
-    self.last_pull_time = os.time() - 6
+    self.target_timer = Timer.scheduledTimer(1, 0)
+    self.last_pull_time = os.time() - self:get_cooldown()
     self.dispose_bag = DisposeBag.new()
+    self.dispose_bag:addAny(L{ self.target_timer })
+
+    self:set_pull_settings(pull_settings)
 
     return self
 end
@@ -73,12 +72,21 @@ function Puller:on_add()
         end), state.AutoTargetMode:on_state_change())
     end
 
+    self.dispose_bag:add(self.target_timer:onTimeChange():addAction(function(_)
+        if not addon_enabled:getValue() then
+            return
+        end
+        self:check_target()
+    end, self.target_timer:onTimeChange()))
+
     self.dispose_bag:add(WindowerEvents.MobKO:addAction(function(mob_id, mob_name)
         if self:get_pull_target() and self:get_pull_target():get_id() == mob_id then
             self:set_pull_target(nil)
             self:return_to_camp()
         end
     end), WindowerEvents.MobKO)
+
+    self.target_timer:start()
 end
 
 function Puller:return_to_camp()
@@ -124,6 +132,10 @@ function Puller:tic(_, _)
 end
 
 function Puller:check_target()
+    if state.AutoPullMode.value == 'Off' then
+        return
+    end
+
     local next_target = self:get_pull_target()
     if not self:is_valid_target(next_target) then
         self:set_pull_target(nil)
@@ -167,53 +179,82 @@ function Puller:check_pull()
     self:pull_target(next_target)
 end
 
+function Puller:get_random_target(targets)
+    return targets[math.random(math.min(math.max(1, targets:length()), self.max_num_targets or 1))]
+end
+
 function Puller:get_next_target()
     if state.AutoPullMode.value == 'Party' then
+        -- Get all targets the party is tracking
         local party_targets = self:get_party():get_targets(function(t)
+            -- Filter to distance 25, and engaged
             return t:get_distance():sqrt() < 25 and t:get_mob().status == 1
         end):sort(function(t1, t2)
+            -- Sort by distance
             return t1:get_distance() < t2:get_distance()
         end)
+        -- If the party is tracking any targets
         if party_targets:length() > 0 then
+            -- Get a list of all targets the party is targeting
             local party_target_indices = self:get_party():get_party_members(false):map(function(p)
                 return p:get_target_index()
             end):compact_map()
-            local next_target = party_targets:firstWhere(function(target)
+            -- Select next target, prefer targets not targeted by an ally
+            local next_targets = party_targets:filter(function(target)
                 return target and not party_target_indices:contains(target:get_mob().index)
-            end) or party_targets[1]
+            end)
+            local next_target = self:get_random_target(next_targets) or self:get_random_target(party_targets)
             local monster = Monster.new(next_target:get_id())
             return monster
         end
     else
-        -- First, check mobs that are aggroed and unclaimed or aggroed and claimed by a party member
-        local nearby_mobs = ffxi_util.find_closest_mobs(L{}, L{}, L{}, 10):filter(function(mob)
-            if res.statuses[mob.status].en == 'Engaged' then
-                if mob.claim_id == 0 then
-                    logger.notice(self.__class, 'get_next_target', 'engaged', 'unclaimed')
-                    return true
-                else
-                    if self:get_party():get_party_member(mob.claim_id) then
-                        logger.notice(self.__class, 'get_next_target', 'engaged', 'claimed')
+        -- Ensure that we are either in all mode, or that target list is populated
+        if self:get_target_names():length() > 0 or state.AutoPullMode.value == 'All' then
+            -- First, check if the player is already targeting a claimed mob
+            local player = windower.ffxi.get_player()
+            if player and player.target_index and player.target_index ~= 0 then
+                local current_target = self:get_alliance():get_target_by_index(player.target_index)
+                if current_target and self:is_valid_target(current_target) then
+                    return Monster.new(current_target.id)
+                end
+            end
+
+            -- Next, check mobs that are aggroed and unclaimed
+            local nearby_mobs = ffxi_util.find_closest_mobs(L{}, L{}, L{}, 10):filter(function(mob)
+                if res.statuses[mob.status].en == 'Engaged' then
+                    if mob.claim_id == 0 then
+                        logger.notice(self.__class, 'get_next_target', 'engaged', 'unclaimed')
                         return true
                     end
                 end
+                return false
+            end)
+            -- If we have any that fit this criteria, prioritize them
+            if nearby_mobs:length() > 0 then
+                logger.notice(self.__class, 'get_next_target', 'aggroed mob')
+                local monster = Monster.new(self:get_random_target(nearby_mobs).id)
+                return monster
             end
-            return false
-        end)
-        if nearby_mobs:length() > 0 then
-            logger.notice(self.__class, 'get_next_target', 'aggroed mob')
-            local monster = Monster.new(nearby_mobs[1].id)
-            return monster
-        end
 
-        -- Next, pull idle unclaimed mobs from the pull target whitelist
-        local claimed_party_targets = party_util.party_targets():filter(function(target_index)
-            local target = windower.ffxi.get_mob_by_index(target_index)
-            return target and target.claim_id and target.claim_id ~= 0
-        end)
-        if self:get_target_names():length() > 0 then
-            local target = ffxi_util.find_closest_mob(self:get_target_names(), L{}:extend(claimed_party_targets), self.blacklist, self.pull_settings.Distance or 20)
-            if target and target.distance:sqrt() < (self.pull_settings.Distance or 20) then
+            -- Next, get list of claimed mobs, we want to prioritize unclaimed mobs first
+            local claimed_party_targets = party_util.party_targets(nil, true):filter(function(target_index)
+                local target = windower.ffxi.get_mob_by_index(target_index)
+                return target and target.claim_id and target.claim_id ~= 0
+            end)
+
+            -- Get all targets, if names is empty, find_closest_mobs handles that.
+            local targets = ffxi_util.find_closest_mobs(self:get_target_names(), L{}, self.blacklist, self.distance)
+            -- Select at random from 1 - min(length, 6)
+            local target
+            if targets:length() > 0 then
+                -- Filter targets for claimed targets first, then fall back to any target
+                local filtered_targets = targets:filter(function(mob)
+                    return (claimed_party_targets and not claimed_party_targets:contains(mob.index))
+                end)
+                target = self:get_random_target(filtered_targets) or self:get_random_target(targets)
+            end
+            -- Ensure target is populated and hasn't wandered since last instruction
+            if target and target.distance:sqrt() < self.distance then
                 logger.notice(self.__class, 'get_next_target', 'new mob')
                 local monster = Monster.new(target.id)
                 return monster
@@ -226,14 +267,12 @@ end
 function Puller:pull_target(target)
     logger.notice(self.__class, 'pull_target', target:get_name(), target:get_mob().index, state.AutoPullMode.value)
 
-    local ability = self:get_pull_abilities():firstWhere(function(ability)
-        local conditions = L{}:extend(ability:get_conditions())
-        conditions:append(MaxDistanceCondition.new(ability:get_range()))
-        return Condition.check_conditions(conditions, target:get_mob().index)
+    local gambit = self:get_pull_abilities():firstWhere(function(gambit)
+        return gambit:isSatisfied(target)
     end)
 
-    if ability then
-        local pull_action = ability:to_action(target:get_mob().index, self:get_player())
+    if gambit then
+        local pull_action = gambit:getAbility():to_action(target:get_mob().index, self:get_player())
         pull_action.priority = ActionPriority.highest
         pull_action.display_name = "Pulling → "..target.name
 
@@ -250,8 +289,12 @@ function Puller:is_valid_target(target)
     if not target or not target:get_mob() then
         return false
     end
+    local max_pull_ability_range = 0
+    for gambit in self:get_pull_abilities():it() do
+        max_pull_ability_range = math.max(max_pull_ability_range, gambit:getAbility():get_range())
+    end
     local conditions = L{
-        MaxDistanceCondition.new(self.pull_settings.Distance or 20),
+        MaxDistanceCondition.new(math.min(self.distance, max_pull_ability_range)),
         MinHitPointsPercentCondition.new(1),
         ClaimedCondition.new(L{ 0 }:extend(self:get_party():get_party_members(true):map(function(p) return p:get_id() end)))
     }
@@ -274,14 +317,36 @@ function Puller:get_pull_settings()
 end
 
 function Puller:set_pull_settings(pull_settings)
-    self.pull_settings = pull_settings
-    self.pull_abilities = pull_settings.Abilities or L{}
+    for gambit in pull_settings.Gambits:it() do
+        gambit.conditions = gambit.conditions:filter(function(condition)
+            return condition:is_editable()
+        end)
+        local conditions = self:get_default_conditions(gambit)
+        for condition in conditions:it() do
+            condition.editable = false
+            gambit:addCondition(condition)
+        end
+    end
+    self.pull_abilities = pull_settings.Gambits
+    self.distance = pull_settings.Distance
+    self.max_num_targets = pull_settings.MaxNumTargets or 6
+
     self:set_target_names(pull_settings.Targets or L{})
+end
+
+function Puller:get_default_conditions(gambit)
+    local conditions = L{
+        MaxDistanceCondition.new(gambit:getAbility():get_range() or self.distance or 20),
+        MinHitPointsPercentCondition.new(1),
+    }
+    return conditions --+ self.job:get_conditions_for_ability(gambit:getAbility())
 end
 
 function Puller:get_pull_abilities()
     if state.ApproachPullMode.value ~= 'Off' then
-        return L{ Approach.new() }
+        local approach = Gambit.new(GambitTarget.TargetType.Enemy, L{}, Approach.new(L{MaxDistanceCondition.new(35)}), GambitTarget.TargetType.Enemy, L{"Pulling"})
+        approach.conditions = self:get_default_conditions(approach)
+        return L{ approach }
     end
     return self.pull_abilities
 end
@@ -315,6 +380,10 @@ end
 
 function Puller:get_camp_position()
     return self.camp_position
+end
+
+function Puller:get_cooldown()
+    return 5
 end
 
 function Puller:allows_duplicates()

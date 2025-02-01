@@ -142,6 +142,9 @@ function list.lastWhere(l, filter)
 end
 
 function list.unique(l, getKey)
+    if getKey == nil then
+        return L(S(l))
+    end
     local result = L{}
     local keys = {}
     for el in l:it() do
@@ -152,4 +155,9 @@ function list.unique(l, getKey)
         end
     end
     return result
+end
+
+function list.random(l)
+    local index = math.random(1, l:length())
+    return l[index]
 end

@@ -1,9 +1,12 @@
 local DisposeBag = require('cylibs/events/dispose_bag')
+local Gambit = require('cylibs/gambits/gambit')
+local GambitTarget = require('cylibs/gambits/gambit_target')
 local Geocolure = require('cylibs/entity/geocolure')
 local Nuker = require('cylibs/trust/roles/nuker')
 local Buffer = require('cylibs/trust/roles/buffer')
 local MagicBurster = require('cylibs/trust/roles/magic_burster')
 local ManaRestorer = require('cylibs/trust/roles/mana_restorer')
+local Puller = require('cylibs/trust/roles/puller')
 local zone_util = require('cylibs/util/zone_util')
 
 Geomancer = require('cylibs/entity/jobs/GEO')
@@ -26,11 +29,15 @@ state.AutoBlazeOfGloryMode:set_description('Auto', "Okay, I'll use Blaze of Glor
 
 function GeomancerTrust.new(settings, action_queue, battle_settings, trust_settings)
 	local job = Geomancer.new()
+	local entrust = trust_settings.Geomancy.Entrust:copy()
+	entrust.conditions = L{}
+	local entrustGambit = Gambit.new(GambitTarget.TargetType.Ally, trust_settings.Geomancy.Entrust.conditions + L{ JobAbilityRecastReadyCondition.new('Entrust') }, entrust, "Ally")
 	local roles = S{
-		Buffer.new(action_queue, trust_settings.JobAbilities, trust_settings.SelfBuffs, trust_settings.PartyBuffs, state.AutoEntrustMode),
+		Buffer.new(action_queue, { Gambits = L{ entrustGambit } }, state.AutoEntrustMode, job),
 		MagicBurster.new(action_queue, trust_settings.NukeSettings, 0.8, L{ 'Theurgic Focus' }, job),
 		Nuker.new(action_queue, trust_settings.NukeSettings, 0.8, L{}, job),
-		ManaRestorer.new(action_queue, L{"Spirit Taker", "Moonlight"}, L{}, 40)
+		ManaRestorer.new(action_queue, L{"Spirit Taker", "Moonlight"}, L{}, 40),
+		Puller.new(action_queue, trust_settings.PullSettings),
 	}
 
 	local self = setmetatable(Trust.new(action_queue, roles, trust_settings, job), GeomancerTrust)
@@ -68,12 +75,12 @@ function GeomancerTrust:on_init()
 		self.geo_spell = new_trust_settings.Geomancy.Geo
 
 		local buffer = self:role_with_type("buffer")
-		buffer:set_party_spells(new_trust_settings.PartyBuffs)
 
-		local puller = self:role_with_type("puller")
-		if puller then
-			puller:set_pull_settings(new_trust_settings.PullSettings)
-		end
+		local entrust = new_trust_settings.Geomancy.Entrust:copy()
+		entrust.conditions = L{}
+
+		local entrustGambit = Gambit.new(GambitTarget.TargetType.Ally, new_trust_settings.Geomancy.Entrust.conditions + L{ JobAbilityRecastReadyCondition.new('Entrust') }, entrust, "Ally")
+		buffer:set_buff_settings({ Gambits = L{ entrustGambit } })
 
 		local nuker_roles = self:roles_with_types(L{ "nuker", "magicburster" })
 		for role in nuker_roles:it() do
@@ -141,7 +148,7 @@ function GeomancerTrust:check_geo()
 					actions:append(WaitAction.new(0, 0, 0, 1))
 				end
 				actions:append(SpellAction.new(0, 0, 0, self.geo_spell:get_spell().id, target.index, self:get_player()))
-				actions:append(WaitAction.new(0, 0, 0, 1))
+				actions:append(WaitAction.new(0, 0, 0, 2))
 
 				self.action_queue:push_action(SequenceAction.new(actions, self.geo_spell:get_spell().id), true)
 			end

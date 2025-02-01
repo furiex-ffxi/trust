@@ -3,24 +3,24 @@
 -- @class module
 -- @name SpellAction
 
-require('vectors')
-require('math')
-require('logger')
-require('lists')
-
 local DisposeBag = require('cylibs/events/dispose_bag')
+local IsStandingCondition = require('cylibs/conditions/is_standing')
 local res = require('resources')
+local SpellCommand = require('cylibs/ui/input/chat/commands/spell')
 local ValidSpellTargetCondition = require('cylibs/conditions/valid_spell_target')
 
 local Action = require('cylibs/actions/action')
 local SpellAction = setmetatable({}, {__index = Action })
 SpellAction.__index = SpellAction
+SpellAction.__type = "SpellAction"
 
 function SpellAction.new(x, y, z, spell_id, target_index, player, conditions)
 	local conditions = (conditions or L{}):extend(L{
+		IsStandingCondition.new(0.5, ">="),
+		NotCondition.new(L{ StatusCondition.new("Mount") }),
 		NotCondition.new(L{InMogHouseCondition.new()}),
 		MaxDistanceCondition.new(20),
-		NotCondition.new(L{HasBuffsCondition.new(L{'sleep', 'petrification', 'charm', 'terror', 'mute', 'Invisible'}, 1)}, windower.ffxi.get_player().index),
+		NotCondition.new(L{HasBuffsCondition.new(L{'sleep', 'petrification', 'charm', 'terror', 'mute', 'Invisible', 'stun'}, 1)}, windower.ffxi.get_player().index),
 		MinManaPointsCondition.new(res.spells[spell_id].mp_cost or 0, windower.ffxi.get_player().index),
 		SpellRecastReadyCondition.new(spell_id),
 		ValidSpellTargetCondition.new(res.spells[spell_id].en, alter_ego_util.untargetable_alter_egos()),
@@ -89,25 +89,10 @@ function SpellAction:perform()
 				end
 			end), self.player:on_unable_to_cast())
 
-	windower.chat.input(self:localize())
-end
+	local target = windower.ffxi.get_mob_by_index(self.target_index or windower.ffxi.get_player().index)
 
-function SpellAction:localize()
-	local target = windower.ffxi.get_mob_by_index(self.target_index)
-
-	local spell = res.spells[self.spell_id]
-	if spell then
-		local spell_name = spell.en
-		if localization_util.should_use_client_locale() then
-			spell_name = localization_util.encode(spell.name, windower.ffxi.get_info().language:lower())
-		end
-		if windower.ffxi.get_info().language:lower() == 'japanese' then
-			return "/ma %s ":format(spell_name)..target.id
-		else
-			return '/ma "%s" ':format(spell_name)..target.id
-		end
-	end
-	return ""
+	local spell = SpellCommand.new(spell_util.spell_name(self.spell_id), target.id)
+	spell:run(true)
 end
 
 function SpellAction:getspellid()
@@ -148,9 +133,9 @@ function SpellAction:tostring()
 	local spell = res.spells[self:getspellid()]
 	local target = windower.ffxi.get_mob_by_index(self.target_index)
 	if target.name == windower.ffxi.get_player().name then
-		return spell.en
+		return i18n.resource('spells', 'en', spell.en)
 	end
-	return spell.en..' → '..target.name
+	return i18n.resource('spells', 'en', spell.en)..' → '..target.name
 end
 
 function SpellAction:debug_string()

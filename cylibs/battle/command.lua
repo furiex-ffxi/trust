@@ -55,6 +55,13 @@ function Command:get_name()
     return 'Command'
 end
 
+-------
+-- Returns the localized name for the action.
+-- @treturn string Localized name
+function Command:get_localized_name()
+    return 'Command'
+end
+
 function Command:get_display_name()
     return self.description or self.windower_command
 end
@@ -90,7 +97,8 @@ function Command:serialize()
 end
 
 function Command:copy()
-    local original = self
+    return Command.new(self.windower_command, self.conditions:copy(), self.description)
+    --[[local original = self
     local lookup_table = {}
 
     local function _copy(original)
@@ -107,7 +115,11 @@ function Command:copy()
         return setmetatable(new_table, getmetatable(original))
     end
 
-    return _copy(original)
+    return _copy(original)]]
+end
+
+function Command:is_valid()
+    return true
 end
 
 function Command:__eq(otherItem)

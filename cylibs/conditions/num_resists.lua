@@ -39,7 +39,8 @@ function NumResistsCondition:get_config_items()
 
     return L{
         PickerConfigItem.new('spell_name', self.spell_name, all_spells, function(spell_name)
-            return spell_name:gsub("^%l", string.upper)
+            local spell = Spell.new(spell_name)
+            return spell:get_localized_name()
         end, "Spell"),
         ConfigItem.new('num_resists', 1, 20, 1, nil, "Number of Resists"),
         PickerConfigItem.new('operator', self.operator, L{ Condition.Operator.GreaterThanOrEqualTo, Condition.Operator.Equals, Condition.Operator.GreaterThan, Condition.Operator.LessThan, Condition.Operator.LessThanOrEqualTo }, nil, "Operator")
@@ -47,7 +48,7 @@ function NumResistsCondition:get_config_items()
 end
 
 function NumResistsCondition:tostring()
-    return self.spell_name.." resisted "..self.operator.." "..self.num_resists.." times"
+    return i18n.resource('spells', 'en', self.spell_name).." resisted "..self.operator.." "..self.num_resists.." times"
 end
 
 function NumResistsCondition.description()

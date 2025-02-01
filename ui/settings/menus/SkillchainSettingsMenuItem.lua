@@ -23,7 +23,6 @@ function SkillchainSettingsMenuItem.new(weaponSkillSettings, weaponSkillSettings
         ButtonItem.default('Clear All', 18),
         ButtonItem.default('Find', 18),
     }, {
-        --Conditions = ConditionSettingsMenuItem.new(weaponSkillSettings, weaponSkillSettingsMode, nil, S{ Condition.TargetType.Self }),
         Skip = MenuItem.action(nil, "Skillchains", "Wait for party members to use a weapon skill for the selected step."),
         Clear = MenuItem.action(nil, "Skillchains", "Automatically determine a weapon skill to use for the selected step."),
         Find = BuildSkillchainSettingsMenuItem.new(weaponSkillSettings, weaponSkillSettingsMode, skillchainer),
@@ -34,6 +33,7 @@ function SkillchainSettingsMenuItem.new(weaponSkillSettings, weaponSkillSettings
     self.weaponSkillSettingsMode = weaponSkillSettingsMode
     self.skillchainBuilder = SkillchainBuilder.new(skillchainer.skillchain_builder.abilities)
     self.skillchainer = skillchainer
+    self.conditionSettingsMenuItem = ConditionSettingsMenuItem.new(self.weaponSkillSettings, self.weaponSkillSettingsMode, nil, S{ Condition.TargetType.Self })
     self.disposeBag = DisposeBag.new()
 
     self.contentViewConstructor = function(_, infoView)
@@ -44,10 +44,16 @@ function SkillchainSettingsMenuItem.new(weaponSkillSettings, weaponSkillSettings
         local createSkillchainView = SkillchainSettingsEditor.new(weaponSkillSettings, abilities)
         createSkillchainView:setShouldRequestFocus(true)
 
+        self.selectedAbility = abilities[1]
+
+        self.conditionSettingsMenuItem:setConditions(self.selectedAbility.conditions) -- get_conditions() makes a copy
+
         self.disposeBag:add(createSkillchainView:getDelegate():didSelectItemAtIndexPath():addAction(function(indexPath)
             self.selectedAbility = abilities[indexPath.section]
             self.selectedIndex = indexPath.section
-            createSkillchainView.menuArgs['conditions'] = self.selectedAbility.conditions -- get_conditions() makes a copy
+
+            self.conditionSettingsMenuItem:setConditions(self.selectedAbility.conditions) -- get_conditions() makes a copy
+
             if self.selectedAbility then
                 if self.selectedAbility:get_conditions():empty() then
                     infoView:setDescription("Edit which weapon skill to use for the selected step.")
@@ -55,7 +61,11 @@ function SkillchainSettingsMenuItem.new(weaponSkillSettings, weaponSkillSettings
                     local description = self.selectedAbility:get_conditions():map(function(condition)
                         return condition:tostring()
                     end)
-                    infoView:setDescription("Use when: "..localization_util.commas(description))
+                    description = "Use when: "..localization_util.commas(description)
+                    if currentSettings.JobAbilities:length() > 0 then
+                        description = description..", Use with: "..localization_util.commas(currentSettings.JobAbilities:map(function(j) return j:get_name() end), 'and')
+                    end
+                    infoView:setDescription(description)
                 end
             end
         end, createSkillchainView:getDelegate():didSelectItemAtIndexPath()))
@@ -75,16 +85,11 @@ function SkillchainSettingsMenuItem:reloadSettings()
 end
 
 function SkillchainSettingsMenuItem:getEditSkillchainStepMenuItem()
-    local conditionsMenuItem = ConditionSettingsMenuItem.new(self.weaponSkillSettings, self.weaponSkillSettingsMode, nil, S{ Condition.TargetType.Self })
-    conditionsMenuItem.enabled = function()
-        return true--return self.selectedAbility and self.selectedAbility:get_name() ~= SkillchainAbility.Auto and self.selectedAbility:get_name() ~= SkillchainAbility.Skip
-    end
-
     local editSkillchainStepMenuItem = MenuItem.new(L{
         ButtonItem.default('Confirm', 18),
         ButtonItem.default('Conditions', 18),
     }, {
-        Conditions = conditionsMenuItem,
+        Conditions = self.conditionSettingsMenuItem,
     },
         function(args, infoView, showMenu)
             local currentSettings = T(self.weaponSkillSettings:getSettings())[self.weaponSkillSettingsMode.value]
@@ -127,14 +132,18 @@ function SkillchainSettingsMenuItem:getEditSkillchainStepMenuItem()
                 conditions = currentConditions
             }
 
-            local editSkillchainStepEditor = SkillchainStepSettingsEditor.new(stepSettings, nextSteps)
+            local editSkillchainStepEditor = SkillchainStepSettingsEditor.new(stepSettings, nextSteps, self.weaponSkillSettings, self.weaponSkillSettingsMode)
 
             self.disposeBag:add(editSkillchainStepEditor:onConfigChanged():addAction(function(newSettings, _)
                 local ability = self:getAbility(newSettings.step:get_ability():get_name())
                 if ability then
+                    self.selectedAbility = ability
                     ability.conditions = newSettings.conditions
+
                     currentSettings.Skillchain[newSettings.step:get_step()] = ability
                     self.weaponSkillSettings:saveSettings(true)
+
+                    self.conditionSettingsMenuItem:setConditions(ability.conditions)
 
                     addon_message(260, '('..windower.ffxi.get_player().name..') '.."Alright, I've updated my weapon skills!")
                 end
@@ -149,7 +158,10 @@ end
 function SkillchainSettingsMenuItem:getAbilitiesMenuItem()
     local jobAbilitiesMenuItem = JobAbilitiesSettingsMenuItem.new(self.weaponSkillSettings, self.weaponSkillSettingsMode)
     jobAbilitiesMenuItem.titleText = "Skillchains"
-    jobAbilitiesMenuItem.descriptionText = "Choose abilities to use before a weapon skill during a skillchain."
+    jobAbilitiesMenuItem.descriptionText = "Choose abilities to use before each step in the skillchain."
+    --jobAbilitiesMenuItem.enabled = function()
+    --    return self.selectedAbility and not S{ SkillchainAbility.Auto, SkillchainAbility.Skip }:contains(self.selectedAbility:get_name())
+    --end
     return jobAbilitiesMenuItem
 end
 

@@ -9,6 +9,7 @@ local RangedAttackAction = require('cylibs/actions/ranged_attack')
 local RangedAttack = {}
 RangedAttack.__index = RangedAttack
 RangedAttack.__class = "RangedAttack"
+RangedAttack.__type = "RangedAttack"
 
 -------
 -- Default initializer for a new ranged attack.
@@ -60,6 +61,10 @@ function RangedAttack:get_name()
     return 'Ranged Attack'
 end
 
+function RangedAttack:get_localized_name()
+    return self:get_name()
+end
+
 -------
 -- Return the Action to use this action on a target.
 -- @treturn Action Action to use ability
@@ -75,6 +80,17 @@ function RangedAttack:serialize()
     local conditions_classes_to_serialize = Condition.defaultSerializableConditionClasses()
     local conditions_to_serialize = self.conditions:filter(function(condition) return conditions_classes_to_serialize:contains(condition.__class)  end)
     return "RangedAttack.new(" .. serializer_util.serialize_args(conditions_to_serialize) .. ")"
+end
+
+function RangedAttack:is_valid()
+    return true
+end
+
+function RangedAttack:__eq(otherItem)
+    if otherItem.__type == self.__type then
+        return true
+    end
+    return false
 end
 
 return RangedAttack

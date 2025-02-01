@@ -1,3 +1,4 @@
+local CommandMessage = require('cylibs/messages/command_message')
 local PickerConfigItem = require('ui/settings/editors/config/PickerConfigItem')
 local TrustCommands = require('cylibs/trust/commands/trust_commands')
 local FollowTrustCommands = setmetatable({}, {__index = TrustCommands })
@@ -60,6 +61,8 @@ end
 function FollowTrustCommands:handle_follow_party_member(party_member_name)
     local success
     local message
+
+    party_member_name = party_member_name:gsub("^%l", string.upper)
 
     if self:get_follower():is_valid_target(party_member_name) then
         handle_set('AutoFollowMode', 'Always')

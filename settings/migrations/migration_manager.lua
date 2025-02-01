@@ -9,6 +9,21 @@ local Migration_v8 = require('settings/migrations/migration_v8')
 local Migration_v9 = require('settings/migrations/migration_v9')
 local Migration_v10 = require('settings/migrations/migration_v10')
 local Migration_v11 = require('settings/migrations/migration_v11')
+local Migration_v12 = require('settings/migrations/migration_v12')
+local Migration_v13 = require('settings/migrations/migration_v13')
+local Migration_v14 = require('settings/migrations/migration_v14')
+local Migration_v15 = require('settings/migrations/migration_v15')
+local Migration_v16 = require('settings/migrations/migration_v16')
+local Migration_v17 = require('settings/migrations/migration_v17')
+local Migration_v18 = require('settings/migrations/migration_v18')
+local Migration_v19 = require('settings/migrations/migration_v19')
+local Migration_v20 = require('settings/migrations/migration_v20')
+local Migration_v21 = require('settings/migrations/migration_v21')
+local Migration_v22 = require('settings/migrations/migration_v22')
+local Migration_v23 = require('settings/migrations/migration_v23')
+local Migration_v24 = require('settings/migrations/migration_v24')
+local Migration_v25 = require('settings/migrations/migration_v25')
+
 local UpdateDefaultGambits = require('settings/migrations/update_default_gambits')
 
 local MigrationManager = {}
@@ -32,12 +47,30 @@ function MigrationManager.new(trustSettings, addonSettings, weaponSkillSettings)
         Migration_v9.new(),
         Migration_v10.new(),
         Migration_v11.new(),
+        Migration_v12.new(),
+        Migration_v13.new(),
+        Migration_v14.new(),
+        Migration_v15.new(),
+        Migration_v16.new(),
+        Migration_v17.new(),
+        Migration_v18.new(),
+        Migration_v19.new(),
+        Migration_v20.new(),
+        Migration_v21.new(),
+        Migration_v22.new(),
+        Migration_v23.new(),
+        Migration_v24.new(),
+        Migration_v25.new(),
         UpdateDefaultGambits.new(),
     }
     return self
 end
 
 function MigrationManager:perform()
+    if self.trustSettings.isFirstLoad then
+        self.trustSettings:getSettings().Migrations = self:getAllMigrationCodes()
+    end
+
     local currentMigrations = S(self.trustSettings:getSettings().Migrations or L{})
 
     addon_system_message("Checking for updates on "..self.trustSettings.jobNameShort.."...")
@@ -59,7 +92,7 @@ function MigrationManager:perform()
         migrationStep = migrationStep + 1
     end
 
-    if migrationsToRun:length() > 0 then
+    if migrationsToRun:length() > 0 or self.trustSettings.isFirstLoad then
         self.trustSettings:getSettings().Migrations = L(currentMigrations)
         self.trustSettings:saveSettings(true)
 
@@ -67,6 +100,14 @@ function MigrationManager:perform()
             self.weaponSkillSettings:saveSettings(true)
         end
     end
+end
+
+function MigrationManager:getAllMigrationCodes()
+    return self.migrations:map(function(migration)
+        return migration:getMigrationCode()
+    end):filter(function(code)
+        return code ~= UpdateDefaultGambits.__class
+    end)
 end
 
 return MigrationManager

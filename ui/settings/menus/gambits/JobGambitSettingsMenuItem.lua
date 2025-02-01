@@ -6,6 +6,7 @@ local IndexedItem = require('cylibs/ui/collection_view/indexed_item')
 local IndexPath = require('cylibs/ui/collection_view/index_path')
 local MenuItem = require('cylibs/ui/menu/menu_item')
 local ModesMenuItem = require('ui/settings/menus/ModesMenuItem')
+local MultiPickerConfigItem = require('ui/settings/editors/config/MultiPickerConfigItem')
 
 local JobGambitSettingsMenuItem = setmetatable({}, {__index = MenuItem })
 JobGambitSettingsMenuItem.__index = JobGambitSettingsMenuItem
@@ -13,7 +14,7 @@ JobGambitSettingsMenuItem.__index = JobGambitSettingsMenuItem
 function JobGambitSettingsMenuItem.new(trust, trustSettings, trustSettingsMode, trustModeSettings)
     local self = setmetatable(MenuItem.new(L{
         ButtonItem.default('Toggle', 18),
-        ButtonItem.default('Modes', 18),
+        ButtonItem.localized('Modes', i18n.translate('Button_Modes')),
     }, {}, nil, "Gambits", "Toggle default behaviors.", false), JobGambitSettingsMenuItem)
 
     self.trust = trust
@@ -25,9 +26,11 @@ function JobGambitSettingsMenuItem.new(trust, trustSettings, trustSettingsMode, 
     self.contentViewConstructor = function(_, infoView)
         local currentGambits = self.trustSettings:getSettings()[self.trustSettingsMode.value].GambitSettings.Default or L{}
 
-        local gambitSettingsEditor = FFXIPickerView.withItems(currentGambits:map(function(gambit)
+        local configItem = MultiPickerConfigItem.new("Gambits", L{}, currentGambits, function(gambit)
             return gambit:tostring()
-        end), L{}, false, nil, nil, FFXIClassicStyle.WindowSize.Editor.ConfigEditorExtraLarge, true)
+        end)
+
+        local gambitSettingsEditor = FFXIPickerView.new(L{ configItem }, false, FFXIClassicStyle.WindowSize.Editor.ConfigEditorExtraLarge)
         gambitSettingsEditor:setAllowsCursorSelection(true)
 
         gambitSettingsEditor:setNeedsLayout()
@@ -55,7 +58,7 @@ function JobGambitSettingsMenuItem.new(trust, trustSettings, trustSettingsMode, 
         self.gambitSettingsEditor:getDisposeBag():add(self.gambitSettingsEditor:getDelegate():didSelectItemAtIndexPath():addAction(function(indexPath)
             local item = self.gambitSettingsEditor:getDataSource():itemAtIndexPath(indexPath)
             if item then
-                infoView:setDescription(item:getText())
+                infoView:setDescription(item:getLocalizedText())
             end
         end), self.gambitSettingsEditor:getDelegate():didSelectItemAtIndexPath())
 

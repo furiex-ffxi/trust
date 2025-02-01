@@ -36,8 +36,18 @@ function JobAbility.new(job_ability_name, conditions, job_names, target)
         enabled = true;
     }, JobAbility)
 
-    if self:get_job_ability().type ~= 'Scholar' then
-        self:add_condition(JobAbilityRecastReadyCondition.new(job_ability_name))
+    if not S{ 'Scholar', 'BloodPactWard' }:contains(self:get_job_ability().type) then
+        local recast_ready_condition = JobAbilityRecastReadyCondition.new(job_ability_name)
+        recast_ready_condition.editable = false
+
+        self:add_condition(recast_ready_condition)
+    end
+
+    if self:get_job_ability().type == 'Scholar' then
+        local strategem_condition = StrategemCountCondition.new(1, Condition.Operator.GreaterThanOrEqualTo)
+        strategem_condition.editable = false
+
+        self:add_condition(strategem_condition)
     end
 
     return self
@@ -69,6 +79,13 @@ end
 -- @treturn table Job ability metadata
 function JobAbility:get_job_ability()
     return res.job_abilities[self:get_job_ability_id()]
+end
+
+-------
+-- Returns the buff/debuff for the spell.
+-- @treturn Buff/debuff metadata (see buffs.lua)
+function JobAbility:get_status()
+    return buff_util.buff_for_job_ability(self:get_ability_id())
 end
 
 -------
@@ -136,24 +153,33 @@ end
 -- Return the Action to use this job ability on a target.
 -- @treturn Action Action to cast the spell
 function JobAbility:to_action(target_index)
-    local job_ability_action
+    local actions = L{}
     if string.find(self:get_job_ability_name(), 'Waltz') then
-        job_ability_action = WaltzAction.new(self:get_job_ability_name(), target_index or self:get_target())
+        actions:append(WaltzAction.new(self:get_job_ability_name(), target_index or self:get_target()))
     elseif string.find(self:get_job_ability_name(), 'Flourish') then
-        job_ability_action = FlourishAction.new(self:get_job_ability_name(), target_index or self:get_target())
+        actions:append(FlourishAction.new(self:get_job_ability_name(), target_index or self:get_target()))
     else
-        job_ability_action = JobAbilityAction.new(0, 0, 0, self:get_job_ability_name(), target_index or self:get_target())
+        actions:append(JobAbilityAction.new(0, 0, 0, self:get_job_ability_name(), target_index or self:get_target()))
     end
+    actions:append(WaitAction.new(0, 0, 0, 2))
 
-    local actions = L{
-        job_ability_action,
-        WaitAction.new(0, 0, 0, 2),
-    }
     return SequenceAction.new(actions, 'job_ability_'..self:get_job_ability_name())
 end
 
 function JobAbility:get_name()
     return self.job_ability_name
+end
+
+function JobAbility:get_localized_name()
+    return i18n.resource('job_abilities', 'en', self:get_name())
+end
+
+function JobAbility:get_localized_description()
+    local buff = buff_util.buff_for_job_ability(self:get_job_ability_id())
+    if buff then
+        return i18n.resource('buffs', 'en', buff.en)
+    end
+    return nil
 end
 
 function JobAbility:serialize()
@@ -168,6 +194,14 @@ function JobAbility:__eq(otherItem)
         return true
     end
     return false
+end
+
+function JobAbility:copy()
+    local conditions = L{}
+    for condition in self:get_conditions():it() do
+        conditions:append(condition:copy())
+    end
+    return JobAbility.new(self.job_ability_name, conditions, self.job_names + L{}, self.target)
 end
 
 return JobAbility

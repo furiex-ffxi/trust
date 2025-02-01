@@ -132,6 +132,10 @@ function Widget:setPosition(x, y)
     end
 end
 
+function Widget:getMaxHeight()
+    return nil
+end
+
 function Widget:isExpanded()
     return self.expanded
 end
@@ -227,6 +231,11 @@ function Widget:hitTest(x, y)
         return CollectionView.hitTest(self, x, y)
     end
     return true
+end
+
+function Widget:setTitle(title, titleWidth)
+    self:getBackgroundImageView():setTitle(title, { width = titleWidth, height = 14 })
+    self:layoutIfNeeded()
 end
 
 function Widget:__eq(otherItem)

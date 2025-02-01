@@ -23,6 +23,7 @@ default.updater = {}
 default.updater.manifest_url = 'https://raw.githubusercontent.com/cyritegamestudios/trust/main/manifest.json'
 default.follow = {}
 default.follow.distance = 1
+default.follow.auto_pause = false
 default.flags = {}
 default.flags.show_death_warning = true
 default.flags.check_files = true
@@ -32,6 +33,7 @@ default.help.wiki_base_url = 'https://github.com/cyritegamestudios/trust/wiki'
 default.logging = {}
 default.logging.enabled = false
 default.logging.logtofile = false
+default.logging.filter_pattern = ''
 default.menu_key = '%^numpad+'
 default.autocomplete = {}
 default.autocomplete.visible = true
@@ -100,12 +102,15 @@ default.shortcuts.widgets.party.enabled = false
 default.shortcuts.widgets.party.key = "P"
 default.shortcuts.widgets.party.flags = 1
 default.locales = {}
+default.locales.font_names = {}
+default.locales.font_names.english = "Arial"
+default.locales.font_names.japanese = "MS Gothic"
 default.locales.actions = {}
-default.locales.actions.use_client_locale = false
+default.locales.default = ""
 default.sounds = {}
 default.sounds.sound_effects = {}
 default.sounds.sound_effects.disabled = true
-
+default.gearswap = {}
 
 
 function TrustAddonSettings:onSettingsChanged()
@@ -119,14 +124,22 @@ function TrustAddonSettings.new()
     return self
 end
 
+function TrustAddonSettings:loadFile()
+    return coroutine.create(function()
+        local settings = config.load(default)
+        coroutine.yield(settings)
+    end)
+end
+
 function TrustAddonSettings:loadSettings()
-    self.settings = config.load(default)
+    local _, settings = coroutine.resume(self:loadFile())
+    self.settings = settings
     self:onSettingsChanged():trigger(self.settings)
     return self.settings
 end
 
 function TrustAddonSettings:reloadSettings()
-    return self:loadSettings(false)
+    return self:loadSettings()
 end
 
 function TrustAddonSettings:saveSettings(saveToFile)

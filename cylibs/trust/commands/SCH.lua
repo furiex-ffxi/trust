@@ -1,3 +1,5 @@
+local Gambit = require('cylibs/gambits/gambit')
+local GambitTarget = require('cylibs/gambits/gambit_target')
 local PickerConfigItem = require('ui/settings/editors/config/PickerConfigItem')
 local skillchain_util = require('cylibs/util/skillchain_util')
 
@@ -79,6 +81,8 @@ function ScholarTrustCommands:handle_skillchain(_, element)
     local success
     local message
 
+    element = windower.convert_auto_trans(element)
+
     local target_index = self.trust:get_target_index()
 
     local spell1, spell2 = self:get_spells(element)
@@ -92,7 +96,7 @@ function ScholarTrustCommands:handle_skillchain(_, element)
         success = true
         local actions = L{
             BlockAction.new(function()
-                self.trust:get_party():add_to_chat(self.trust:get_party():get_player(), "**[Starting]** Skillchain "..spell1.." > "..spell2.." = "..element)
+                self.trust:get_party():add_to_chat(self.trust:get_party():get_player(), "**[Starting]** Skillchain "..spell1.." > "..spell2.." = "..localization_util.translate(element))
             end, 'skillchain_start')
         }
         local spells = L{
@@ -129,7 +133,7 @@ function ScholarTrustCommands:handle_skillchain(_, element)
 
             self.action_queue:push_action(skillchain_action, true)
 
-            message = "Starting skillchain "..spell1.." > "..spell2.." = "..element
+            message = "Starting skillchain "..localization_util.translate(spell1).." > "..localization_util.translate(spell2).." = "..localization_util.translate(element)
         end
     end
 
@@ -140,6 +144,8 @@ end
 function ScholarTrustCommands:handle_accession(_, spell_name)
     local success
     local message
+
+    spell_name = windower.convert_auto_trans(spell_name)
 
     if not self:get_job():is_light_arts_active() then
         success = false
@@ -163,7 +169,9 @@ function ScholarTrustCommands:handle_accession(_, spell_name)
                 message = "Unable to use spell or insufficient strategems"
             else
                 success = true
-                message = "Using Accession + "..spell_name
+                message = "Using Accession + "..localization_util.translate(spell_name)
+
+                self.action_queue:push_action(accession_action)
             end
         end
     end
@@ -173,39 +181,46 @@ end
 
 -- // trust sch storm [fire|ice|wind|earth|lightning|water|light|dark] [true|false]
 function ScholarTrustCommands:handle_storm(_, element, include_party)
+    if not (self:get_job():is_light_arts_active() or self:get_job():is_dark_arts_active()) then
+        return false, "Light Arts or Dark Arts must be active to use this command"
+    end
+
     local success
     local message
-    print(tostring(include_party))
+
     include_party = include_party ~= nil and tostring(include_party) == "true"
 
     local storm = self.trust:get_job():get_storm(element:lower())
     if storm then
+        storm = Gambit.new(GambitTarget.TargetType.Self, L{}, storm, Condition.TargetType.Self, L{"Buffs"})
+
         success = true
-        message = "Setting storm to "..storm:get_spell().en
+        message = "Setting storm to "..storm:getAbility():get_spell().en
 
         local current_settings = self:get_settings()
-        for arts_name in L{ 'LightArts', 'DarkArts' }:it() do
 
-            local update_storm = function(storm, buffs)
-                local new_buffs = L{ storm }
+        local update_storm = function(storm, gambits)
+            local new_buffs = L{ storm }
 
-                for buff in buffs:it() do
-                    if not buff:get_spell().en:contains('storm') then
-                        new_buffs:append(buff)
-                    end
+            for gambit in gambits:it() do
+                if not gambit:getAbility():get_name():contains('storm') or gambit:getAbilityTarget() ~= storm:getAbilityTarget() then
+                    new_buffs:append(gambit)
                 end
-
-                buffs:clear()
-                buffs = buffs:extend(new_buffs)
             end
 
-            update_storm(storm, current_settings[arts_name].SelfBuffs)
+            gambits:clear()
+            gambits = gambits:extend(new_buffs)
+        end
 
-            if include_party then
-                local party_storm = self.trust:get_job():get_storm(element:lower())
-                party_storm:set_job_names(L{'BLM','SCH','RDM','GEO'})
-                update_storm(party_storm, current_settings[arts_name].PartyBuffs)
-            end
+        update_storm(storm, current_settings.BuffSettings.Gambits)
+
+        if include_party then
+            local party_storm = self.trust:get_job():get_storm(element:lower())
+            party_storm = Gambit.new(GambitTarget.TargetType.Ally, L{
+                JobCondition.new(L{ 'BLM', 'RDM', 'GEO' }),
+                NotCondition.new(L{ IsAlterEgoCondition.new() }),
+            }, party_storm, Condition.TargetType.Ally, L{"Buffs"})
+            update_storm(party_storm, current_settings.BuffSettings.Gambits)
         end
 
         if include_party then

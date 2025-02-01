@@ -9,7 +9,7 @@ require('lists')
 
 local buffs_ext = require('cylibs/res/buffs')
 local res = require('resources')
-local list_ext = require('cylibs/util/extensions/lists')
+local list_ext = require('cylibs/util/extensions/lists') -- needed
 local job_abilities_ext = require('cylibs/res/job_abilities')
 local spells_ext = require('cylibs/res/spells')
 
@@ -26,6 +26,7 @@ local debuffs = T{
 	[5] = S{254,276,347,348}, --Blind
 	[6] = S{59,687,727}, --Silence
 	[7] = S{255,365,722}, --Break
+	[8] = S{}, -- disease
 	[9] = S{}, -- curse
 	[11] = S{258,531}, --Bind
 	[12] = S{216,217,708}, --Gravity
@@ -43,7 +44,7 @@ local debuffs = T{
 	[132] = S{}, -- Shock
 	[133] = S{}, -- Drown
 	[134] = S{}, -- Dia
-	[135] = S{}, -- Bio
+	[135] = S{230,231,232}, -- Bio
 	[136] = S{240,705}, --str down
 	[137] = S{238}, --dex down
 	[138] = S{237}, --VIT down
@@ -64,11 +65,18 @@ local debuffs = T{
 	[193] = S{463,471,376,377}, --lullabies
 	[194] = S{421,422,423}, --elegy
 	[217] = S{454,455,456,457,458,459,460,461,871,872,873,874,875,876,877,878}, --threnodies
+	[223] = S{472}, -- nocturne
+	[299] = S{}, --overload
 	[391] = S{202}, -- sluggish daze
 	[392] = S{202}, -- sluggish daze
 	[393] = S{202}, -- sluggish daze
 	[394] = S{202}, -- sluggish daze
 	[395] = S{202}, -- sluggish daze
+	[700] = S{202}, -- sluggish daze
+	[701] = S{202}, -- sluggish daze
+	[702] = S{202}, -- sluggish daze
+	[703] = S{202}, -- sluggish daze
+	[704] = S{202}, -- sluggish daze
 	[404] = S{843,844,883}, --Magic Evasion Down
 	[597] = S{879}, --inundation
 }
@@ -154,7 +162,12 @@ end
 -- @tparam string buff_id Buff id (see buffs.lua)
 -- @treturn string Buff name (see buffs.lua)
 function buff_util.buff_name(buff_id)
-	return res.buffs:with('id', buff_id).en
+	if res.buffs[buff_id] then
+		return res.buffs[buff_id].en
+	elseif buffs_ext[buff_id] then
+		return buffs_ext[buff_id].en
+	end
+	return buff_id
 end
 
 -------
@@ -164,10 +177,8 @@ end
 function buff_util.buff_id(buff_name)
 	local buff_names = L{ buff_name, string.lower(buff_name), buff_name:gsub("^%l", string.upper) }
 	for buff_name in buff_names:it() do
-		local buff = res.buffs:with('en', buff_name)
-		if buff == nil then
-			buff = res.buffs:with('enl', buff_name)
-		elseif buffs_ext:with('en', buff_name) then
+		local buff = res.buffs:with('en', buff_name) or res.buffs:with('enl', buff_name)
+		if buff == nil and buffs_ext:with('en', buff_name) then
 			buff = buffs_ext:with('en', buff_name)
 		end
 		if buff then
@@ -175,6 +186,20 @@ function buff_util.buff_id(buff_name)
 		end
 	end
 	return nil
+end
+
+function buff_util.all_buff_ids(buff_name)
+	local buff_names = L{ buff_name, string.lower(buff_name) }
+
+	local buff_name_upper = buff_name:gsub("^%l", string.upper)
+	buff_names:append(buff_name_upper)
+
+	local buff_ids = L{}
+	for buff_name in buff_names:it() do
+		local all_buffs = (res.buffs:with_all('en', buff_name) or L{}) + (res.buffs:with_all('enl', buff_name) or L{}) + (buffs_ext:with_all('en', buff_name) or L{})
+		buff_ids = buff_ids + all_buffs:map(function(buff) return buff.id end)
+	end
+	return L(S(buff_ids))
 end
 
 -------
@@ -217,13 +242,13 @@ end
 -- @tparam number spell_id Spell id (see spells.lua)
 -- @treturn BuffMetadata Full metadata for the debuff (see buffs.lua)
 function buff_util.debuff_for_spell(spell_id)
-	local spell = res.spells:with('id', spell_id)
+	local spell = res.spells[spell_id]
 	if spell then
 		if spell.status == nil then
-			spell = spells_ext:with('id', spell_id)
+			spell = spells_ext[spell_id]
 		end
 		if spell and spell.status then
-			return res.buffs:with('id', spell.status)
+			return res.buffs[spell.status]
 		end
 	end
 	return nil
@@ -245,19 +270,27 @@ function buff_util.debuffs_for_auras()
 end
 
 -------
+-- Returns the full metadata for the buff associated with the given spell or job ability.
+-- @tparam number ability_id Ability id (see spells.lua and jb_abilities.lua)
+-- @treturn BuffMetadata Full metadata for the buff (see buffs.lua)
+function buff_util.buff_for(ability_id)
+	return buff_util.buff_for_spell(ability_id) or buff_util.buff_for_job_ability(ability_id)
+end
+
+-------
 -- Returns the full metadata for the buff associated with the given spell.
 -- @tparam number spell_id Spell id (see spells.lua)
 -- @treturn BuffMetadata Full metadata for the buff (see buffs.lua)
 function buff_util.buff_for_spell(spell_id)
 	if spell_id_to_buff[spell_id] then
-		return res.buffs:with('id', spell_id_to_buff[spell_id])
+		return res.buffs[spell_id_to_buff[spell_id]]
 	else
-		local spell = res.spells:with('id', spell_id)
+		local spell = res.spells[spell_id]
 		if spell.status == nil then
-			spell = spells_ext:with('id', spell_id)
+			spell = spells_ext[spell_id]
 		end
 		if spell ~= nil then
-			return res.buffs:with('id', spell.status)
+			return res.buffs[spell.status]
 		end
 		return nil
 	end
@@ -280,6 +313,10 @@ end
 -- @tparam number job_ability_id Id in job_abilities.lua
 -- @treturn BuffMetadata Full metadata for the buff (see buffs.lua)
 function buff_util.buff_for_job_ability(job_ability_id)
+	-- NOTE: there is a bug in res/job_abilities.lua that says Wind's Blessing gives Magic Shield
+	if res.job_abilities[job_ability_id].en == "Wind's Blessing" then
+		return res.buffs:with('en', "Wind's Blessing")
+	end
 	local job_ability = res.job_abilities:with('id', job_ability_id)
 	if job_ability.status == nil then
 		job_ability = job_abilities_ext:with('id', job_ability_id)
@@ -372,8 +409,12 @@ end
 
 function buff_util.get_all_debuffs()
 	return L(T(debuffs):keyset()):map(function(debuff_id)
-		return res.buffs[debuff_id].en:gsub("^%l", string.upper)
-	end)
+		local debuff = res.buffs[debuff_id]
+		if debuff then
+			return debuff.en:gsub("^%l", string.upper)
+		end
+		return nil
+	end):compact_map()
 end
 
 function buff_util.get_all_debuff_spells()

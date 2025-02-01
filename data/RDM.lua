@@ -2,28 +2,31 @@
 return {
     Version = 2,
     Default = {
-        SelfBuffs = L{
-            Buff.new("Haste", L{}, L{}, nil, L{}),
-            Buff.new("Refresh", L{}, L{}, nil, L{}),
-            Spell.new("Phalanx", L{}, L{}, nil, L{}),
-            Buff.new("Temper", L{}, L{}, nil, L{InBattleCondition.new()}),
-            Spell.new("Enblizzard", L{}, L{}, nil, L{InBattleCondition.new(), MainJobCondition.new("RDM")}),
-            Spell.new("Gain-INT", L{}, L{}, nil, L{NotCondition.new(L{ModeCondition.new("AutoMagicBurstMode", "Off")})}),
-            Spell.new("Gain-STR", L{}, L{}, nil, L{ModeCondition.new("AutoMagicBurstMode", "Off")}),
-            Buff.new("Protect", L{}, L{}, nil, L{MainJobCondition.new("RDM")}),
-            Buff.new("Shell", L{}, L{}, nil, L{MainJobCondition.new("RDM")})
+        BuffSettings = {
+            Gambits = L{
+                Gambit.new("Self", L{}, JobAbility.new("Composure", L{}, L{}), "Self", L{"Buffs"}),
+                Gambit.new("Self", L{}, Buff.new("Haste", L{}, L{}, nil, L{}), "Self", L{"Buffs"}),
+                Gambit.new("Self", L{}, Buff.new("Refresh", L{}, L{}, nil, L{}), "Self", L{"Buffs"}),
+                Gambit.new("Self", L{}, Spell.new("Phalanx", L{}, L{}, nil, L{}), "Self", L{"Buffs"}),
+                Gambit.new("Self", L{InBattleCondition.new()}, Buff.new("Temper", L{}, L{}, nil, L{}), "Self", L{"Buffs"}),
+                Gambit.new("Self", L{InBattleCondition.new(), MainJobCondition.new("RDM")}, Spell.new("Enblizzard", L{}, L{}, nil, L{}), "Self", L{"Buffs"}),
+                Gambit.new("Self", L{NotCondition.new(L{ModeCondition.new("AutoMagicBurstMode", "Off")})}, Spell.new("Gain-INT", L{}, L{}, nil, L{}), "Self", L{"Buffs"}),
+                Gambit.new("Self", L{ModeCondition.new("AutoMagicBurstMode", "Off")}, Spell.new("Gain-STR", L{}, L{}, nil, L{}), "Self", L{"Buffs"}),
+                Gambit.new("Self", L{MainJobCondition.new("RDM")}, Buff.new("Protect", L{}, L{}, nil, L{}), "Self", L{"Buffs"}),
+                Gambit.new("Self", L{MainJobCondition.new("RDM")}, Buff.new("Shell", L{}, L{}, nil, L{}), "Self", L{"Buffs"}),
+                Gambit.new("Ally", L{JobCondition.new(L{"WAR", "NIN", "BST", "GEO", "SCH", "DRK", "DRG", "PUP", "BLU", "BLM", "THF", "PLD", "BRD", "SAM", "MNK", "RUN", "COR", "DNC", "RNG"})}, Buff.new("Haste", L{}, L{}, nil, L{}), "Ally", L{"Buffs"}),
+                Gambit.new("Ally", L{JobCondition.new(L{"DRK", "PLD", "BLU", "BLM", "BRD", "GEO", "SMN", "WHM", "RUN"})}, Buff.new("Refresh", L{}, L{}, nil, L{}), "Ally", L{"Buffs"}),
+                Gambit.new("Ally", L{InBattleCondition.new(), JobCondition.new(L{"NIN", "DNC", "GEO", "DRK", "SAM", "COR", "RNG", "PLD", "BRD", "WAR", "PUP", "DRG", "MNK", "RUN", "THF", "BST", "BLU"})}, Spell.new("Phalanx II", L{}, L{}, nil, L{}), "Ally", L{"Buffs"}),
+            }
         },
         GambitSettings = {
             Default = L{
-                Gambit.new("Self", L{MaxManaPointsPercentCondition.new(20), ModeCondition.new("AutoConvertMode", "Auto")}, JobAbility.new("Convert", L{}, L{}), "Self", L{})
+                Gambit.new("Self", L{MaxManaPointsPercentCondition.new(20), NotCondition.new(L{HasBuffCondition.new("weakness")}), ModeCondition.new("AutoConvertMode", "Auto")}, JobAbility.new("Convert", L{}, L{}), "Self", L{})
             },
             Gambits = L{
                 Gambit.new("Enemy", L{MeleeAccuracyCondition.new(75, "<="), MainJobCondition.new("RDM"), NumResistsCondition.new("Distract", "<", 3), NumResistsCondition.new("Distract II", "<", 3), NumResistsCondition.new("Distract III", "<", 3)}, Spell.new("Distract III", L{}, L{}), "Self", L{}),
-                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("RDM")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
+                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("RDM")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"Food"})
             }
-        },
-        JobAbilities = L{
-            JobAbility.new("Composure", L{}, L{})
         },
         CureSettings = {
             Thresholds = {
@@ -36,34 +39,29 @@ return {
             MinNumAOETargets = 3,
             Delay = 2
         },
-        PartyBuffs = L{
-            Buff.new("Haste", L{}, L{}, nil, L{JobCondition.new(L{"WAR", "NIN", "BST", "GEO", "SCH", "DRK", "DRG", "PUP", "BLU", "BLM", "THF", "PLD", "BRD", "SAM", "MNK", "RUN", "COR", "DNC", "RNG"})}),
-            Buff.new("Refresh", L{}, L{}, nil, L{JobCondition.new(L{"DRK", "PLD", "BLU", "BLM", "BRD", "GEO", "SMN", "WHM", "RUN"})}),
-            Spell.new("Phalanx II", L{}, L{}, nil, L{InBattleCondition.new(), JobCondition.new(L{"NIN", "DNC", "GEO", "DRK", "SAM", "COR", "RNG", "PLD", "BRD", "WAR", "PUP", "DRG", "MNK", "RUN", "THF", "BST", "BLU"})}),
-        },
         NukeSettings = {
             MinNumMobsToCleave = 2,
             MinManaPointsPercent = 40,
             GearswapCommand = "gs c set MagicBurstMode Single",
-            Spells = L{
-                Spell.new("Thunder V", L{}, nil, nil, L{}),
-                Spell.new("Thunder IV", L{}, nil, nil, L{}),
-                Spell.new("Thunder III", L{}, nil, nil, L{}),
-                Spell.new("Blizzard V", L{}, nil, nil, L{}),
-                Spell.new("Blizzard IV", L{}, nil, nil, L{}),
-                Spell.new("Blizzard III", L{}, nil, nil, L{}),
-                Spell.new("Fire V", L{}, nil, nil, L{}),
-                Spell.new("Fire IV", L{}, nil, nil, L{}),
-                Spell.new("Fire III", L{}, nil, nil, L{}),
-                Spell.new("Aero V", L{}, nil, nil, L{}),
-                Spell.new("Aero IV", L{}, nil, nil, L{}),
-                Spell.new("Aero III", L{}, nil, nil, L{}),
-                Spell.new("Water V", L{}, nil, nil, L{}),
-                Spell.new("Water IV", L{}, nil, nil, L{}),
-                Spell.new("Water III", L{}, nil, nil, L{}),
-                Spell.new("Stone V", L{}, nil, nil, L{}),
-                Spell.new("Stone IV", L{}, nil, nil, L{}),
-                Spell.new("Stone III", L{}, nil, nil, L{})
+            Gambits = L{
+                Gambit.new("Enemy", L{}, Spell.new("Thunder V", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Thunder IV", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Thunder III", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Blizzard V", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Blizzard IV", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Blizzard III", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Fire V", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Fire IV", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Fire III", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Aero V", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Aero IV", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Aero III", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Water V", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Water IV", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Water III", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Stone V", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Stone IV", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Stone III", L{}, L{}, nil, L{}, nil, true), "Enemy", L{"Nukes"}),
             },
             Delay = 4,
             JobAbilities = L{
@@ -73,19 +71,28 @@ return {
 
             }
         },
-        Debuffs = L{
-            Debuff.new("Distract", L{}, L{})
+        DebuffSettings = {
+            Gambits = L{
+                Gambit.new("Enemy", L{}, Debuff.new("Dia", L{}, L{}, L{}), "Enemy", L{"Debuffs"})
+            }
         },
         PullSettings = {
-            Abilities = L{
-                Debuff.new("Dia", L{}, L{})
+            Gambits = L{
+                Gambit.new("Enemy", L{}, Debuff.new("Dia", L{}, L{}), "Enemy", L{"Pulling"}),
             },
             Targets = L{
                 "Locus Ghost Crab",
                 "Locus Dire Bat",
                 "Locus Armet Beetle",
             },
-            Distance = 20
-        }
+            Distance = 20,
+            MaxNumTargets = 1,
+        },
+        TargetSettings = {
+            Retry = false
+        },
+        GearSwapSettings = {
+            Enabled = true
+        },
     }
 }

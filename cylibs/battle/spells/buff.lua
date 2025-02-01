@@ -35,7 +35,7 @@ local aoe_buff_prefixes = L{
 -- @treturn Buff A buff
 function Buff.new(spell_name, job_abilities, job_names, spell_prefix, conditions)
     local spell = res.spells:with('en', spell_name)
-    spell = spell_util.highest_spell_for_buff_id(spell_util.buff_id_for_spell(spell.id), spell_name)
+    spell = spell_util.highest_spell(spell_name)
     if spell then
         local self = setmetatable(Spell.new(spell.en, job_abilities or L{}, job_names or L{}, nil, conditions, nil), Buff)
         self.original_spell_name = spell_name
@@ -55,10 +55,24 @@ function Buff:is_aoe()
     return spell_util.is_aoe_spell(spell_name) or #aoe_buff_prefixes:filter(function(buff_prefix) return spell_name:contains(buff_prefix) end) > 0
 end
 
+-------
+-- Returns whether or not the player knows this spell.
+-- @treturn Boolean True if the player knows this spell
+function Buff:is_valid()
+    return spell_util.knows_spell(self:get_spell().id)
+end
+
 function Buff:serialize()
     local conditions_classes_to_serialize = Condition.defaultSerializableConditionClasses()
     local conditions_to_serialize = self.conditions:filter(function(condition) return conditions_classes_to_serialize:contains(condition.__class)  end)
     return "Buff.new(" .. serializer_util.serialize_args(self.original_spell_name, self.job_abilities, self.job_names, self.spell_prefix, conditions_to_serialize) .. ")"
+end
+
+function Buff:__eq(otherItem)
+    if otherItem.__type == self.__type and otherItem:get_name() == self:get_name() then
+        return true
+    end
+    return false
 end
 
 return Buff

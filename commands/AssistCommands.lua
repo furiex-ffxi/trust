@@ -1,3 +1,4 @@
+local CommandMessage = require('cylibs/messages/command_message')
 local PickerConfigItem = require('ui/settings/editors/config/PickerConfigItem')
 local TargetLock = require('cylibs/entity/party/target_lock')
 
@@ -20,7 +21,7 @@ function AssistTrustCommands.new(trust, action_queue)
     })
     self:add_command('me', self.handle_assist_me, 'Make all players assist me')
     self:add_command('clear', self.handle_clear_assist, 'Clear assist target')
-    self:add_command('party', self.handle_lock_target, 'Locks your target on the party\'s current battle target')
+    self:add_command('lock', self.handle_lock_target, 'Locks your target on the party\'s current battle target until it dies (use for Aminon only)')
 
     trust:get_party():on_party_members_changed():addAction(function(party_members)
         local party_member_names = party_members:map(function(p) return p:get_name() end)
@@ -42,6 +43,8 @@ end
 function AssistTrustCommands:handle_assist_player(party_member_name, mirror)
     local success
     local message
+
+    party_member_name = party_member_name:gsub("^%l", string.upper)
 
     local alliance_member = self.trust:get_alliance():get_alliance_member_named(party_member_name)
     if alliance_member then

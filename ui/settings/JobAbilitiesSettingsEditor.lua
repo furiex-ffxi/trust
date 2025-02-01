@@ -97,6 +97,8 @@ function JobAbilitiesSettingsEditor:setVisible(visible)
 end
 
 function JobAbilitiesSettingsEditor:reloadSettings()
+    local previousCursorIndexPath = self:getDelegate():getCursorIndexPath() or IndexPath.new(1, 1)
+
     self:getDataSource():removeAllItems()
 
     local items = L{}
@@ -112,6 +114,7 @@ function JobAbilitiesSettingsEditor:reloadSettings()
     for jobAbility in self.jobAbilities:it() do
         local imageItem = AssetManager.imageItemForJobAbility(jobAbility:get_job_ability_name())
         local textItem = TextItem.new(jobAbility:get_job_ability_name(), TextStyle.Default.PickerItem)
+        textItem:setLocalizedText(jobAbility:get_localized_name())
         textItem:setEnabled(job_util.knows_job_ability(jobAbility:get_ability_id()) and jobAbility:isEnabled())
         items:append(IndexedItem.new(ImageTextItem.new(imageItem, textItem), IndexPath.new(1, rowIndex)))
         rowIndex = rowIndex + 1
@@ -120,7 +123,7 @@ function JobAbilitiesSettingsEditor:reloadSettings()
     self:getDataSource():addItems(items)
 
     if self.jobAbilities:length() > 0 then
-        self:getDelegate():selectItemAtIndexPath(IndexPath.new(1, 1))
+        self:getDelegate():selectItemAtIndexPath(IndexPath.new(1, math.min(previousCursorIndexPath.row, self.jobAbilities:length())))
     end
 
     self:layoutIfNeeded()

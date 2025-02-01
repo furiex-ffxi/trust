@@ -29,6 +29,12 @@ function SkillchainPropertyCondition.new(allowed_skillchain_properties)
 end
 
 function SkillchainPropertyCondition:is_satisfied(target_index, skillchain)
+    if skillchain == nil then
+        local target = player.alliance:get_target_by_index(target_index)
+        if target and target:get_skillchain() then
+            skillchain = target:get_skillchain():get_skillchain()
+        end
+    end
     if skillchain then
         if type(skillchain) ~= 'string' then
             skillchain = skillchain:get_name()
@@ -45,15 +51,11 @@ function SkillchainPropertyCondition:get_config_items()
     all_skillchain_properties:append('None')
     all_skillchain_properties:sort()
 
-    local textFormat = function(skillchain)
-        if type(skillchain) == 'string' then
-            return skillchain
-        end
-        return skillchain:get_name()
-    end
-
+    local skillchainPickerConfigItem = MultiPickerConfigItem.new('allowed_skillchain_properties', self.allowed_skillchain_properties, all_skillchain_properties, nil, "Skillchain Properties")
+    skillchainPickerConfigItem:setPickerTitle("Properties")
+    skillchainPickerConfigItem:setPickerDescription("Choose one or more skillchain properties.")
     return L{
-        MultiPickerConfigItem.new('allowed_skillchain_properties', self.allowed_skillchain_properties, all_skillchain_properties, nil, "Skillchain Properties")
+        skillchainPickerConfigItem
     }
 end
 

@@ -62,6 +62,10 @@ function Approach:get_name()
     return 'Approach'
 end
 
+function Approach:get_localized_name()
+    return self:get_name()
+end
+
 -------
 -- Return the Action to use this job ability on a target.
 -- @treturn Action Action to cast the spell
@@ -83,6 +87,17 @@ function Approach:serialize()
     local conditions_classes_to_serialize = Condition.defaultSerializableConditionClasses()
     local conditions_to_serialize = self.conditions:filter(function(condition) return conditions_classes_to_serialize:contains(condition.__class)  end)
     return "Approach.new(" .. serializer_util.serialize_args(conditions_to_serialize) .. ")"
+end
+
+function Approach:is_valid()
+    return true
+end
+
+function Approach:__eq(otherItem)
+    if otherItem.__type == self.__type then
+        return true
+    end
+    return false
 end
 
 return Approach

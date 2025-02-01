@@ -3,26 +3,34 @@ return {
     Version = 2,
     Default = {
         Shooter = {
-            Delay = 1.5
-        },
-        SelfBuffs = L{
-
-        },
-        PartyBuffs = L{
-
+            Delay = 1.5,
+            MaxTP = 1000,
         },
         Roll1 = Roll.new("Chaos Roll", true),
         Roll2 = Roll.new("Samurai Roll", false),
+        DebuffSettings = {
+            Gambits = L{
+            }
+        },
+        BuffSettings = {
+            Gambits = L{
+
+            }
+        },
         PullSettings = {
-            Abilities = L{
-                RangedAttack.new()
+            Gambits = L{
+                Gambit.new("Enemy", L{}, RangedAttack.new(), "Enemy", L{"Pulling"}),
             },
             Targets = L{
                 "Locus Ghost Crab",
                 "Locus Dire Bat",
                 "Locus Armet Beetle",
             },
-            Distance = 20
+            Distance = 20,
+            MaxNumTargets = 1,
+        },
+        TargetSettings = {
+            Retry = false
         },
         GambitSettings = {
             Default = L{
@@ -33,8 +41,11 @@ return {
                 Gambit.new("Self", L{ModeCondition.new("AutoShootMode", "Auto")}, JobAbility.new("Triple Shot", L{}, L{}), "Self")
             },
             Gambits = L{
-                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("COR")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
+                Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("COR")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"Food"})
             }
+        },
+        GearSwapSettings = {
+            Enabled = true
         },
     }
 }

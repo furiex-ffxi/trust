@@ -10,7 +10,7 @@ local Dispeler = require('cylibs/trust/roles/dispeler')
 local DisposeBag = require('cylibs/events/dispose_bag')
 local Healer = require('cylibs/trust/roles/healer')
 local MagicBurster = require('cylibs/trust/roles/magic_burster')
-local ManaRestorer = require('cylibs/trust/roles/mana_restorer')
+local ManaRestorer = require('cylibs/trust/roles/mana_restorer') -- for AutoRestoreManaMode
 local Nuker = require('cylibs/trust/roles/nuker')
 local Puller = require('cylibs/trust/roles/puller')
 local StatusRemover = require('cylibs/trust/roles/status_remover')
@@ -18,16 +18,23 @@ local StatusRemover = require('cylibs/trust/roles/status_remover')
 state.AutoArtsMode = M{['description'] = 'Auto Arts Mode', 'Off', 'LightArts', 'DarkArts'}
 
 function ScholarTrust.new(settings, action_queue, battle_settings, trust_settings)
+    local job = Scholar.new(trust_settings)
+
     local self = setmetatable(Trust.new(action_queue, S{
-        Buffer.new(action_queue, L{}, L{}, L{}),
-        Debuffer.new(action_queue),
-    }, trust_settings, Scholar.new(trust_settings)), ScholarTrust)
+        Buffer.new(action_queue, trust_settings.BuffSettings, state.AutoBuffMode, job),
+        Debuffer.new(action_queue, trust_settings.DebuffSettings, job),
+        Healer.new(action_queue, job),
+        Puller.new(action_queue, trust_settings.PullSettings),
+        StatusRemover.new(action_queue, job),
+        Dispeler.new(action_queue, L{ Spell.new('Dispel', L{'Addendum: Black'}) }, L{}, true),
+        MagicBurster.new(action_queue, trust_settings.NukeSettings, 0.8, L{ 'Ebullience' }, job, false),
+        Nuker.new(action_queue, trust_settings.NukeSettings, 0.8, L{}, job),
+    }, trust_settings, job), ScholarTrust)
 
     self.settings = settings
     self.battle_settings = battle_settings
     self.action_queue = action_queue
     self.current_arts_mode = 'Off'
-    self.arts_roles = S{}
     self.dispose_bag = DisposeBag.new()
 
     return self
@@ -45,27 +52,8 @@ function ScholarTrust:on_init()
     self:on_trust_settings_changed():addAction(function(_, new_trust_settings)
         self:get_job():set_trust_settings(new_trust_settings)
 
-        local puller = self:role_with_type("puller")
-        if puller then
-            puller:set_pull_settings(new_trust_settings.PullSettings)
-        end
-
-        local buffer = self:role_with_type("buffer")
-        if buffer then
-            if self.current_arts_mode == 'LightArts' then
-                buffer:set_job_abilities(self:get_job():get_light_arts_job_abilities())
-                buffer:set_self_spells(self:get_job():get_light_arts_self_buffs())
-                buffer:set_party_spells(self:get_job():get_light_arts_party_buffs())
-            elseif self.current_arts_mode == 'DarkArts' then
-                buffer:set_job_abilities(self:get_job():get_dark_arts_job_abilities())
-                buffer:set_self_spells(self:get_job():get_dark_arts_self_buffs())
-                buffer:set_party_spells(self:get_job():get_dark_arts_party_buffs())
-            else
-                buffer:set_job_abilities(L{})
-                buffer:set_self_spells(L{})
-                buffer:set_party_spells(L{})
-            end
-        end
+        local debuffer = self:role_with_type("debuffer")
+        debuffer:set_debuff_settings(new_trust_settings.DebuffSettings)
 
         local nuker_roles = self:roles_with_types(L{ "nuker", "magicburster" })
         for role in nuker_roles:it() do
@@ -87,12 +75,6 @@ function ScholarTrust:on_init()
             self:switch_arts('DarkArts')
         end
     end, self:get_party():get_player():on_gain_buff()))
-
-    coroutine.schedule(function()
-        if not (self:get_job():is_light_arts_active() or self:get_job():is_dark_arts_active()) then
-            addon_system_error("Scholar settings are currently restricted until Light Arts or Dark Arts is activated.")
-        end
-    end, 0.1)
 end
 
 function ScholarTrust:tic(old_time, new_time)
@@ -110,42 +92,9 @@ function ScholarTrust:switch_arts(new_arts_mode)
     self.current_arts_mode = new_arts_mode
 
     self:update_for_arts(self.current_arts_mode)
-
-    if hud then
-        hud:reloadMainMenuItem()
-    end
 end
 
 function ScholarTrust:update_for_arts(new_arts_mode)
-    for role in self.arts_roles:it() do
-        self:remove_role(role)
-    end
-    self.arts_roles = S{}
-
-    if new_arts_mode == 'LightArts' then
-        self.arts_roles = S{
-            Buffer.new(self.action_queue, self:get_job():get_light_arts_job_abilities(), self:get_job():get_light_arts_self_buffs(), self:get_job():get_light_arts_party_buffs()),
-            Debuffer.new(self.action_queue),
-            Healer.new(self.action_queue, self:get_job()),
-            ManaRestorer.new(self.action_queue, L{'Myrkr', 'Spirit Taker'}, L{}, 40),
-            StatusRemover.new(self.action_queue, self:get_job()),
-        }
-    elseif new_arts_mode == 'DarkArts' then
-        self.arts_roles = S{
-            Buffer.new(self.action_queue, self:get_job():get_dark_arts_job_abilities(), self:get_job():get_dark_arts_self_buffs(), self:get_job():get_dark_arts_party_buffs()),
-            Debuffer.new(self.action_queue),
-            Healer.new(self.action_queue, self:get_job()),
-            Dispeler.new(self.action_queue, L{ Spell.new('Dispel', L{'Addendum: Black'}) }, L{}, true),
-            MagicBurster.new(self.action_queue, self:get_trust_settings().NukeSettings, 0.8, L{ 'Ebullience' }, self:get_job()),
-            ManaRestorer.new(self.action_queue, L{'Myrkr', 'Spirit Taker'}, L{}, 40),
-            Nuker.new(self.action_queue, self:get_trust_settings().NukeSettings, 0.8, L{}, self:get_job()),
-            Puller.new(self.action_queue, self:get_trust_settings().PullSettings.Targets, L{ Spell.new('Stone') }:compact_map()),
-        }
-    end
-
-    for role in self.arts_roles:it() do
-        self:add_role(role)
-    end
 end
 
 return ScholarTrust

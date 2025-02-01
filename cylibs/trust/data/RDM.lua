@@ -11,8 +11,8 @@ local RedMageTrust = setmetatable({}, {__index = Trust })
 RedMageTrust.__index = RedMageTrust
 
 local Debuff = require('cylibs/battle/spells/debuff')
-local buff_util = require('cylibs/util/buff_util')
 
+local Barspeller = require('cylibs/trust/roles/barspeller')
 local Buffer = require('cylibs/trust/roles/buffer')
 local Debuffer = require('cylibs/trust/roles/debuffer')
 local Dispeler = require('cylibs/trust/roles/dispeler')
@@ -34,14 +34,15 @@ state.AutoConvertMode:set_description('Auto', "Okay, I'll use Convert when my MP
 function RedMageTrust.new(settings, action_queue, battle_settings, trust_settings)
 	local job = RedMage.new(trust_settings.CureSettings)
 	local roles = S{
-		Buffer.new(action_queue, trust_settings.JobAbilities, trust_settings.SelfBuffs, trust_settings.PartyBuffs),
-		Debuffer.new(action_queue, trust_settings.Debuffs),
+		Buffer.new(action_queue, trust_settings.BuffSettings, state.AutoBuffMode, job),
+		Barspeller.new(action_queue, job),
+		Debuffer.new(action_queue, trust_settings.DebuffSettings, job),
 		Dispeler.new(action_queue, L{ Spell.new('Dispel') }, L{}, true),
 		Healer.new(action_queue, job),
 		Raiser.new(action_queue, job),
 		MagicBurster.new(action_queue, trust_settings.NukeSettings, 0.8, L{}, job),
 		Nuker.new(action_queue, trust_settings.NukeSettings, 0.8, L{}, job),
-		Puller.new(action_queue, trust_settings.PullSettings.Targets, trust_settings.PullSettings.Abilities or L{ Debuff.new('Dia') }:compact_map()),
+		Puller.new(action_queue, trust_settings.PullSettings),
 	}
 	local self = setmetatable(Trust.new(action_queue, roles, trust_settings, job), RedMageTrust)
 
@@ -58,18 +59,8 @@ function RedMageTrust:on_init()
 	self:on_trust_settings_changed():addAction(function(_, new_trust_settings)
 		self:get_job():set_cure_settings(new_trust_settings.CureSettings)
 
-		local buffer = self:role_with_type("buffer")
-		buffer:set_job_abilities(new_trust_settings.JobAbilities)
-		buffer:set_self_spells(new_trust_settings.SelfBuffs)
-		buffer:set_party_spells(new_trust_settings.PartyBuffs)
-
 		local debuffer = self:role_with_type("debuffer")
-		debuffer:set_debuff_spells(new_trust_settings.Debuffs)
-
-		local puller = self:role_with_type("puller")
-		if puller then
-			puller:set_pull_settings(new_trust_settings.PullSettings)
-		end
+		debuffer:set_debuff_settings(new_trust_settings.DebuffSettings)
 
 		local nuker_roles = self:roles_with_types(L{ "nuker", "magicburster" })
 		for role in nuker_roles:it() do
