@@ -1,7 +1,7 @@
 -- Weapon skill settings file for RUN
 return {
     Sortie = {
-        Blacklist = L{
+        JobAbilities = L{
 
         },
         Skills = L{
@@ -19,12 +19,12 @@ return {
             SkillchainAbility.auto(),
             SkillchainAbility.auto()
         },
-        JobAbilities = L{
+        Blacklist = L{
 
         }
     },
     Default = {
-        Blacklist = L{
+        JobAbilities = L{
 
         },
         Skills = L{
@@ -42,7 +42,7 @@ return {
             SkillchainAbility.auto(),
             SkillchainAbility.auto()
         },
-        JobAbilities = L{
+        Blacklist = L{
 
         }
     },

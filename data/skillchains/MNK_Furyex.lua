@@ -2,13 +2,8 @@
 return {
     Version = 1,
     Default = {
-        Skillchain = L{
-            WeaponSkill.new("Shijin Spiral", L{MinTacticalPointsCondition.new(1000)}),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto()
+        JobAbilities = L{
+
         },
         Skills = L{
             CombatSkillSettings.new("Hand-to-Hand", L{"Asuran Fists", "One Inch Punch", "Backhand Blow", "Shoulder Tackle", "Raging Fists", "Dragon Kick", "Combo", "Spinning Attack"}, "Victory Smite"),
@@ -18,8 +13,13 @@ return {
         Blacklist = L{
 
         },
-        JobAbilities = L{
-
+        Skillchain = L{
+            WeaponSkill.new("Shijin Spiral", L{MinTacticalPointsCondition.new(1000)}),
+            WeaponSkill.new("Victory Smite", L{MinTacticalPointsCondition.new(1000)}),
+            WeaponSkill.new("Victory Smite", L{MinTacticalPointsCondition.new(1000)}),
+            SkillchainAbility.skip(),
+            SkillchainAbility.skip(),
+            SkillchainAbility.skip()
         }
     }
 }

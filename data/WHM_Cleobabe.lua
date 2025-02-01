@@ -12,8 +12,8 @@ return {
                 Emergency = 40,
                 Default = 78,
                 ["Cure III"] = 400,
-                ["Cure II"] = 0,
                 ["Curaga III"] = 600,
+                ["Cure II"] = 0,
                 ["Curaga II"] = 400,
                 Curaga = 0
             },
@@ -97,8 +97,8 @@ return {
                 Emergency = 40,
                 Default = 78,
                 ["Cure III"] = 700,
-                ["Cure II"] = 0,
                 ["Curaga III"] = 1000,
+                ["Cure II"] = 0,
                 ["Curaga II"] = 600,
                 Curaga = 0
             },
@@ -194,8 +194,8 @@ return {
                 Emergency = 40,
                 Default = 78,
                 ["Cure III"] = 700,
-                ["Cure II"] = 0,
                 ["Curaga III"] = 1000,
+                ["Cure II"] = 0,
                 ["Curaga II"] = 600,
                 Curaga = 0
             },
@@ -294,8 +294,8 @@ return {
                 Emergency = 40,
                 Default = 78,
                 ["Cure III"] = 400,
-                ["Cure II"] = 0,
                 ["Curaga III"] = 600,
+                ["Cure II"] = 0,
                 ["Curaga II"] = 600,
                 Curaga = 0
             },

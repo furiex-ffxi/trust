@@ -85,12 +85,9 @@ return {
             },
             MinManaPointsPercent = 40,
             Spells = L{
-                Spell.new("Blizzard V", L{}, L{}, nil, L{}),
-                Spell.new("Blizzard IV", L{}, L{}, nil, L{}),
-                Spell.new("Blizzard III", L{}, L{}, nil, L{}),
-                Spell.new("Aero V", L{}, L{}, nil, L{}),
-                Spell.new("Aero IV", L{}, L{}, nil, L{}),
-                Spell.new("Aera III", L{}, L{}, nil, L{})
+                Spell.new("Thundara III", L{}, L{}, nil, L{}),
+                Spell.new("Blizzara III", L{}, L{}, nil, L{}),
+                Spell.new("Fira III", L{}, L{}, nil, L{})
             },
             Delay = 4,
             Blacklist = L{
@@ -98,7 +95,7 @@ return {
             }
         },
         Geomancy = {
-            Indi = Spell.new("Indi-Fury", L{}, L{}, nil, L{}),
+            Indi = Spell.new("Indi-Haste", L{}, L{}, nil, L{}),
             Geo = Spell.new("Geo-Frailty", L{}, L{}, "bt", L{})
         },
         PullSettings = {

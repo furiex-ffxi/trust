@@ -40,8 +40,8 @@ return {
         PartyBuffs = L{
 
         },
-        Roll1 = Roll.new("Chaos Roll", true),
-        Roll2 = Roll.new("Samurai Roll", false),
+        Roll1 = Roll.new("Wizard's Roll", true),
+        Roll2 = Roll.new("Tactician's Roll", false),
         Shooter = {
             Delay = 1.5
         }

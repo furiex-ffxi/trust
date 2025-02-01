@@ -8,7 +8,7 @@ return {
         Skills = L{
             ReadyMoveSkillSettings.new(L{}, "Burning Strike"),
             CombatSkillSettings.new("Dagger", L{}, ""),
-            CombatSkillSettings.new("Sword", L{}, "Flat Blade"),
+            CombatSkillSettings.new("Sword", L{}, "Burning Blade"),
             CombatSkillSettings.new("Axe", L{}, "Gale Axe"),
             CombatSkillSettings.new("Scythe", L{}, ""),
             CombatSkillSettings.new("Club", L{}, "")
