@@ -2,13 +2,13 @@
 return {
     Version = 1,
     Default = {
-        JobAbilities = L{
+        Blacklist = L{
 
         },
         Skills = L{
-            CombatSkillSettings.new("Hand-to-Hand", L{"Combo", "Shoulder Tackle"}, "Howling Fist"),
             CombatSkillSettings.new("Dagger", L{}, ""),
-            CombatSkillSettings.new("Club", L{}, "")
+            CombatSkillSettings.new("Club", L{}, ""),
+            CombatSkillSettings.new("Hand-to-Hand", L{"Combo", "Shoulder Tackle"}, "Howling Fist")
         },
         Skillchain = L{
             SkillchainAbility.auto(),
@@ -18,7 +18,7 @@ return {
             SkillchainAbility.auto(),
             SkillchainAbility.auto()
         },
-        Blacklist = L{
+        JobAbilities = L{
 
         }
     }

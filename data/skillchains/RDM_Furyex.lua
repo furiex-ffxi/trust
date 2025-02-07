@@ -2,8 +2,13 @@
 return {
     Version = 1,
     Default = {
-        JobAbilities = L{
-
+        Skillchain = L{
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto()
         },
         Skills = L{
             CombatSkillSettings.new("Dagger", L{"Cyclone", "Gust Slash", "Shadowstitch", "Wasp Sting", "Viper Bite"}, "Ruthless Stroke"),
@@ -14,13 +19,8 @@ return {
         Blacklist = L{
 
         },
-        Skillchain = L{
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto()
+        JobAbilities = L{
+
         }
     }
 }

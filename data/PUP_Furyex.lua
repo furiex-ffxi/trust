@@ -1,14 +1,28 @@
 -- Settings file for PUP
 return {
     Migrations = L{
+        "Migration_v10",
+        "Migration_v21",
+        "Migration_v23",
+        "Migration_v12",
+        "Migration_v20",
+        "UpdateDefaultGambitsMigration",
         "Migration_v6",
         "Migration_v8",
-        "Migration_v10",
-        "UpdateDefaultGambitsMigration"
+        "Migration_v18",
+        "Migration_v14"
     },
     Default = {
-        Debuffs = L{
-
+        PullSettings = {
+            Gambits = L{
+                Gambit.new("Enemy", L{}, Spell.new("Stone", L{}, L{}, nil, L{}), "Enemy", L{"Pulling"})
+            },
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle"
+            },
+            Distance = 20
         },
         GambitSettings = {
             Default = L{
@@ -21,11 +35,13 @@ return {
                 Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("PUP")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
             }
         },
-        JobAbilities = L{
+        BuffSettings = {
+            Gambits = L{
 
+            }
         },
-        PartyBuffs = L{
-
+        GearSwapSettings = {
+            Enabled = true
         },
         AutomatonSettings = {
             AttachmentSettings = {
@@ -72,19 +88,13 @@ return {
                 }
             }
         },
-        SelfBuffs = L{
+        DebuffSettings = {
+            Gambits = L{
 
-        },
-        PullSettings = {
-            Distance = 20,
-            Abilities = L{
-
-            },
-            Targets = L{
-                "Locus Ghost Crab",
-                "Locus Dire Bat",
-                "Locus Armet Beetle"
             }
+        },
+        TargetSettings = {
+            Retry = false
         }
     },
     Version = 2

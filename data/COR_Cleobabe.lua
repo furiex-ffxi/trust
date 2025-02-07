@@ -1,20 +1,6 @@
 -- Settings file for COR
 return {
     Fighters = {
-        PullSettings = {
-            Distance = 20,
-            Abilities = L{
-                RangedAttack.new(L{MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20)})
-            },
-            Targets = L{
-                "Locus Ghost Crab",
-                "Locus Dire Bat",
-                "Locus Armet Beetle"
-            }
-        },
-        SelfBuffs = L{
-
-        },
         GambitSettings = {
             Default = L{
                 Gambit.new("Enemy", L{GainDebuffCondition.new("Dia")}, JobAbility.new("Light Shot", L{}, L{}), "Enemy", L{}),
@@ -28,33 +14,40 @@ return {
             }
         },
         Roll2 = Roll.new("Fighter's Roll", false),
-        PartyBuffs = L{
+        DebuffSettings = {
+            Gambits = L{
 
+            }
         },
-        Roll1 = Roll.new("Chaos Roll", true),
-        Debuffs = L{
-
+        TargetSettings = {
+            Retry = false
         },
         Shooter = {
             Delay = 1.5
-        }
-    },
-    Version = 2,
-    Ep = {
+        },
+        GearSwapSettings = {
+            Enabled = true
+        },
+        Roll1 = Roll.new("Chaos Roll", true),
+        BuffSettings = {
+            Gambits = L{
+
+            }
+        },
         PullSettings = {
-            Distance = 20,
-            Abilities = L{
-                RangedAttack.new(L{MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20)})
+            Gambits = L{
+                Gambit.new("Enemy", L{MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20)}, RangedAttack.new(L{MaxDistanceCondition.new(20)}), "Enemy", L{"Pulling"})
             },
             Targets = L{
                 "Locus Ghost Crab",
                 "Locus Dire Bat",
                 "Locus Armet Beetle"
-            }
-        },
-        SelfBuffs = L{
-
-        },
+            },
+            Distance = 20
+        }
+    },
+    Version = 2,
+    Ep = {
         GambitSettings = {
             Default = L{
                 Gambit.new("Enemy", L{GainDebuffCondition.new("Dia")}, JobAbility.new("Light Shot", L{}, L{}), "Enemy", L{}),
@@ -68,38 +61,50 @@ return {
             }
         },
         Roll2 = Roll.new("Samurai Roll", false),
-        PartyBuffs = L{
+        DebuffSettings = {
+            Gambits = L{
 
+            }
         },
-        Roll1 = Roll.new("Corsair's Roll", true),
-        Debuffs = L{
-
+        TargetSettings = {
+            Retry = false
         },
         Shooter = {
             Delay = 1.5
-        }
-    },
-    Migrations = L{
-        "Migration_v6",
-        "Migration_v8",
-        "Migration_v10",
-        "UpdateDefaultGambitsMigration"
-    },
-    Default = {
+        },
+        GearSwapSettings = {
+            Enabled = true
+        },
+        Roll1 = Roll.new("Corsair's Roll", true),
+        BuffSettings = {
+            Gambits = L{
+
+            }
+        },
         PullSettings = {
-            Distance = 20,
-            Abilities = L{
-                RangedAttack.new(L{MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20)})
+            Gambits = L{
+                Gambit.new("Enemy", L{MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20)}, RangedAttack.new(L{MaxDistanceCondition.new(20)}), "Enemy", L{"Pulling"})
             },
             Targets = L{
                 "Locus Ghost Crab",
                 "Locus Dire Bat",
                 "Locus Armet Beetle"
-            }
-        },
-        SelfBuffs = L{
-
-        },
+            },
+            Distance = 20
+        }
+    },
+    Migrations = L{
+        "Migration_v10",
+        "Migration_v21",
+        "Migration_v23",
+        "Migration_v20",
+        "UpdateDefaultGambitsMigration",
+        "Migration_v6",
+        "Migration_v8",
+        "Migration_v18",
+        "Migration_v14"
+    },
+    Default = {
         GambitSettings = {
             Default = L{
                 Gambit.new("Enemy", L{GainDebuffCondition.new("Dia")}, JobAbility.new("Light Shot", L{}, L{}), "Enemy", L{}),
@@ -113,15 +118,36 @@ return {
             }
         },
         Roll2 = Roll.new("Miser's Roll", false),
-        PartyBuffs = L{
+        DebuffSettings = {
+            Gambits = L{
 
+            }
         },
-        Roll1 = Roll.new("Fighter's Roll", true),
-        Debuffs = L{
-
+        TargetSettings = {
+            Retry = false
         },
         Shooter = {
             Delay = 1.5
+        },
+        GearSwapSettings = {
+            Enabled = true
+        },
+        Roll1 = Roll.new("Fighter's Roll", true),
+        BuffSettings = {
+            Gambits = L{
+
+            }
+        },
+        PullSettings = {
+            Gambits = L{
+                Gambit.new("Enemy", L{MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20)}, RangedAttack.new(L{MaxDistanceCondition.new(20)}), "Enemy", L{"Pulling"})
+            },
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle"
+            },
+            Distance = 20
         }
     }
 }

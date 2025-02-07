@@ -1,13 +1,9 @@
 -- Weapon skill settings file for DRK
 return {
+    Version = 1,
     SortieLight = {
-        Skillchain = L{
-            SkillchainAbility.skip(),
-            SkillchainAbility.skip(),
-            WeaponSkill.new("Torcleaver", L{MinTacticalPointsCondition.new(1000)}),
-            SkillchainAbility.skip(),
-            SkillchainAbility.skip(),
-            SkillchainAbility.skip()
+        JobAbilities = L{
+
         },
         Skills = L{
             CombatSkillSettings.new("Dagger", L{}, ""),
@@ -22,18 +18,18 @@ return {
         Blacklist = L{
 
         },
-        JobAbilities = L{
-
+        Skillchain = L{
+            SkillchainAbility.skip(),
+            SkillchainAbility.skip(),
+            WeaponSkill.new("Torcleaver", L{MinTacticalPointsCondition.new(1000)}),
+            SkillchainAbility.skip(),
+            SkillchainAbility.skip(),
+            SkillchainAbility.skip()
         }
     },
     Default = {
-        Skillchain = L{
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto()
+        JobAbilities = L{
+
         },
         Skills = L{
             CombatSkillSettings.new("Dagger", L{}, ""),
@@ -41,16 +37,20 @@ return {
             CombatSkillSettings.new("Great Sword", L{"Frostbite", "Freezebite", "Hard Slash", "Ground Strike", "Spinning Slash", "Herculean Slash", "Crescent Moon", "Resolution", "Shockwave", "Sickle Moon", "Power Slash"}, "Torcleaver"),
             CombatSkillSettings.new("Axe", L{}, ""),
             CombatSkillSettings.new("Great Axe", L{}, "Fell Cleave"),
-            CombatSkillSettings.new("Scythe", L{"Vorpal Scythe", "Nightmare Scythe", "Dark Harvest", "Guillotine", "Spinning Scythe", "Slice", "Infernal Scythe", "Shadow of Death"}, "Insurgency"),
             CombatSkillSettings.new("Club", L{}, ""),
-            CombatSkillSettings.new("Marksmanship", L{}, "")
+            CombatSkillSettings.new("Marksmanship", L{}, ""),
+            CombatSkillSettings.new("Scythe", L{"Vorpal Scythe", "Nightmare Scythe", "Dark Harvest", "Guillotine", "Spinning Scythe", "Slice", "Infernal Scythe", "Shadow of Death"}, "Insurgency")
         },
         Blacklist = L{
 
         },
-        JobAbilities = L{
-
+        Skillchain = L{
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto()
         }
-    },
-    Version = 1
+    }
 }

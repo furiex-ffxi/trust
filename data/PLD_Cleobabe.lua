@@ -1,10 +1,17 @@
 -- Settings file for PLD
 return {
     Migrations = L{
+        "Migration_v18",
+        "Migration_v21",
+        "Migration_v12",
         "Migration_v7",
-        "Migration_v8",
+        "Migration_v23",
+        "Migration_v22",
         "Migration_v10",
-        "Migration_v6"
+        "Migration_v6",
+        "Migration_v8",
+        "Migration_v20",
+        "Migration_v14"
     },
     Default = {
         GambitSettings = {
@@ -16,11 +23,16 @@ return {
                 Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("PLD")}, UseItem.new("Miso Ramen", L{ItemCountCondition.new("Miso Ramen", 1, ">=")}), "Self", L{"food"})
             }
         },
-        SelfBuffs = L{
-            Spell.new("Crusade", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-            Spell.new("Phalanx", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-            Spell.new("Protect V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-            Spell.new("Reprisal", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
+        GearSwapSettings = {
+            Enabled = true
+        },
+        DebuffSettings = {
+            Gambits = L{
+
+            }
+        },
+        TargetSettings = {
+            Retry = false
         },
         CureSettings = {
             Thresholds = {
@@ -38,38 +50,38 @@ return {
                 }
             }
         },
-        JobAbilities = L{
-            JobAbility.new("Majesty", L{InBattleCondition.new()}),
-            JobAbility.new("Rampart", L{InBattleCondition.new()})
-        },
-        PartyBuffs = L{
-
+        BuffSettings = {
+            Gambits = L{
+                Gambit.new("Self", L{}, Spell.new("Crusade", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}), "Self", L{}),
+                Gambit.new("Self", L{}, Spell.new("Phalanx", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}), "Self", L{}),
+                Gambit.new("Self", L{}, Spell.new("Protect V", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}), "Self", L{}),
+                Gambit.new("Self", L{}, Spell.new("Reprisal", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}), "Self", L{}),
+                Gambit.new("Self", L{InBattleCondition.new()}, JobAbility.new("Majesty", L{}), "Self", L{}),
+                Gambit.new("Self", L{InBattleCondition.new()}, JobAbility.new("Rampart", L{}), "Self", L{})
+            }
         },
         NukeSettings = {
+            Gambits = L{
+                Gambit.new("Enemy", L{}, Spell.new("Holy II", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Holy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}), "Enemy", L{"Nukes"}),
+                Gambit.new("Enemy", L{}, Spell.new("Banish II", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}), "Enemy", L{"Nukes"})
+            },
             MinNumMobsToCleave = 2,
             JobAbilities = L{
 
             },
+            MinManaPointsPercent = 60,
+            Delay = 10,
             Blacklist = L{
 
-            },
-            Spells = L{
-                Spell.new("Holy II", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-                Spell.new("Holy", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{}),
-                Spell.new("Banish II", L{}, L{"WAR", "WHM", "RDM", "PLD", "BRD", "SAM", "DRG", "BLU", "PUP", "SCH", "RUN", "MNK", "BLM", "THF", "BST", "RNG", "NIN", "SMN", "COR", "DNC", "GEO", "DRK"}, nil, L{})
-            },
-            Delay = 10,
-            MinManaPointsPercent = 60
-        },
-        Debuffs = L{
-
+            }
         },
         PullSettings = {
-            Distance = 20,
-            Abilities = L{
-                Spell.new("Flash", L{}, L{}, nil, L{}),
-                Spell.new("Banish", L{}, L{}, nil, L{})
+            Gambits = L{
+                Gambit.new("Enemy", L{}, Spell.new("Flash", L{}, L{}, nil, L{}), "Enemy", L{"Pulling"}),
+                Gambit.new("Enemy", L{}, Spell.new("Banish", L{}, L{}, nil, L{}), "Enemy", L{"Pulling"})
             },
+            Distance = 20,
             Targets = L{
                 "Locus Ghost Crab",
                 "Apex Leech",

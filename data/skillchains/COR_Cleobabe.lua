@@ -2,8 +2,13 @@
 return {
     Version = 1,
     Default = {
-        JobAbilities = L{
-
+        Skillchain = L{
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto(),
+            SkillchainAbility.auto()
         },
         Skills = L{
             CombatSkillSettings.new("Marksmanship", L{}, ""),
@@ -13,13 +18,8 @@ return {
         Blacklist = L{
 
         },
-        Skillchain = L{
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto(),
-            SkillchainAbility.auto()
+        JobAbilities = L{
+
         }
     }
 }
