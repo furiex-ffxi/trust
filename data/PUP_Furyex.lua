@@ -3,26 +3,18 @@ return {
     Migrations = L{
         "Migration_v10",
         "Migration_v21",
-        "Migration_v23",
         "Migration_v12",
-        "Migration_v20",
+        "Migration_v23",
+        "Migration_v18",
         "UpdateDefaultGambitsMigration",
         "Migration_v6",
+        "Migration_v20",
         "Migration_v8",
-        "Migration_v18",
         "Migration_v14"
     },
     Default = {
-        PullSettings = {
-            Gambits = L{
-                Gambit.new("Enemy", L{}, Spell.new("Stone", L{}, L{}, nil, L{}), "Enemy", L{"Pulling"})
-            },
-            Targets = L{
-                "Locus Ghost Crab",
-                "Locus Dire Bat",
-                "Locus Armet Beetle"
-            },
-            Distance = 20
+        TargetSettings = {
+            Retry = false
         },
         GambitSettings = {
             Default = L{
@@ -39,9 +31,6 @@ return {
             Gambits = L{
 
             }
-        },
-        GearSwapSettings = {
-            Enabled = true
         },
         AutomatonSettings = {
             AttachmentSettings = {
@@ -88,13 +77,24 @@ return {
                 }
             }
         },
+        GearSwapSettings = {
+            Enabled = true
+        },
         DebuffSettings = {
             Gambits = L{
 
             }
         },
-        TargetSettings = {
-            Retry = false
+        PullSettings = {
+            Gambits = L{
+                Gambit.new("Enemy", L{}, Spell.new("Stone", L{}, L{}, nil, L{}), "Enemy", L{"Pulling"})
+            },
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle"
+            },
+            Distance = 20
         }
     },
     Version = 2

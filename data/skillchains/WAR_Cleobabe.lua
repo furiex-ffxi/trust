@@ -2,7 +2,7 @@
 return {
     Version = 1,
     Default = {
-        Blacklist = L{
+        JobAbilities = L{
 
         },
         Skills = L{
@@ -27,7 +27,7 @@ return {
             SkillchainAbility.skip(),
             SkillchainAbility.skip()
         },
-        JobAbilities = L{
+        Blacklist = L{
 
         }
     }

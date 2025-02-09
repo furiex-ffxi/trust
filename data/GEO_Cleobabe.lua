@@ -53,7 +53,7 @@ return {
         },
         PullSettings = {
             Gambits = L{
-                Gambit.new("Enemy", L{}, Spell.new("Stone", L{}, L{}, nil, L{}), "Enemy", L{"Pulling"})
+                Gambit.new("Enemy", L{}, Spell.new("Dia II", L{}, L{}, nil, L{}), "Enemy", L{"Pulling"})
             },
             Targets = L{
                 "Locus Ghost Crab",
@@ -110,7 +110,7 @@ return {
         },
         PullSettings = {
             Gambits = L{
-                Gambit.new("Enemy", L{}, Spell.new("Stone", L{}, L{}, nil, L{}), "Enemy", L{"Pulling"})
+                Gambit.new("Enemy", L{}, Spell.new("Dia II", L{}, L{}, nil, L{}), "Enemy", L{"Pulling"})
             },
             Targets = L{
                 "Locus Ghost Crab",
@@ -183,7 +183,7 @@ return {
         },
         PullSettings = {
             Gambits = L{
-                Gambit.new("Enemy", L{}, Spell.new("Stone", L{}, L{}, nil, L{}), "Enemy", L{"Pulling"})
+                Gambit.new("Enemy", L{}, Spell.new("Dia II", L{}, L{}, nil, L{}), "Enemy", L{"Pulling"})
             },
             Targets = L{
                 "Locus Ghost Crab",

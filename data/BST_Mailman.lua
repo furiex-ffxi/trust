@@ -3,17 +3,18 @@ return {
     Migrations = L{
         "Migration_v13",
         "Migration_v21",
-        "Migration_v23",
         "Migration_v12",
+        "Migration_v23",
         "Migration_v18",
-        "Migration_v8",
+        "Migration_v20",
         "Migration_v4",
         "UpdateDefaultGambitsMigration",
         "Migration_v6",
-        "Migration_v20",
+        "Migration_v8",
         "Migration_v10",
         "Migration_v14"
     },
+    Version = 1,
     Default = {
         GambitSettings = {
             Default = L{
@@ -23,16 +24,10 @@ return {
                 Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("BST")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
             }
         },
-        PullSettings = {
+        BuffSettings = {
             Gambits = L{
 
-            },
-            Targets = L{
-                "Locus Ghost Crab",
-                "Locus Dire Bat",
-                "Locus Armet Beetle"
-            },
-            Distance = 20
+            }
         },
         TargetSettings = {
             Retry = false
@@ -45,13 +40,18 @@ return {
 
             }
         },
-        BuffSettings = {
+        PullSettings = {
             Gambits = L{
 
-            }
+            },
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle"
+            },
+            Distance = 20
         }
     },
-    Version = 1,
     Ep = {
         GambitSettings = {
             Default = L{
@@ -61,16 +61,10 @@ return {
                 Gambit.new("Self", L{NotCondition.new(L{HasBuffCondition.new("Food")}), ModeCondition.new("AutoFoodMode", "Auto"), MainJobCondition.new("BST")}, UseItem.new("Grape Daifuku", L{ItemCountCondition.new("Grape Daifuku", 1, ">=")}), "Self", L{"food"})
             }
         },
-        PullSettings = {
+        BuffSettings = {
             Gambits = L{
 
-            },
-            Targets = L{
-                "Locus Ghost Crab",
-                "Locus Dire Bat",
-                "Locus Armet Beetle"
-            },
-            Distance = 20
+            }
         },
         TargetSettings = {
             Retry = false
@@ -83,10 +77,16 @@ return {
 
             }
         },
-        BuffSettings = {
+        PullSettings = {
             Gambits = L{
 
-            }
+            },
+            Targets = L{
+                "Locus Ghost Crab",
+                "Locus Dire Bat",
+                "Locus Armet Beetle"
+            },
+            Distance = 20
         }
     }
 }

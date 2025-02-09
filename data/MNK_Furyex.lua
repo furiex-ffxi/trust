@@ -50,7 +50,9 @@ return {
             Gambits = L{
                 Gambit.new("Self", L{InBattleCondition.new(), NotCondition.new(L{HasBuffCondition.new("Footwork")})}, JobAbility.new("Impetus", L{}), "Self", L{}),
                 Gambit.new("Self", L{InBattleCondition.new(), NotCondition.new(L{HasBuffCondition.new("Impetus")})}, JobAbility.new("Footwork", L{}), "Self", L{}),
-                Gambit.new("Self", L{InBattleCondition.new()}, JobAbility.new("Mantra", L{}), "Self", L{})
+                Gambit.new("Self", L{InBattleCondition.new()}, JobAbility.new("Mantra", L{}), "Self", L{}),
+                Gambit.new("Self", L{}, JobAbility.new("Focus", L{}, L{}), "Self", L{"Buffs"}),
+                Gambit.new("Self", L{}, JobAbility.new("Boost", L{}, L{}), "Self", L{"Buffs"})
             }
         }
     },

@@ -59,18 +59,18 @@ return {
         }
     },
     Migrations = L{
-        "Migration_v18",
+        "Migration_v10",
         "Migration_v21",
         "Migration_v22",
-        "Migration_v12",
-        "Migration_v10",
+        "Migration_v23",
+        "Migration_v18",
         "Migration_v7",
         "Migration_v8",
         "Migration_v15",
         "UpdateDefaultGambitsMigration",
         "Migration_v6",
         "Migration_v20",
-        "Migration_v23",
+        "Migration_v12",
         "Migration_v14"
     },
     Melee = {

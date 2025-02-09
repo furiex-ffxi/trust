@@ -32,8 +32,8 @@ return {
                 Default = 78,
                 ["Cure III"] = 400,
                 ["Curaga II"] = 400,
-                ["Cure II"] = 0,
                 ["Curaga III"] = 600,
+                ["Cure II"] = 0,
                 Curaga = 0
             },
             StatusRemovals = {
@@ -106,8 +106,8 @@ return {
                 Default = 78,
                 ["Cure III"] = 700,
                 ["Curaga II"] = 600,
-                ["Cure II"] = 0,
                 ["Curaga III"] = 1000,
+                ["Cure II"] = 0,
                 Curaga = 0
             },
             StatusRemovals = {
@@ -209,8 +209,8 @@ return {
                 Default = 78,
                 ["Cure III"] = 700,
                 ["Curaga II"] = 600,
-                ["Cure II"] = 0,
                 ["Curaga III"] = 1000,
+                ["Cure II"] = 0,
                 Curaga = 0
             },
             StatusRemovals = {
@@ -308,8 +308,8 @@ return {
                 Default = 78,
                 ["Cure III"] = 400,
                 ["Curaga II"] = 600,
-                ["Cure II"] = 0,
                 ["Curaga III"] = 600,
+                ["Cure II"] = 0,
                 Curaga = 0
             },
             StatusRemovals = {
@@ -387,7 +387,7 @@ return {
         }
     },
     Migrations = L{
-        "Migration_v10",
+        "Migration_v18",
         "Migration_v21",
         "Migration_v12",
         "Migration_v23",
@@ -397,7 +397,7 @@ return {
         "UpdateDefaultGambitsMigration",
         "Migration_v6",
         "Migration_v8",
-        "Migration_v18",
+        "Migration_v10",
         "Migration_v14"
     }
 }

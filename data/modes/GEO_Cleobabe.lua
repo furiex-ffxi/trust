@@ -56,7 +56,6 @@ return {
     ["Ep"]={
         ["autobarspellmode"]="Manual", 
         ["combatmode"]="Melee", 
-        ["autostatusremovalmode"]="Auto", 
         ["autodetectauramode"]="Off", 
         ["autobuffmode"]="Auto", 
         ["autoblazeofglorymode"]="Auto"

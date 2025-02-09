@@ -22,18 +22,6 @@ return {
         TargetSettings = {
             Retry = false
         },
-        Shooter = {
-            Delay = 1.5
-        },
-        GearSwapSettings = {
-            Enabled = true
-        },
-        Roll1 = Roll.new("Chaos Roll", true),
-        BuffSettings = {
-            Gambits = L{
-
-            }
-        },
         PullSettings = {
             Gambits = L{
                 Gambit.new("Enemy", L{MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20)}, RangedAttack.new(L{MaxDistanceCondition.new(20)}), "Enemy", L{"Pulling"})
@@ -44,6 +32,18 @@ return {
                 "Locus Armet Beetle"
             },
             Distance = 20
+        },
+        BuffSettings = {
+            Gambits = L{
+
+            }
+        },
+        Roll1 = Roll.new("Chaos Roll", true),
+        GearSwapSettings = {
+            Enabled = true
+        },
+        Shooter = {
+            Delay = 1.5
         }
     },
     Version = 2,
@@ -69,18 +69,6 @@ return {
         TargetSettings = {
             Retry = false
         },
-        Shooter = {
-            Delay = 1.5
-        },
-        GearSwapSettings = {
-            Enabled = true
-        },
-        Roll1 = Roll.new("Corsair's Roll", true),
-        BuffSettings = {
-            Gambits = L{
-
-            }
-        },
         PullSettings = {
             Gambits = L{
                 Gambit.new("Enemy", L{MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20)}, RangedAttack.new(L{MaxDistanceCondition.new(20)}), "Enemy", L{"Pulling"})
@@ -91,17 +79,29 @@ return {
                 "Locus Armet Beetle"
             },
             Distance = 20
+        },
+        BuffSettings = {
+            Gambits = L{
+
+            }
+        },
+        Roll1 = Roll.new("Corsair's Roll", true),
+        GearSwapSettings = {
+            Enabled = true
+        },
+        Shooter = {
+            Delay = 1.5
         }
     },
     Migrations = L{
-        "Migration_v10",
+        "Migration_v18",
         "Migration_v21",
         "Migration_v23",
         "Migration_v20",
         "UpdateDefaultGambitsMigration",
         "Migration_v6",
         "Migration_v8",
-        "Migration_v18",
+        "Migration_v10",
         "Migration_v14"
     },
     Default = {
@@ -126,18 +126,6 @@ return {
         TargetSettings = {
             Retry = false
         },
-        Shooter = {
-            Delay = 1.5
-        },
-        GearSwapSettings = {
-            Enabled = true
-        },
-        Roll1 = Roll.new("Fighter's Roll", true),
-        BuffSettings = {
-            Gambits = L{
-
-            }
-        },
         PullSettings = {
             Gambits = L{
                 Gambit.new("Enemy", L{MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20), MaxDistanceCondition.new(20)}, RangedAttack.new(L{MaxDistanceCondition.new(20)}), "Enemy", L{"Pulling"})
@@ -148,6 +136,18 @@ return {
                 "Locus Armet Beetle"
             },
             Distance = 20
+        },
+        BuffSettings = {
+            Gambits = L{
+
+            }
+        },
+        Roll1 = Roll.new("Fighter's Roll", true),
+        GearSwapSettings = {
+            Enabled = true
+        },
+        Shooter = {
+            Delay = 1.5
         }
     }
 }

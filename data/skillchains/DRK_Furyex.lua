@@ -1,6 +1,5 @@
 -- Weapon skill settings file for DRK
 return {
-    Version = 1,
     SortieLight = {
         JobAbilities = L{
 
@@ -52,5 +51,6 @@ return {
             SkillchainAbility.auto(),
             SkillchainAbility.auto()
         }
-    }
+    },
+    Version = 1
 }
