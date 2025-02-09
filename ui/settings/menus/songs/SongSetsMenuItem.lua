@@ -215,7 +215,7 @@ end
 
 function SongSetsMenuItem:getModesMenuItem()
     return ModesMenuItem.new(self.trustModeSettings, "Set modes for singing.",
-            L{'AutoSongMode', 'AutoClarionCallMode', 'AutoNitroMode', 'AutoPianissimoMode'})
+            L{'AutoSongMode', 'AutoClarionCallMode', 'AutoSoulVoiceMode', 'AutoNitroMode', 'AutoPianissimoMode'})
 end
 
 function SongSetsMenuItem:getSelectedSetName()

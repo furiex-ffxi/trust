@@ -27,6 +27,9 @@ state.AutoNitroMode:set_description('Auto', "Okay, I'll use Nightingale and Trou
 state.AutoClarionCallMode = M{['description'] = 'Use Clarion Call', 'Off', 'Auto'}
 state.AutoClarionCallMode:set_description('Auto', "Okay, I'll use Clarion Call before Nightingale and Troubadour.")
 
+state.AutoSoulVoiceMode = M{['description'] = 'Use Soul Voice', 'Off', 'Auto'}
+state.AutoSoulVoiceMode:set_description('Auto', "Okay, I'll use Soul Voice before Nightingale and Troubadour.")
+
 state.SongSet = M{['description'] = 'Song Set', 'Default'}
 
 function BardTrust.new(settings, action_queue, battle_settings, trust_settings, addon_settings)

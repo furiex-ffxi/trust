@@ -369,6 +369,16 @@ function Singer:get_nitro_abilities()
 
     local job_ability_names = L{}
 
+    if state.AutoSoulVoiceMode.value == 'Auto' and self.brd_job:is_soul_voice_ready() then
+        local current_num_songs = self.song_tracker:get_num_songs(player:get_mob().id, L(player:get_buff_ids()))
+        if current_num_songs == self.brd_job:get_max_num_songs(true) then
+            job_ability_names:append('Soul Voice')
+
+            logger.notice(self.__class, "nitro", "using Soul Voice")
+            logger.notice(self.__class, "nitro", "current songs for", player:get_mob().name, "are", self.song_tracker:get_songs(player:get_id(), L(player:get_buff_ids())):map(function(song_record) return res.spells[song_record:get_song_id()].en  end))
+        end
+    end
+
     if state.AutoClarionCallMode.value == 'Auto' and self.brd_job:is_clarion_call_ready() then
         local current_num_songs = self.song_tracker:get_num_songs(player:get_mob().id, L(player:get_buff_ids()))
         if current_num_songs < self.brd_job:get_max_num_songs(true) then

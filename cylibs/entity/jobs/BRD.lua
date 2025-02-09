@@ -68,12 +68,29 @@ function Bard:is_bard_song_buff(buff_id)
 end
 
 -------
+-- Returns whether soul voice is active.
+-- @treturn Boolean True if soul voice is active
+function Bard:is_soul_voice_active()
+    local player_buff_ids = L(windower.ffxi.get_player().buffs)
+    return player_buff_ids:contains(buff_util.buff_id('Soul Voice'))
+end
+
+
+-------
 -- Returns whether clarion call is active.
 -- @treturn Boolean True if clarion call is active
 function Bard:is_clarion_call_active()
     local player_buff_ids = L(windower.ffxi.get_player().buffs)
     return player_buff_ids:contains(buff_util.buff_id('Clarion Call'))
 end
+
+-------
+-- Returns whether soul voice is ready to use.
+-- @treturn Boolean True if soul voice is ready to use
+function Bard:is_soul_voice_ready()
+    return not self:is_soul_voice_active() and job_util.can_use_job_ability("Soul Voice")
+end
+
 
 -------
 -- Returns whether clarion call is ready to use.
